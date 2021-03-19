@@ -14,6 +14,7 @@ import { AppRoutingModule } from './app.routing';
 import { ComponentsModule } from './components/components.module';
 import { ChartJsComponent } from './pages/chart-js/chart-js.component';
 import { DatasetsService } from './services/datasets.service';
+import { AmchartsComponent } from './pages/amcharts/amcharts.component';
 
 
 @NgModule({
@@ -31,6 +32,7 @@ import { DatasetsService } from './services/datasets.service';
     AdminLayoutComponent,
     AuthLayoutComponent,
     ChartJsComponent,
+    AmchartsComponent,
   ],
   providers: [DatasetsService],
   bootstrap: [AppComponent]

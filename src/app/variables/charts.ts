@@ -227,21 +227,21 @@ export function chartOptions() {
       },
       doughnut: {
         cutoutPercentage: 70,
-        // legendCallback: function (chart) {
-        //   var data = chart.data;
-        //   var content = '';
+        legendCallback: function (chart) {
+          var data = chart.data;
+          var content = '';
 
-        //   data.labels.forEach(function (label, index) {
-        //     var bgColor = data.datasets[0].backgroundColor[index];
+          data.labels.forEach(function (label, index) {
+            var bgColor = data.datasets[0].backgroundColor[index];
 
-        //     content += '<span class="chart-legend-item">';
-        //     content += '<i class="chart-legend-indicator" style="background-color: ' + bgColor + '"></i>';
-        //     content += label;
-        //     content += '</span>';
-        //   });
+            content += '<span class="chart-legend-item">';
+            content += '<i class="chart-legend-indicator" style="background-color: ' + bgColor + '"></i>';
+            content += label;
+            content += '</span>';
+          });
 
-        //   return content;
-        // }
+          return content;
+        }
       }
     }
   }
@@ -408,19 +408,9 @@ export const chartDoughnutOptions = {
       //     })
       //   }
       // }
-    },
-    plugins: {
-      datalabels: {
-        color: '#fff',
-        display: true,
-        formatter: function (value, ctx) {
-          return 8 + '%';
-        },
-      },
-    },
+    }
   },
   data: {
-    // labels: ["Man", "Woman"],
     datasets: [
       {
         // label: "Gender",
@@ -429,13 +419,6 @@ export const chartDoughnutOptions = {
       }
     ]
   }
-}
-
-function total(chart) {
-  let data = chart.chart.data.datasets[0].data;
-  const reducer = (accumulator, currentValue) => accumulator + currentValue;
-  var total = data.reduce(reducer);
-  return total;
 }
 
 export const chartPieOptions = {
@@ -480,15 +463,48 @@ export const chartPieOptions = {
 }
 
 
-export function addDataToChart(chartSettings, dataset, uniquelabel?) {
-  chartSettings.data.labels = dataset.labels;
+// export function addDataToChart(chartSettings, dataset, uniquelabel?) {
+//   chartSettings.data.labels = dataset.labels;
+//   if (dataset.datasets.length === 1 && uniquelabel) {
+//     chartSettings.data.datasets[0].label = uniquelabel;
+//   }
+//   for (let i = 0; i < dataset.datasets.length; i++) {
+//     if (chartSettings.data.datasets[i]) {
+//       chartSettings.data.datasets[i].label = dataset.datasets[i].label ? dataset.datasets[i].label : uniquelabel;
+//       chartSettings.data.datasets[i].data = dataset.datasets[i].data;
+
+//     } else {
+//       const newDataset = {
+//         label: dataset.datasets[i].label,
+//         data: dataset.datasets[i].data,
+//         borderColor: colors.colorList[i],
+//         pointBackgroundColor: colors.colorList[i],
+//         pointBorderColor: colors.colorList[i],
+//       }
+//       chartSettings.data.datasets.push(newDataset);
+//     }
+//   }
+//   console.log('chartSettings.data', chartSettings.data)
+//   return chartSettings.data;
+// }
+
+
+export function addDataToChart(chartOptions, dataset, uniquelabel?) {
+  // const chartSettings = { ...chartOptions }
+  // const data = { ...chartOptions.data }
+
+  const data = Object.assign({}, chartOptions.data);
+
+  // console.log('original', chartOptions)
+
+  data.labels = dataset.labels;
   if (dataset.datasets.length === 1 && uniquelabel) {
-    chartSettings.data.datasets[0].label = uniquelabel;
+    data.datasets[0].label = uniquelabel;
   }
   for (let i = 0; i < dataset.datasets.length; i++) {
-    if (chartSettings.data.datasets[i]) {
-      chartSettings.data.datasets[i].label = dataset.datasets[i].label ? dataset.datasets[i].label : uniquelabel;
-      chartSettings.data.datasets[i].data = dataset.datasets[i].data;
+    if (data.datasets[i]) {
+      data.datasets[i].label = dataset.datasets[i].label ? dataset.datasets[i].label : uniquelabel;
+      data.datasets[i].data = dataset.datasets[i].data;
 
     } else {
       const newDataset = {
@@ -498,10 +514,9 @@ export function addDataToChart(chartSettings, dataset, uniquelabel?) {
         pointBackgroundColor: colors.colorList[i],
         pointBorderColor: colors.colorList[i],
       }
-      chartSettings.data.datasets.push(newDataset);
+      data.datasets.push(newDataset);
     }
   }
-  return chartSettings.data;
+  // console.log('data', data)
+  return data;
 }
-
-

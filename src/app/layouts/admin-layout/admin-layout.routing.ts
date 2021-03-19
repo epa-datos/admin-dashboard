@@ -6,10 +6,12 @@ import { MapsComponent } from '../../pages/maps/maps.component';
 import { UserProfileComponent } from '../../pages/user-profile/user-profile.component';
 import { TablesComponent } from '../../pages/tables/tables.component';
 import { ChartJsComponent } from 'src/app/pages/chart-js/chart-js.component';
+import { AmchartsComponent } from 'src/app/pages/amcharts/amcharts.component';
 
 export const AdminLayoutRoutes: Routes = [
     { path: 'dashboard', component: DashboardComponent },
     { path: 'chart-js', component: ChartJsComponent },
+    { path: 'amcharts', component: AmchartsComponent },
     { path: 'user-profile', component: UserProfileComponent },
     { path: 'tables', component: TablesComponent },
     { path: 'icons', component: IconsComponent },

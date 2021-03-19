@@ -17,7 +17,7 @@ import {
   styleUrls: ['./chart-js.component.scss']
 })
 export class ChartJsComponent implements OnInit {
-  public salesChart;
+  public chart;
 
   constructor(private datasetService: DatasetsService) { }
 
@@ -52,7 +52,7 @@ export class ChartJsComponent implements OnInit {
     }
     const chartInvMonth = document.getElementById('chart-inv-month');
 
-    const chart = new Chart(chartInvMonth, {
+    this.chart = new Chart(chartInvMonth, {
       type: 'bar',
       options: chartBarOptions.options,
       data: addDataToChart(chartBarOptions, chartInfo)
@@ -64,7 +64,7 @@ export class ChartJsComponent implements OnInit {
     let chartLabels = [];
     let chartData = [];
 
-    console.log('investment_by_country', investment_by_country)
+    // console.log('investment_by_country', investment_by_country)
 
     for (const country of investment_by_country) {
       chartLabels.push(country.name);
@@ -78,13 +78,13 @@ export class ChartJsComponent implements OnInit {
     }
     const chartInvCountry = document.getElementById('chart-inv-country');
 
-    const chart = new Chart(chartInvCountry, {
+    this.chart = new Chart(chartInvCountry, {
       type: 'doughnut',
       options: chartDoughnutOptions.options,
       data: addDataToChart(chartDoughnutOptions, chartInfo),
     });
 
-    console.log('chartDoughnutOptions', chartDoughnutOptions)
+    // console.log('chartDoughnutOptions', chartDoughnutOptions)
   }
 
   getInvestmentBySector(data) {
@@ -92,7 +92,7 @@ export class ChartJsComponent implements OnInit {
     let chartLabels = [];
     let chartData = [];
 
-    console.log('investment_by_sector', investment_by_sector)
+    // console.log('investment_by_sector', investment_by_sector)
 
     for (const sector of investment_by_sector) {
       chartLabels.push(sector.name);
@@ -104,14 +104,14 @@ export class ChartJsComponent implements OnInit {
       labels: chartLabels,
       datasets: [{ data: chartData }]
     }
-    const chartInvCountry = document.getElementById('chart-inv-sector');
+    const chartInvSector = document.getElementById('chart-inv-sector');
 
-    const chart = new Chart(chartInvCountry, {
+    this.chart = new Chart(chartInvSector, {
       type: 'doughnut',
       options: chartDoughnutOptions.options,
       data: addDataToChart(chartDoughnutOptions, chartInfo),
     });
 
-    console.log('chartDoughnutOptions', chartDoughnutOptions)
+    // console.log('chartDoughnutOptions', chartDoughnutOptions)
   }
 }
