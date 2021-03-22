@@ -10,6 +10,7 @@ import { CreateAccessComponent } from 'src/app/modules/auth/pages/create-access/
 import { LoginComponent } from 'src/app/modules/auth/pages/login/login.component';
 import { ForgotPswComponent } from 'src/app/modules/auth/pages/forgot-psw/forgot-psw.component';
 import { ResetPswComponent } from 'src/app/modules/auth/pages/reset-psw/reset-psw.component';
+import { SetPswComponent } from 'src/app/modules/auth/components/set-psw/set-psw.component';
 
 
 @NgModule({
@@ -23,7 +24,8 @@ import { ResetPswComponent } from 'src/app/modules/auth/pages/reset-psw/reset-ps
     CreateAccessComponent,
     LoginComponent,
     ForgotPswComponent,
-    ResetPswComponent
+    ResetPswComponent,
+    SetPswComponent
   ]
 })
 export class AuthLayoutModule { }
