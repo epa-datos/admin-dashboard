@@ -15,10 +15,6 @@ import { ComponentsModule } from './components/components.module';
 import { ChartJsComponent } from './pages/chart-js/chart-js.component';
 import { DatasetsService } from './services/datasets.service';
 import { AmchartsComponent } from './pages/amcharts/amcharts.component';
-import { ForgotPswComponent } from './pages/forgot-psw/forgot-psw.component';
-import { ResetPswComponent } from './pages/reset-psw/reset-psw.component';
-import { CreateAccessComponent } from './pages/create-access/create-access.component';
-
 
 @NgModule({
   imports: [
@@ -35,10 +31,7 @@ import { CreateAccessComponent } from './pages/create-access/create-access.compo
     AdminLayoutComponent,
     AuthLayoutComponent,
     ChartJsComponent,
-    AmchartsComponent,
-    ForgotPswComponent,
-    ResetPswComponent,
-    CreateAccessComponent,
+    AmchartsComponent
   ],
   providers: [DatasetsService],
   bootstrap: [AppComponent]
