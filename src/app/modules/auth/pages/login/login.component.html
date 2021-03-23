@@ -17,7 +17,8 @@
         <div class="card-body px-lg-5 py-lg-5">
           <form role="form" [formGroup]="form" (ngSubmit)="login(email.value, password.value)">
             <div class="form-group mb-3">
-              <div class="input-group input-group-alternative">
+              <div class="input-group input-group-alternative"
+                [ngClass]="{'is-invalid': !email.valid && email.touched || !email.valid && email.touched}">
                 <div class="input-group-prepend">
                   <span class="input-group-text"><i class="ni ni-email-83"></i></span>
                 </div>
@@ -28,7 +29,8 @@
               </small>
             </div>
             <div class="form-group">
-              <div class="input-group input-group-alternative">
+              <div class="input-group input-group-alternative"
+                [ngClass]="{'is-invalid': !password.valid && password.touched || !password.valid && password.touched}">
                 <div class="input-group-prepend">
                   <span class="input-group-text" [ngClass]="{'text-primary': pwdModeOn}"
                     (click)="pwdModeOn = !pwdModeOn">
