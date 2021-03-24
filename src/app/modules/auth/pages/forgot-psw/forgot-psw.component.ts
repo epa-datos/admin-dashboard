@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { AbstractControl, FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { UserService } from 'src/app/services/user.service';
 import { EmailValidator } from 'src/app/tools/validators/email.validator';
 
 @Component({
@@ -14,7 +15,10 @@ export class ForgotPswComponent implements OnInit {
   form: FormGroup;
   reqStatus: number = 0;
 
-  constructor(private fb: FormBuilder) { }
+  constructor(
+    private fb: FormBuilder,
+    private userService: UserService
+  ) { }
 
   ngOnInit(): void {
     this.form = this.fb.group({
@@ -23,10 +27,20 @@ export class ForgotPswComponent implements OnInit {
         Validators.compose([Validators.required, EmailValidator.validate])
       ]
     });
-
     this.email = this.form.controls['email'];
   }
 
   sendPswResetEmail(email) {
+    this.reqStatus = 1;
+    this.userService.pswRecoveryRequest(email)
+      .subscribe(
+        () => {
+          this.reqStatus = 2;
+        },
+        error => {
+          console.error(`[forgot-psw.component]: ${error?.error?.message ? error.error.message : error?.message}`);
+          this.reqStatus = 3;
+        }
+      )
   }
 }

@@ -15,30 +15,52 @@
     <div class="col-lg-5 col-md-7">
       <div class="card bg-secondary shadow border-0">
         <div class="card-body px-lg-5 py-lg-5">
-          <div class="text-center text-muted mb-4">
-            <small>Enter your user account's verified email address and we will send you a password reset link.</small>
-          </div>
-
-          <form role="form" [formGroup]="form" (ngSubmit)="sendPswResetEmail(email.value)">
-            <div class="form-group mb-3">
-              <div class="input-group input-group-alternative is-invalid"
-                [ngClass]="{'is-invalid': !email.valid && email.touched || !email.valid && email.touched}">
-                <div class="input-group-prepend">
-                  <span class="input-group-text"><i class="ni ni-email-83"></i></span>
-                </div>
-                <input [formControl]="email" class="form-control" placeholder="Email" type="email">
-              </div>
-              <small class="text-danger" *ngIf="!email.valid && email.touched || !email.valid && email.touched">
-                Please provide a valid email.
+          <ng-container *ngIf="reqStatus !== 2">
+            <div class="text-center text-muted mb-4">
+              <small>
+                Enter your user account's verified email address and we will send you a password reset link.
               </small>
             </div>
 
-            <div class="text-center">
-              <button type="submit" class="btn btn-primary my-4" [disabled]="!form.valid">
-                Send password reset email
-              </button>
-            </div>
-          </form>
+            <!-- form -->
+            <form role="form" [formGroup]="form" (ngSubmit)="sendPswResetEmail(email.value)">
+              <div class="form-group mb-3">
+                <div class="input-group input-group-alternative is-invalid"
+                  [ngClass]="{'is-invalid': !email.valid && email.touched || !email.valid && email.touched}">
+                  <div class="input-group-prepend">
+                    <span class="input-group-text"><i class="ni ni-email-83"></i></span>
+                  </div>
+                  <input [formControl]="email" class="form-control" placeholder="Email" type="email">
+                </div>
+                <small class="text-danger" *ngIf="!email.valid && email.touched || !email.valid && email.touched">
+                  Please provide a valid email.
+                </small>
+              </div>
+
+              <div *ngIf="reqStatus === 3" class="text-center mb-4">
+                <small class="text-danger">
+                  Request Failed. Please try again.
+                </small>
+              </div>
+
+              <div class="text-center">
+                <button type="submit" class="btn btn-primary my-4" [disabled]="!form.valid">
+                  Send password reset email
+                </button>
+              </div>
+            </form>
+          </ng-container>
+
+          <!-- successful request -->
+          <div *ngIf="reqStatus === 2" class="text-center text-muted">
+            <small>
+              Check your email for a link to reset your password.
+            </small>
+
+            <button type="button" class="btn btn-light my-4" routerLink="/login">
+              Return to Sign in
+            </button>
+          </div>
         </div>
       </div>
     </div>
