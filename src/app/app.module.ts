@@ -15,6 +15,7 @@ import { ComponentsModule } from './components/components.module';
 import { ChartJsComponent } from './pages/chart-js/chart-js.component';
 import { DatasetsService } from './services/datasets.service';
 import { AmchartsComponent } from './pages/amcharts/amcharts.component';
+import { UserService } from './services/user.service';
 
 @NgModule({
   imports: [
@@ -33,7 +34,10 @@ import { AmchartsComponent } from './pages/amcharts/amcharts.component';
     ChartJsComponent,
     AmchartsComponent
   ],
-  providers: [DatasetsService],
+  providers: [
+    DatasetsService,
+    UserService
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
