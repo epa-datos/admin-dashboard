@@ -52,8 +52,16 @@
                 <span class="text-muted">Remember me</span>
               </label>
             </div>
+
+            <!-- error message -->
+            <div class="text-center mt-4">
+              <small class="text-danger" *ngIf="reqStatus === 3">
+                Request Failed. Please try again.
+              </small>
+            </div>
+
             <div class="text-center">
-              <button type="submit" class="btn btn-primary my-4" [disabled]="!form.valid">
+              <button type="submit" class="btn btn-primary my-4" [disabled]="!form.valid || reqStatus === 1">
                 Sign in
               </button>
             </div>

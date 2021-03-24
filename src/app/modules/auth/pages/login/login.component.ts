@@ -1,5 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { AbstractControl, FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { Router } from '@angular/router';
+import { CookieService } from 'ngx-cookie-service';
+import { UserService } from 'src/app/services/user.service';
 import { EmailValidator } from 'src/app/tools/validators/email.validator';
 
 @Component({
@@ -19,7 +22,17 @@ export class LoginComponent implements OnInit {
   pwdModeOn: boolean;
   reqStatus: number = 0;
 
-  constructor(private fb: FormBuilder) { }
+  constructor(
+    private fb: FormBuilder,
+    private userService: UserService,
+    private router: Router,
+    private cookieService: CookieService
+  ) {
+    const islogged = this.userService.isLoggedIn();
+    if (islogged) {
+      this.router.navigate(['/dashboard']);
+    }
+  }
 
   ngOnInit() {
     this.form = this.fb.group({
@@ -57,9 +70,29 @@ export class LoginComponent implements OnInit {
 
 
   login(email: string, password: string) {
+    this.reqStatus = 1;
     if (this.form.valid) {
-      console.log('valid form')
+      this.userService.login(email, password).subscribe(
+        () => {
+          if (this.remember_password.value) {
+            this.rememberPsw();
+          }
+          this.reqStatus = 2;
+          this.router.navigate(['/dashboard']);
+        },
+        error => {
+          console.error(`[login.component]: ${error?.error?.message ? error.error.message : error?.message}`);
+          this.reqStatus = 3;
+        }
+      )
     }
+  }
 
+  rememberPsw() {
+    const user = {
+      email: this.email.value,
+      anonymous_id: this.userService.hashPsw(this.password.value)
+    }
+    this.cookieService.set('coop_user', JSON.stringify(user), 365);
   }
 }
