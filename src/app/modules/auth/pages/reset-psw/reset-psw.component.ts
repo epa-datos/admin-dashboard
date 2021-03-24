@@ -30,6 +30,7 @@ export class ResetPswComponent implements OnInit {
       .subscribe(
         () => {
           this.reqStatus = 2;
+          delete this.errorMsg;
           setTimeout(() => {
             this.router.navigate(['/login']);
           }, 6000);
