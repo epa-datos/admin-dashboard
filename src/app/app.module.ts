@@ -16,6 +16,7 @@ import { ChartJsComponent } from './pages/chart-js/chart-js.component';
 import { DatasetsService } from './services/datasets.service';
 import { AmchartsComponent } from './pages/amcharts/amcharts.component';
 import { UserService } from './services/user.service';
+import { CookieService } from 'ngx-cookie-service';
 
 @NgModule({
   imports: [
@@ -36,7 +37,8 @@ import { UserService } from './services/user.service';
   ],
   providers: [
     DatasetsService,
-    UserService
+    UserService,
+    CookieService
   ],
   bootstrap: [AppComponent]
 })
