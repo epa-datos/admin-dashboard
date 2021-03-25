@@ -19,6 +19,7 @@ import { UserService } from './services/user.service';
 import { CookieService } from 'ngx-cookie-service';
 import { SessionInterceptor } from './services/interceptor.service';
 import { LoginGuard } from './login.guard';
+import { ConfigurationProvider } from './app.constants';
 
 @NgModule({
   imports: [
@@ -47,6 +48,7 @@ import { LoginGuard } from './login.guard';
       useClass: SessionInterceptor,
       multi: true
     },
+    ConfigurationProvider
   ],
   bootstrap: [AppComponent]
 })

@@ -4,11 +4,12 @@ import { Router } from '@angular/router';
 import { Subject, throwError } from 'rxjs';
 import { tap } from 'rxjs/operators';
 import { Md5 } from 'ts-md5';
+import { Configuration } from '../app.constants';
 import { User } from '../models/user';
 
 @Injectable()
 export class UserService {
-  private baseUrl: string = 'http://localhost:3000';
+  private baseUrl: string;
 
   private _user: User = new User();
   private userSource = new Subject<User>();
@@ -35,7 +36,8 @@ export class UserService {
 
   constructor(
     private http: HttpClient,
-    private router: Router
+    private router: Router,
+    private config: Configuration
   ) {
     this._loggedIn = !!window.localStorage.getItem("auth_token");
     this.user.email = !!window.localStorage.getItem("usermail")
@@ -44,6 +46,8 @@ export class UserService {
     this.user.username = !!window.localStorage.getItem("username")
       ? window.localStorage.getItem("username")
       : "";
+
+    this.baseUrl = this.config.endpoint;
   }
 
   singup(email: string, psw: string) {
