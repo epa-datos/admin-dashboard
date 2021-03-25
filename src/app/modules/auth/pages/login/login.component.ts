@@ -22,6 +22,8 @@ export class LoginComponent implements OnInit {
   pwdModeOn: boolean;
   reqStatus: number = 0;
 
+  redirect: string;
+
   constructor(
     private fb: FormBuilder,
     private userService: UserService,
@@ -29,8 +31,9 @@ export class LoginComponent implements OnInit {
     private cookieService: CookieService
   ) {
     const islogged = this.userService.isLoggedIn();
+    this.redirect = this.userService.redirectUrl ?? '/dashboard/investment'
     if (islogged) {
-      this.router.navigate(['/dashboard']);
+      this.router.navigate(['/dashboard/investment']);
     }
   }
 
@@ -78,7 +81,7 @@ export class LoginComponent implements OnInit {
             this.rememberPsw();
           }
           this.reqStatus = 2;
-          this.router.navigate(['/dashboard/investment']);
+          this.router.navigate([this.redirect]);
         },
         error => {
           console.error(`[login.component]: ${error?.error?.message ? error.error.message : error?.message}`);

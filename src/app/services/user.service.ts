@@ -15,6 +15,7 @@ export class UserService {
   user$ = this.userSource.asObservable();
 
   private _loggedIn = false;
+  redirectUrl: string;
 
   get user(): User {
     return this._user;

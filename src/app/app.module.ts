@@ -18,6 +18,7 @@ import { AmchartsComponent } from './pages/amcharts/amcharts.component';
 import { UserService } from './services/user.service';
 import { CookieService } from 'ngx-cookie-service';
 import { SessionInterceptor } from './services/interceptor.service';
+import { LoginGuard } from './login.guard';
 
 @NgModule({
   imports: [
@@ -40,6 +41,7 @@ import { SessionInterceptor } from './services/interceptor.service';
     DatasetsService,
     UserService,
     CookieService,
+    LoginGuard,
     {
       provide: HTTP_INTERCEPTORS,
       useClass: SessionInterceptor,
