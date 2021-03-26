@@ -79,6 +79,8 @@ export class LoginComponent implements OnInit {
         () => {
           if (this.remember_password.value) {
             this.rememberPsw();
+          } else {
+            this.userService.deleteUserCookieIfExists();
           }
           this.reqStatus = 2;
           this.router.navigate([this.redirect]);

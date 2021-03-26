@@ -1,6 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
+import { CookieService } from 'ngx-cookie-service';
 import { Subject, throwError } from 'rxjs';
 import { tap } from 'rxjs/operators';
 import { Md5 } from 'ts-md5';
@@ -37,7 +38,8 @@ export class UserService {
   constructor(
     private http: HttpClient,
     private router: Router,
-    private config: Configuration
+    private config: Configuration,
+    private cookieService: CookieService
   ) {
     this._loggedIn = !!window.localStorage.getItem("auth_token");
     this.user.email = !!window.localStorage.getItem("usermail")
@@ -130,5 +132,16 @@ export class UserService {
 
   hashPsw(password: string): string | Int32Array {
     return Md5.hashStr(password);
+  }
+
+  deleteUserCookieIfExists() {
+    console.log('deleteUserCookieIfExists')
+    const user = this.cookieService.get('coop_user') && JSON.parse(this.cookieService.get('coop_user'));
+    if (user) {
+      console.log('existe cookie')
+      this.cookieService.delete('coop_user');
+    }
+
+    console.log('user', this.cookieService.get('coop_user') && JSON.parse(this.cookieService.get('coop_user')))
   }
 }

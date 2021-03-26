@@ -31,8 +31,10 @@ export class ResetPswComponent implements OnInit {
         () => {
           this.reqStatus = 2;
           delete this.errorMsg;
+          this.userService.deleteUserCookieIfExists();
+
           setTimeout(() => {
-            this.router.navigate(['/login']);
+            this.userService.cleanUserData();
           }, 6000);
         },
         error => {
