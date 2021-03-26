@@ -94,7 +94,8 @@ export class LoginComponent implements OnInit {
   rememberPsw() {
     const user = {
       email: this.email.value,
-      anonymous_id: this.userService.hashPsw(this.password.value)
+      // anonymous_id: this.userService.hashPsw(this.password.value)
+      anonymous_id: this.password.value
     }
     this.cookieService.set('coop_user', JSON.stringify(user), 365);
   }

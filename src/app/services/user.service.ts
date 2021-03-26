@@ -57,7 +57,8 @@ export class UserService {
     if (!psw) {
       return throwError("[user.service]: not psw provided");
     }
-    const password = this.hashPsw(psw);
+    // const password = this.hashPsw(psw);
+    const password = psw;
     return this.http.post(`${this.baseUrl}/users`, { email, password });
   }
 
@@ -74,7 +75,8 @@ export class UserService {
       window.localStorage.clear();
     }
 
-    const password = this.hashPsw(psw);
+    // const password = this.hashPsw(psw);
+    const password = psw;
     return this.http
       .post(`${this.baseUrl}/auth`, { email, password })
       .pipe(
@@ -106,7 +108,8 @@ export class UserService {
       return throwError("[user.service]: not password provided");
     }
 
-    const password = this.hashPsw(psw);
+    // const password = this.hashPsw(psw);
+    const password = psw;
     return this.http.post(`${this.baseUrl}/users/restore_password`, { code, password });
   }
 
