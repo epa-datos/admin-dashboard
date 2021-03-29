@@ -135,13 +135,9 @@ export class UserService {
   }
 
   deleteUserCookieIfExists() {
-    console.log('deleteUserCookieIfExists')
     const user = this.cookieService.get('coop_user') && JSON.parse(this.cookieService.get('coop_user'));
     if (user) {
-      console.log('existe cookie')
       this.cookieService.delete('coop_user');
     }
-
-    console.log('user', this.cookieService.get('coop_user') && JSON.parse(this.cookieService.get('coop_user')))
   }
 }
