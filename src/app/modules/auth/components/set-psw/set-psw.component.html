@@ -8,11 +8,11 @@
                     <i class="ni ni-lock-circle-open"></i>
                 </span>
             </div>
-            <input [formControl]="password" class="form-control" placeholder="Password"
+            <input [formControl]="password" class="form-control" placeholder="Contraseña"
                 [attr.type]="pwdModeOn ? 'text' : 'password'" autocomplete="on">
         </div>
         <small class="text-danger" *ngIf="!password.valid && password.touched || !password.valid && password.touched">
-            Please provide a valid password.
+            Ingresa una contraseña válida.
         </small>
     </div>
 
@@ -25,18 +25,18 @@
                     <i class="ni ni-lock-circle-open"></i>
                 </span>
             </div>
-            <input [formControl]="validate_password" class="form-control" placeholder="Confirm password"
+            <input [formControl]="validate_password" class="form-control" placeholder="Confirmar contraseña"
                 [attr.type]="validate_pwdModeOn ? 'text' : 'password'" autocomplete="on">
         </div>
         <small class="text-danger"
             *ngIf="!validate_password.valid && validate_password.touched || !validate_password.valid && validate_password.touched">
-            Please provide a valid password.
+            Ingresa una contraseña válida.
         </small>
     </div>
 
     <!-- form error -->
     <small [hidden]="!pwdsNotMatch" class="text-danger">
-        Passwords don't match
+        Las contraseñas no coinciden
     </small>
 
     <!-- input error -->
