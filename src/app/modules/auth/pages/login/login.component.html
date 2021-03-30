@@ -8,7 +8,7 @@
             <img src="assets/img/brand/hp-logo.png">
           </div>
 
-          <p class="text-center text-muted bold my-4"><b>Sign in to Dashboard</b></p>
+          <p class="text-center text-muted bold my-4"><b>Iniciar sesión</b></p>
 
           <form role="form" [formGroup]="form" (ngSubmit)="login(email.value, password.value)">
             <div class="form-group mb-3">
@@ -17,10 +17,10 @@
                 <div class="input-group-prepend">
                   <span class="input-group-text"><i class="ni ni-email-83"></i></span>
                 </div>
-                <input [formControl]="email" class="form-control" placeholder="Email" type="email">
+                <input [formControl]="email" class="form-control" placeholder="Correo electrónico" type="email">
               </div>
               <small class="text-danger" *ngIf="!email.valid && email.touched || !email.valid && email.touched">
-                Please provide a valid email.
+                Ingresa un correo electrónico válido.
               </small>
             </div>
             <div class="form-group">
@@ -32,19 +32,19 @@
                     <i class="ni ni-lock-circle-open"></i>
                   </span>
                 </div>
-                <input [formControl]="password" class="form-control" placeholder="Password"
+                <input [formControl]="password" class="form-control" placeholder="Contraseña"
                   [attr.type]="pwdModeOn ? 'text' : 'password'">
               </div>
               <small class="text-danger"
                 *ngIf="!password.valid && password.touched || !password.valid && password.touched">
-                Please provide a valid password.
+                Ingresa una contraseña válida.
               </small>
             </div>
             <div class="custom-control custom-control-alternative custom-checkbox">
               <input [formControl]="remember_password" class="custom-control-input" id="customCheckLogin"
                 type="checkbox">
               <label class="custom-control-label" for="customCheckLogin">
-                <span class="text-muted">Remember me</span>
+                <span class="text-muted">Recuérdame</span>
               </label>
             </div>
 
@@ -57,14 +57,14 @@
 
             <div class="text-center">
               <button type="submit" class="btn btn-primary my-4" [disabled]="!form.valid || reqStatus === 1">
-                Sign in
+                Acceder
               </button>
             </div>
           </form>
           <div class="row mt-3">
-            <div class="col-6">
+            <div class="col-12">
               <a href="javascript:void(0)" routerLink="/forgot-password">
-                <small>Forgot password?</small>
+                <small>¿Has olvidado tu contraseña?</small>
               </a>
             </div>
           </div>
