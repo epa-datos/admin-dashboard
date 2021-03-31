@@ -3,7 +3,7 @@
     font-family: 'HpSimplifiedLight';
     font-weight: normal;
     font-style: normal;
-    src: url('../fonts/HPSimplified_Lt.ttf');
+    src: url('../../../fonts/hp-simplified/HPSimplified_Lt.ttf');
 }
 
 /* Regular */
@@ -11,7 +11,7 @@
     font-family: 'HpSimplified';
     font-weight: normal;
     font-style: normal;
-    src: url('../fonts/HPSimplified_Rg.ttf');
+    src: url('../../../fonts/hp-simplified/HPSimplified_Rg.ttf');
   }
 
 /* Bold */
@@ -19,7 +19,7 @@
     font-family: 'HpSimplifiedBold';
     font-weight: normal;
     font-style: normal;
-    src: url('../fonts/HPSimplified_Bd.ttf');
+    src: url('../../../fonts/hp-simplified/HPSimplified_Bd.ttf');
 }
 
 /* Light Italic */
@@ -27,7 +27,7 @@
     font-family: 'HpSimplifiedLightItalic';
     font-weight: normal;
     font-style: normal;
-    src: url('../fonts/HPSimplified_LtIt.ttf');
+    src: url('../../../fonts/hp-simplified/HPSimplified_LtIt.ttf');
 }
 
 /* Regular Italic */
@@ -35,7 +35,7 @@
     font-family: 'HpSimplifiedItalic';
     font-weight: normal;
     font-style: normal;
-    src: url('../fonts/HPSimplified_It.ttf');
+    src: url('../../../fonts/hp-simplified/HPSimplified_It.ttf');
 }
 
 /* Bold Italic */
@@ -43,5 +43,5 @@
     font-family: 'HpSimplifiedBoldItalic';
     font-weight: normal;
     font-style: normal;
-    src: url('../fonts/HPSimplified_BdIt.ttf');
+    src: url('../../../fonts/hp-simplified/HPSimplified_BdIt.ttf');
 }
