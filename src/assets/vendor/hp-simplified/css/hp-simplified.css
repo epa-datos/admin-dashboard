@@ -1,0 +1,47 @@
+/* Light */
+@font-face {
+    font-family: 'HpSimplifiedLight';
+    font-weight: normal;
+    font-style: normal;
+    src: url('../fonts/HPSimplified_Lt.ttf');
+}
+
+/* Regular */
+@font-face {
+    font-family: 'HpSimplified';
+    font-weight: normal;
+    font-style: normal;
+    src: url('../fonts/HPSimplified_Rg.ttf');
+  }
+
+/* Bold */
+@font-face {
+    font-family: 'HpSimplifiedBold';
+    font-weight: normal;
+    font-style: normal;
+    src: url('../fonts/HPSimplified_Bd.ttf');
+}
+
+/* Light Italic */
+@font-face {
+    font-family: 'HpSimplifiedLightItalic';
+    font-weight: normal;
+    font-style: normal;
+    src: url('../fonts/HPSimplified_LtIt.ttf');
+}
+
+/* Regular Italic */
+@font-face {
+    font-family: 'HpSimplifiedItalic';
+    font-weight: normal;
+    font-style: normal;
+    src: url('../fonts/HPSimplified_It.ttf');
+}
+
+/* Bold Italic */
+    @font-face {
+    font-family: 'HpSimplifiedBoldItalic';
+    font-weight: normal;
+    font-style: normal;
+    src: url('../fonts/HPSimplified_BdIt.ttf');
+}
