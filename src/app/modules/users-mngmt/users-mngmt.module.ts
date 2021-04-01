@@ -7,6 +7,10 @@ import { RouterModule } from '@angular/router';
 import { UsersMngmtRoutes } from './users-mngmt.routing';
 import { MatTableModule } from '@angular/material/table';
 import { MatPaginatorModule } from '@angular/material/paginator';
+import { InviteUserComponent } from './pages/invite-user/invite-user.component';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { MatSelectModule } from '@angular/material/select';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
 
 
@@ -15,12 +19,16 @@ import { MatPaginatorModule } from '@angular/material/paginator';
     UsersMngmtComponent,
     UsersListComponent,
     UsersComponent,
+    InviteUserComponent,
   ],
   imports: [
     CommonModule,
+    FormsModule,
+    ReactiveFormsModule,
     RouterModule.forChild(UsersMngmtRoutes),
     MatTableModule,
-    MatPaginatorModule
+    MatPaginatorModule,
+    MatSelectModule
   ]
 })
 export class UsersMngmtModule { }

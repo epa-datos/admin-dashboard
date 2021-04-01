@@ -1,0 +1,69 @@
+<div class="row">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-header bg-transparent">
+                <div class="row align-items-center">
+                    <div class="col">
+                        <!-- <h6 class="text-uppercase text-muted ls-1 mb-1">Datos del usuario</h6> -->
+                        <span class="text-uppercase text-muted ls-1 mb-1"><b>Datos del usuario</b></span>
+                    </div>
+                </div>
+            </div>
+            <div class="card-body">
+                <div class="form-container">
+                    <form role="form" [formGroup]="form" (ngSubmit)="onSubmit()">
+                        <div class="row">
+                            <div class="col-12 col-sm-6">
+                                <div class="form-group mb-3">
+                                    <div class="input-group input-group-alternative"
+                                        [ngClass]="{'is-invalid': !email.valid && email.touched || !email.valid && email.touched}">
+                                        <div class="input-group-prepend">
+                                            <span class="input-group-text"><i class="ni ni-email-83"></i></span>
+                                        </div>
+                                        <input [formControl]="email" class="form-control"
+                                            placeholder="Correo electrónico" type="email">
+                                    </div>
+                                    <small class="text-danger"
+                                        *ngIf="!email.valid && email.touched || !email.valid && email.touched">
+                                        Ingresa un correo electrónico válido.
+                                    </small>
+                                </div>
+                            </div>
+
+                            <div class="col-12 col-sm-6">
+                                <mat-select formControlName="role" placeholder="Select a role">
+                                    <mat-option *ngFor="let role of roles" [value]="role">
+                                        {{role}}
+                                    </mat-option>
+                                </mat-select>
+                            </div>
+                        </div>
+
+                        <div class="row mt-4">
+                            <div class="col-12 col-sm-6">
+                                <p class="text-uppercase text-sm text-muted mb-2">Paises</p>
+
+                                <div class="custom-control custom-control-alternative custom-checkbox my-1"
+                                    *ngFor="let country of countries; let i = index" formArrayName="countries">
+                                    <input type="checkbox" class="custom-control-input" [formControlName]="i"
+                                        [id]="'custom-checkbox-'+i">
+                                    <label class="custom-control-label" [for]="'custom-checkbox-'+i">
+                                        <span class="text-muted">{{country}}</span>
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                        <br>
+                        <div class="text-right">
+                            <button type="submit" class="btn btn-primary my-4" [disabled]="!form.valid">
+                                Enviar invitación
+                            </button>
+                            <br>
+                            <span>Status: {{ form.valid}}</span>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
