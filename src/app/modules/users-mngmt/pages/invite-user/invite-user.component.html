@@ -202,12 +202,22 @@
                             </div>
                         </div>
                         <br>
+                        <div class="row" *ngIf="selectedRole?.name === 'admin' || selectedRole?.name === 'hp'">
+                            <div class="col-12 text-center">
+                                <div class="aditional-info bg-secondary">
+                                    <small>
+                                        Con el rol de
+                                        <b>{{ selectedRole.name === 'admin' ? 'Administrador' : 'HP' }}</b>
+                                        el usuario podrá visualizar información de todos los paises, retailers, sectores
+                                        y categorías
+                                    </small>
+                                </div>
+                            </div>
+                        </div>
                         <div class="text-right">
                             <button type="submit" class="btn btn-primary mt-4" [disabled]="!form.valid">
                                 Enviar invitación
                             </button>
-                            <!-- <br> -->
-                            <!-- <span>Status: {{ form.valid }}</span> -->
                         </div>
                     </form>
                 </div>

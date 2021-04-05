@@ -8,7 +8,7 @@ import { MatTableDataSource } from '@angular/material/table';
   styleUrls: ['./users-list.component.scss']
 })
 export class UsersListComponent implements OnInit, AfterViewInit {
-  displayedColumns: string[] = ['name', 'email', 'created_at', 'action'];
+  displayedColumns: string[] = ['email', 'created_at', 'action'];
   dataSource = new MatTableDataSource<User>(ELEMENT_DATA);
 
   @ViewChild(MatPaginator) paginator: MatPaginator;
@@ -49,14 +49,13 @@ export class UsersListComponent implements OnInit, AfterViewInit {
 }
 
 const ELEMENT_DATA: User[] = [
-  { name: 'Daniela Torres Jimenez', email: 'dtorresj@hp.com', created_at: new Date() },
-  { name: 'José Luis Ramírez Rosas', email: 'jramirezr@hp.com', created_at: new Date() },
-  { name: 'Sandra Reza Hernández', email: 'srezah@hp.com', created_at: new Date() },
-  { name: 'Felipe Sánchez Coronado', email: 'fsanchezc@hp.com', created_at: new Date() },
+  { email: 'dtorresj@hp.com', created_at: new Date() },
+  { email: 'jramirezr@hp.com', created_at: new Date() },
+  { email: 'srezah@hp.com', created_at: new Date() },
+  { email: 'fsanchezc@hp.com', created_at: new Date() },
 ];
 
 export interface User {
-  name: string;
   email: string;
   created_at: Date
 }

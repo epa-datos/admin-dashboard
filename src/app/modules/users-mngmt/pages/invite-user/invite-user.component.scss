@@ -1,5 +1,7 @@
 .form-container {
-    max-width: 800px;
+    max-width: 900px;
+    margin-left: auto;
+    margin-right: auto;
 }
 
 .section-header {
@@ -10,4 +12,8 @@
             text-align: left;
         }
     }
+}
+
+.aditional-info {
+    padding: 20px;
 }
