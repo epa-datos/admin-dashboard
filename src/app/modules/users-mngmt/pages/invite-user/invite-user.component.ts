@@ -1,4 +1,3 @@
-import { array } from '@amcharts/amcharts4/core';
 import { Component, OnInit } from '@angular/core';
 import { AbstractControl, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { EmailValidator } from 'src/app/tools/validators/email.validator';
@@ -225,9 +224,11 @@ export class InviteUserComponent implements OnInit {
   }
 
   onSubmit() {
-    console.log('this.form.value', this.form.value)
     const valueToStore = Object.assign({}, this.form.value, {
-      countries: this.convertToValue('countries')
+      countries: this.convertToValue('countries'),
+      retailers: this.convertToValue('retailers'),
+      sectors: this.convertToValue('sectors'),
+      categories: this.convertToValue('categories'),
     });
     console.log(valueToStore);
   }
