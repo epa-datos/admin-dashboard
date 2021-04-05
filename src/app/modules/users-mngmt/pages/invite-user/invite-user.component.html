@@ -31,9 +31,13 @@
                             </div>
 
                             <div class="col-12 col-sm-6">
-                                <mat-select formControlName="role" placeholder="Select a role">
-                                    <mat-option *ngFor="let role of roles" [value]="role">
-                                        {{role}}
+                                <mat-select formControlName="role" placeholder="Select a role" [(value)]="selectedRole"
+                                    (selectionChange)="roleChange()">
+                                    <mat-option *ngFor="let role of roles" [value]="role" [ngSwitch]="role.name">
+                                        <span *ngSwitchCase="'admin'"> {{ 'administrador' | titlecase }}</span>
+                                        <span *ngSwitchCase="'country'"> {{ 'país' | titlecase }}</span>
+                                        <span *ngSwitchCase="'hp'"> {{ 'hp' | uppercase }}</span>
+                                        <span *ngSwitchDefault> {{ role.name | titlecase }}</span>
                                     </mat-option>
                                 </mat-select>
                             </div>
@@ -41,15 +45,65 @@
 
                         <div class="row mt-4">
                             <div class="col-12 col-sm-6">
-                                <p class="text-uppercase text-sm text-muted mb-2">Paises</p>
+                                <!-- COUNTRIES -->
+                                <ng-container *ngIf="selectedRole?.name === 'country'">
+                                    <p class="text-uppercase text-sm text-muted mb-2">Paises</p>
 
-                                <div class="custom-control custom-control-alternative custom-checkbox my-1"
-                                    *ngFor="let country of countries; let i = index" formArrayName="countries">
-                                    <input type="checkbox" class="custom-control-input" [formControlName]="i"
-                                        [id]="'custom-checkbox-'+i">
-                                    <label class="custom-control-label" [for]="'custom-checkbox-'+i">
-                                        <span class="text-muted">{{country}}</span>
-                                    </label>
+                                    <div class="custom-control custom-control-alternative custom-checkbox my-1"
+                                        *ngFor="let country of countries; let i = index" formArrayName="countries">
+                                        <input type="checkbox" class="custom-control-input" [formControlName]="i"
+                                            [id]="'country-custom-checkbox-'+i">
+                                        <label class="custom-control-label" [for]="'country-custom-checkbox-'+i">
+                                            <span class="text-muted">{{ country.name }}</span>
+                                        </label>
+                                    </div>
+                                </ng-container>
+
+                                <!-- RETAILERS -->
+                                <ng-container *ngIf="selectedRole?.name === 'retailer'">
+                                    <p class="text-uppercase text-sm text-muted mb-2">Retailers</p>
+
+                                    <div class="custom-control custom-control-alternative custom-checkbox my-1"
+                                        *ngFor="let retailer of retailers; let i = index" formArrayName="retailers">
+                                        <input type="checkbox" class="custom-control-input" [formControlName]="i"
+                                            [id]="'retailer-custom-checkbox-'+i">
+                                        <label class="custom-control-label" [for]="'retailer-custom-checkbox-'+i">
+                                            <span class="text-muted">{{ retailer.name }}</span>
+                                        </label>
+                                    </div>
+                                </ng-container>
+                            </div>
+
+
+                            <div class="col-12 col-sm-6"
+                                *ngIf="selectedRole?.name === 'country' || selectedRole?.name === 'retailer'">
+
+                                <!-- SECTORS -->
+                                <div class="mb-4">
+                                    <p class="text-uppercase text-sm text-muted mb-2">Sectors</p>
+
+                                    <div class="custom-control custom-control-alternative custom-checkbox my-1"
+                                        *ngFor="let sector of sectors; let i = index" formArrayName="sectors">
+                                        <input type="checkbox" class="custom-control-input" [formControlName]="i"
+                                            [id]="'sector-custom-checkbox-'+i">
+                                        <label class="custom-control-label" [for]="'sector-custom-checkbox-'+i">
+                                            <span class="text-muted">{{ sector.name }}</span>
+                                        </label>
+                                    </div>
+                                </div>
+
+                                <!-- CATEGORIES -->
+                                <div>
+                                    <p class="text-uppercase text-sm text-muted mb-2">Categorías</p>
+
+                                    <div class="custom-control custom-control-alternative custom-checkbox my-1"
+                                        *ngFor="let category of categories; let i = index" formArrayName="categories">
+                                        <input type="checkbox" class="custom-control-input" [formControlName]="i"
+                                            [id]="'category-custom-checkbox-'+i">
+                                        <label class="custom-control-label" [for]="'category-custom-checkbox-'+i">
+                                            <span class="text-muted">{{ category.name }}</span>
+                                        </label>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -59,7 +113,7 @@
                                 Enviar invitación
                             </button>
                             <br>
-                            <span>Status: {{ form.valid}}</span>
+                            <span>Status: {{ form.valid }}</span>
                         </div>
                     </form>
                 </div>
