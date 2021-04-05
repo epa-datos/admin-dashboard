@@ -27,6 +27,14 @@ $coop-dashboard-theme: mat-light-theme((
   )
 ));
 
+// Define a custom typography config that overrides the font-family as well as the
+// `headlines` and `body-1` levels.
+$custom-typography: mat-typography-config(
+  $font-family: 'HPSimplifiedLight, Arial, sans-serif',
+  $headline: mat-typography-level(32px, 48px, 700),
+  $body-1: mat-typography-level(16px, 24px, 500)
+);
+@include mat-core($custom-typography);
 // Include theme styles for core and each component used in your app.
 // Alternatively, you can import and @include the theme mixins for each component
 // that you are using.
@@ -37,12 +45,16 @@ $coop-dashboard-theme: mat-light-theme((
 // CUSTOM ANGULAR MATERIAL
 
 // table
-.mat-table {
-  font-family: inherit;
-}
-
 th.mat-header-cell, td.mat-cell, td.mat-footer-cell {
   padding: 0 8px !important;
+}
+
+.mat-header-cell  {
+  font-size: 14.5px;
+}
+
+.mat-cell, .mat-footer-cell {
+  font-size: 14px;
 }
 
 .mat-select-trigger {
