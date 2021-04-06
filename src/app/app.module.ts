@@ -20,6 +20,7 @@ import { CookieService } from 'ngx-cookie-service';
 import { SessionInterceptor } from './services/interceptor.service';
 import { LoginGuard } from './login.guard';
 import { ConfigurationProvider } from './app.constants';
+import { SharedModule } from './modules/shared/shared.module';
 
 @NgModule({
   imports: [
@@ -29,7 +30,8 @@ import { ConfigurationProvider } from './app.constants';
     ComponentsModule,
     NgbModule,
     RouterModule,
-    AppRoutingModule
+    AppRoutingModule,
+    SharedModule
   ],
   declarations: [
     AppComponent,
