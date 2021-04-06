@@ -11,6 +11,7 @@ import { InviteUserComponent } from './pages/invite-user/invite-user.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatSelectModule } from '@angular/material/select';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { UsersMngmtService } from './services/users-mngmt.service';
 
 
 
@@ -29,6 +30,9 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
     MatTableModule,
     MatPaginatorModule,
     MatSelectModule
+  ],
+  providers: [
+    UsersMngmtService
   ]
 })
 export class UsersMngmtModule { }
