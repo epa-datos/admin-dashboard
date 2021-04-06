@@ -91,7 +91,6 @@ th.mat-header-cell, td.mat-cell, td.mat-footer-cell {
 
 // MODAL WINDOW STYLES
 .cdk-overlay-pane {
-
   @media screen and (max-width: 480px) {
     width: 90vw !important;
   }
@@ -99,4 +98,10 @@ th.mat-header-cell, td.mat-cell, td.mat-footer-cell {
   @media screen and (min-width: 552px) {
     width: 520px !important;
   }
+}
+
+//  MAT-DIALOG
+.mat-dialog-container {
+  background: #fff;
+  max-height: auto !important;
 }
