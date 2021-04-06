@@ -38,8 +38,19 @@
                 </td>
             </ng-container>
 
+            <!-- Disclaimer column -->
+            <ng-container matColumnDef="disclaimer">
+                <td mat-footer-cell *matFooterCellDef colspan="3">
+                    <div class="text-danger text-center" *ngIf="getRequestStatus === 3">
+                        Ocurrió un error al consultar los usuarios
+                    </div>
+                </td>
+            </ng-container>
+
             <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
             <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+            <tr mat-footer-row *matFooterRowDef="['disclaimer']" class="example-second-footer-row"
+                [hidden]="getRequestStatus !== 3"></tr>
         </table>
 
 

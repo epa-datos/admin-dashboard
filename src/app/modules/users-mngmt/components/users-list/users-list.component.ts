@@ -17,6 +17,7 @@ export class UsersListComponent implements OnInit, AfterViewInit {
   private users: User[] = [];
   dataSource = new MatTableDataSource<User>(this.users);
 
+  getRequestStatus = 0;
   deleteRequestStatus = 0;
   errorMsg: string;
 
@@ -63,15 +64,19 @@ export class UsersListComponent implements OnInit, AfterViewInit {
   }
 
   getUsers() {
+    this.getRequestStatus = 1;
     this.usersMngmtService.getUsers()
       .subscribe(
         (res: User[]) => {
           this.users = res;
           this.dataSource = new MatTableDataSource<User>(this.users);
           this.dataSource.paginator = this.paginator;
+          this.getRequestStatus = 2;
         },
         error => {
-          console.error(error)
+          const errorMsg = error?.error?.message ? error.error.message : error?.message;
+          console.error(`[users-list.component]: ${errorMsg}`);
+          this.getRequestStatus = 3;
         }
       )
   }
@@ -109,6 +114,7 @@ export class UsersListComponent implements OnInit, AfterViewInit {
         },
         error => {
           this.errorMsg = error?.error?.message ? error.error.message : error?.message;
+          console.error(`[users-list.component]: ${this.errorMsg}`);
           this.deleteRequestStatus = 3;
         }
       )
