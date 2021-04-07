@@ -169,10 +169,8 @@ export class InviteUserComponent implements OnInit {
     ) {
       this.fillFormArrayControl('sectors');
       this.fillFormArrayControl('categories');
-
-      this.updateReqStatus();
     } else {
-      this.getReqStatus = 2;
+      this.updateReqStatus();
     }
   }
 
@@ -196,8 +194,16 @@ export class InviteUserComponent implements OnInit {
 
   updateReqStatus() {
     // in order to stop showing loader in checkboxes area
-    if ((this.form.controls['countries'].value.length > 0 || this.form.controls['retailers'].value.length > 0) &&
-      this.form.controls['sectors'].value.length > 0 && this.form.controls['categories'].value.length > 0) {
+    if (this.selectedRole.name === 'country' &&
+      this.form.controls['countries'].value.length > 0 &&
+      this.form.controls['sectors'].value.length > 0 &&
+      this.form.controls['categories'].value.length > 0) {
+      this.getReqStatus = 2;
+
+    } else if (this.selectedRole.name === 'retailer' &&
+      this.form.controls['retailers'].value.length > 0 &&
+      this.form.controls['sectors'].value.length > 0 &&
+      this.form.controls['categories'].value.length > 0) {
       this.getReqStatus = 2;
     }
   }
