@@ -128,7 +128,7 @@ th.mat-header-cell, td.mat-cell, td.mat-footer-cell {
   animation-iteration-count: infinite;
   animation-name: indeterm-shimmer;
   animation-timing-function: linear;
-  background:linear-gradient(to right, #f7f7f7 8%, #f1f1f1 18%, #f7f7f7 23%);
+  background:linear-gradient(to right, #f7f7f7 8%, #ededed 18%, #f7f7f7 23%);
   background-size: 800px 104px;
 }
 .bar-loader {
@@ -148,7 +148,7 @@ th.mat-header-cell, td.mat-cell, td.mat-footer-cell {
   }
 
   &.dark {
-    background: #d4d4d4;
+    background: #e8e8e8;
     animation: none;
   }
 
