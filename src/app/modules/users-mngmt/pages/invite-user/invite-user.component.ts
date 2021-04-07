@@ -298,13 +298,12 @@ export class InviteUserComponent implements OnInit {
 
     permissions = [...permissions, ...this.convertToValue('sectors', 'sector')];
     permissions = [...permissions, ...this.convertToValue('categories', 'category')];
-    console.log('permissions', permissions);
 
     const invite: Invite = {
       user_email: this.form.value.email,
       permissions
     }
-    console.log('invite', invite)
+
     this.sendInviteToUser(invite);
   }
 
