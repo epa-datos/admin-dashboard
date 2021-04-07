@@ -5,6 +5,6 @@ export class Permission {
 }
 
 export class Invite {
-    user_email: string;
+    email: string;
     permissions: Permission[];
 }

@@ -286,13 +286,20 @@ export class InviteUserComponent implements OnInit {
 
   onSubmit() {
     let permissions: Permission[] = [];
-    const role = this.form.value.role.name;
-    switch (role) {
+    const role = this.form.value.role;
+    switch (role.name) {
       case 'country':
         permissions = [...this.convertToValue('countries', 'country')];
         break;
       case 'retailer':
         permissions = [...this.convertToValue('retailers', 'retailer')];
+        break;
+      default:
+        permissions = [{
+          role_id: role.id,
+          entity_type: null,
+          entity_id: null
+        }]
         break;
     }
 
@@ -300,7 +307,7 @@ export class InviteUserComponent implements OnInit {
     permissions = [...permissions, ...this.convertToValue('categories', 'category')];
 
     const invite: Invite = {
-      user_email: this.form.value.email,
+      email: this.form.value.email,
       permissions
     }
 
