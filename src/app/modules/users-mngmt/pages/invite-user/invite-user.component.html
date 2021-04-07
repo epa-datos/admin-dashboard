@@ -9,11 +9,32 @@
                     </div>
                 </div>
             </div>
+
             <div class="card-body">
                 <!-- form -->
                 <div class="form-container" *ngIf="form">
                     <form role="form" [formGroup]="form" (ngSubmit)="onSubmit()">
-                        <div class="row">
+
+                        <!-- loader (emal and role) -->
+                        <div class="loader" *ngIf="getRoleStatus === 1">
+                            <div class="row">
+                                <div class="col-12 col-sm-6 mb-4">
+                                    <div class="bar-loader component"></div>
+                                </div>
+                                <div class="col-12 col-sm-6 mb-4">
+                                    <div class="bar-loader component"></div>
+                                </div>
+                            </div>
+
+                            <div class="row mt-4">
+                                <div class="col-12 button-loader">
+                                    <div class="bar-loader component"></div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- email and role -->
+                        <div class="row" *ngIf="getRoleStatus !== 1">
                             <div class="col-12 col-sm-6">
                                 <div class="form-group mb-3">
                                     <div class="input-group input-group-alternative"
@@ -44,7 +65,41 @@
                             </div>
                         </div>
 
-                        <ng-container *ngIf="getReqStatus !== 3">
+                        <!-- loader (contries, retailers, sectors and categories) -->
+                        <div class="loader row mt-4" *ngIf="getReqStatus === 1">
+                            <div class="col-12 col-sm-6">
+                                <div class="loader-group mb-4">
+                                    <div class="bar-loader title dark"></div>
+                                    <div class="bar-loader"></div>
+                                    <div class="loader-subgroup" *ngFor="let bar of [1,2,3,4,5,6]">
+                                        <div class="bar-loader checkbox"></div>
+                                        <div class="bar-loader"></div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-12 col-sm-6 d-none d-sm-block">
+                                <div class="loader-group mb-4">
+                                    <div class="bar-loader title dark"></div>
+                                    <div class="bar-loader"></div>
+                                    <div class="loader-subgroup" *ngFor="let bar of [1,2,3,4,5,6]">
+                                        <div class="bar-loader checkbox"></div>
+                                        <div class="bar-loader"></div>
+                                    </div>
+                                </div>
+
+                                <div class="loader-group mb-4 d-none d-sm-block">
+                                    <div class="bar-loader title dark"></div>
+                                    <div class="bar-loader"></div>
+                                    <div class="loader-subgroup" *ngFor="let bar of [1,2,3,4,5,6]">
+                                        <div class="bar-loader checkbox"></div>
+                                        <div class="bar-loader"></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- contries, retailers, sectors and categories -->
+                        <ng-container *ngIf="getReqStatus === 2">
                             <div class="row mt-4"
                                 *ngIf="selectedRole && selectedRole?.name !== 'admin' && selectedRole?.name !== 'hp'">
                                 <div class="col-12 col-sm-6">
@@ -209,35 +264,36 @@
                                 </div>
                             </div>
                             <br>
-                            <div class="row" *ngIf="selectedRole?.name === 'admin' || selectedRole?.name === 'hp'">
-                                <div class="col-12 text-center">
-                                    <div class="aditional-info bg-secondary">
-                                        <small>
-                                            Con el rol de
-                                            <b>{{ selectedRole.name === 'admin' ? 'Administrador' : 'HP' }}</b>
-                                            el usuario podrá visualizar información de todos los paises, retailers,
-                                            sectores
-                                            y categorías
-                                        </small>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="text-right">
-                                <button type="submit" class="btn btn-primary mt-4" [disabled]="!form.valid">
-                                    Enviar invitación
-                                </button>
-                            </div>
                         </ng-container>
 
+                        <!-- admin and hp legend -->
+                        <div class="row" *ngIf="selectedRole?.name === 'admin' || selectedRole?.name === 'hp'">
+                            <div class="col-12 text-center">
+                                <div class="aditional-info bg-secondary">
+                                    <small>
+                                        Con el rol de
+                                        <b>{{ selectedRole.name === 'admin' ? 'Administrador' : 'HP' }}</b>
+                                        el usuario podrá visualizar información de todos los paises, retailers,
+                                        sectores
+                                        y categorías
+                                    </small>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- send invitation button -->
+                        <div class="text-right" *ngIf="getRoleStatus !== 1">
+                            <button type="submit" class="btn btn-primary mt-4" [disabled]="!form.valid">
+                                Enviar invitación
+                            </button>
+                        </div>
 
                         <!-- error message -->
-                        <div class="row my-4" *ngIf="getReqStatus === 3">
+                        <div class="row my-4" *ngIf="getRoleStatus === 3 || getReqStatus === 3">
                             <div class="col-12 text-center text-danger">
                                 <small>
-                                    Ocurrió un error al consultar la información de roles y permisos. Vuelva a
-                                    intentarlo en
-                                    unos minutos
+                                    Ocurrió un error al consultar la información de roles y permisos.
+                                    Vuelva a intentarlo más tarde.
                                 </small>
                             </div>
                         </div>

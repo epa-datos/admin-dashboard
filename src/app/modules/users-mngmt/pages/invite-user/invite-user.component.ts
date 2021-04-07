@@ -39,6 +39,7 @@ export class InviteUserComponent implements OnInit {
   ];
 
   selectedRole: any;
+  getRoleStatus: number = 0;
   getReqStatus: number = 0;
 
   constructor(
@@ -71,19 +72,18 @@ export class InviteUserComponent implements OnInit {
   }
 
   getRoles() {
-    this.getReqStatus = 1;
+    this.getRoleStatus = 1;
     this.usersMngmtService.getRoles()
       .subscribe((resp: any[]) => {
         this.roles = resp;
-        this.getReqStatus = 2;
+        this.getRoleStatus = 2;
       }, error => {
         console.error(`[invite-user.component]: ${error}`);
-        this.getReqStatus = 3;
+        this.getRoleStatus = 3;
       })
   }
 
   getCountries() {
-    console.log('NUEVO getCountries!!')
     return this.usersMngmtService.getCountries()
       .toPromise()
       .then((resp: any[]) => {
@@ -96,7 +96,6 @@ export class InviteUserComponent implements OnInit {
   }
 
   getRetailers() {
-    console.log('NUEVO getRetailers!!')
     return this.usersMngmtService.getRetailers()
       .toPromise()
       .then((resp: any[]) => {
@@ -109,7 +108,6 @@ export class InviteUserComponent implements OnInit {
   }
 
   getSectors() {
-    console.log('NUEVO getSectors!!')
     return this.usersMngmtService.getSectors()
       .toPromise()
       .then((resp: any[]) => {
@@ -122,7 +120,6 @@ export class InviteUserComponent implements OnInit {
   }
 
   getCategories() {
-    console.log('NUEVO getCategories!!')
     return this.usersMngmtService.getCategories()
       .toPromise()
       .then((resp: any[]) => {
@@ -147,19 +144,22 @@ export class InviteUserComponent implements OnInit {
   }
 
   fillFormOptions() {
+    this.getReqStatus = 1;
     switch (this.selectedRole.name) {
       case 'country':
         if (this.countries.length < 1) {
-          this.getReqStatus = 1;
-          this.fillFormArrayControls('countries');
+          this.fillFormArrayControl('countries');
         }
         break;
 
       case 'retailer':
         if (this.retailers.length < 1) {
-          this.getReqStatus = 1;
-          this.fillFormArrayControls('retailers');
+          this.fillFormArrayControl('retailers');
         }
+        break;
+
+      default:
+        this.getReqStatus = 2;
         break;
     }
 
@@ -167,14 +167,17 @@ export class InviteUserComponent implements OnInit {
       (this.selectedRole.name === 'country' || this.selectedRole.name === 'retailer') &&
       (this.sectors.length < 1 || this.categories.length < 1)
     ) {
-      this.fillFormArrayControls('sectors');
-      this.fillFormArrayControls('categories');
+      this.fillFormArrayControl('sectors');
+      this.fillFormArrayControl('categories');
+
+      this.updateReqStatus();
+    } else {
       this.getReqStatus = 2;
     }
   }
 
   // Generic function to load FormAarray with request response array
-  async fillFormArrayControls(formControlName) {
+  async fillFormArrayControl(formControlName) {
     const genericGetFun = `get${formControlName.charAt(0).toUpperCase() + formControlName.slice(1)}`;
 
     try {
@@ -183,9 +186,19 @@ export class InviteUserComponent implements OnInit {
       this[formControlName].forEach(item => {
         const control = new FormControl('');
         (formControlRef as FormArray).push(control);
-      })
+      });
+      this.updateReqStatus();
+
     } catch (error) {
       this.getReqStatus = 3;
+    }
+  }
+
+  updateReqStatus() {
+    // in order to stop showing loader in checkboxes area
+    if ((this.form.controls['countries'].value.length > 0 || this.form.controls['retailers'].value.length > 0) &&
+      this.form.controls['sectors'].value.length > 0 && this.form.controls['categories'].value.length > 0) {
+      this.getReqStatus = 2;
     }
   }
 
