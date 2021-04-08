@@ -9,7 +9,7 @@ import { UserService } from 'src/app/services/user.service';
   styleUrls: ['./create-access.component.scss']
 })
 export class CreateAccessComponent implements OnInit {
-  usermail: string;
+  code: string;
   reqStatus: number = 0;
   errorMsg: string;
 
@@ -19,27 +19,19 @@ export class CreateAccessComponent implements OnInit {
     private router: Router) { }
 
   ngOnInit(): void {
-    this.usermail = this.route.snapshot.queryParamMap.get('usermail')
-      ? this.route.snapshot.queryParamMap.get('usermail')
-      : 'user_email@test.com';
+    this.code = this.route.snapshot.queryParamMap.get('code') &&
+      this.route.snapshot.queryParamMap.get('code')
   }
 
   singup(newPassword) {
     this.reqStatus = 1;
-    this.userService.singup(this.usermail, newPassword)
-      .subscribe((newUser: User) => {
-
-        if (newUser.id) {
-          this.reqStatus = 2;
-          delete this.errorMsg;
-          setTimeout(() => {
-            this.router.navigate(['/login']);
-          }, 6000);
-
-        } else {
-          this.reqStatus = 3;
-          this.errorMsg = 'Request failed. Please try again'
-        }
+    this.userService.singup(this.code, newPassword)
+      .subscribe(() => {
+        this.reqStatus = 2;
+        delete this.errorMsg;
+        setTimeout(() => {
+          this.router.navigate(['/login']);
+        }, 6000);
       },
         error => {
           this.reqStatus = 3;
