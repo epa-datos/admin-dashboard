@@ -1,5 +1,27 @@
-<div class="table-container">
+<!-- users loader -->
+<div class="loader-container" *ngIf="getReqStatus === 1">
+    <div class="row">
+        <div class="col-12 col-sm-12 col-md-6 offset-md-6 col-lg-4 offset-lg-8">
+            <div class="bar-loader component mb-4"></div>
+        </div>
+    </div>
 
+    <div class="row mb-4" *ngFor="let item of [1,2,3,4]; let i = index">
+        <div class="col-4 col-sm-5">
+            <div class="bar-loader" [ngClass]="{'dark': i === 0}"></div>
+        </div>
+        <div class="col-4 col-sm-5">
+            <div class="bar-loader" [ngClass]="{'dark': i === 0}"></div>
+        </div>
+        <div class="col-4 col-sm-2">
+            <div class="bar-loader" [hidden]="i === 0" [ngClass]="{'circle': i > 0}"></div>
+        </div>
+    </div>
+</div>
+
+<!-- users list -->
+<div class="table-container" [hidden]="getReqStatus !== 2">
+    <!-- filter -->
     <div class="row">
         <div class="col-12 col-sm-12 col-md-6 offset-md-6 col-lg-4 offset-lg-8">
             <div class="input-group input-group-alternative">
@@ -12,7 +34,7 @@
         </div>
     </div>
 
-
+    <!-- table -->
     <div class="adaptable-container">
         <table mat-table [dataSource]="dataSource">
 
@@ -41,7 +63,7 @@
             <!-- disclaimer column -->
             <ng-container matColumnDef="disclaimer">
                 <td mat-footer-cell *matFooterCellDef colspan="3">
-                    <div class="text-danger text-center" *ngIf="getRequestStatus === 3">
+                    <div class="text-danger text-center" *ngIf="getReqStatus === 3">
                         Ocurrió un error al consultar los usuarios
                     </div>
                 </td>
@@ -50,18 +72,28 @@
             <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
             <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
             <tr mat-footer-row *matFooterRowDef="['disclaimer']" class="example-second-footer-row"
-                [hidden]="getRequestStatus !== 3"></tr>
+                [hidden]="getReqStatus !== 3"></tr>
         </table>
     </div>
     <mat-paginator [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons></mat-paginator>
 
-
+    <!-- delete user messages -->
     <div class="text-center mt-4">
-        <small class="text-success" *ngIf="deleteRequestStatus === 2">
+        <small class="text-success" *ngIf="deleteReqStatus === 2">
             Usuario eliminado exitosamente
         </small>
-        <small class="text-danger" *ngIf="deleteRequestStatus === 3">
-            Ocurrió un error al eliminar el usuario: {{ errorMsg }}
+        <small class="text-danger" *ngIf="deleteReqStatus === 3">
+            Ocurrió un error al eliminar el usuario: <br>
+            {{ errorMsg }}
         </small>
+    </div>
+</div>
+
+<!-- users error message -->
+<div class="row" *ngIf="getReqStatus === 3">
+    <div class="col-12">
+        <p class="text-danger text-center mb-0">
+            Se generó un error al consultar los usuarios
+        </p>
     </div>
 </div>
