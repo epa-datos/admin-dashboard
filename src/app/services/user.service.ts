@@ -55,8 +55,8 @@ export class UserService {
     this.baseUrl = this.config.endpoint;
   }
 
-  singup(email: string, psw: string) {
-    if (!email) {
+  singup(code: string, psw: string) {
+    if (!code) {
       return throwError("[user.service]: not email provided");
     }
     if (!psw) {
@@ -64,7 +64,7 @@ export class UserService {
     }
     // const password = this.hashPsw(psw);
     const password = psw;
-    return this.http.post(`${this.baseUrl}/users`, { email, password });
+    return this.http.post(`${this.baseUrl}/users`, { code, password });
   }
 
   login(email: string, psw: string) {

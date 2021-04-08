@@ -17,8 +17,8 @@ export class UsersListComponent implements OnInit, AfterViewInit {
   private users: User[] = [];
   dataSource = new MatTableDataSource<User>(this.users);
 
-  getRequestStatus = 0;
-  deleteRequestStatus = 0;
+  getReqStatus = 0;
+  deleteReqStatus = 0;
   errorMsg: string;
 
   @ViewChild(MatPaginator) paginator: MatPaginator;
@@ -64,19 +64,19 @@ export class UsersListComponent implements OnInit, AfterViewInit {
   }
 
   getUsers() {
-    this.getRequestStatus = 1;
+    this.getReqStatus = 1;
     this.usersMngmtService.getUsers()
       .subscribe(
         (res: User[]) => {
           this.users = res;
           this.dataSource = new MatTableDataSource<User>(this.users);
           this.dataSource.paginator = this.paginator;
-          this.getRequestStatus = 2;
+          this.getReqStatus = 2;
         },
         error => {
           const errorMsg = error?.error?.message ? error.error.message : error?.message;
           console.error(`[users-list.component]: ${errorMsg}`);
-          this.getRequestStatus = 3;
+          this.getReqStatus = 3;
         }
       )
   }
@@ -103,26 +103,26 @@ export class UsersListComponent implements OnInit, AfterViewInit {
   }
 
   deleteUser(user) {
-    this.deleteRequestStatus = 1;
+    this.deleteReqStatus = 1;
     this.usersMngmtService.deleteUser(user.id)
       .subscribe(
         res => {
           this.getUsers();
           this.errorMsg && delete this.errorMsg;
-          this.deleteRequestStatus = 2;
-          this.restoreDeleteRequestStatus();
+          this.deleteReqStatus = 2;
+          this.restoreDeleteReqStatus();
         },
         error => {
           this.errorMsg = error?.error?.message ? error.error.message : error?.message;
           console.error(`[users-list.component]: ${this.errorMsg}`);
-          this.deleteRequestStatus = 3;
+          this.deleteReqStatus = 3;
         }
       )
   }
 
-  restoreDeleteRequestStatus() {
+  restoreDeleteReqStatus() {
     setTimeout(() => {
-      this.deleteRequestStatus = 0;
+      this.deleteReqStatus = 0;
     }, 5000)
   }
 }
