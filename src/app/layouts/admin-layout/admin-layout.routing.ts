@@ -18,9 +18,11 @@ export const AdminLayoutRoutes: Routes = [
     { path: 'tables', component: TablesComponent },
     { path: 'icons', component: IconsComponent },
     { path: 'maps', component: MapsComponent },
-    { path: 'argentina', component: ChartJsComponent },
-    { path: 'colombia', component: AmchartsComponent },
+    { path: 'argentina', component: AmchartsComponent },
+    { path: 'brasil', component: ChartJsComponent },
+    { path: 'colombia', component: ChartJsComponent },
     { path: 'mexico', component: ChartJsComponent },
+    { path: 'panama', component: ChartJsComponent },
     {
         path: 'users',
         component: UsersMngmtComponent,
