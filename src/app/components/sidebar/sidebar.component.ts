@@ -80,9 +80,9 @@ export class SidebarComponent implements OnInit, AfterViewInit {
           }
 
           this.menuItems.push(menuItem);
-          this.errorMsg && delete this.errorMsg;
-          this.menuReqStatus = 2;
         }
+        this.errorMsg && delete this.errorMsg;
+        this.menuReqStatus = 2;
       })
       .catch(error => {
         this.errorMsg = error?.error?.message ? error.error.message : error?.message
