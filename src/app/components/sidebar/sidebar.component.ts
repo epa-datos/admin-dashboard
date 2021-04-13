@@ -1,5 +1,5 @@
 import { AfterViewInit, Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Params, Router } from '@angular/router';
 import { UsersMngmtService } from 'src/app/modules/users-mngmt/services/users-mngmt.service';
 import { AppStateService } from 'src/app/services/app-state.service';
 import { UserService } from 'src/app/services/user.service';
@@ -44,7 +44,8 @@ export class SidebarComponent implements OnInit, AfterViewInit {
     private router: Router,
     private userService: UserService,
     private usersMngmtService: UsersMngmtService,
-    private appStateService: AppStateService
+    private appStateService: AppStateService,
+    private route: ActivatedRoute,
   ) { }
 
   async ngAfterViewInit() {
@@ -65,9 +66,40 @@ export class SidebarComponent implements OnInit, AfterViewInit {
     }
     this.menuItems.push(menuItem);
     this.appStateService.updateSidebarData(this.menuItems);
+
+    this.getPrevSelection();
   }
 
   ngOnInit() { }
+
+  async getPrevSelection() {
+    const params = this.route.snapshot.queryParams;
+
+    if (params['country'] || params['retailer']) {
+      const country = params['country'];
+      const retailer = params['retailer'];
+
+      if (country) {
+        const item = this.menuItems.find(item => item.levelName === 'country' && item.title.toLowerCase() === country);
+        this.selectedItem = item;
+
+        if (retailer) {
+          this.selectedItem.submenu = await this.getAvailableRetailers();
+          this.selectedItem.submenuOpen = !this.selectedItem.submenuOpen;
+
+          const subItem = this.selectedItem.submenu.find(item => item.levelName === 'retailer' && item.title.toLocaleLowerCase() === retailer);
+          this.selectedSubItem = subItem;
+        }
+
+      } else if (retailer) {
+        // existe retailer pero no country   -> retailer role
+      }
+    }
+    else {
+      const item = this.menuItems.find(item => item.path == this.router.url);
+      this.selectedItem = item;
+    }
+  }
 
   getAvailableRoutes() {
     this.menuReqStatus = 1;
@@ -103,7 +135,7 @@ export class SidebarComponent implements OnInit, AfterViewInit {
   async selectItem(item, parent?) {
     if (item.submenu && item.levelName === 'country') {
       // if country already has a a submenu.lenght>1 avoid this requests
-      item.submenu = await this.getAvailableRetailers()
+      item.submenu = await this.getAvailableRetailers();
       item.submenuOpen = !item.submenuOpen;
     }
 
