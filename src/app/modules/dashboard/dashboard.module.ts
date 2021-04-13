@@ -5,6 +5,8 @@ import { DashboardComponent } from './dashboard.component';
 import { CountryComponent } from './pages/country/country.component';
 import { RetailerComponent } from './pages/retailer/retailer.component';
 import { DashboardRoutes } from './dashboard.routing';
+import { GeneralFiltersComponent } from './components/general-filters/general-filters.component';
+import { MatSelectModule } from '@angular/material/select';
 
 
 
@@ -12,11 +14,13 @@ import { DashboardRoutes } from './dashboard.routing';
   declarations: [
     DashboardComponent,
     CountryComponent,
-    RetailerComponent
+    RetailerComponent,
+    GeneralFiltersComponent
   ],
   imports: [
     CommonModule,
     RouterModule.forChild(DashboardRoutes),
+    MatSelectModule
   ]
 })
 export class DashboardModule { }

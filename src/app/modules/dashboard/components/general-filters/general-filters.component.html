@@ -1,0 +1,23 @@
+<div class="row">
+    <div class="col-4">
+        <mat-select placeholder="Select a sector" [(value)]="selectedSector">
+            <mat-option *ngFor="let sector of sectors" [value]="sector">
+                {{ sector.name }}
+            </mat-option>
+        </mat-select>
+    </div>
+    <div class="col-4">
+        <mat-select placeholder="Select a category" [(value)]="selectedCategory">
+            <mat-option *ngFor="let category of categories" [value]="category">
+                {{ category.name }}
+            </mat-option>
+        </mat-select>
+    </div>
+    <div class="col-4">
+        <mat-select placeholder="Select a campaign" [(value)]="selectedCampaign">
+            <mat-option *ngFor="let campaign of campaigns" [value]="campaign">
+                {{ campaign.name }}
+            </mat-option>
+        </mat-select>
+    </div>
+</div>
