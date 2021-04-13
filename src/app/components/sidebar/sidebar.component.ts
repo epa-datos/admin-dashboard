@@ -12,7 +12,6 @@ declare interface RouteInfo {
   isForAdmin: boolean;
   submenu?: RouteInfo[];
   submenuOpen?: boolean;
-  level: number;
   levelName?: string;
 }
 
@@ -20,8 +19,7 @@ export const ROUTES = [
   {
     path: '/dashboard/investment',
     title: 'Inversión',
-    isForAdmin: false,
-    level: 1
+    isForAdmin: false
   }
 ]
 
@@ -61,8 +59,7 @@ export class SidebarComponent implements OnInit, AfterViewInit {
     const menuItem = {
       path: '/dashboard/users',
       title: 'Administrar usuarios',
-      isForAdmin: true,
-      level: 1
+      isForAdmin: true
     }
     this.menuItems.push(menuItem);
   }
@@ -83,7 +80,6 @@ export class SidebarComponent implements OnInit, AfterViewInit {
             isForAdmin: false,
             submenu: [],
             submenuOpen: false,
-            level: 2,
             levelName: 'country',
           }
 
@@ -100,25 +96,22 @@ export class SidebarComponent implements OnInit, AfterViewInit {
       });
   }
 
-  async selectItem(item, menuLevel, parent?) {
+  async selectItem(item, parent?) {
     if (item.submenu) {
       // if country already has a a submenu.lenght>1 avoid this requests
       item.submenu = await this.getAvailableRetailers()
-
-      if (menuLevel === 1) {
-        item.submenuOpen = !item.submenuOpen;
-      }
+      item.submenuOpen = !item.submenuOpen;
     }
 
     let queryParams;
 
-    if (menuLevel === 1) {
+    if (!parent) {
       this.selectedItem !== item && delete this.selectedSubItem;
       this.selectedItem = item;
 
       queryParams = { [this.selectedItem.levelName]: this.selectedItem.param };
 
-    } else if (menuLevel === 2) {
+    } else {
       this.selectedItem = parent;
       this.selectedSubItem = item;
 
@@ -150,7 +143,6 @@ export class SidebarComponent implements OnInit, AfterViewInit {
             param: item.name.toLowerCase(),
             title: item.name,
             isForAdmin: false,
-            level: 3,
             levelName: 'retailer',
           }
         })
