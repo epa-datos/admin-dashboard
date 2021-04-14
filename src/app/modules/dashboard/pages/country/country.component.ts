@@ -52,6 +52,48 @@ export class CountryComponent implements OnInit {
     }
   ];
 
+  devices: any[] = [
+    { id: 1, name: 'Escritorio', value: 3000 },
+    { id: 2, name: 'Tablet', value: 500 },
+    { id: 3, name: 'Celular', value: 10500 }
+  ]
+
+  gender: any[] = [
+    { id: 1, name: 'Hombre', value: 1200 },
+    { id: 2, name: 'Mujer', value: 12800 },
+  ]
+
+  usersBySector: any[] = [
+    {
+      name: 'Search',
+      value: 3500
+    },
+    {
+      name: 'Marketing',
+      value: 1500
+    },
+    {
+      name: 'Ventas',
+      value: 9000
+    }
+  ]
+
+  salesBySector: any[] = [
+    {
+      name: 'Search',
+      value: 250000
+    },
+    {
+      name: 'Marketing',
+      value: 37500
+    },
+    {
+      name: 'Ventas',
+      value: 85700
+    }
+  ]
+
+
   constructor(private route: ActivatedRoute) { }
 
   ngOnInit(): void {
