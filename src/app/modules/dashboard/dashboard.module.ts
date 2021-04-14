@@ -10,6 +10,7 @@ import { MatSelectModule } from '@angular/material/select';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatNativeDateModule, MatRippleModule } from '@angular/material/core';
 import { MAT_FORM_FIELD_DEFAULT_OPTIONS } from '@angular/material/form-field';
+import { CardStatComponent } from './components/card-stat/card-stat.component';
 
 
 
@@ -18,7 +19,8 @@ import { MAT_FORM_FIELD_DEFAULT_OPTIONS } from '@angular/material/form-field';
     DashboardComponent,
     CountryComponent,
     RetailerComponent,
-    GeneralFiltersComponent
+    GeneralFiltersComponent,
+    CardStatComponent
   ],
   imports: [
     CommonModule,
