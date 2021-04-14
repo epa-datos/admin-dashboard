@@ -7,6 +7,9 @@ import { RetailerComponent } from './pages/retailer/retailer.component';
 import { DashboardRoutes } from './dashboard.routing';
 import { GeneralFiltersComponent } from './components/general-filters/general-filters.component';
 import { MatSelectModule } from '@angular/material/select';
+import { MatDatepickerModule } from '@angular/material/datepicker';
+import { MatNativeDateModule, MatRippleModule } from '@angular/material/core';
+import { MAT_FORM_FIELD_DEFAULT_OPTIONS } from '@angular/material/form-field';
 
 
 
@@ -20,7 +23,11 @@ import { MatSelectModule } from '@angular/material/select';
   imports: [
     CommonModule,
     RouterModule.forChild(DashboardRoutes),
-    MatSelectModule
-  ]
+    MatSelectModule,
+    MatDatepickerModule,
+    MatNativeDateModule,
+    MatRippleModule
+  ],
+  providers: [{ provide: MAT_FORM_FIELD_DEFAULT_OPTIONS, useValue: { floatLabel: 'never' } }]
 })
 export class DashboardModule { }
