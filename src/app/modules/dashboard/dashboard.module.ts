@@ -11,6 +11,7 @@ import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatNativeDateModule, MatRippleModule } from '@angular/material/core';
 import { MAT_FORM_FIELD_DEFAULT_OPTIONS } from '@angular/material/form-field';
 import { CardStatComponent } from './components/card-stat/card-stat.component';
+import { GraphPieComponent } from './components/graphics/graph-pie/graph-pie.component';
 
 
 
@@ -20,7 +21,8 @@ import { CardStatComponent } from './components/card-stat/card-stat.component';
     CountryComponent,
     RetailerComponent,
     GeneralFiltersComponent,
-    CardStatComponent
+    CardStatComponent,
+    GraphPieComponent
   ],
   imports: [
     CommonModule,
