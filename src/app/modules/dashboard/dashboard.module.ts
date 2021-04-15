@@ -18,6 +18,8 @@ import { MatTableModule } from '@angular/material/table';
 import { MatPaginatorModule } from '@angular/material/paginator';
 import { ReactiveFormsModule } from '@angular/forms';
 import { RetailFiltersComponent } from './components/retail-filters/retail-filters.component';
+import { MatExpansionModule } from '@angular/material/expansion';
+import { AudiencesWrapperComponent } from './components/audiences-wrapper/audiences-wrapper.component';
 
 
 
@@ -31,7 +33,8 @@ import { RetailFiltersComponent } from './components/retail-filters/retail-filte
     GraphPieComponent,
     GraphLineComparisonComponent,
     GraphLineSeriesComponent,
-    RetailFiltersComponent
+    RetailFiltersComponent,
+    AudiencesWrapperComponent
   ],
   imports: [
     CommonModule,
@@ -42,7 +45,8 @@ import { RetailFiltersComponent } from './components/retail-filters/retail-filte
     MatRippleModule,
     MatTableModule,
     MatPaginatorModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    MatExpansionModule
   ],
   providers: [{ provide: MAT_FORM_FIELD_DEFAULT_OPTIONS, useValue: { floatLabel: 'never' } }]
 })
