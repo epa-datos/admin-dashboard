@@ -20,6 +20,7 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { RetailFiltersComponent } from './components/retail-filters/retail-filters.component';
 import { MatExpansionModule } from '@angular/material/expansion';
 import { AudiencesWrapperComponent } from './components/audiences-wrapper/audiences-wrapper.component';
+import { GraphLineComponent } from './components/graphics/graph-line/graph-line.component';
 
 
 
@@ -34,7 +35,8 @@ import { AudiencesWrapperComponent } from './components/audiences-wrapper/audien
     GraphLineComparisonComponent,
     GraphLineSeriesComponent,
     RetailFiltersComponent,
-    AudiencesWrapperComponent
+    AudiencesWrapperComponent,
+    GraphLineComponent
   ],
   imports: [
     CommonModule,
