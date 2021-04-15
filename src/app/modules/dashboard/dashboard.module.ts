@@ -13,6 +13,7 @@ import { MAT_FORM_FIELD_DEFAULT_OPTIONS } from '@angular/material/form-field';
 import { CardStatComponent } from './components/card-stat/card-stat.component';
 import { GraphPieComponent } from './components/graphics/graph-pie/graph-pie.component';
 import { GraphLineMultipleComponent } from './components/graphics/graph-line-multiple/graph-line-multiple.component';
+import { ReactiveFormsModule } from '@angular/forms';
 
 
 
@@ -32,7 +33,8 @@ import { GraphLineMultipleComponent } from './components/graphics/graph-line-mul
     MatSelectModule,
     MatDatepickerModule,
     MatNativeDateModule,
-    MatRippleModule
+    MatRippleModule,
+    ReactiveFormsModule
   ],
   providers: [{ provide: MAT_FORM_FIELD_DEFAULT_OPTIONS, useValue: { floatLabel: 'never' } }]
 })
