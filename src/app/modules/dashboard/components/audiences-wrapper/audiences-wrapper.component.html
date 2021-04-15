@@ -1,1 +1,10 @@
-<p>audiences-wrapper works!</p>
+<div class="col-12 mt-4">
+    <div class="card">
+        <div class="card-header">
+            <span class="text-uppercase text-sm text-muted"><b>Análisis por tráfico</b></span>
+        </div>
+        <div class="card-body">
+            <app-graph-line [data]="trafficByMonths" name="traffic-months"></app-graph-line>
+        </div>
+    </div>
+</div>
