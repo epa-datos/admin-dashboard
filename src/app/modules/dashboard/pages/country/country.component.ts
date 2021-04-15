@@ -91,6 +91,16 @@ export class CountryComponent implements OnInit {
       name: 'Ventas',
       value: 85700
     }
+  ];
+
+  investmentVsRevenue = [
+    { date: new Date(2021, 3, 12), value1: 12000, value2: 4370, previousDate: new Date(2021, 2, 5) },
+    { date: new Date(2021, 3, 13), value1: 25000, value2: 40500, previousDate: new Date(2021, 2, 6) },
+    { date: new Date(2021, 3, 14), value1: 40000, value2: 35000, previousDate: new Date(2021, 2, 7) },
+    { date: new Date(2021, 3, 15), value1: 15000, value2: 25000, previousDate: new Date(2021, 2, 8) },
+    { date: new Date(2021, 3, 16), value1: 13200, value2: 10000, previousDate: new Date(2021, 2, 9) },
+    { date: new Date(2021, 3, 17), value1: 12400, value2: 12000, previousDate: new Date(2021, 2, 10) },
+    { date: new Date(2021, 3, 18), value1: 80000, value2: 14000, previousDate: new Date(2021, 2, 11) }
   ]
 
 
