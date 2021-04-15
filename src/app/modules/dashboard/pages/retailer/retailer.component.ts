@@ -10,6 +10,7 @@ export class RetailerComponent implements OnInit {
 
   countryName;
   retailerName;
+  activeTabView: number = 1;
 
   constructor(private route: ActivatedRoute) { }
 
