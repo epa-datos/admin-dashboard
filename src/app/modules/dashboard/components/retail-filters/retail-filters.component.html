@@ -1,0 +1,49 @@
+<div class="row">
+    <div class="col-12 col-sm-6 col-lg-3 mb-4">
+        <small class="text-muted mb-1"><b>Fuente</b></small>
+        <mat-select [formControl]="sources" multiple placeholder="Selecciona una fuente">
+            <mat-select-trigger>
+                {{sources.value ? sources.value[0]?.name : ''}}
+                <span *ngIf="sources.value?.length > 1" class="example-additional-selection">
+                    (+ {{sources.value?.length === 2 ? 'otra' : 'otras'}}
+                    {{ sources.value?.length === 2 ? '' : sources.value.length - 1}})
+                </span>
+            </mat-select-trigger>
+            <mat-option *ngFor="let source of sourceList" [value]="source">{{source.name}}</mat-option>
+        </mat-select>
+    </div>
+    <div class="col-12 col-sm-6 col-lg-3 mb-4">
+        <small class="text-muted mb-1"><b>Medio</b></small>
+        <mat-select [formControl]="ways" multiple placeholder="Selecciona un medio">
+            <mat-select-trigger>
+                {{ways.value ? ways.value[0]?.name : ''}}
+                <span *ngIf="ways.value?.length > 1" class="example-additional-selection">
+                    (+ {{ways.value?.length === 2 ? 'otra' : 'otras'}}
+                    {{ ways.value?.length === 2 ? '' : ways.value.length - 1}})
+                </span>
+            </mat-select-trigger>
+            <mat-option *ngFor="let way of wayList" [value]="way">{{way.name}}</mat-option>
+        </mat-select>
+    </div>
+    <div class="col-12 col-sm-6 col-lg-3 mb-4">
+        <small class="text-muted mb-1"><b>Audiencia</b></small>
+        <mat-select [formControl]="audiences" multiple placeholder="Selecciona una audiencia">
+            <mat-select-trigger>
+                {{audiences.value ? audiences.value[0]?.name : ''}}
+                <span *ngIf="audiences.value?.length > 1" class="example-additional-selection">
+                    (+ {{audiences.value?.length === 2 ? 'otra' : 'otras'}}
+                    {{ audiences.value?.length === 2 ? '' : audiences.value.length - 1}})
+                </span>
+            </mat-select-trigger>
+            <mat-option *ngFor="let audience of audienceList" [value]="audience">{{audience.name}}</mat-option>
+        </mat-select>
+    </div>
+    <div class="col-12 col-sm-6 col-lg-3 mb-4">
+        <div class="button-container">
+            <button type="button" class="btn btn-primary">
+                <i class="fas fa-filter mr-2"></i>
+                Filtrar
+            </button>
+        </div>
+    </div>
+</div>

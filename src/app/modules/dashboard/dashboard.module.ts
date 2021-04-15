@@ -17,6 +17,7 @@ import { GraphLineSeriesComponent } from './components/graphics/graph-line-serie
 import { MatTableModule } from '@angular/material/table';
 import { MatPaginatorModule } from '@angular/material/paginator';
 import { ReactiveFormsModule } from '@angular/forms';
+import { RetailFiltersComponent } from './components/retail-filters/retail-filters.component';
 
 
 
@@ -29,7 +30,8 @@ import { ReactiveFormsModule } from '@angular/forms';
     CardStatComponent,
     GraphPieComponent,
     GraphLineComparisonComponent,
-    GraphLineSeriesComponent
+    GraphLineSeriesComponent,
+    RetailFiltersComponent
   ],
   imports: [
     CommonModule,
