@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { UsersMngmtService } from 'src/app/modules/users-mngmt/services/users-mngmt.service';
 import { MomentDateAdapter, MAT_MOMENT_DATE_ADAPTER_OPTIONS } from '@angular/material-moment-adapter';
 import { DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE } from '@angular/material/core';
+import { FormControl } from '@angular/forms';
 
 
 export const MY_FORMATS = {
@@ -33,9 +34,14 @@ export const MY_FORMATS = {
 })
 export class GeneralFiltersComponent implements OnInit {
 
-  sectors: any[];
-  categories: any[];
-  campaigns: any[];
+  sectors = new FormControl();
+  sectorList: any[];
+
+  categories = new FormControl();
+  categoryList: any[];
+
+  campaigns = new FormControl();
+  campaignList: any[];
 
   selectedSector: any;
   selectedCategory: any;
@@ -53,7 +59,7 @@ export class GeneralFiltersComponent implements OnInit {
     this.usersMngmtService.getSectors()
       .subscribe(
         (res: any[]) => {
-          this.sectors = res;
+          this.sectorList = res;
         },
         error => {
           console.error(`[general-filers.component]: ${error}`);
@@ -65,7 +71,7 @@ export class GeneralFiltersComponent implements OnInit {
     this.usersMngmtService.getCategories()
       .subscribe(
         (res: any[]) => {
-          this.categories = res;
+          this.categoryList = res;
         },
         error => {
           console.error(`[general-filers.component]: ${error}`);
@@ -84,7 +90,7 @@ export class GeneralFiltersComponent implements OnInit {
     //     }
     //   );
 
-    this.campaigns = [
+    this.campaignList = [
       { id: 1, name: 'Campaña 1' },
       { id: 2, name: 'Campaña 2' },
       { id: 3, name: 'Campaña 3' },

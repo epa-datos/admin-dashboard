@@ -16,6 +16,7 @@ import { GraphLineComparisonComponent } from './components/graphics/graph-line-c
 import { GraphLineSeriesComponent } from './components/graphics/graph-line-series/graph-line-series.component';
 import { MatTableModule } from '@angular/material/table';
 import { MatPaginatorModule } from '@angular/material/paginator';
+import { ReactiveFormsModule } from '@angular/forms';
 
 
 
@@ -39,6 +40,7 @@ import { MatPaginatorModule } from '@angular/material/paginator';
     MatRippleModule,
     MatTableModule,
     MatPaginatorModule,
+    ReactiveFormsModule
   ],
   providers: [{ provide: MAT_FORM_FIELD_DEFAULT_OPTIONS, useValue: { floatLabel: 'never' } }]
 })
