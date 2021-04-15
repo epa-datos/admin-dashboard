@@ -13,6 +13,7 @@ import { MAT_FORM_FIELD_DEFAULT_OPTIONS } from '@angular/material/form-field';
 import { CardStatComponent } from './components/card-stat/card-stat.component';
 import { GraphPieComponent } from './components/graphics/graph-pie/graph-pie.component';
 import { GraphLineComparisonComponent } from './components/graphics/graph-line-comparison/graph-line-comparison.component';
+import { GraphLineSeriesComponent } from './components/graphics/graph-line-series/graph-line-series.component';
 
 
 
@@ -24,7 +25,8 @@ import { GraphLineComparisonComponent } from './components/graphics/graph-line-c
     GeneralFiltersComponent,
     CardStatComponent,
     GraphPieComponent,
-    GraphLineComparisonComponent
+    GraphLineComparisonComponent,
+    GraphLineSeriesComponent
   ],
   imports: [
     CommonModule,
