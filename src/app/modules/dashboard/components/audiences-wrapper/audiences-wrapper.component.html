@@ -5,7 +5,8 @@
                 <span class="text-uppercase text-sm text-muted"><b>Análisis por tráfico</b></span>
             </div>
             <div class="card-body">
-                <app-graph-line [data]="trafficByMonths" name="traffic-months"></app-graph-line>
+                <app-graph-line [data]="trafficByMonths" name="traffic-months" date="date" value="visits">
+                </app-graph-line>
             </div>
         </div>
     </div>
@@ -175,7 +176,7 @@
 
     <div class="row" [hidden]="selectedTab2 !== 1">
         <div class="col-12 col-lg-6 mt-4">
-            <div class="card">
+            <div class="card" style="height: 100%;">
                 <div class="card-header">
                     <span class="text-uppercase text-sm text-muted"><b>Día de la semana / Sesiones</b></span>
                 </div>
@@ -195,40 +196,39 @@
                     </app-graph-bar-horizontal>
                 </div>
             </div>
+
+            <div class="card mt-4">
+                <div class="card-header">
+                    <span class="text-uppercase text-sm text-muted"><b>Tráfico por hora del día</b></span>
+                </div>
+                <div class="card-body">
+                    <app-graph-lollipop [data]="trafficByHour" name="traffic-hour" category="hour" value="visits">
+                    </app-graph-lollipop>
+                </div>
+            </div>
         </div>
     </div>
 
     <div class="row" [hidden]="selectedTab2 !== 2">
-        <div class="col-12 col-lg-4 mt-4">
+        <div class="col-12 col-lg-6 mt-4">
             <div class="card">
                 <div class="card-header">
-                    <span class="text-uppercase text-sm text-muted"><b>Conversión</b></span>
+                    <span class="text-uppercase text-sm text-muted"><b>Conversiones y tráfico por día</b></span>
                 </div>
                 <div class="card-body">
-                    <app-graph-bar [data]="ageConversion" name="age-conversion" category='age' value='value'>
-                    </app-graph-bar>
+                    <app-graph-line-comparison [data]="conversionsTrafficPerDay" name="conv-tra-day">
+                    </app-graph-line-comparison>
                 </div>
             </div>
         </div>
-        <div class="col-12 col-lg-4 mt-4">
+        <div class="col-12 col-lg-6 mt-4">
             <div class="card">
                 <div class="card-header">
-                    <span class="text-uppercase text-sm text-muted"><b>AUP</b></span>
+                    <span class="text-uppercase text-sm text-muted"><b>Conversiones y tráfico por hora</b></span>
                 </div>
                 <div class="card-body">
-                    <app-graph-bar [data]="ageAUP" name="age-aup" category='age' value='value'>
-                    </app-graph-bar>
-                </div>
-            </div>
-        </div>
-        <div class="col-12 col-lg-4 mt-4">
-            <div class="card">
-                <div class="card-header">
-                    <span class="text-uppercase text-sm text-muted"><b>BR</b></span>
-                </div>
-                <div class="card-body">
-                    <app-graph-bar [data]="ageBR" name="age-br" category='age' value='value'>
-                    </app-graph-bar>
+                    <app-graph-line-comparison [data]="conversionsTrafficPerHour" name="conv-tra-hour">
+                    </app-graph-line-comparison>
                 </div>
             </div>
         </div>

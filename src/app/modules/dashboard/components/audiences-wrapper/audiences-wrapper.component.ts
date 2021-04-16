@@ -925,6 +925,38 @@ export class AudiencesWrapperComponent implements OnInit {
     { weekday: 'Vier', value: 167 }
   ]
 
+  trafficByHour = [
+    { hour: '12 AM', visits: 5 },
+    { hour: '3 AM', visits: 1 },
+    { hour: '6 AM', visits: 9 },
+    { hour: '9 AM', visits: 67 },
+    { hour: '12 PM', visits: 101 },
+    { hour: '3 PM', visits: 81 },
+    { hour: '6 PM', visits: 105 },
+    { hour: '9 PM', visits: 100 }
+  ]
+
+  conversionsTrafficPerDay = [
+    { date: new Date(2021, 3, 12), value1: 150, value2: 280, previousDate: new Date(2021, 3, 12) },
+    { date: new Date(2021, 3, 13), value1: 280, value2: 550, previousDate: new Date(2021, 3, 13) },
+    { date: new Date(2021, 3, 14), value1: 130, value2: 430, previousDate: new Date(2021, 3, 14) },
+    { date: new Date(2021, 3, 15), value1: 140, value2: 470, previousDate: new Date(2021, 3, 15) },
+    { date: new Date(2021, 3, 16), value1: 160, value2: 500, previousDate: new Date(2021, 2, 16) },
+    { date: new Date(2021, 3, 17), value1: 80, value2: 750, previousDate: new Date(2021, 2, 17) },
+    { date: new Date(2021, 3, 18), value1: 88, value2: 650, previousDate: new Date(2021, 2, 18) }
+  ]
+
+  conversionsTrafficPerHour = [
+    { date: new Date(2021, 3, 15, 9, 0, 0), value1: 2, value2: 16, previousDate: new Date(2021, 3, 15, 9, 0, 0) },
+    { date: new Date(2021, 3, 15, 12, 0, 0), value1: 9, value2: 45, previousDate: new Date(2021, 3, 15, 12, 0, 0) },
+    { date: new Date(2021, 3, 15, 13, 0, 0), value1: 14, value2: 62, previousDate: new Date(2021, 3, 15, 13, 0, 0) },
+    { date: new Date(2021, 3, 15, 15, 0, 0), value1: 10, value2: 180, previousDate: new Date(2021, 3, 15, 15, 0, 0) },
+    { date: new Date(2021, 3, 15, 18, 0, 0), value1: 6, value2: 140, previousDate: new Date(2021, 3, 15, 18, 0, 0) },
+    { date: new Date(2021, 3, 15, 22, 0, 0), value1: 3, value2: 60, previousDate: new Date(2021, 3, 15, 22, 0, 0) },
+    { date: new Date(2021, 3, 15, 23, 0, 0), value1: 9, value2: 140, previousDate: new Date(2021, 3, 15, 23, 0, 0) }
+  ]
+
+
   constructor() { }
 
   ngOnInit(): void {
