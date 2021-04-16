@@ -188,11 +188,11 @@
         <div class="col-12 col-lg-6 mt-4">
             <div class="card">
                 <div class="card-header">
-                    <span class="text-uppercase text-sm text-muted"><b>AUP</b></span>
+                    <span class="text-uppercase text-sm text-muted"><b>Tráfico por día de la semana</b></span>
                 </div>
                 <div class="card-body">
-                    <app-graph-bar [data]="genderAUP" name="gender-aup" category='gender' value='value'>
-                    </app-graph-bar>
+                    <app-graph-bar-horizontal [data]="trafficByDay" name="traffic-day" category='weekday' value='value'>
+                    </app-graph-bar-horizontal>
                 </div>
             </div>
         </div>

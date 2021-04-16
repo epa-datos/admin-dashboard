@@ -915,6 +915,16 @@ export class AudiencesWrapperComponent implements OnInit {
     }
   ];
 
+  trafficByDay = [
+    { weekday: 'Dom', value: 180 },
+    { weekday: 'Lun', value: 230 },
+    { weekday: 'Mar', value: 270 },
+    { weekday: 'Mier', value: 277 },
+    { weekday: 'Jue', value: 267 },
+    { weekday: 'Vier', value: 166 },
+    { weekday: 'Vier', value: 167 }
+  ]
+
   constructor() { }
 
   ngOnInit(): void {
