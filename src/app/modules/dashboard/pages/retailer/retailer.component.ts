@@ -108,6 +108,13 @@ export class RetailerComponent implements OnInit {
     }
   ];
 
+  extPanelIsOpen = {
+    panel1: false,
+    panel2: false,
+    panel3: false,
+    panel4: false
+  }
+
   @ViewChild(MatPaginator) paginator: MatPaginator;
 
   constructor(private route: ActivatedRoute) { }
@@ -117,6 +124,10 @@ export class RetailerComponent implements OnInit {
       this.countryName = params['country'];
       this.retailerName = params['retailer']
     });
+  }
+
+  panelChange(panel, value) {
+    this.extPanelIsOpen[panel] = value
   }
 
 }

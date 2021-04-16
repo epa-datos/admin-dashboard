@@ -17,7 +17,7 @@
     <div class="row">
         <div class="col-12">
             <div class="mb-3 mt-0">
-                <span class="text-uppercase text-sm text-muted "><b>Análisis Conversiones. AUP & BR</b></span>
+                <span class="text-uppercase text-sm text-muted "><b>Análisis Conversiones, AUP & BR</b></span>
             </div>
         </div>
         <div class="col-12">
@@ -40,7 +40,7 @@
         </div>
     </div>
 
-    <div class="row" [hidden]="selectedTab1 !== 1">
+    <div class="row" *ngIf="selectedTab1 === 1">
         <div class="col-12 col-lg-4 mt-4">
             <div class="card">
                 <div class="card-header">
@@ -76,7 +76,7 @@
         </div>
     </div>
 
-    <div class="row" [hidden]="selectedTab1 !== 2">
+    <div class="row" *ngIf="selectedTab1 === 2">
         <div class="col-12 col-lg-4 mt-4">
             <div class="card">
                 <div class="card-header">
@@ -112,7 +112,7 @@
         </div>
     </div>
 
-    <div class="row" [hidden]="selectedTab1 !== 3">
+    <div class="row" *ngIf="selectedTab1 === 3">
         <div class="col-12 col-lg-4 mt-4">
             <div class="card">
                 <div class="card-header">
@@ -174,7 +174,7 @@
         </div>
     </div>
 
-    <div class="row" [hidden]="selectedTab2 !== 1">
+    <div class="row" *ngIf="selectedTab2 === 1">
         <div class="col-12 col-lg-6 mt-4">
             <div class="card" style="height: 100%;">
                 <div class="card-header">
@@ -209,7 +209,7 @@
         </div>
     </div>
 
-    <div class="row" [hidden]="selectedTab2 !== 2">
+    <div class="row" *ngIf="selectedTab2 === 2">
         <div class="col-12 col-lg-6 mt-4">
             <div class="card">
                 <div class="card-header">
