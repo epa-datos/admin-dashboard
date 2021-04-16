@@ -24,6 +24,7 @@ import { GraphLineComponent } from './components/graphics/graph-line/graph-line.
 import { GraphBarComponent } from './components/graphics/graph-bar/graph-bar.component';
 import { GraphHeatMapComponent } from './components/graphics/graph-heat-map/graph-heat-map.component';
 import { GraphBarHorizontalComponent } from './components/graphics/graph-bar-horizontal/graph-bar-horizontal.component';
+import { GraphLollipopComponent } from './components/graphics/graph-lollipop/graph-lollipop.component';
 
 
 
@@ -42,7 +43,8 @@ import { GraphBarHorizontalComponent } from './components/graphics/graph-bar-hor
     GraphLineComponent,
     GraphBarComponent,
     GraphHeatMapComponent,
-    GraphBarHorizontalComponent
+    GraphBarHorizontalComponent,
+    GraphLollipopComponent
   ],
   imports: [
     CommonModule,
