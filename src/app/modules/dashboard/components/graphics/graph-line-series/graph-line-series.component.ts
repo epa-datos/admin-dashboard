@@ -37,79 +37,79 @@ export class GraphLineSeriesComponent implements OnInit, AfterViewInit {
   loadGraph() {
     this.loadStatus = 1;
     am4core.useTheme(am4themes_animated);
-    this.chart = am4core.create(this.graphID, am4charts.XYChart);
+    let chart = am4core.create(this.graphID, am4charts.XYChart);
 
     // Create axes
-    let dateAxis = this.chart.xAxes.push(new am4charts.DateAxis());
-    let valueAxis = this.chart.yAxes.push(new am4charts.ValueAxis());
+    let dateAxis = chart.xAxes.push(new am4charts.DateAxis());
+    let valueAxis = chart.yAxes.push(new am4charts.ValueAxis());
 
     dateAxis.renderer.labels.template.fontSize = 12;
     valueAxis.renderer.labels.template.fontSize = 12;
 
     for (var i = 0; i < this.series.length; i++) {
-      this.createSeries('value' + i, this.series[i].name, this.series[i].serie);
+      createSeries('value' + i, this.series[i].name, this.series[i].serie);
     }
 
-    this.chart.legend = new am4charts.Legend();
-    this.chart.legend.position = 'top';
-    this.chart.legend.scrollable = true;
+    chart.legend = new am4charts.Legend();
+    chart.legend.position = 'top';
+    chart.legend.scrollable = true;
 
-    this.chart.legend.itemContainers.template.events.on('over', function (event) {
-      processOver(event.target.dataItem.dataContext);
+    chart.legend.itemContainers.template.events.on('over', function (event) {
+      processOver(chart, event.target.dataItem.dataContext);
     })
 
-    this.chart.legend.itemContainers.template.events.on('out', function (event) {
-      processOut(event.target.dataItem.dataContext);
+    chart.legend.itemContainers.template.events.on('out', function (event) {
+      processOut(chart, event.target.dataItem.dataContext);
     })
 
-    this.loadStatus = 2;
-  }
+    function createSeries(s, name, serie) {
+      let series = chart.series.push(new am4charts.LineSeries());
+      series.dataFields.valueY = 'value' + s;
+      series.dataFields.dateX = 'date';
+      series.name = name;
 
-  createSeries(s, name, serie) {
-    let series = this.chart.series.push(new am4charts.LineSeries());
-    series.dataFields.valueY = 'value' + s;
-    series.dataFields.dateX = 'date';
-    series.name = name;
+      let segment = series.segments.template;
+      segment.interactionsEnabled = true;
 
-    let segment = series.segments.template;
-    segment.interactionsEnabled = true;
+      let hoverState = segment.states.create('hover');
+      hoverState.properties.strokeWidth = 3;
 
-    let hoverState = segment.states.create('hover');
-    hoverState.properties.strokeWidth = 3;
+      let dimmed = segment.states.create('dimmed');
+      dimmed.properties.stroke = am4core.color('#dadada');
 
-    let dimmed = segment.states.create('dimmed');
-    dimmed.properties.stroke = am4core.color('#dadada');
+      segment.events.on('over', function (event) {
+        processOver(chart, event.target.parent.parent.parent);
+      });
 
-    segment.events.on('over', function (event) {
-      processOver(event.target.parent.parent.parent);
-    });
+      segment.events.on('out', function (event) {
+        processOut(chart, event.target.parent.parent.parent);
+      });
 
-    segment.events.on('out', function (event) {
-      processOut(event.target.parent.parent.parent);
-    });
+      let data = [];
+      let value;
+      for (var i = 0; i < serie.length; i++) {
+        value = serie[i].value;
+        let dataItem = { date: serie[i].date };
+        dataItem['value' + s] = value;
+        data.push(dataItem);
+      }
 
-    let data = [];
-    let value;
-    for (var i = 0; i < serie.length; i++) {
-      value = serie[i].value;
-      let dataItem = { date: serie[i].date };
-      dataItem['value' + s] = value;
-      data.push(dataItem);
+      series.data = data;
+      return series;
     }
-
-    series.data = data;
-    return series;
   }
+
+
 }
 
-function processOver(hoveredSeries) {
+function processOver(chart, hoveredSeries) {
   hoveredSeries.toFront();
 
   hoveredSeries.segments.each(function (segment) {
     segment.setState('hover');
   })
 
-  this.chart.series.each(function (series) {
+  chart.series.each(function (series) {
     if (series != hoveredSeries) {
       series.segments.each(function (segment) {
         segment.setState('dimmed');
@@ -119,8 +119,8 @@ function processOver(hoveredSeries) {
   });
 }
 
-function processOut(hoveredSeries) {
-  this.chart.series.each(function (series) {
+function processOut(chart, hoveredSeries) {
+  chart.series.each(function (series) {
     series.segments.each(function (segment) {
       segment.setState('default');
     })

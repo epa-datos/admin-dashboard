@@ -52,14 +52,6 @@ export class RetailerComponent implements OnInit {
         { date: new Date(2021, 2, 1), value: 27510 },
         { date: new Date(2021, 3, 1), value: 50000 }
       ]
-    },
-    {
-      name: 'Inversión',
-      serie: [
-        { date: new Date(2021, 1, 1), value: 30000 },
-        { date: new Date(2021, 2, 1), value: 27510 },
-        { date: new Date(2021, 3, 1), value: 50000 }
-      ]
     }
   ]
 
