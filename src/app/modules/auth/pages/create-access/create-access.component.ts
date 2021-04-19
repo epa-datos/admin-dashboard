@@ -31,7 +31,7 @@ export class CreateAccessComponent implements OnInit {
         delete this.errorMsg;
         setTimeout(() => {
           this.router.navigate(['/login']);
-        }, 6000);
+        }, 3000);
       },
         error => {
           this.reqStatus = 3;
