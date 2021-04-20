@@ -214,7 +214,7 @@
                             <span class="h3 mb-0">Comportamiento</span>
                         </mat-panel-title>
                     </mat-expansion-panel-header>
-                    <p>Contenido de comportamiento</p>
+                    <app-behaviour-wrapper *ngIf="extPanelIsOpen.panel3"></app-behaviour-wrapper>
                 </mat-expansion-panel>
 
                 <mat-expansion-panel (opened)="panelChange('panel4',true)" (closed)="panelChange('panel4',false)">
