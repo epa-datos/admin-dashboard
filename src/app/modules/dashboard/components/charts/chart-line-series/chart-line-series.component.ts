@@ -73,6 +73,7 @@ export class ChartLineSeriesComponent implements OnInit, AfterViewInit {
     chart.cursor = new am4charts.XYCursor();
     chart.cursor.xAxis = dateAxis;
     this.chart = chart;
+    chart.responsive.enabled = true;
   }
 
   loadChartData(chart) {

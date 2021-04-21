@@ -54,8 +54,7 @@ export class CountryComponent implements OnInit {
 
   devices: any[] = [
     { id: 1, name: 'Escritorio', value: 3000 },
-    { id: 2, name: 'Tablet', value: 500 },
-    { id: 3, name: 'Celular', value: 10500 }
+    { id: 2, name: 'Mobile', value: 10500 },
   ]
 
   gender: any[] = [
