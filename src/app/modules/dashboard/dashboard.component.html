@@ -1,4 +1,9 @@
 <div class="container-fluid mt-4">
+    <div class="row" [hidden]="!title">
+        <div class="col-12">
+            <p class="h2 mb-5 text-xl">{{ title }}</p>
+        </div>
+    </div>
     <app-general-filters></app-general-filters>
     <router-outlet></router-outlet>
 </div>
