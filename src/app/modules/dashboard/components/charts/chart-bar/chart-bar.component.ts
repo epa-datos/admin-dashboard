@@ -84,7 +84,7 @@ export class ChartBarComponent implements OnInit, AfterViewInit {
 
     // Cursor
     chart.cursor = new am4charts.XYCursor();
-    chart.responsive.enabled = true;
+    // chart.responsive.enabled = true;
 
   }
 }
