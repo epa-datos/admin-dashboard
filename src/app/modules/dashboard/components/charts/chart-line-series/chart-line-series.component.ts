@@ -10,7 +10,7 @@ import am4themes_animated from '@amcharts/amcharts4/themes/animated';
 })
 export class ChartLineSeriesComponent implements OnInit, AfterViewInit {
 
-  @Input() series;
+  // @Input() series;
   chartID;
   loadStatus: number = 0;
 
@@ -21,6 +21,15 @@ export class ChartLineSeriesComponent implements OnInit, AfterViewInit {
   @Input() set name(value) {
     this._name = value;
     this.chartID = `chart-line-series-${this.name}`
+  }
+
+  private _series;
+  get series() {
+    return this._series;
+  }
+  @Input() set series(value) {
+    this._series = value;
+    this.chart && this.loadChartData(this.chart)
   }
 
   chart;
@@ -46,9 +55,7 @@ export class ChartLineSeriesComponent implements OnInit, AfterViewInit {
     dateAxis.renderer.labels.template.fontSize = 12;
     valueAxis.renderer.labels.template.fontSize = 12;
 
-    for (var i = 0; i < this.series.length; i++) {
-      createSeries('value' + i, this.series[i].name, this.series[i].serie);
-    }
+    this.loadChartData(chart);
 
     chart.legend = new am4charts.Legend();
     chart.legend.position = 'top';
@@ -61,6 +68,19 @@ export class ChartLineSeriesComponent implements OnInit, AfterViewInit {
     chart.legend.itemContainers.template.events.on('out', function (event) {
       processOut(chart, event.target.dataItem.dataContext);
     })
+
+    // Add cursor
+    chart.cursor = new am4charts.XYCursor();
+    chart.cursor.xAxis = dateAxis;
+    this.chart = chart;
+  }
+
+  loadChartData(chart) {
+
+    chart.series.clear();
+    for (var i = 0; i < this.series.length; i++) {
+      createSeries('value' + i, this.series[i].name, this.series[i].serie);
+    }
 
     function createSeries(s, name, serie) {
       let series = chart.series.push(new am4charts.LineSeries());
@@ -98,13 +118,7 @@ export class ChartLineSeriesComponent implements OnInit, AfterViewInit {
       series.data = data;
       return series;
     }
-
-    // Add cursor
-    chart.cursor = new am4charts.XYCursor();
-    chart.cursor.xAxis = dateAxis;
   }
-
-
 }
 
 function processOver(chart, hoveredSeries) {
