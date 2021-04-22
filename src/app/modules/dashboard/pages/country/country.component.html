@@ -99,7 +99,8 @@
                     <span class="h4">Inversión vs Revenue</span>
                 </div>
                 <div class="card-body">
-                    <app-chart-line-comparison [data]="investmentVsRevenue" name="investment-vs-revenue">
+                    <app-chart-line-comparison [data]="investmentVsRevenue" name="investment-vs-revenue"
+                        valueName1="Inversión" valueName2="Revenue" valueFormat="USD">
                     </app-chart-line-comparison>
                 </div>
             </div>
