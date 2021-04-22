@@ -97,6 +97,7 @@ export class SidebarComponent implements OnInit {
       if (country) {
         const item = this.menuItems.find(item => item.levelName === 'country' && item.title.toLowerCase() === country);
         this.selectedItem = item;
+        this.appStateService.selectCountry({ id: this.selectedItem.id, name: this.selectedItem.title });
 
         if (retailer) {
           this.selectedItem.submenu = await this.getAvailableRetailers(this.selectedItem.id);
@@ -104,16 +105,20 @@ export class SidebarComponent implements OnInit {
 
           const subItem = this.selectedItem.submenu.find(item => item.levelName === 'retailer' && item.title.toLocaleLowerCase() === retailer);
           this.selectedSubItem = subItem;
+          this.appStateService.selectRetailer({ id: this.selectedItem.id, name: this.selectedItem.title });
         }
 
       } else if (retailer) {
         const item = this.menuItems.find(item => item.levelName === 'retailer' && item.title.toLowerCase() === retailer);
         this.selectedItem = item;
+        this.appStateService.selectRetailer({ id: this.selectedItem.id, name: this.selectedItem.title });
       }
     }
     else {
       const item = this.menuItems.find(item => item.path == this.router.url);
       this.selectedItem = item;
+      this.appStateService.selectCountry();
+      this.appStateService.selectRetailer();
     }
   }
 
