@@ -10,6 +10,10 @@ import * as am4charts from '@amcharts/amcharts4/charts';
 export class ChartLineComparisonComponent implements OnInit, AfterViewInit {
 
   @Input() data;
+  @Input() valueName1: string; // Property name shown in tooltip
+  @Input() valueName2: string; // Property name shown in tooltip
+  @Input() valueFormat: string; // USD MXN Copy shown in tooltip
+
   chartID;
   loadStatus: number = 0;
 
@@ -19,7 +23,7 @@ export class ChartLineComparisonComponent implements OnInit, AfterViewInit {
   }
   @Input() set name(value) {
     this._name = value;
-    this.chartID = `chart-m-line${this.name}`
+    this.chartID = `chart-line-comparison-${this.name}`
   }
 
   constructor() { }
@@ -46,29 +50,37 @@ export class ChartLineComparisonComponent implements OnInit, AfterViewInit {
     valueAxis.renderer.labels.template.fontSize = 12;
 
     // Create series
+    const serieName1 = this.valueName1 ? this.valueName1 : '{date.formatDate()}';
+    const serieName2 = this.valueName2 ? this.valueName2 : '{previousDate.formatDate()}';
+
+    // serie 1
     var series = chart.series.push(new am4charts.LineSeries());
     series.dataFields.valueY = "value1";
     series.dataFields.dateX = "date";
     series.strokeWidth = 2;
     series.minBulletDistance = 10;
-    series.tooltipText = "[bold]{date.formatDate()}:[/] {value1}\n[bold]{previousDate.formatDate()}:[/] {value2}";
+    series.tooltipText = `${serieName1}: [bold]${this.valueFormat ? this.valueFormat : ''} {value1}[/]\n ${serieName2}: [bold]${this.valueFormat ? this.valueFormat : ''} {value2}[/]`;
     series.tooltip.pointerOrientation = "vertical";
     series.tensionX = 0.85;
+    series.name = serieName1;
 
-    // Create series
+    // serie 2
     var series2 = chart.series.push(new am4charts.LineSeries());
     series2.dataFields.valueY = "value2";
     series2.dataFields.dateX = "date";
     series2.strokeWidth = 2;
     series2.strokeDasharray = "3,4";
     series2.stroke = series.stroke;
-    series2.tensionX = 0.85;
+    series2.tensionX = 0.85; 1
+    series2.name = serieName2;
 
     // Add cursor
     chart.cursor = new am4charts.XYCursor();
     chart.cursor.xAxis = dateAxis;
     chart.responsive.enabled = true;
 
-    this.loadStatus = 2;
+    chart.legend = new am4charts.Legend();
+    chart.legend.position = 'bottom';
+    // this.loadStatus = 2;
   }
 }

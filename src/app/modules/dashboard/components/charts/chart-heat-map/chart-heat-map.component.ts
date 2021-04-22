@@ -10,9 +10,10 @@ import am4themes_animated from '@amcharts/amcharts4/themes/animated';
 })
 export class ChartHeatMapComponent implements OnInit, AfterViewInit {
 
-  @Input() data;
-  chartID;
-  loadStatus: number = 0;
+  @Input() categoryX = 'weekday'; // property name in object inside array input data
+  @Input() categoryY = 'hour'; // property name in object inside array input data
+  @Input() value;
+  @Input() height = '350px' // valid css height to chart container
 
   private _name: string;
   get name() {
@@ -23,6 +24,18 @@ export class ChartHeatMapComponent implements OnInit, AfterViewInit {
     this.chartID = `chart-heat-map${this.name}`
   }
 
+  private _data;
+  get data() {
+    return this._data;
+  }
+  @Input() set data(value) {
+    this._data = value;
+    this.chart && this.loadChartData(this.chart)
+  }
+
+  chart;
+  chartID;
+  loadStatus: number = 0;
 
   constructor() { }
 
@@ -38,12 +51,13 @@ export class ChartHeatMapComponent implements OnInit, AfterViewInit {
 
     let chart = am4core.create(this.chartID, am4charts.XYChart);
     chart.maskBullets = false;
+    chart.responsive.enabled = true;
 
     let xAxis = chart.xAxes.push(new am4charts.CategoryAxis());
     let yAxis = chart.yAxes.push(new am4charts.CategoryAxis());
 
-    xAxis.dataFields.category = 'weekday';
-    yAxis.dataFields.category = 'hour';
+    xAxis.dataFields.category = this.categoryX;
+    yAxis.dataFields.category = this.categoryY;
 
     xAxis.renderer.grid.template.disabled = true;
     xAxis.renderer.minGridDistance = 40;
@@ -56,8 +70,8 @@ export class ChartHeatMapComponent implements OnInit, AfterViewInit {
     yAxis.renderer.labels.template.fontSize = 12;
 
     let series = chart.series.push(new am4charts.ColumnSeries());
-    series.dataFields.categoryX = 'weekday';
-    series.dataFields.categoryY = 'hour';
+    series.dataFields.categoryX = this.categoryX;
+    series.dataFields.categoryY = this.categoryY;
     series.dataFields.value = 'value';
     series.sequencedInterpolation = true;
     series.defaultState.transitionDuration = 3000;
@@ -68,7 +82,7 @@ export class ChartHeatMapComponent implements OnInit, AfterViewInit {
     columnTemplate.strokeWidth = 1;
     columnTemplate.strokeOpacity = 0.2;
     columnTemplate.stroke = bgColor;
-    columnTemplate.tooltipText = `{weekday}, {hour}: {value.workingValue.formatNumber('#.')}`;
+    columnTemplate.tooltipText = `{${this.categoryX}}, {${this.categoryY}}: {value.workingValue.formatNumber('#.')}`;
     columnTemplate.width = am4core.percent(100);
     columnTemplate.height = am4core.percent(100);
 
@@ -108,7 +122,11 @@ export class ChartHeatMapComponent implements OnInit, AfterViewInit {
       }
     }
 
+    this.loadChartData(chart);
+  }
+
+  loadChartData(chart) {
     chart.data = this.data;
-    chart.responsive.enabled = true;
+    this.chart = chart;
   }
 }
