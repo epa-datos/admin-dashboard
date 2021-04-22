@@ -37,8 +37,8 @@
                     </ng-container>
                 </div>
                 <div class="card-body">
-                    <app-chart-heat-map [data]="categoriesXSector" name="categories-by-retailer" categoryX="retailer"
-                        categoryY="category" height="250px">
+                    <app-chart-heat-map [data]="categoriesXSector" [name]="selectedType + 'categories-by-retailer'"
+                        categoryX="retailer" categoryY="category" height="250px">
                     </app-chart-heat-map>
                 </div>
             </div>
@@ -53,7 +53,8 @@
                     <span class="h4">Dispositivos</span>
                 </div>
                 <div class="card-body">
-                    <app-chart-pictorial [data]="devices" name="devices-by-sector" category="name" iconType="monitor">
+                    <app-chart-pictorial [data]="devices" [name]="selectedType + 'devices-by-sector'" category="name"
+                        iconType="monitor">
                     </app-chart-pictorial>
                 </div>
             </div>
@@ -66,7 +67,7 @@
                     <span class="h4">Género</span>
                 </div>
                 <div class="card-body">
-                    <app-chart-pictorial [data]="gender" name="gender-by-sector" category="name">
+                    <app-chart-pictorial [data]="gender" [name]="selectedType + 'gender-by-sector'" category="name">
                     </app-chart-pictorial>
                 </div>
             </div>
@@ -122,7 +123,7 @@
                 </div>
                 <div class="card-body">
                     <app-chart-line-series [valueName]="valueName" [valueFormat]="selectedTab2 === 2 && 'USD'"
-                        [series]="saleAndUsersBySector" name="sales-users-by-sector">
+                        [series]="saleAndUsersBySector" [name]="selectedType + 'sales-users-by-sector'">
                     </app-chart-line-series>
                 </div>
             </div>
@@ -136,8 +137,9 @@
                     <span class="h4">Inversión vs Revenue</span>
                 </div>
                 <div class="card-body">
-                    <app-chart-line-comparison [data]="investmentVsRevenue" name="investment-vs-revenue"
-                        valueName1="Inversión" valueName2="Revenue" valueFormat="USD">
+                    <app-chart-line-comparison [data]="investmentVsRevenue"
+                        [name]="selectedType + 'investment-vs-revenue'" valueName1="Inversión" valueName2="Revenue"
+                        valueFormat="USD">
                     </app-chart-line-comparison>
                 </div>
             </div>
