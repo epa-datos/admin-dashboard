@@ -3,6 +3,7 @@ import { MatPaginator } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
 import { ActivatedRoute, Params } from '@angular/router';
 import { MatFormFieldControl } from '@angular/material/form-field';
+import { AppStateService } from 'src/app/services/app-state.service';
 
 
 @Component({
@@ -14,9 +15,10 @@ import { MatFormFieldControl } from '@angular/material/form-field';
   ]
 })
 export class RetailerComponent implements OnInit, AfterViewInit {
-
   countryName;
   retailerName;
+  retailerID: number;
+
   activeTabView: number = 1;
 
   campMetrics = [
@@ -132,19 +134,34 @@ export class RetailerComponent implements OnInit, AfterViewInit {
     panel4: false
   }
 
+  loadedPaginator: boolean;
+
   @ViewChild(MatPaginator) paginator: MatPaginator;
 
-  constructor(private route: ActivatedRoute) { }
+  constructor(
+    private route: ActivatedRoute,
+    private appStateServ: AppStateService
+  ) { }
 
   ngOnInit(): void {
     this.route.queryParams.subscribe((params: Params) => {
       this.countryName = params['country'];
       this.retailerName = params['retailer']
     });
+
+    this.appStateServ.selectedRetailer$
+      .subscribe(
+        retailer => {
+          this.retailerID = retailer?.id;
+        },
+        error => {
+          console.error(`[retailer.component]: ${error}`);
+        }
+      )
   }
 
   ngAfterViewInit() {
-    this.loadPaginator();
+    // this.loadPaginator();
   }
 
 
@@ -153,25 +170,33 @@ export class RetailerComponent implements OnInit, AfterViewInit {
   }
 
   loadPaginator() {
-    // paginator setup
-    this.dataSource.paginator = this.paginator;
-    this.paginator._intl.itemsPerPageLabel = 'Registros por página';
-    this.paginator._intl.nextPageLabel = 'Siguiente';
-    this.paginator._intl.previousPageLabel = 'Anterior';
-    this.paginator._intl.getRangeLabel = (page: number, pageSize: number, length: number) => {
-      if (length == 0 || pageSize == 0) { return `0 de ${length}`; }
+    setTimeout(() => {
+      if (this.loadedPaginator) {
+        return;
+      }
 
-      length = Math.max(length, 0);
+      // paginator setup
+      this.dataSource.paginator = this.paginator;
+      this.paginator._intl.itemsPerPageLabel = 'Registros por página';
+      this.paginator._intl.nextPageLabel = 'Siguiente';
+      this.paginator._intl.previousPageLabel = 'Anterior';
+      this.paginator._intl.getRangeLabel = (page: number, pageSize: number, length: number) => {
+        if (length == 0 || pageSize == 0) { return `0 de ${length}`; }
 
-      const startIndex = page * pageSize;
+        length = Math.max(length, 0);
 
-      // If the start index exceeds the list length, do not try and fix the end index to the end.
-      const endIndex = startIndex < length ?
-        Math.min(startIndex + pageSize, length) :
-        startIndex + pageSize;
+        const startIndex = page * pageSize;
 
-      return `${startIndex + 1} - ${endIndex} de ${length}`;
-    }
+        // If the start index exceeds the list length, do not try and fix the end index to the end.
+        const endIndex = startIndex < length ?
+          Math.min(startIndex + pageSize, length) :
+          startIndex + pageSize;
+
+        return `${startIndex + 1} - ${endIndex} de ${length}`;
+      }
+
+      this.loadedPaginator = true;
+    }, 200)
+
   }
-
 }

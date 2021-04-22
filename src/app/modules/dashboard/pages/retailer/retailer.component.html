@@ -2,18 +2,28 @@
     <ul class="nav nav-tabs mb-4">
         <li class="nav-item">
             <a class="nav-link" [ngClass]="{'active bg-light' : activeTabView === 1}" (click)="activeTabView = 1">
+                <span class="h2 py-2 ml-3 mr-3">Visión general</span>
+            </a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" [ngClass]="{'active bg-light' : activeTabView === 2}"
+                (click)="activeTabView = 2; loadPaginator()">
                 <span class="h2 py-2 ml-3 mr-3">Campaña hacia el retail</span>
             </a>
         </li>
         <li class="nav-item">
-            <a class="nav-link" [ngClass]="{'active bg-light' : activeTabView === 2}" (click)="activeTabView = 2">
+            <a class="nav-link" [ngClass]="{'active bg-light' : activeTabView === 3}" (click)="activeTabView = 3">
                 <span class="h2 py-2 ml-3 mr-3">Campaña en el retail</span>
             </a>
         </li>
     </ul>
 
     <ng-container *ngIf="activeTabView === 1">
-        <div class="row mb-5">
+        <app-overview-wrapper selectedType="retailer"></app-overview-wrapper>
+    </ng-container>
+
+    <ng-container *ngIf="activeTabView === 2">
+        <div class="row my-5">
             <div class="col-12">
                 <div class="card">
                     <div class="card-body">
@@ -126,8 +136,10 @@
         </div>
     </ng-container>
 
-    <ng-container *ngIf="activeTabView === 2">
-        <app-retail-filters></app-retail-filters>
+    <ng-container *ngIf="activeTabView === 3">
+        <div class="mt-5">
+            <app-retail-filters></app-retail-filters>
+        </div>
 
         <!-- CARD STATS -->
         <div class="row mt-5">
