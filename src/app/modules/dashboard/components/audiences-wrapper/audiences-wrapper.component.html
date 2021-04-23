@@ -218,7 +218,8 @@
                     <span class="h4">Conversiones y tráfico por día</span>
                 </div>
                 <div class="card-body">
-                    <app-chart-line-comparison [data]="conversionsTrafficPerDay" name="conv-tra-day">
+                    <app-chart-line-comparison [data]="conversionsTrafficPerDay" name="conv-tra-day"
+                        valueName1="Conversiones" valueName2="Tráfico">
                     </app-chart-line-comparison>
                 </div>
             </div>
@@ -229,7 +230,8 @@
                     <span class="h4">Conversiones y tráfico por hora</span>
                 </div>
                 <div class="card-body">
-                    <app-chart-line-comparison [data]="conversionsTrafficPerHour" name="conv-tra-hour">
+                    <app-chart-line-comparison [data]="conversionsTrafficPerHour" name="conv-tra-hour"
+                        valueName1="Conversiones" valueName2="Tráfico">
                     </app-chart-line-comparison>
                 </div>
             </div>
