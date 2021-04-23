@@ -32,8 +32,7 @@ export class RetailerComponent implements OnInit, AfterViewInit {
         { date: new Date(2021, 3, 19), value: 41000 },
         { date: new Date(2021, 3, 20), value: 43500 },
         { date: new Date(2021, 3, 21), value: 44000 },
-      ],
-      disable: true,
+      ]
     },
     {
       name: 'Impresiones',
@@ -45,7 +44,9 @@ export class RetailerComponent implements OnInit, AfterViewInit {
         { date: new Date(2021, 3, 19), value: 38500 },
         { date: new Date(2021, 3, 20), value: 37000 },
         { date: new Date(2021, 3, 21), value: 38700 }
-      ]
+      ],
+      customLineStye: 'dashed',
+      // customLineColor: '#228b22'
     },
     {
       name: 'Clicks',
@@ -57,7 +58,8 @@ export class RetailerComponent implements OnInit, AfterViewInit {
         { date: new Date(2021, 3, 19), value: 37000 },
         { date: new Date(2021, 3, 20), value: 38500 },
         { date: new Date(2021, 3, 21), value: 38000 }
-      ]
+      ],
+      customLineStye: 'dashed'
     },
     {
       name: 'Conversiones',
