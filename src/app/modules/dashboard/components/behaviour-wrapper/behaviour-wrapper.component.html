@@ -23,7 +23,7 @@
                 <span class="h4">Sesiones nuevas vs Visitantes recurrentes</span>
             </div>
             <div class="card-body">
-                <app-chart-pie [data]="sessionsVsRetVisitor" name="sessions-ret-visitor">
+                <app-chart-pie [data]="sessionsVsRetVisitor" name="sessions-ret-visitor" legendPosition="bottom">
                 </app-chart-pie>
             </div>
         </div>
@@ -36,7 +36,7 @@
                 <span class="h4">Ventas nuevas vs Visitantes recurrentes</span>
             </div>
             <div class="card-body">
-                <app-chart-pie [data]="salesVsRetVisitor" name="sales-ret-visitor">
+                <app-chart-pie [data]="salesVsRetVisitor" name="sales-ret-visitor" legendPosition="bottom">
                 </app-chart-pie>
             </div>
         </div>
@@ -49,7 +49,7 @@
                 <span class="h4">Ventas por Fuente de conversión</span>
             </div>
             <div class="card-body">
-                <app-chart-pie [data]="salesByConversionSource" name="sales-by-conv-sorce">
+                <app-chart-pie [data]="salesByConversionSource" name="sales-by-conv-sorce" legendPosition="bottom">
                 </app-chart-pie>
             </div>
         </div>
@@ -62,7 +62,7 @@
                 <span class="h4">Ventas por Sector</span>
             </div>
             <div class="card-body">
-                <app-chart-pie [data]="salesBySector" name="sales-by-sorce">
+                <app-chart-pie [data]="salesBySector" name="sales-by-sorce" legendPosition="bottom">
                 </app-chart-pie>
             </div>
         </div>
@@ -85,7 +85,7 @@
                     <span class="h4">Sesiones por tipo de audiencia</span>
                 </div>
                 <div class="card-body">
-                    <app-chart-pie [data]="sessionsByAudience" name="sessions-by-audience">
+                    <app-chart-pie [data]="sessionsByAudience" name="sessions-by-audience" legendPosition="bottom">
                     </app-chart-pie>
                 </div>
             </div>
@@ -96,7 +96,7 @@
                     <span class="h4">Usuarios nuevos por tipo de audiencia</span>
                 </div>
                 <div class="card-body">
-                    <app-chart-pie [data]="sessionsByAudience" name="users-by-audience">
+                    <app-chart-pie [data]="sessionsByAudience" name="users-by-audience" legendPosition="bottom">
                     </app-chart-pie>
                 </div>
             </div>
@@ -107,7 +107,7 @@
                     <span class="h4">Cantidad por tipo de audiencia</span>
                 </div>
                 <div class="card-body">
-                    <app-chart-bar [data]="quantityByAudience" name="quantity-by-audience">
+                    <app-chart-bar [data]="quantityByAudience" name="quantity-by-audience" legendPosition="bottom">
                     </app-chart-bar>
                 </div>
             </div>
