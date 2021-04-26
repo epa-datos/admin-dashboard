@@ -40,6 +40,7 @@ import { ChartColumnLineMixComponent } from './components/charts/chart-column-li
 import { ChartPictorialComponent } from './components/charts/chart-pictorial/chart-pictorial.component';
 import { OverviewWrapperComponent } from './components/overview-wrapper/overview-wrapper.component';
 import { CampaignsTablesComponent } from './components/campaigns-tables/campaigns-tables.component';
+import { ChartPyramidComponent } from './components/charts/chart-pyramid/chart-pyramid.component';
 
 
 @NgModule({
@@ -65,7 +66,8 @@ import { CampaignsTablesComponent } from './components/campaigns-tables/campaign
     ChartColumnLineMixComponent,
     ChartPictorialComponent,
     OverviewWrapperComponent,
-    CampaignsTablesComponent
+    CampaignsTablesComponent,
+    ChartPyramidComponent
   ],
   imports: [
     CommonModule,
