@@ -17,6 +17,27 @@ export class AudiencesWrapperComponent implements OnInit {
     { id: 2, name: 'Mobile', value: 450 },
   ]
 
+  desktopByBR: any[] = [
+    { name: 'empty', value: 55 },
+    { id: 1, name: 'Desktop', value: 45 },
+  ]
+
+  mobileByBR: any[] = [
+    { name: 'empty', value: 20 },
+    { id: 1, name: 'Mobile', value: 80 },
+  ]
+
+  womenByBR: any[] = [
+    { name: 'empty', value: 55 },
+    { id: 1, name: 'woman', value: 45 },
+  ]
+
+  menByBR: any[] = [
+    { name: 'empty', value: 30 },
+    { id: 1, name: 'men', value: 70 },
+  ]
+
+
   genderByTraffic: any[] = [
     { id: 1, name: 'Hombre', value: 5500 },
     { id: 2, name: 'Mujer', value: 7500 },
@@ -30,98 +51,147 @@ export class AudiencesWrapperComponent implements OnInit {
   ageByTraffic: any[] = [
     {
       'age': '15-19',
-      'visits': 3.8
+      'value': 3.8
     }, {
       'age': '20-24',
-      'visits': 5.1
+      'value': 5.1
     }, {
       'age': '25-29',
-      'visits': 5.1
+      'value': 5.1
     }, {
       'age': '30-34',
-      'visits': 4.8
+      'value': 4.8
     }, {
       'age': '35-39',
-      'visits': 4.1
+      'value': 4.1
     }, {
       'age': '40-44',
-      'visits': 3.6
+      'value': 3.6
     }, {
       'age': '45-49',
-      'visits': 3.0
+      'value': 3.0
     }, {
       'age': '50-54',
-      'visits': 2.5
+      'value': 2.5
     }, {
       'age': '55-59',
-      'visits': 1.9
+      'value': 1.9
     }, {
       'age': '60-64',
-      'visits': 1.3
+      'value': 1.3
     }, {
       'age': '65-69',
-      'visits': 1.0
+      'value': 1.0
     }, {
       'age': '70-74',
-      'visits': 0.8
+      'value': 0.8
     }, {
       'age': '75-79',
-      'visits': 0.6
+      'value': 0.6
     }, {
       'age': '80-54',
-      'visits': 0.3
+      'value': 0.3
     }, {
       'age': '85+',
-      'visits': 0.3
+      'value': 0.3
     }
   ]
 
   ageByConversions: any[] = [
     {
       'age': '15-19',
-      'visits': 1.8
+      'value': 1.8
     }, {
       'age': '20-24',
-      'visits': 7.5
+      'value': 7.5
     }, {
       'age': '25-29',
-      'visits': 8.1
+      'value': 8.1
     }, {
       'age': '30-34',
-      'visits': 6.8
+      'value': 6.8
     }, {
       'age': '35-39',
-      'visits': 5.1
+      'value': 5.1
     }, {
       'age': '40-44',
-      'visits': 4.6
+      'value': 4.6
     }, {
       'age': '45-49',
-      'visits': 3.0
+      'value': 3.0
     }, {
       'age': '50-54',
-      'visits': 2.8
+      'value': 2.8
     }, {
       'age': '55-59',
-      'visits': 2.0
+      'value': 2.0
     }, {
       'age': '60-64',
-      'visits': 1.6
+      'value': 1.6
     }, {
       'age': '65-69',
-      'visits': 1.2
+      'value': 1.2
     }, {
       'age': '70-74',
-      'visits': 0.5
+      'value': 0.5
     }, {
       'age': '75-79',
-      'visits': 0.4
+      'value': 0.4
     }, {
       'age': '80-54',
-      'visits': 0.3
+      'value': 0.3
     }, {
       'age': '85+',
-      'visits': 0.1
+      'value': 0.1
+    }
+  ]
+
+  ageByAup: any[] = [
+    {
+      'age': '15-19',
+      'value': 150
+    }, {
+      'age': '20-24',
+      'value': 560
+    }, {
+      'age': '25-29',
+      'value': 750
+    }, {
+      'age': '30-34',
+      'value': 780
+    }, {
+      'age': '35-39',
+      'value': 640
+    }, {
+      'age': '40-44',
+      'value': 600
+    }, {
+      'age': '45-49',
+      'value': 420
+    }, {
+      'age': '50-54',
+      'value': 415
+    }, {
+      'age': '55-59',
+      'value': 350
+    }, {
+      'age': '60-64',
+      'value': 300
+    }, {
+      'age': '65-69',
+      'value': 300
+    }, {
+      'age': '70-74',
+      'value': 250
+    }, {
+      'age': '75-79',
+      'value': 230
+    }, {
+      'age': '80-54',
+      'value': 200
+    }, {
+      'age': '85+',
+      'value': 185
     }
   ]
 
@@ -250,6 +320,70 @@ export class AudiencesWrapperComponent implements OnInit {
       'age': '15-19',
       'male': -3.8,
       'female': 3.4
+    }
+  ]
+
+  ageByGenderByAup: any[] = [
+    {
+      'age': '85+',
+      'male': -70,
+      'female': 75
+    }, {
+      'age': '80-54',
+      'male': -80,
+      'female': 85
+    }, {
+      'age': '75-79',
+      'male': -95,
+      'female': 105
+    }, {
+      'age': '70-74',
+      'male': -115,
+      'female': 100
+    }, {
+      'age': '65-69',
+      'male': -120,
+      'female': 135
+    }, {
+      'age': '60-64',
+      'male': -126,
+      'female': 155
+    }, {
+      'age': '55-59',
+      'male': -180,
+      'female': 185
+    }, {
+      'age': '50-54',
+      'male': -250,
+      'female': 280
+    }, {
+      'age': '45-49',
+      'male': -265,
+      'female': 265
+    }, {
+      'age': '40-44',
+      'male': -320,
+      'female': 300
+    }, {
+      'age': '35-39',
+      'male': -350,
+      'female': 370
+    }, {
+      'age': '30-34',
+      'male': -450,
+      'female': 480
+    }, {
+      'age': '25-29',
+      'male': -650,
+      'female': 700
+    }, {
+      'age': '20-24',
+      'male': -750,
+      'female': 720
+    }, {
+      'age': '15-19',
+      'male': -250,
+      'female': 280
     }
   ]
 
@@ -1152,18 +1286,37 @@ export class AudiencesWrapperComponent implements OnInit {
   }
 
   changeData(category, selectedTab) {
-    if (category === 'traffic') {
-      this.devices = this.devicesByTraffic;
-      this.gender = this.genderByTraffic;
-      this.age = this.ageByTraffic;
-      this.ageByGender = this.ageByGenderTraffic;
-    } else if (category === 'conversions') {
-      this.devices = this.devicesByConversions;
-      this.gender = this.genderByConversions;
-      this.age = this.ageByConversions;
-      this.ageByGender = this.ageByGenderConversions;
-    }
 
+    switch (category) {
+      case 'traffic':
+        this.devices = this.devicesByTraffic;
+        this.gender = this.genderByTraffic;
+        this.age = this.ageByTraffic;
+        this.ageByGender = this.ageByGenderTraffic;
+        break;
+
+      case 'conversions':
+        this.devices = this.devicesByConversions;
+        this.gender = this.genderByConversions;
+        this.age = this.ageByConversions;
+        this.ageByGender = this.ageByGenderConversions;
+        break;
+
+      case 'aup':
+        this.devices = this.devicesByConversions;
+        this.gender = this.genderByConversions;
+        this.age = this.ageByAup;
+        this.ageByGender = this.ageByGenderByAup;
+        break;
+
+      case 'br':
+        this.devices = this.devicesByTraffic;
+        this.gender = this.genderByTraffic;
+        this.age = this.ageByTraffic;
+        this.ageByGender = this.ageByGenderTraffic;
+        break;
+
+    }
     this.selectedTab1 = selectedTab;
   }
 }
