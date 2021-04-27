@@ -1,7 +1,19 @@
 table {
     width: 100%;
+
+    th:nth-of-type(n + 3),
+    td:nth-of-type(n + 3) {
+        text-align: center;
+    }
 }
 
 .adaptable-container {
     overflow: auto;
+}
+
+.lg-container {
+    max-width: 27rem;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap;
 }
