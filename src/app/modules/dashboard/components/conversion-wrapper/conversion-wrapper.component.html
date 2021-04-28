@@ -85,30 +85,31 @@
 
     <div class="row mb-5">
         <div class="col-12">
-            <div class="card">
-                <div class="card-header">
-                    <span class="h4">Usuarios vs Transacciones</span>
-                </div>
-                <div class="card-body">
-                    <app-chart-column-line-mix [data]="usersVsTransacctions" name="users-vs-transaccions"
-                        category="date" columnValue="users" lineValue="transaccions" columnName="Usuarios"
-                        lineName="Transacciones" height="250px">
-                    </app-chart-column-line-mix>
-                </div>
+            <div class="pills-container">
+                <ul class="nav nav-pills nav-fill">
+                    <li class="nav-item">
+                        <a class="nav-link p-2" [ngClass]="{'active': selectedTab === 1}"
+                            (click)="changeData('users', 1)">Usuarios - Transacciones</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link p-2" [ngClass]="{'active': selectedTab === 2}"
+                            (click)="changeData('amount_aup', 2)">Cantidad - AUP</a>
+                    </li>
+                </ul>
             </div>
         </div>
-    </div>
-
-    <div class="row mb-5">
-        <div class="col-12">
+        <div class="col-12 mt-4">
             <div class="card">
                 <div class="card-header">
-                    <span class="h4">Cantidad vs AUP</span>
+                    <span class="h4" [hidden]="selectedTab === 2">Usuarios vs Transacciones</span>
+                    <span class="h4" [hidden]="selectedTab === 1">Cantidad vs AUP</span>
                 </div>
                 <div class="card-body">
-                    <app-chart-column-line-mix [data]="amountVsAUP" name="amount-vs-aup" category="date"
-                        columnValue="amount" lineValue="aup" columnName="Cantidad" lineName="AUP" height="250px">
-                    </app-chart-column-line-mix>
+                    <app-chart-line-comparison [data]="data" name="users-vs-transaccions"
+                        [valueName1]="selectedTab === 1 ? 'Usuarios' : 'Cantidad'"
+                        [valueName2]="selectedTab === 1 ? 'Transacciones' : 'AUP'"
+                        [valueFormat2]="selectedTab === 2 && 'USD'" height="250px">
+                    </app-chart-line-comparison>
                 </div>
             </div>
         </div>

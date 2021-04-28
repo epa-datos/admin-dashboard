@@ -34,33 +34,37 @@ export class ConversionWrapperComponent implements OnInit, AfterViewInit {
 
   displayedColumns: string[] = ['category', 'product', 'amount', 'yoy_amount', 'product_revenue', 'yoy_product_revenue', 'aup', 'yoy_aup'];
   private categories = [
-    { category: 'Category 1', product: 'Product 1 Product 1 Product 1 Product 1 Product 1 Product 1 Product 1 Product 1 Product 1 Product 1 Product 1 Product 1', amount: 12, yoy_amount: 12, product_revenue: 50000, yoy_product_revenue: 15, aup: 820, yoy_aup: 8 },
-    { category: 'Category 2', product: 'Product 2', amount: 8, yoy_amount: 4, product_revenue: 20000, yoy_product_revenue: 7, aup: 650, yoy_aup: 4 },
-    { category: 'Category 3', product: 'Product 3', amount: 4, yoy_amount: -4, product_revenue: 10000, yoy_product_revenue: -2, aup: 350, yoy_aup: -1 }
+    { category: 'Category 1', product: 'Product 1 Product 1 Product 1 Product 1 Product 1 Product 1 Product 1 Product 1 Product 1 Product 1 Product 1 Product 1', value1: 12, yoy_amount: 12, product_revenue: 50000, yoy_product_revenue: 15, value2: 820, yoy_aup: 8 },
+    { category: 'Category 2', product: 'Product 2', value1: 8, yoy_amount: 4, product_revenue: 20000, yoy_product_revenue: 7, value2: 650, yoy_aup: 4 },
+    { category: 'Category 3', product: 'Product 3', value1: 4, yoy_amount: -4, product_revenue: 10000, yoy_product_revenue: -2, value2: 350, yoy_aup: -1 }
   ]
   dataSource = new MatTableDataSource<any>(this.categories);
 
   @ViewChild(MatPaginator) paginator: MatPaginator;
 
   usersVsTransacctions = [
-    { date: moment(new Date(2021, 3, 15)).format('MMM DD'), users: 1200, transaccions: 200 },
-    { date: moment(new Date(2021, 3, 16)).format('MMM DD'), users: 1600, transaccions: 230 },
-    { date: moment(new Date(2021, 3, 17)).format('MMM DD'), users: 1400, transaccions: 180 },
-    { date: moment(new Date(2021, 3, 18)).format('MMM DD'), users: 1250, transaccions: 80 },
-    { date: moment(new Date(2021, 3, 19)).format('MMM DD'), users: 800, transaccions: 60 },
-    { date: moment(new Date(2021, 3, 20)).format('MMM DD'), users: 1000, transaccions: 110 },
-    { date: moment(new Date(2021, 3, 21)).format('MMM DD'), users: 1100, transaccions: 120 }
+    { date: moment(new Date(2021, 3, 15)).format('MMM DD'), value1: 1200, value2: 200 },
+    { date: moment(new Date(2021, 3, 16)).format('MMM DD'), value1: 1600, value2: 230 },
+    { date: moment(new Date(2021, 3, 17)).format('MMM DD'), value1: 1400, value2: 180 },
+    { date: moment(new Date(2021, 3, 18)).format('MMM DD'), value1: 1250, value2: 80 },
+    { date: moment(new Date(2021, 3, 19)).format('MMM DD'), value1: 800, value2: 60 },
+    { date: moment(new Date(2021, 3, 20)).format('MMM DD'), value1: 1000, value2: 110 },
+    { date: moment(new Date(2021, 3, 21)).format('MMM DD'), value1: 1100, value2: 120 }
   ]
 
   amountVsAUP = [
-    { date: moment(new Date(2021, 3, 15)).format('MMM DD'), amount: 1200, aup: 400 },
-    { date: moment(new Date(2021, 3, 16)).format('MMM DD'), amount: 1600, aup: 810 },
-    { date: moment(new Date(2021, 3, 17)).format('MMM DD'), amount: 1400, aup: 320 },
-    { date: moment(new Date(2021, 3, 18)).format('MMM DD'), amount: 1250, aup: 120 },
-    { date: moment(new Date(2021, 3, 19)).format('MMM DD'), amount: 800, aup: 345 },
-    { date: moment(new Date(2021, 3, 20)).format('MMM DD'), amount: 1000, aup: 850 },
-    { date: moment(new Date(2021, 3, 21)).format('MMM DD'), amount: 1100, aup: 900 }
+    { date: moment(new Date(2021, 3, 15)).format('MMM DD'), value1: 1200, value2: 400 },
+    { date: moment(new Date(2021, 3, 16)).format('MMM DD'), value1: 1600, value2: 810 },
+    { date: moment(new Date(2021, 3, 17)).format('MMM DD'), value1: 1400, value2: 320 },
+    { date: moment(new Date(2021, 3, 18)).format('MMM DD'), value1: 1250, value2: 120 },
+    { date: moment(new Date(2021, 3, 19)).format('MMM DD'), value1: 800, value2: 345 },
+    { date: moment(new Date(2021, 3, 20)).format('MMM DD'), value1: 1000, value2: 850 },
+    { date: moment(new Date(2021, 3, 21)).format('MMM DD'), value1: 1100, value2: 900 }
   ]
+
+  data: any[] = this.usersVsTransacctions;
+
+  selectedTab: number = 1;
 
   constructor() { }
 
@@ -92,4 +96,16 @@ export class ConversionWrapperComponent implements OnInit, AfterViewInit {
       return `${startIndex + 1} - ${endIndex} de ${length}`;
     }
   }
+
+
+  changeData(category, selectedTab) {
+    if (category === 'users') {
+      this.data = this.usersVsTransacctions
+    } else if (category === 'amount_aup') {
+      this.data = this.amountVsAUP;
+    }
+
+    this.selectedTab = selectedTab;
+  }
+
 }
