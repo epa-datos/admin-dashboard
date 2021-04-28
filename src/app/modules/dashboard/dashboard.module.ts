@@ -15,12 +15,15 @@ import { MatTooltipModule } from '@angular/material/tooltip';
 
 // **** COMPONENTS ****
 import { DashboardComponent } from './dashboard.component';
-import { CountryComponent } from './pages/country/country.component';
-import { RetailerComponent } from './pages/retailer/retailer.component';
 import { GeneralFiltersComponent } from './components/general-filters/general-filters.component';
 import { RetailFiltersComponent } from './components/retail-filters/retail-filters.component';
 import { CardStatComponent } from './components/card-stat/card-stat.component';
 import { DashboardRoutes } from './dashboard.routing';
+
+// pages
+import { CountryComponent } from './pages/country/country.component';
+import { RetailerComponent } from './pages/retailer/retailer.component';
+import { OtherToolsComponent } from './pages/other-tools/other-tools.component';
 
 // wrappers
 import { AudiencesWrapperComponent } from './components/audiences-wrapper/audiences-wrapper.component';
@@ -49,6 +52,7 @@ import { ChartPyramidComponent } from './components/charts/chart-pyramid/chart-p
     DashboardComponent,
     CountryComponent,
     RetailerComponent,
+    OtherToolsComponent,
     GeneralFiltersComponent,
     RetailFiltersComponent,
     CardStatComponent,
@@ -68,7 +72,7 @@ import { ChartPyramidComponent } from './components/charts/chart-pyramid/chart-p
     ChartPictorialComponent,
     OverviewWrapperComponent,
     CampaignsTablesComponent,
-    ChartPyramidComponent
+    ChartPyramidComponent,
   ],
   imports: [
     CommonModule,
