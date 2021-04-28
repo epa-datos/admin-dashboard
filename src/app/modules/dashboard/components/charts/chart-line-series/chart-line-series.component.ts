@@ -93,10 +93,13 @@ export class ChartLineSeriesComponent implements OnInit, AfterViewInit {
 
     for (var i = 0; i < this.series.length; i++) {
       const color = colors[i] ? colors[i] : colors[0]
-      createSeries(this.value + i, this.series[i].name, this.series[i].serie, this.value, this.valueName, this.valueFormat, color);
+      createSeries(this.value + i, this.series[i], this.value, this.valueName, this.valueFormat, color);
     }
 
-    function createSeries(s, name, serie, serieValueProp, serieValueName, serieValueFormat, color) {
+    function createSeries(s, serieData, serieValueProp, serieValueName, serieValueFormat, color) {
+      let name = serieData.name;
+      let serie = serieData.serie;
+
       let series = chart.series.push(new am4charts.LineSeries());
       series.dataFields.valueY = serieValueProp + s;
       series.dataFields.dateX = 'date';
@@ -104,9 +107,19 @@ export class ChartLineSeriesComponent implements OnInit, AfterViewInit {
       series.tensionX = 0.85;
       series.strokeWidth = 2;
       series.tooltipText = `${serieValueName ? serieValueName + ': ' : ''}[bold]${typeof serieValueFormat === 'string' ? serieValueFormat : ''} {valueY}[/]`;
-      series.stroke = am4core.color(color);
       series.tooltip.getFillFromObject = false;
-      series.tooltip.background.fill = am4core.color(color);
+
+      if (serieData.customLineStye === 'dashed') {
+        series.strokeDasharray = "3,4";
+      }
+
+      if (serieData.customLineColor) {
+        series.stroke = am4core.color(serieData.customLineColor);
+        series.tooltip.background.fill = am4core.color(serieData.customLineColor);
+      } else {
+        series.stroke = am4core.color(color);
+        series.tooltip.background.fill = am4core.color(color);
+      }
 
       let segment = series.segments.template;
       segment.interactionsEnabled = true;

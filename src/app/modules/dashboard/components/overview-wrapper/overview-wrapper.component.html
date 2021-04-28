@@ -8,7 +8,7 @@
         </div>
     </div>
 
-    <div class="row mt-5">
+    <div class="row mt-5" *ngIf="selectedType === 'country'">
         <div class="col-12">
             <div class="pills-container">
                 <ul class="nav nav-pills nav-fill">
@@ -31,14 +31,31 @@
             <div class="card">
                 <div class="card-header">
                     <ng-container [ngSwitch]="selectedTab1">
-                        <span *ngSwitchCase="1" class="h4">Categorías por retailer - Search</span>
-                        <span *ngSwitchCase="2" class="h4">Categorías por retailer - Marketing</span>
-                        <span *ngSwitchCase="3" class="h4">Categorías por retailer - Ventas</span>
+                        <span *ngSwitchCase="1" class="h4">Categorías por Retailer - Search</span>
+                        <span *ngSwitchCase="2" class="h4">Categorías por Retailer - Marketing</span>
+                        <span *ngSwitchCase="3" class="h4">Categorías por Retailer - Ventas</span>
                     </ng-container>
                 </div>
                 <div class="card-body">
-                    <app-chart-heat-map [data]="categoriesXSector" [name]="selectedType + 'categories-by-retailer'"
-                        categoryX="retailer" categoryY="category" height="250px">
+                    <app-chart-heat-map [data]="categoriesXRetail" [name]="selectedType + 'categories-by-retailer'"
+                        categoryX="retailer" categoryY="category" height="250px" [showTooltipValue]="false"
+                        [showGridBorders]="true" [showHeatLegend]="false">
+                    </app-chart-heat-map>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row mt-5" *ngIf="selectedType === 'retailer'">
+        <div class="col-12 mt-4">
+            <div class="card">
+                <div class="card-header">
+                    <span class="h4">Categorías por Sector</span>
+                </div>
+                <div class="card-body">
+                    <app-chart-heat-map [data]="categoriesXSector" [name]="selectedType + 'categories-by-sector'"
+                        categoryX="sector" categoryY="category" height="250px" [showTooltipValue]="false"
+                        [showGridBorders]="true" [showHeatLegend]="false">
                     </app-chart-heat-map>
                 </div>
             </div>
@@ -61,57 +78,59 @@
             </div>
         </div>
         <!-- devices -->
-        <div class="col-12 col-lg-6 mt-4">
+        <div class="col-12 col-md-6 mt-4">
             <div class="card">
                 <div class="card-header">
                     <span class="h4">{{selectedTab2 === 1 ? 'Tráfico' : 'Ventas'}} por dispositivos</span>
                 </div>
                 <div class="card-body">
-                    <app-chart-pictorial [data]="devices" [name]="selectedType + 'devices-by-sector'" category="name"
-                        iconType="monitor">
+                    <app-chart-pictorial [data]="devices" [name]="selectedType + 'devices'" category="name"
+                        iconType="monitor" height="280px">
                     </app-chart-pictorial>
                 </div>
             </div>
         </div>
 
         <!-- gender -->
-        <div class="col-12 col-lg-6 mt-4">
+        <div class="col-12 col-md-6 mt-4">
             <div class="card">
                 <div class="card-header">
                     <span class="h4">{{selectedTab2 === 1 ? 'Tráfico' : 'Ventas'}} por Género</span>
                 </div>
                 <div class="card-body">
-                    <app-chart-pictorial [data]="gender" [name]="selectedType + 'gender-by-sector'" category="name">
+                    <app-chart-pictorial [data]="gender" [name]="selectedType + 'gender'" category="name"
+                        height="280px">
                     </app-chart-pictorial>
                 </div>
             </div>
         </div>
 
-        <!-- users by sector -->
-        <!-- <div class="col-12 col-lg-6 mb-4">
+        <!-- age -->
+        <div class="col-12 col-md-6 mt-4">
             <div class="card">
                 <div class="card-header">
-                    <span class="h4">Usuarios por sector</span>
+                    <span class="h4">{{selectedTab2 === 1 ? 'Tráfico' : 'Ventas'}} por Edad</span>
                 </div>
                 <div class="card-body">
-                    <app-chart-bar [data]="usersBySector" name="users-sector" value="value" category="name">
-                    </app-chart-bar>
+                    <app-chart-lollipop [data]="age" [name]="selectedType + 'age'" category="age" value="visits"
+                        valueFormat="%" height="280px">
+                    </app-chart-lollipop>
                 </div>
             </div>
-        </div> -->
+        </div>
 
-        <!-- sales by sector -->
-        <!-- <div class="col-12 col-lg-6 mb-4">
+        <!-- age and gender -->
+        <div class="col-12 col-md-6 mt-4">
             <div class="card">
                 <div class="card-header">
-                    <span class="h4">Ventas por sector</span>
+                    <span class="h4">{{selectedTab2 === 1 ? 'Tráfico' : 'Ventas'}} por Género y Edad</span>
                 </div>
                 <div class="card-body">
-                    <app-chart-bar [data]="salesBySector" name="sales-sector" value="value" category="name">
-                    </app-chart-bar>
+                    <app-chart-pyramid [data]="ageByGender" [name]="selectedType + 'age-and-gender'" height="280px">
+                    </app-chart-pyramid>
                 </div>
             </div>
-        </div> -->
+        </div>
     </div>
 
     <div class="row mt-5">
@@ -132,8 +151,8 @@
         <div class="col-12 mt-4">
             <div class="card">
                 <div class="card-header">
-                    <span class="h4" [hidden]="selectedTab3 === 2">Usuarios por sector</span>
-                    <span class="h4" [hidden]="selectedTab3 === 1">Ventas por sector</span>
+                    <span class="h4" [hidden]="selectedTab3 === 2">Usuarios por Sector</span>
+                    <span class="h4" [hidden]="selectedTab3 === 1">Ventas por Sector</span>
                 </div>
                 <div class="card-body">
                     <app-chart-line-series [valueName]="valueName" [valueFormat]="selectedTab3 === 2 && 'USD'"

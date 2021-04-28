@@ -10,9 +10,8 @@ import am4themes_animated from '@amcharts/amcharts4/themes/animated';
 })
 export class ChartLollipopComponent implements OnInit, AfterViewInit {
 
-  @Input() data;
-  @Input() value: string;
-  @Input() category: string;
+  @Input() value: string = 'value';
+  @Input() category: string = 'category';
   @Input() height: string = '350px'; // height property value valid in css
 
   graphID;
@@ -27,6 +26,29 @@ export class ChartLollipopComponent implements OnInit, AfterViewInit {
     this.graphID = `chart-lollipop-${this.name}`
   }
 
+  private _data;
+  get data() {
+    return this._data;
+  }
+  @Input() set data(value) {
+    this._data = value;
+    this.chart && this.loadChartData(this.chart);
+  }
+
+  private _valueFormat;
+  get valueFormat() {
+    return this._valueFormat;
+  }
+  @Input() set valueFormat(value) {
+    this._valueFormat = value;
+    if (this.series) {
+      this.loadValueFormat();
+    }
+  }
+
+  chart;
+  series;
+
   constructor() { }
 
   ngOnInit(): void {
@@ -40,7 +62,7 @@ export class ChartLollipopComponent implements OnInit, AfterViewInit {
     am4core.useTheme(am4themes_animated);
 
     let chart = am4core.create(this.graphID, am4charts.XYChart);
-    chart.data = this.data;
+    this.loadChartData(chart);
 
     let categoryAxis = chart.xAxes.push(new am4charts.CategoryAxis());
     categoryAxis.renderer.grid.template.location = 0;
@@ -66,7 +88,6 @@ export class ChartLollipopComponent implements OnInit, AfterViewInit {
     let series = chart.series.push(new am4charts.ColumnSeries());
     series.dataFields.categoryX = this.category;
     series.dataFields.valueY = this.value;
-    series.tooltipText = '{valueY.value}';
     series.sequencedInterpolation = true;
     series.fillOpacity = 0;
     series.strokeOpacity = 1;
@@ -74,10 +95,21 @@ export class ChartLollipopComponent implements OnInit, AfterViewInit {
     series.columns.template.width = 0.01;
     series.tooltip.pointerOrientation = 'horizontal';
 
+    this.series = series;
+    this.loadValueFormat();
+
     let bullet = series.bullets.create(am4charts.CircleBullet);
 
     chart.cursor = new am4charts.XYCursor();
     chart.responsive.enabled = true;
   }
 
+  loadChartData(chart) {
+    chart.data = this.data;
+    this.chart = chart;
+  }
+
+  loadValueFormat() {
+    this.series.tooltipText = `{valueY.value} ${this.valueFormat ? this.valueFormat : ''}`;
+  }
 }

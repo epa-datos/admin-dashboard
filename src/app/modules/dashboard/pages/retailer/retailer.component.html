@@ -15,6 +15,11 @@
                 <span class="h2 py-2 ml-3 mr-3">Campaña en el retail</span>
             </a>
         </li>
+        <li class="nav-item">
+            <a class="nav-link" [ngClass]="{'active bg-light' : activeTabView === 4}" (click)="activeTabView = 4">
+                <span class="h2 py-2 ml-3 mr-3">Google My Business</span>
+            </a>
+        </li>
     </ul>
 
     <ng-container *ngIf="activeTabView === 1">
@@ -54,7 +59,7 @@
         <!-- ROAS CARDS -->
         <div class="row mt-5 mb-2">
             <div class="col-12">
-                <span class="h3">ROAS por sector</span>
+                <span class="h3">ROAS por Sector</span>
             </div>
         </div>
 
@@ -155,5 +160,9 @@
                 </mat-expansion-panel>
             </mat-accordion>
         </div>
+    </ng-container>
+
+    <ng-container *ngIf="activeTabView === 4">
+        <p class="text-muted">Google My Business...</p>
     </ng-container>
 </div>

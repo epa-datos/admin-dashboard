@@ -7,72 +7,390 @@ import { Component, OnInit } from '@angular/core';
 })
 export class AudiencesWrapperComponent implements OnInit {
 
-  trafficByDays = [
-    { date: new Date(2021, 3, 15), visits: 3500 },
-    { date: new Date(2021, 3, 16), visits: 2400 },
-    { date: new Date(2021, 3, 17), visits: 1800 },
-    { date: new Date(2021, 3, 18), visits: 1900 },
-    { date: new Date(2021, 3, 19), visits: 2300 },
-    { date: new Date(2021, 3, 20), visits: 3600 },
-    { date: new Date(2021, 3, 21), visits: 3700 },
+  devicesByTraffic: any[] = [
+    { id: 1, name: 'Desktop', value: 2500 },
+    { id: 2, name: 'Mobile', value: 10500 },
   ]
 
-  genderConversion = [
-    { gender: 'Hombre', value: 19000 },
-    { gender: 'Mujer', value: 23500 }
+  devicesByConversions: any[] = [
+    { id: 1, name: 'Desktop', value: 300 },
+    { id: 2, name: 'Mobile', value: 450 },
   ]
 
-  genderAUP = [
-    { gender: 'Hombre', value: 17000 },
-    { gender: 'Mujer', value: 21000 }
+  desktopByBR: any[] = [
+    { name: 'empty', value: 55 },
+    { id: 1, name: 'Desktop', value: 45 },
   ]
 
-  genderBR = [
-    { gender: 'Hombre', value: 34000 },
-    { gender: 'Mujer', value: 12000 }
+  mobileByBR: any[] = [
+    { name: 'empty', value: 20 },
+    { id: 1, name: 'Mobile', value: 80 },
   ]
 
-  ageConversion = [
-    { age: 20, value: 19000 },
-    { age: 30, value: 35000 },
-    { age: 40, value: 40000 },
-    { age: 50, value: 23500 },
-    { age: 60, value: 1200 },
-    { age: 70, value: 800 },
+  womenByBR: any[] = [
+    { name: 'empty', value: 55 },
+    { id: 1, name: 'woman', value: 45 },
   ]
 
-  ageAUP = [
-    { age: 20, value: 22000 },
-    { age: 30, value: 15000 },
-    { age: 40, value: 35000 },
-    { age: 50, value: 23500 },
-    { age: 60, value: 1600 },
-    { age: 70, value: 700 },
+  menByBR: any[] = [
+    { name: 'empty', value: 30 },
+    { id: 1, name: 'men', value: 70 },
   ]
 
-  ageBR = [
-    { age: 20, value: 35000 },
-    { age: 30, value: 17000 },
-    { age: 40, value: 12000 },
-    { age: 50, value: 23500 },
-    { age: 60, value: 4500 },
-    { age: 70, value: 1300 },
+
+  genderByTraffic: any[] = [
+    { id: 1, name: 'Hombre', value: 5500 },
+    { id: 2, name: 'Mujer', value: 7500 },
   ]
 
-  deviceConversion = [
-    { device: 'Escritorio', value: 19000 },
-    { device: 'Mobile', value: 40000 },
+  genderByConversions: any[] = [
+    { id: 1, name: 'Hombre', value: 1200 },
+    { id: 2, name: 'Mujer', value: 12800 },
   ]
 
-  deviceAUP = [
-    { device: 'Escritorio', value: 22000 },
-    { device: 'Mobile', value: 35000 },
+  ageByTraffic: any[] = [
+    {
+      'age': '15-19',
+      'value': 3.8
+    }, {
+      'age': '20-24',
+      'value': 5.1
+    }, {
+      'age': '25-29',
+      'value': 5.1
+    }, {
+      'age': '30-34',
+      'value': 4.8
+    }, {
+      'age': '35-39',
+      'value': 4.1
+    }, {
+      'age': '40-44',
+      'value': 3.6
+    }, {
+      'age': '45-49',
+      'value': 3.0
+    }, {
+      'age': '50-54',
+      'value': 2.5
+    }, {
+      'age': '55-59',
+      'value': 1.9
+    }, {
+      'age': '60-64',
+      'value': 1.3
+    }, {
+      'age': '65-69',
+      'value': 1.0
+    }, {
+      'age': '70-74',
+      'value': 0.8
+    }, {
+      'age': '75-79',
+      'value': 0.6
+    }, {
+      'age': '80-54',
+      'value': 0.3
+    }, {
+      'age': '85+',
+      'value': 0.3
+    }
   ]
 
-  deviceBR = [
-    { device: 'Escritorio', value: 35000 },
-    { device: 'Mobile', value: 12000 },
+  ageByConversions: any[] = [
+    {
+      'age': '15-19',
+      'value': 1.8
+    }, {
+      'age': '20-24',
+      'value': 7.5
+    }, {
+      'age': '25-29',
+      'value': 8.1
+    }, {
+      'age': '30-34',
+      'value': 6.8
+    }, {
+      'age': '35-39',
+      'value': 5.1
+    }, {
+      'age': '40-44',
+      'value': 4.6
+    }, {
+      'age': '45-49',
+      'value': 3.0
+    }, {
+      'age': '50-54',
+      'value': 2.8
+    }, {
+      'age': '55-59',
+      'value': 2.0
+    }, {
+      'age': '60-64',
+      'value': 1.6
+    }, {
+      'age': '65-69',
+      'value': 1.2
+    }, {
+      'age': '70-74',
+      'value': 0.5
+    }, {
+      'age': '75-79',
+      'value': 0.4
+    }, {
+      'age': '80-54',
+      'value': 0.3
+    }, {
+      'age': '85+',
+      'value': 0.1
+    }
   ]
+
+  ageByAup: any[] = [
+    {
+      'age': '15-19',
+      'value': 150
+    }, {
+      'age': '20-24',
+      'value': 560
+    }, {
+      'age': '25-29',
+      'value': 750
+    }, {
+      'age': '30-34',
+      'value': 780
+    }, {
+      'age': '35-39',
+      'value': 640
+    }, {
+      'age': '40-44',
+      'value': 600
+    }, {
+      'age': '45-49',
+      'value': 420
+    }, {
+      'age': '50-54',
+      'value': 415
+    }, {
+      'age': '55-59',
+      'value': 350
+    }, {
+      'age': '60-64',
+      'value': 300
+    }, {
+      'age': '65-69',
+      'value': 300
+    }, {
+      'age': '70-74',
+      'value': 250
+    }, {
+      'age': '75-79',
+      'value': 230
+    }, {
+      'age': '80-54',
+      'value': 200
+    }, {
+      'age': '85+',
+      'value': 185
+    }
+  ]
+
+  ageByGenderTraffic: any[] = [
+    {
+      'age': '85+',
+      'male': -0.1,
+      'female': 0.3
+    }, {
+      'age': '80-54',
+      'male': -0.2,
+      'female': 0.3
+    }, {
+      'age': '75-79',
+      'male': -0.3,
+      'female': 0.6
+    }, {
+      'age': '70-74',
+      'male': -0.5,
+      'female': 0.8
+    }, {
+      'age': '65-69',
+      'male': -0.8,
+      'female': 1.0
+    }, {
+      'age': '60-64',
+      'male': -1.1,
+      'female': 1.3
+    }, {
+      'age': '55-59',
+      'male': -1.7,
+      'female': 1.9
+    }, {
+      'age': '50-54',
+      'male': -2.2,
+      'female': 2.5
+    }, {
+      'age': '45-49',
+      'male': -2.8,
+      'female': 3.0
+    }, {
+      'age': '40-44',
+      'male': -3.4,
+      'female': 3.6
+    }, {
+      'age': '35-39',
+      'male': -4.2,
+      'female': 4.1
+    }, {
+      'age': '30-34',
+      'male': -5.2,
+      'female': 4.8
+    }, {
+      'age': '25-29',
+      'male': -5.6,
+      'female': 5.1
+    }, {
+      'age': '20-24',
+      'male': -5.1,
+      'female': 5.1
+    }, {
+      'age': '15-19',
+      'male': -3.8,
+      'female': 3.8
+    }
+  ]
+
+  ageByGenderConversions: any[] = [
+    {
+      'age': '85+',
+      'male': -0.1,
+      'female': 0.0
+    }, {
+      'age': '80-54',
+      'male': -0.2,
+      'female': 0.1
+    }, {
+      'age': '75-79',
+      'male': -0.2,
+      'female': 0.4
+    }, {
+      'age': '70-74',
+      'male': -0.4,
+      'female': 0.6
+    }, {
+      'age': '65-69',
+      'male': -0.7,
+      'female': 1.3
+    }, {
+      'age': '60-64',
+      'male': -1.8,
+      'female': 2.3
+    }, {
+      'age': '55-59',
+      'male': -2.7,
+      'female': 2.1
+    }, {
+      'age': '50-54',
+      'male': -3.0,
+      'female': 2.9
+    }, {
+      'age': '45-49',
+      'male': -3.4,
+      'female': 3.0
+    }, {
+      'age': '40-44',
+      'male': -4.8,
+      'female': 3.6
+    }, {
+      'age': '35-39',
+      'male': -5.2,
+      'female': 4.1
+    }, {
+      'age': '30-34',
+      'male': -6.1,
+      'female': 4.8
+    }, {
+      'age': '25-29',
+      'male': -8.3,
+      'female': 7.5
+    }, {
+      'age': '20-24',
+      'male': -8.8,
+      'female': 9.0
+    }, {
+      'age': '15-19',
+      'male': -3.8,
+      'female': 3.4
+    }
+  ]
+
+  ageByGenderByAup: any[] = [
+    {
+      'age': '85+',
+      'male': -70,
+      'female': 75
+    }, {
+      'age': '80-54',
+      'male': -80,
+      'female': 85
+    }, {
+      'age': '75-79',
+      'male': -95,
+      'female': 105
+    }, {
+      'age': '70-74',
+      'male': -115,
+      'female': 100
+    }, {
+      'age': '65-69',
+      'male': -120,
+      'female': 135
+    }, {
+      'age': '60-64',
+      'male': -126,
+      'female': 155
+    }, {
+      'age': '55-59',
+      'male': -180,
+      'female': 185
+    }, {
+      'age': '50-54',
+      'male': -250,
+      'female': 280
+    }, {
+      'age': '45-49',
+      'male': -265,
+      'female': 265
+    }, {
+      'age': '40-44',
+      'male': -320,
+      'female': 300
+    }, {
+      'age': '35-39',
+      'male': -350,
+      'female': 370
+    }, {
+      'age': '30-34',
+      'male': -450,
+      'female': 480
+    }, {
+      'age': '25-29',
+      'male': -650,
+      'female': 700
+    }, {
+      'age': '20-24',
+      'male': -750,
+      'female': 720
+    }, {
+      'age': '15-19',
+      'male': -250,
+      'female': 280
+    }
+  ]
+
+  devices: any[] = this.devicesByTraffic;
+  gender: any[] = this.genderByTraffic;
+  age: any[] = this.ageByTraffic;
+  ageByGender: any[] = this.ageByGenderTraffic;
 
   selectedTab1: number = 1;
   selectedTab2: number = 1;
@@ -965,5 +1283,40 @@ export class AudiencesWrapperComponent implements OnInit {
   constructor() { }
 
   ngOnInit(): void {
+  }
+
+  changeData(category, selectedTab) {
+
+    switch (category) {
+      case 'traffic':
+        this.devices = this.devicesByTraffic;
+        this.gender = this.genderByTraffic;
+        this.age = this.ageByTraffic;
+        this.ageByGender = this.ageByGenderTraffic;
+        break;
+
+      case 'conversions':
+        this.devices = this.devicesByConversions;
+        this.gender = this.genderByConversions;
+        this.age = this.ageByConversions;
+        this.ageByGender = this.ageByGenderConversions;
+        break;
+
+      case 'aup':
+        this.devices = this.devicesByConversions;
+        this.gender = this.genderByConversions;
+        this.age = this.ageByAup;
+        this.ageByGender = this.ageByGenderByAup;
+        break;
+
+      case 'br':
+        this.devices = this.devicesByTraffic;
+        this.gender = this.genderByTraffic;
+        this.age = this.ageByTraffic;
+        this.ageByGender = this.ageByGenderTraffic;
+        break;
+
+    }
+    this.selectedTab1 = selectedTab;
   }
 }

@@ -11,15 +11,19 @@ import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatExpansionModule } from '@angular/material/expansion';
 import { MatTableModule } from '@angular/material/table';
 import { MatPaginatorModule } from '@angular/material/paginator';
+import { MatTooltipModule } from '@angular/material/tooltip';
 
 // **** COMPONENTS ****
 import { DashboardComponent } from './dashboard.component';
-import { CountryComponent } from './pages/country/country.component';
-import { RetailerComponent } from './pages/retailer/retailer.component';
 import { GeneralFiltersComponent } from './components/general-filters/general-filters.component';
 import { RetailFiltersComponent } from './components/retail-filters/retail-filters.component';
 import { CardStatComponent } from './components/card-stat/card-stat.component';
 import { DashboardRoutes } from './dashboard.routing';
+
+// pages
+import { CountryComponent } from './pages/country/country.component';
+import { RetailerComponent } from './pages/retailer/retailer.component';
+import { OtherToolsComponent } from './pages/other-tools/other-tools.component';
 
 // wrappers
 import { AudiencesWrapperComponent } from './components/audiences-wrapper/audiences-wrapper.component';
@@ -40,6 +44,7 @@ import { ChartColumnLineMixComponent } from './components/charts/chart-column-li
 import { ChartPictorialComponent } from './components/charts/chart-pictorial/chart-pictorial.component';
 import { OverviewWrapperComponent } from './components/overview-wrapper/overview-wrapper.component';
 import { CampaignsTablesComponent } from './components/campaigns-tables/campaigns-tables.component';
+import { ChartPyramidComponent } from './components/charts/chart-pyramid/chart-pyramid.component';
 
 
 @NgModule({
@@ -47,6 +52,7 @@ import { CampaignsTablesComponent } from './components/campaigns-tables/campaign
     DashboardComponent,
     CountryComponent,
     RetailerComponent,
+    OtherToolsComponent,
     GeneralFiltersComponent,
     RetailFiltersComponent,
     CardStatComponent,
@@ -65,7 +71,8 @@ import { CampaignsTablesComponent } from './components/campaigns-tables/campaign
     ChartColumnLineMixComponent,
     ChartPictorialComponent,
     OverviewWrapperComponent,
-    CampaignsTablesComponent
+    CampaignsTablesComponent,
+    ChartPyramidComponent,
   ],
   imports: [
     CommonModule,
@@ -78,6 +85,7 @@ import { CampaignsTablesComponent } from './components/campaigns-tables/campaign
     MatExpansionModule,
     MatTableModule,
     MatPaginatorModule,
+    MatTooltipModule
   ],
   providers: [{ provide: MAT_FORM_FIELD_DEFAULT_OPTIONS, useValue: { floatLabel: 'never' } }]
 })
