@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ɵConsole } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { UsersMngmtService } from 'src/app/modules/users-mngmt/services/users-mngmt.service';
 import { AppStateService } from 'src/app/services/app-state.service';
@@ -41,6 +41,7 @@ export class SidebarComponent implements OnInit {
   public menuReqStatus: number = 0;
   public submenuReqStatus: number = 0;
   public isCollapsed = true;
+  public queryParams: any;
 
 
   constructor(
@@ -158,13 +159,33 @@ export class SidebarComponent implements OnInit {
       .then((retailers: any[]) => {
         let menuItems: RouteInfo[];
         menuItems = retailers.map(item => {
+          const submenu = [
+            {
+              id: 1,
+              path: '/dashboard/retailer',
+              param: item.name.toLowerCase(),
+              title: 'Proyecto CO-OP',
+              isForAdmin: false,
+              levelName: 'retailer'
+            },
+            {
+              id: 2,
+              path: '/tables',
+              param: item.name.toLowerCase(),
+              title: 'Otras herramientas',
+              isForAdmin: false,
+              levelName: 'retailer'
+            }
+          ]
           return {
             id: item.id,
-            path: '/dashboard/retailer',
+            // path: '/dashboard/retailer',
             param: item.name.toLowerCase(),
             title: item.name,
             isForAdmin: false,
-            levelName: 'retailer',
+            submenu,
+            submenuOpen: false,
+            // levelName: 'retailer',
           }
         })
 
@@ -179,15 +200,18 @@ export class SidebarComponent implements OnInit {
       });
   }
 
-  async selectItem(item, parent?) {
-    if (item.submenu && item.levelName === 'country') {
-      if (item.submenu.length < 1) {
+  async selectItem(item, parent?, keepMenuOpen?: boolean) {
+    if (item.submenu) {
+      if (item.submenu.length < 1 && item.levelName === 'country') {
         item.submenu = await this.getAvailableRetailers(item.id);
       }
-      item.submenuOpen = !item.submenuOpen;
+
+      if (!keepMenuOpen) {
+        item.submenuOpen = !item.submenuOpen;
+      }
     }
 
-    let queryParams;
+    // let queryParams;
 
     if (!parent) {
       // delete subitem if another item is selected
@@ -199,13 +223,13 @@ export class SidebarComponent implements OnInit {
       // delete subitem if item is closed with a click
       (!this.selectedItem.submenuOpen && this.selectedSubItem) && delete this.selectedSubItem;
 
-      queryParams = { [this.selectedItem.levelName]: this.selectedItem.param };
+      this.queryParams = { [this.selectedItem.levelName]: this.selectedItem.param };
 
     } else {
       this.selectedItem = parent;
       this.selectedSubItem = item;
 
-      queryParams = {
+      this.queryParams = {
         [this.selectedItem.levelName]: this.selectedItem.param,
         [this.selectedSubItem.levelName]: this.selectedSubItem.param
       };
@@ -213,11 +237,13 @@ export class SidebarComponent implements OnInit {
 
     if (item.path) {
       if (item.param) {
-        this.router.navigate([item.path], { queryParams: queryParams });
+        this.router.navigate([item.path], { queryParams: this.queryParams });
       } else {
         this.router.navigate([item.path]);
       }
     }
+
+
 
     switch (item.levelName) {
       case 'country':
@@ -225,7 +251,20 @@ export class SidebarComponent implements OnInit {
         this.appStateService.selectRetailer();
         break;
 
+      // case 'retailer':
+      //   if (this.userRole === 'retailer') {
+      //     this.appStateService.selectCountry();
+      //     this.appStateService.selectRetailer({ id: this.selectedItem.id, name: this.selectedItem.title });
+      //   } else {
+      //     this.appStateService.selectCountry({ id: this.selectedItem.id, name: this.selectedItem.title });
+      //     this.appStateService.selectRetailer({ id: this.selectedSubItem.id, name: this.selectedSubItem.title });
+      //   }
+      //   break;
+
       case 'retailer':
+
+        console.log('selectedItem', this.selectedItem)
+        console.log('selectedSubItem', this.selectedSubItem)
         if (this.userRole === 'retailer') {
           this.appStateService.selectCountry();
           this.appStateService.selectRetailer({ id: this.selectedItem.id, name: this.selectedItem.title });
@@ -233,6 +272,8 @@ export class SidebarComponent implements OnInit {
           this.appStateService.selectCountry({ id: this.selectedItem.id, name: this.selectedItem.title });
           this.appStateService.selectRetailer({ id: this.selectedSubItem.id, name: this.selectedSubItem.title });
         }
+
+
         break;
 
       default:

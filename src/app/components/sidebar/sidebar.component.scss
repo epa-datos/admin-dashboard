@@ -6,9 +6,8 @@ li {
     cursor: pointer;
 }
 
-.navbar-sub-nav {
-    list-style: none;
-}
+
+
 
 .menu-caret {
     min-width: 1.5rem !important;
@@ -20,6 +19,20 @@ li {
 
 @media (min-width: 768px) {
     .navbar-vertical.navbar-expand-md .navbar-nav .nav-link {
-        padding: 0.65rem 2rem !important;
+        padding: 0.65rem 2rem;
     }
+}
+
+.navbar-sub-nav {
+    list-style: none;
+
+    .navbar-sub-nav  {
+        .nav-link {
+            padding: 0.2rem 1rem 0.2rem 2.8rem !important;
+        }
+    }
+}
+
+.navbar-sub-nav {
+    padding-left: 1.5rem;
 }
