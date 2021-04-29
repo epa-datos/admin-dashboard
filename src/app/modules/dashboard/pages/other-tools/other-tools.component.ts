@@ -7,6 +7,8 @@ import { Component, OnInit } from '@angular/core';
 })
 export class OtherToolsComponent implements OnInit {
 
+  activeTabView = 1;
+
   constructor() { }
 
   ngOnInit(): void {
