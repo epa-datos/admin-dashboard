@@ -76,14 +76,24 @@ export class SidebarComponent implements OnInit {
     }
 
 
+    // Other routes
+    const menuItem1 = {
+      // path: '',
+      title: 'Comparador de campaña',
+      isForAdmin: false
+    }
+    this.menuItems.push(menuItem1);
+    this.appStateService.updateSidebarData(this.menuItems);
+
     // Admin routes
-    const menuItem = {
+    const menuItem2 = {
       path: '/dashboard/users',
       title: 'Administrar usuarios',
       isForAdmin: true
     }
-    this.menuItems.push(menuItem);
+    this.menuItems.push(menuItem2);
     this.appStateService.updateSidebarData(this.menuItems);
+
 
     this.getPrevSelection();
   }
