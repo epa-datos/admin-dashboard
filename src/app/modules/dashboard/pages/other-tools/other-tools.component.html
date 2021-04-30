@@ -1,0 +1,31 @@
+<div class="main-container mt-4">
+    <ul class="nav nav-tabs mb-4">
+        <li class="nav-item">
+            <a class="nav-link" [ngClass]="{'active bg-light' : activeTabView === 1}" (click)="activeTabView = 1">
+                <span class="h2 py-2 ml-3 mr-3">Indexado</span>
+            </a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" [ngClass]="{'active bg-light' : activeTabView === 2}" (click)="activeTabView = 2">
+                <span class="h2 py-2 ml-3 mr-3">PC Selector</span>
+            </a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" [ngClass]="{'active bg-light' : activeTabView === 3}" (click)="activeTabView = 3">
+                <span class="h2 py-2 ml-3 mr-3">OmniChat</span>
+            </a>
+        </li>
+    </ul>
+
+    <ng-container *ngIf="activeTabView === 1">
+        <p class="text-muted">Indexado</p>
+    </ng-container>
+
+    <ng-container *ngIf="activeTabView === 2">
+        <p class="text-muted">PC Selector</p>
+    </ng-container>
+
+    <ng-container *ngIf="activeTabView === 3">
+        <p class="text-muted">OmniChat</p>
+    </ng-container>
+</div>

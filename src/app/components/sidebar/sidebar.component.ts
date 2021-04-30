@@ -14,7 +14,7 @@ declare interface RouteInfo {
   isForAdmin: boolean;
   submenu?: RouteInfo[];
   submenuOpen?: boolean;
-  levelName?: string;
+  paramName?: string;
 }
 
 export const ROUTES = [
@@ -36,8 +36,9 @@ export class SidebarComponent implements OnInit {
   public userIsAdmin: boolean;
 
   public menuItems: any[];
-  public selectedItem: RouteInfo;
-  public selectedSubItem: RouteInfo;
+  public selectedItemL1: RouteInfo;
+  public selectedItemL2: RouteInfo;
+  public selectedItemL3: RouteInfo;
   public menuReqStatus: number = 0;
   public submenuReqStatus: number = 0;
   public isCollapsed = true;
@@ -75,48 +76,66 @@ export class SidebarComponent implements OnInit {
     }
 
 
+    // Other routes
+    const menuItem1 = {
+      // path: '',
+      title: 'Comparador de campaña',
+      isForAdmin: false
+    }
+    this.menuItems.push(menuItem1);
+    this.appStateService.updateSidebarData(this.menuItems);
+
     // Admin routes
-    const menuItem = {
+    const menuItem2 = {
       path: '/dashboard/users',
       title: 'Administrar usuarios',
       isForAdmin: true
     }
-    this.menuItems.push(menuItem);
+    this.menuItems.push(menuItem2);
     this.appStateService.updateSidebarData(this.menuItems);
+
 
     this.getPrevSelection();
   }
 
   async getPrevSelection() {
     const params = this.route.snapshot.queryParams;
+    console.log('route', this.router.url)
 
     if (params['country'] || params['retailer']) {
       const country = params['country'];
       const retailer = params['retailer'];
 
       if (country) {
-        const item = this.menuItems.find(item => item.levelName === 'country' && item.title.toLowerCase() === country);
-        this.selectedItem = item;
-        this.appStateService.selectCountry({ id: this.selectedItem.id, name: this.selectedItem.title });
+        const itemL1 = this.menuItems.find(item => item.paramName === 'country' && item.title.toLowerCase() === country);
+        this.selectedItemL1 = itemL1;
+        this.appStateService.selectCountry({ id: this.selectedItemL1.id, name: this.selectedItemL1.title });
 
         if (retailer) {
-          this.selectedItem.submenu = await this.getAvailableRetailers(this.selectedItem.id);
-          this.selectedItem.submenuOpen = !this.selectedItem.submenuOpen;
+          this.selectedItemL1.submenu = await this.getAvailableRetailers(this.selectedItemL1.id);
+          this.selectedItemL1.submenuOpen = !this.selectedItemL1.submenuOpen;
 
-          const subItem = this.selectedItem.submenu.find(item => item.levelName === 'retailer' && item.title.toLocaleLowerCase() === retailer);
-          this.selectedSubItem = subItem;
-          this.appStateService.selectRetailer({ id: this.selectedSubItem.id, name: this.selectedSubItem.title });
+          const itemL2 = this.selectedItemL1.submenu.find(item => item.paramName === 'retailer' && item.title.toLocaleLowerCase() === retailer);
+          this.selectedItemL2 = itemL2;
+          this.appStateService.selectRetailer({ id: this.selectedItemL2.id, name: this.selectedItemL2.title });
+
+          const currentPath = this.router.url.split('?')[0];
+          const itemL3 = this.selectedItemL2.submenu.find(item => item.paramName === 'retailer' && item.path === currentPath);
+          if (itemL3) {
+            this.selectedItemL2.submenuOpen = true;
+            this.selectedItemL3 = itemL3;
+          }
         }
 
       } else if (retailer) {
-        const item = this.menuItems.find(item => item.levelName === 'retailer' && item.title.toLowerCase() === retailer);
-        this.selectedItem = item;
-        this.appStateService.selectRetailer({ id: this.selectedItem.id, name: this.selectedItem.title });
+        const item = this.menuItems.find(item => item.paramName === 'retailer' && item.title.toLowerCase() === retailer);
+        this.selectedItemL1 = item;
+        this.appStateService.selectRetailer({ id: this.selectedItemL1.id, name: this.selectedItemL1.title });
       }
     }
     else {
       const item = this.menuItems.find(item => item.path == this.router.url);
-      this.selectedItem = item;
+      this.selectedItemL1 = item;
       this.appStateService.selectCountry();
       this.appStateService.selectRetailer();
     }
@@ -135,7 +154,7 @@ export class SidebarComponent implements OnInit {
             isForAdmin: false,
             submenu: [],
             submenuOpen: false,
-            levelName: 'country',
+            paramName: 'country',
           }
 
           this.menuItems.push(menuItem);
@@ -158,13 +177,32 @@ export class SidebarComponent implements OnInit {
       .then((retailers: any[]) => {
         let menuItems: RouteInfo[];
         menuItems = retailers.map(item => {
+          const submenu = [
+            {
+              id: 1,
+              path: '/dashboard/retailer',
+              param: item.name.toLowerCase(),
+              title: 'Proyecto CO-OP',
+              isForAdmin: false,
+              paramName: 'retailer'
+            },
+            {
+              id: 2,
+              path: '/dashboard/tools',
+              param: item.name.toLowerCase(),
+              title: 'Otras herramientas',
+              isForAdmin: false,
+              paramName: 'retailer'
+            }
+          ]
           return {
             id: item.id,
-            path: '/dashboard/retailer',
             param: item.name.toLowerCase(),
             title: item.name,
             isForAdmin: false,
-            levelName: 'retailer',
+            submenu,
+            submenuOpen: false,
+            paramName: 'retailer',
           }
         })
 
@@ -179,59 +217,79 @@ export class SidebarComponent implements OnInit {
       });
   }
 
-  async selectItem(item, parent?) {
-    if (item.submenu && item.levelName === 'country') {
-      if (item.submenu.length < 1) {
+  async selectItem(item, parent?, grandparent?, keepMenuOpen?: boolean) {
+    if (item.submenu) {
+      if (item.submenu.length < 1 && item.paramName === 'country') {
         item.submenu = await this.getAvailableRetailers(item.id);
       }
-      item.submenuOpen = !item.submenuOpen;
+
+      if (!keepMenuOpen) {
+        item.submenuOpen = !item.submenuOpen;
+      }
     }
 
     let queryParams;
 
-    if (!parent) {
-      // delete subitem if another item is selected
-      this.selectedItem !== item && delete this.selectedSubItem;
-
-      // save selected item
-      this.selectedItem = item;
-
-      // delete subitem if item is closed with a click
-      (!this.selectedItem.submenuOpen && this.selectedSubItem) && delete this.selectedSubItem;
-
-      queryParams = { [this.selectedItem.levelName]: this.selectedItem.param };
-
-    } else {
-      this.selectedItem = parent;
-      this.selectedSubItem = item;
+    if (grandparent || parent) {
+      if (grandparent) {
+        // Ej. para "proyecto co-op" y "otras herramientas" (item) de un retail (parent) en un país (grandparent)
+        this.selectedItemL1 = grandparent;
+        this.selectedItemL2 = parent;
+        this.selectedItemL3 = item;
+      } else if (parent) {
+        // Ej. para un retailer (item) en un país (parent)
+        // this.selectedItemL1 = parent;
+        // se se hace una seleccion aqui puede pasar un bug en el mmomento que se selecciona nombre del retailer de otro pais
+      }
 
       queryParams = {
-        [this.selectedItem.levelName]: this.selectedItem.param,
-        [this.selectedSubItem.levelName]: this.selectedSubItem.param
+        [this.selectedItemL1.paramName]: this.selectedItemL1.param,
+        [this.selectedItemL2?.paramName]: this.selectedItemL2?.param
       };
+    } else {
+      // Para opciones que no tienen padre
+
+      // close submenus if item is closed with a click
+      if (item.submenu && !item?.submenuOpen) {
+        this.closeAllSubMenus(item.submenu);
+      }
+
+      // delete all sub sellections 
+      // a) if another item is selected
+      // b) if item is closed with a click
+
+      if (this.selectedItemL1 !== item || (!this.selectedItemL1.submenuOpen && this.selectedItemL2)) {
+        delete this.selectedItemL2;
+        delete this.selectedItemL3;
+      }
+
+      // save selected item
+      this.selectedItemL1 = item;
+
+      queryParams = { [this.selectedItemL1.paramName]: this.selectedItemL1.param };
     }
 
     if (item.path) {
       if (item.param) {
-        this.router.navigate([item.path], { queryParams: queryParams });
+        this.router.navigate([item.path], { queryParams });
       } else {
         this.router.navigate([item.path]);
       }
     }
 
-    switch (item.levelName) {
+    switch (item.paramName) {
       case 'country':
-        this.appStateService.selectCountry({ id: this.selectedItem.id, name: this.selectedItem.title });
+        this.appStateService.selectCountry({ id: this.selectedItemL1.id, name: this.selectedItemL1.title });
         this.appStateService.selectRetailer();
         break;
 
       case 'retailer':
         if (this.userRole === 'retailer') {
           this.appStateService.selectCountry();
-          this.appStateService.selectRetailer({ id: this.selectedItem.id, name: this.selectedItem.title });
+          this.appStateService.selectRetailer({ id: this.selectedItemL1.id, name: this.selectedItemL1.title });
         } else {
-          this.appStateService.selectCountry({ id: this.selectedItem.id, name: this.selectedItem.title });
-          this.appStateService.selectRetailer({ id: this.selectedSubItem.id, name: this.selectedSubItem.title });
+          this.appStateService.selectCountry({ id: this.selectedItemL1.id, name: this.selectedItemL1.title });
+          this.appStateService.selectRetailer({ id: this.selectedItemL2?.id, name: this.selectedItemL2?.title });
         }
         break;
 
@@ -239,6 +297,12 @@ export class SidebarComponent implements OnInit {
         this.appStateService.selectCountry();
         this.appStateService.selectRetailer();
     }
+  }
+
+  closeAllSubMenus(submenu: RouteInfo[]) {
+    submenu.forEach(element => {
+      element.submenuOpen = false;
+    });
   }
 
   logout() {
