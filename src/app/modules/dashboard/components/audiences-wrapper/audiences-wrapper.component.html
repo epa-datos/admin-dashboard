@@ -81,7 +81,7 @@
                     </div>
                     <div class="card-body">
                         <app-chart-bar [data]="devices" [name]="selectedType + 'devices'" valueFormat="USD"
-                            category="name" height="280px">
+                            category="name" height="280px" [legendsByCategory]="true">
                         </app-chart-bar>
                     </div>
                 </div>
@@ -98,7 +98,7 @@
                     </div>
                     <div class="card-body">
                         <app-chart-bar [data]="gender" [name]="selectedType + 'gender'" valueFormat="USD"
-                            category="name" height="280px">
+                            category="name" height="280px" [legendsByCategory]="true">
                         </app-chart-bar>
                     </div>
                 </div>
