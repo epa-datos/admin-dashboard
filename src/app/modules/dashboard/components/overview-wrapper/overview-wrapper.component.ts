@@ -1,4 +1,7 @@
 import { Component, Input, OnInit } from '@angular/core';
+import { AppStateService } from 'src/app/services/app-state.service';
+import { UserService } from 'src/app/services/user.service';
+import { OverviewService } from '../../services/overview.service';
 
 @Component({
   selector: 'app-overview-wrapper',
@@ -11,47 +14,6 @@ export class OverviewWrapperComponent implements OnInit {
   @Input() selectedID: number; // country or retailer id
 
   countryName: string;
-  stats: any[] = [
-    {
-      metricTitle: 'Inversión',
-      metricValue: 'USD 35,000',
-      icon: 'fas fa-wallet',
-      iconBg: '#172b4d'
-    },
-    {
-      metricTitle: 'Clicks',
-      metricValue: '280,0000',
-      subMetricTitle: 'CTR',
-      subMetricValue: '000',
-      icon: 'fas fa-hand-pointer',
-      iconBg: '#2f9998'
-
-    },
-    {
-      metricTitle: 'Bounce Rate',
-      metricValue: '12%',
-      subMetricTitle: 'Usuarios',
-      subMetricValue: '27000',
-      icon: 'fas fa-stopwatch',
-      iconBg: '#a77dcc'
-    },
-    {
-      metricTitle: 'Transacciones',
-      metricValue: '3,500',
-      subMetricTitle: 'CR',
-      subMetricValue: '000',
-      icon: 'fas fa-shopping-basket',
-      iconBg: '#f89934'
-    },
-    {
-      metricTitle: 'Revenue',
-      metricValue: '3,500',
-      subMetricTitle: 'ROAS',
-      subMetricValue: '000',
-      icon: 'fas fa-hand-holding-usd',
-      iconBg: '#fbc001'
-    }
-  ];
 
   categoriesXRetailSearch: any[] = [
     {
@@ -864,10 +826,127 @@ export class OverviewWrapperComponent implements OnInit {
 
   valueName = 'Usuarios';
 
-  constructor() { }
+  countryID: number;
+  retailerID: number;
+  userRole: string;
+
+  kpisLegends1 = ['investment', 'clicks', 'bounce_rate', 'transaccions', 'revenue']
+  kpisLegends2 = ['ctr', 'users', 'cr', 'roas']
+
+  kpis: any[] = [
+    {
+      metricTitle: 'inversión',
+      metricName: 'investment',
+      metricFormat: 'currency',
+      metricSymbol: 'USD',
+      icon: 'fas fa-wallet',
+      iconBg: '#172b4d'
+    },
+    {
+      metricTitle: 'clicks',
+      metricName: 'clicks',
+      subMetricTitle: 'ctr',
+      subMetricName: 'ctr',
+      subMetricFormat: 'percentage',
+      icon: 'fas fa-hand-pointer',
+      iconBg: '#2f9998'
+
+    },
+    {
+      metricTitle: 'bounce rate',
+      metricName: 'bounce_rate',
+      metricFormat: 'percentage',
+      subMetricTitle: 'usuarios',
+      subMetricName: 'users',
+      icon: 'fas fa-stopwatch',
+      iconBg: '#a77dcc'
+    },
+    {
+      metricTitle: 'transacciones',
+      metricName: 'transaccions',
+      subMetricTitle: 'CR',
+      subMetricName: 'cr',
+      subMetricFormat: 'percentage',
+      icon: 'fas fa-shopping-basket',
+      iconBg: '#f89934'
+    },
+    {
+      metricTitle: 'revenue',
+      metricName: 'revenue',
+      metricFormat: 'currency',
+      subMetricTitle: 'roas',
+      subMetricName: 'roas',
+      subMetricFormat: 'percentage',
+      icon: 'fas fa-hand-holding-usd',
+      iconBg: '#fbc001'
+    }
+  ];
+
+  kpisReqStatus: number = 0;
+
+
+
+  constructor(
+    private appStateService: AppStateService,
+    private overviewService: OverviewService,
+    private userService: UserService
+  ) { }
 
   ngOnInit(): void {
+    this.userRole = this.userService.user.role_name;
+
+    this.appStateService.selectedCountry$.subscribe(country => {
+      if (this.userRole !== 'retailer' && country.id !== this.countryID) {
+        this.countryID = country.id !== this.countryID && country.id;
+        this.getAllData();
+      }
+      console.log('countryID', this.countryID);
+    });
+
+    this.appStateService.selectedRetailer$.subscribe(retailer => {
+      if (retailer.id !== this.countryID) {
+        this.retailerID = retailer.id !== this.retailerID && retailer.id;
+      }
+      console.log('retailer', this.retailerID);
+    });
   }
+
+  getAllData() {
+    this.getKpis();
+  }
+
+
+  getKpis() {
+    this.kpisReqStatus = 1;
+    this.overviewService.getKpis(this.countryID).subscribe(
+      (resp: any[]) => {
+        console.log('resp', resp);
+        const kpis1 = resp.filter(kpi => this.kpisLegends1.includes(kpi.name));
+        const kpis2 = resp.filter(kpi => this.kpisLegends2.includes(kpi.name));
+        console.log('kpis1', kpis1);
+        console.log('kpis2', kpis2);
+
+        for (let i = 0; i < this.kpis.length; i++) {
+          const baseObj = this.kpis[i];
+          baseObj.metricValue = kpis1[i]['value'];
+
+          if (i !== 0 && kpis2[i - 1]) {
+            console.log('name', baseObj.metricName)
+            baseObj.subMetricValue = kpis2[i - 1]['value'];
+          }
+
+        }
+
+        console.log('final kpis', this.kpis);
+        this.kpisReqStatus = 2;
+      },
+      error => {
+        const errorMsg = error?.error?.message ? error.error.message : error?.message;
+        console.error(`[overview-wrapper.component]: ${errorMsg}`);
+        this.kpisReqStatus = 3;
+      });
+  }
+
 
   changeSectorData(category, selectedTab) {
     if (category === 'search') {

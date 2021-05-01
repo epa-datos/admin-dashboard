@@ -3,7 +3,7 @@
     <div class="row">
         <div class="col-12">
             <div class="stats-container">
-                <app-card-stat *ngFor="let stat of stats" [stat]="stat"></app-card-stat>
+                <app-card-stat *ngFor="let stat of kpis" [stat]="stat" [loader]="kpisReqStatus <= 1"></app-card-stat>
             </div>
         </div>
     </div>
