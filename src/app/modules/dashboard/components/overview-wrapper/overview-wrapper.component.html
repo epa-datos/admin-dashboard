@@ -88,11 +88,11 @@
                 <ul class="nav nav-pills nav-fill">
                     <li class="nav-item">
                         <a class="nav-link p-2" [ngClass]="{'active': selectedTab2 === 1}"
-                            (click)="changeDeviceGenderData('traffic', 1)">Tráfico</a>
+                            (click)="getDataByTrafficAndSales('traffic', 1)">Tráfico</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link p-2" [ngClass]="{'active': selectedTab2 === 2}"
-                            (click)="changeDeviceGenderData('sales', 2)">Ventas</a>
+                            (click)="getDataByTrafficAndSales('sales', 2)">Ventas</a>
                     </li>
                 </ul>
             </div>
@@ -104,8 +104,8 @@
                     <span class="h4">{{selectedTab2 === 1 ? 'Tráfico' : 'Ventas'}} por dispositivos</span>
                 </div>
                 <div class="card-body">
-                    <app-chart-pictorial [data]="devices" [name]="selectedType + 'devices'" category="name"
-                        iconType="monitor" height="280px">
+                    <app-chart-pictorial [data]="trafficAndSales.device" [name]="selectedType + 'devices'"
+                        category="name" iconType="monitor" height="280px">
                     </app-chart-pictorial>
                 </div>
             </div>
@@ -118,8 +118,8 @@
                     <span class="h4">{{selectedTab2 === 1 ? 'Tráfico' : 'Ventas'}} por Género</span>
                 </div>
                 <div class="card-body">
-                    <app-chart-pictorial [data]="gender" [name]="selectedType + 'gender'" category="name"
-                        height="280px">
+                    <app-chart-pictorial [data]="trafficAndSales.gender" [name]="selectedType + 'gender'"
+                        category="name" height="280px">
                     </app-chart-pictorial>
                 </div>
             </div>
@@ -132,8 +132,8 @@
                     <span class="h4">{{selectedTab2 === 1 ? 'Tráfico' : 'Ventas'}} por Edad</span>
                 </div>
                 <div class="card-body">
-                    <app-chart-lollipop [data]="age" [name]="selectedType + 'age'" category="age" value="visits"
-                        valueFormat="%" height="280px">
+                    <app-chart-lollipop [data]="trafficAndSales.age" [name]="selectedType + 'age'" category="age"
+                        value="visits" valueFormat="%" height="280px">
                     </app-chart-lollipop>
                 </div>
             </div>
@@ -146,7 +146,8 @@
                     <span class="h4">{{selectedTab2 === 1 ? 'Tráfico' : 'Ventas'}} por Género y Edad</span>
                 </div>
                 <div class="card-body">
-                    <app-chart-pyramid [data]="ageByGender" [name]="selectedType + 'age-and-gender'" height="280px">
+                    <app-chart-pyramid [data]="trafficAndSales.genderByAge" [name]="selectedType + 'age-and-gender'"
+                        height="280px">
                     </app-chart-pyramid>
                 </div>
             </div>

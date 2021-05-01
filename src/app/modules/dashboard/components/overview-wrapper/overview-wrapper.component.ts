@@ -1,3 +1,4 @@
+import { any } from '@amcharts/amcharts4/.internal/core/utils/Array';
 import { Component, Input, OnInit } from '@angular/core';
 import { AppStateService } from 'src/app/services/app-state.service';
 import { UserService } from 'src/app/services/user.service';
@@ -883,9 +884,16 @@ export class OverviewWrapperComponent implements OnInit {
   ];
 
   categoriesBySector: any[];
+  trafficAndSales = {};
 
   kpisReqStatus: number = 0;
   categoriesReqStatus: number = 0;
+  trafficSalesReqStatus = [
+    { name: 'device', reqStatus: 0 },
+    { name: 'gender', reqStatus: 0 },
+    { name: 'age', reqStatus: 0 },
+    { name: 'gender-and-age', reqStatus: 0 }
+  ];
 
 
   constructor(
@@ -916,6 +924,7 @@ export class OverviewWrapperComponent implements OnInit {
   getAllData() {
     this.getKpis();
     this.getCategoriesBySector('search', 1);
+    this.getDataByTrafficAndSales('traffic', 1);
   }
 
 
@@ -923,24 +932,23 @@ export class OverviewWrapperComponent implements OnInit {
     this.kpisReqStatus = 1;
     this.overviewService.getKpis(this.countryID).subscribe(
       (resp: any[]) => {
-        console.log('resp', resp);
+        // console.log('resp', resp);
         const kpis1 = resp.filter(kpi => this.kpisLegends1.includes(kpi.name));
         const kpis2 = resp.filter(kpi => this.kpisLegends2.includes(kpi.name));
-        console.log('kpis1', kpis1);
-        console.log('kpis2', kpis2);
+        // console.log('kpis1', kpis1);
+        // console.log('kpis2', kpis2);
 
         for (let i = 0; i < this.kpis.length; i++) {
           const baseObj = this.kpis[i];
           baseObj.metricValue = kpis1[i]['value'];
 
           if (i !== 0 && kpis2[i - 1]) {
-            console.log('name', baseObj.metricName)
             baseObj.subMetricValue = kpis2[i - 1]['value'];
           }
 
         }
 
-        console.log('final kpis', this.kpis);
+        // console.log('final kpis', this.kpis);
         this.kpisReqStatus = 2;
       },
       error => {
@@ -954,7 +962,7 @@ export class OverviewWrapperComponent implements OnInit {
     this.categoriesReqStatus = 1;
     this.overviewService.getCategoriesBySector(this.countryID, sector).subscribe(
       (resp: any[]) => {
-        console.log('resp', resp);
+        // console.log('resp', resp);
         this.categoriesBySector = resp;
         this.categoriesReqStatus = 2;
       },
@@ -967,6 +975,34 @@ export class OverviewWrapperComponent implements OnInit {
     this.selectedTab1 = selectedTab;
   }
 
+  getDataByTrafficAndSales(metricType: string, selectedTab: number) {
+    const requiredData = ['device', 'gender', 'age', 'gender-and-age']
+
+    for (let subMetricType of requiredData) {
+      const reqStatusObj = this.trafficSalesReqStatus.find(item => item.name === subMetricType);
+      reqStatusObj.reqStatus = 1;
+      this.overviewService.getTrafficAndSales(this.countryID, metricType, subMetricType).subscribe(
+        (resp: any[]) => {
+          console.log('resp', resp);
+          if (subMetricType === 'gender-and-age') {
+            this.trafficAndSales['genderByAge'] = resp;
+          } else {
+            this.trafficAndSales[subMetricType] = resp;
+          }
+
+          reqStatusObj.reqStatus = 2;
+        },
+        error => {
+          const errorMsg = error?.error?.message ? error.error.message : error?.message;
+          console.error(`[overview-wrapper.component]: ${errorMsg}`);
+          reqStatusObj.reqStatus = 3;
+        });
+
+      this.selectedTab2 = selectedTab;
+    }
+    console.log('trafficSalesReqStatus', this.trafficSalesReqStatus);
+    console.log('trafficAndSales', this.trafficAndSales)
+  }
 
   changeSectorData(category, selectedTab) {
     if (category === 'search') {

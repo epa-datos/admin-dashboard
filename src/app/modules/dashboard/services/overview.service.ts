@@ -47,6 +47,6 @@ export class OverviewService {
     if (!subMetricType) {
       return throwError('[overview.service]: not subMetricType provided');
     }
-    return this.http.get(`${this.baseUrl}/country${countryID}/${metricType}/${subMetricType}`);
+    return this.http.get(`${this.baseUrl}/country/${countryID}/${metricType}/${subMetricType}`);
   }
 }
