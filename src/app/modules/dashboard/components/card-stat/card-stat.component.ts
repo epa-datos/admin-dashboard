@@ -9,6 +9,7 @@ export class CardStatComponent implements OnInit {
 
   @Input() stat;
   @Input() height: string = '120px' // valid css height property value
+  @Input() loader: boolean;
 
   constructor() { }
 
