@@ -398,126 +398,6 @@ export class AudiencesWrapperComponent implements OnInit {
   heatmapData = [
     {
       "hour": "12pm",
-      "weekday": "Dom",
-      "value": 2990
-    },
-    {
-      "hour": "1am",
-      "weekday": "Dom",
-      "value": 2520
-    },
-    {
-      "hour": "2am",
-      "weekday": "Dom",
-      "value": 2334
-    },
-    {
-      "hour": "3am",
-      "weekday": "Dom",
-      "value": 2230
-    },
-    {
-      "hour": "4am",
-      "weekday": "Dom",
-      "value": 2325
-    },
-    {
-      "hour": "5am",
-      "weekday": "Dom",
-      "value": 2019
-    },
-    {
-      "hour": "6am",
-      "weekday": "Dom",
-      "value": 2128
-    },
-    {
-      "hour": "7am",
-      "weekday": "Dom",
-      "value": 2246
-    },
-    {
-      "hour": "8am",
-      "weekday": "Dom",
-      "value": 2421
-    },
-    {
-      "hour": "9am",
-      "weekday": "Dom",
-      "value": 2788
-    },
-    {
-      "hour": "10am",
-      "weekday": "Dom",
-      "value": 2959
-    },
-    {
-      "hour": "11am",
-      "weekday": "Dom",
-      "value": 3018
-    },
-    {
-      "hour": "12am",
-      "weekday": "Dom",
-      "value": 3154
-    },
-    {
-      "hour": "1pm",
-      "weekday": "Dom",
-      "value": 3172
-    },
-    {
-      "hour": "2pm",
-      "weekday": "Dom",
-      "value": 3368
-    },
-    {
-      "hour": "3pm",
-      "weekday": "Dom",
-      "value": 3464
-    },
-    {
-      "hour": "4pm",
-      "weekday": "Dom",
-      "value": 3746
-    },
-    {
-      "hour": "5pm",
-      "weekday": "Dom",
-      "value": 3656
-    },
-    {
-      "hour": "6pm",
-      "weekday": "Dom",
-      "value": 3336
-    },
-    {
-      "hour": "7pm",
-      "weekday": "Dom",
-      "value": 3292
-    },
-    {
-      "hour": "8pm",
-      "weekday": "Dom",
-      "value": 3269
-    },
-    {
-      "hour": "9pm",
-      "weekday": "Dom",
-      "value": 3300
-    },
-    {
-      "hour": "10pm",
-      "weekday": "Dom",
-      "value": 3403
-    },
-    {
-      "hour": "11pm",
-      "weekday": "Dom",
-      "value": 3323
-    },
-    {
-      "hour": "12pm",
       "weekday": "Lun",
       "value": 3346
     },
@@ -1235,17 +1115,137 @@ export class AudiencesWrapperComponent implements OnInit {
       "hour": "11pm",
       "weekday": "Sab",
       "value": 2625
+    },
+    {
+      "hour": "12pm",
+      "weekday": "Dom",
+      "value": 2990
+    },
+    {
+      "hour": "1am",
+      "weekday": "Dom",
+      "value": 2520
+    },
+    {
+      "hour": "2am",
+      "weekday": "Dom",
+      "value": 2334
+    },
+    {
+      "hour": "3am",
+      "weekday": "Dom",
+      "value": 2230
+    },
+    {
+      "hour": "4am",
+      "weekday": "Dom",
+      "value": 2325
+    },
+    {
+      "hour": "5am",
+      "weekday": "Dom",
+      "value": 2019
+    },
+    {
+      "hour": "6am",
+      "weekday": "Dom",
+      "value": 2128
+    },
+    {
+      "hour": "7am",
+      "weekday": "Dom",
+      "value": 2246
+    },
+    {
+      "hour": "8am",
+      "weekday": "Dom",
+      "value": 2421
+    },
+    {
+      "hour": "9am",
+      "weekday": "Dom",
+      "value": 2788
+    },
+    {
+      "hour": "10am",
+      "weekday": "Dom",
+      "value": 2959
+    },
+    {
+      "hour": "11am",
+      "weekday": "Dom",
+      "value": 3018
+    },
+    {
+      "hour": "12am",
+      "weekday": "Dom",
+      "value": 3154
+    },
+    {
+      "hour": "1pm",
+      "weekday": "Dom",
+      "value": 3172
+    },
+    {
+      "hour": "2pm",
+      "weekday": "Dom",
+      "value": 3368
+    },
+    {
+      "hour": "3pm",
+      "weekday": "Dom",
+      "value": 3464
+    },
+    {
+      "hour": "4pm",
+      "weekday": "Dom",
+      "value": 3746
+    },
+    {
+      "hour": "5pm",
+      "weekday": "Dom",
+      "value": 3656
+    },
+    {
+      "hour": "6pm",
+      "weekday": "Dom",
+      "value": 3336
+    },
+    {
+      "hour": "7pm",
+      "weekday": "Dom",
+      "value": 3292
+    },
+    {
+      "hour": "8pm",
+      "weekday": "Dom",
+      "value": 3269
+    },
+    {
+      "hour": "9pm",
+      "weekday": "Dom",
+      "value": 3300
+    },
+    {
+      "hour": "10pm",
+      "weekday": "Dom",
+      "value": 3403
+    },
+    {
+      "hour": "11pm",
+      "weekday": "Dom",
+      "value": 3323
     }
   ];
 
   trafficByDay = [
     { weekday: 'Dom', value: 180 },
-    { weekday: 'Lun', value: 230 },
-    { weekday: 'Mar', value: 270 },
-    { weekday: 'Mier', value: 277 },
-    { weekday: 'Jue', value: 267 },
+    { weekday: 'Sab', value: 166 },
     { weekday: 'Vier', value: 166 },
-    { weekday: 'Vier', value: 167 }
+    { weekday: 'Jue', value: 267 },
+    { weekday: 'Mier', value: 277 },
+    { weekday: 'Mar', value: 270 },
+    { weekday: 'Lun', value: 230 },
   ]
 
   trafficByHour = [

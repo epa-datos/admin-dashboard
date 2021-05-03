@@ -203,7 +203,7 @@ export class SidebarComponent implements OnInit {
               id: 1,
               path: '/dashboard/retailer',
               param: item.name.toLowerCase(),
-              title: 'Proyecto CO-OP',
+              title: 'Programa CO-OP',
               isForAdmin: false,
               paramName: 'retailer'
             },

@@ -48,13 +48,13 @@ export class BehaviourWrapperComponent implements OnInit {
   ]
 
   sessionsVsRetVisitor = [
-    { category: 'Sesiones nuevas', value: 3200 },
-    { category: 'Visitante recurrente', value: 2800 }
+    { category: 'Visitantes nuevos', value: 3200 },
+    { category: 'Visitante recurrentes', value: 2800 }
   ]
 
   salesVsRetVisitor = [
-    { category: 'Ventas nuevas', value: 130 },
-    { category: 'Visitante recurrente', value: 240 }
+    { category: 'Visitantes nuevos', value: 130 },
+    { category: 'Visitante recurrentes', value: 240 }
   ]
 
   salesByConversionSource = [
