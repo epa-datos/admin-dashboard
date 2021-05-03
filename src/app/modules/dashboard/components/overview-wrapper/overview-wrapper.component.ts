@@ -831,7 +831,7 @@ export class OverviewWrapperComponent implements OnInit {
   retailerID: number;
   userRole: string;
 
-  kpisLegends1 = ['investment', 'clicks', 'bounce_rate', 'transaccions', 'revenue']
+  kpisLegends1 = ['inversion', 'clicks', 'bounce_rate', 'transactions', 'revenue']
   kpisLegends2 = ['ctr', 'users', 'cr', 'roas']
 
   kpis: any[] = [
@@ -945,8 +945,8 @@ export class OverviewWrapperComponent implements OnInit {
     this.overviewService.getKpis(this.countryID).subscribe(
       (resp: any[]) => {
         // console.log('resp', resp);
-        const kpis1 = resp.filter(kpi => this.kpisLegends1.includes(kpi.name));
-        const kpis2 = resp.filter(kpi => this.kpisLegends2.includes(kpi.name));
+        const kpis1 = resp.filter(kpi => this.kpisLegends1.includes(kpi.string));
+        const kpis2 = resp.filter(kpi => this.kpisLegends2.includes(kpi.string));
         // console.log('kpis1', kpis1);
         // console.log('kpis2', kpis2);
 
@@ -975,7 +975,7 @@ export class OverviewWrapperComponent implements OnInit {
     this.overviewService.getCategoriesBySector(this.countryID, sector).subscribe(
       (resp: any[]) => {
         // console.log('resp', resp);
-        this.categoriesBySector = resp;
+        this.categoriesBySector = resp.sort((a, b) => (a.retailer < b.retailer ? -1 : 1));;
         this.categoriesReqStatus = 2;
       },
       error => {
