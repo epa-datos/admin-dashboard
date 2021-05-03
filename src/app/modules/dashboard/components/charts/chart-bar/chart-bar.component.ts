@@ -101,7 +101,8 @@ export class ChartBarComponent implements OnInit, AfterViewInit {
         var legenddata = [];
         series.columns.each(function (column) {
           legenddata.push({
-            name: `${column.dataItem['categoryX']} ${column.dataItem['valueY']} ${valueFormat ? valueFormat : ''}`,
+            // name: `${column.dataItem['categoryX']} ${column.dataItem['valueY']} ${valueFormat ? valueFormat : ''}`,
+            name: `${column.dataItem['categoryX']}`,
             fill: column.fill
           });
         });
