@@ -18,6 +18,8 @@ export class ChartHeatMapComponent implements OnInit, AfterViewInit {
   @Input() showGridBorders: boolean = false;
   @Input() showHeatLegend: boolean = true; // lower legend with average values triggering by column hover
   @Input() initialColor: string; // valid css color
+  @Input() status: number = 2; // 0) initial 1) load 2) ready 3) error
+  @Input() errorLegend: string;
 
   private _name: string;
   get name() {
@@ -39,7 +41,6 @@ export class ChartHeatMapComponent implements OnInit, AfterViewInit {
 
   chart;
   chartID;
-  loadStatus: number = 0;
 
   constructor() { }
 
@@ -81,16 +82,17 @@ export class ChartHeatMapComponent implements OnInit, AfterViewInit {
     series.defaultState.transitionDuration = 3000;
 
     let bgColor = new am4core.InterfaceColorSet().getFor('background');
-    let bgColor2 = am4core.color('#adb5bd');
 
     let columnTemplate = series.columns.template;
-    columnTemplate.strokeWidth = 1;
-    columnTemplate.strokeOpacity = 0.2;
 
     if (this.showGridBorders) {
+      let bgColor2 = am4core.color('#ffffff');
       columnTemplate.stroke = bgColor2;
+      columnTemplate.strokeWidth = 2;
     } else {
       columnTemplate.stroke = bgColor
+      columnTemplate.strokeWidth = 1;
+      columnTemplate.strokeOpacity = 0.2;
     }
 
     let tooltipLegend = this.showTooltipValue

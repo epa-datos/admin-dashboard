@@ -20,6 +20,8 @@ import { RetailFiltersComponent } from './components/retail-filters/retail-filte
 import { CardStatComponent } from './components/card-stat/card-stat.component';
 import { CampaignsTablesComponent } from './components/campaigns-tables/campaigns-tables.component';
 import { GoogleBusinessComponent } from './components/google-business/google-business.component';
+import { CampaignComparatorComponent } from './pages/campaign-comparator/campaign-comparator.component';
+import { SentimentAnalysisComponent } from './pages/sentiment-analysis/sentiment-analysis.component';
 import { DashboardRoutes } from './dashboard.routing';
 
 // pages
@@ -47,6 +49,7 @@ import { ChartColumnLineMixComponent } from './components/charts/chart-column-li
 import { ChartPictorialComponent } from './components/charts/chart-pictorial/chart-pictorial.component';
 import { ChartPyramidComponent } from './components/charts/chart-pyramid/chart-pyramid.component';
 import { ChartMultipleAxesComponent } from './components/charts/chart-multiple-axes/chart-multiple-axes.component';
+import { ChartLoaderComponent } from './components/charts/chart-loader/chart-loader.component';
 
 
 @NgModule({
@@ -77,6 +80,9 @@ import { ChartMultipleAxesComponent } from './components/charts/chart-multiple-a
     ChartPyramidComponent,
     GoogleBusinessComponent,
     ChartMultipleAxesComponent,
+    ChartLoaderComponent,
+    CampaignComparatorComponent,
+    SentimentAnalysisComponent,
   ],
   imports: [
     CommonModule,

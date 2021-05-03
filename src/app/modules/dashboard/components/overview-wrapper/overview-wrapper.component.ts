@@ -1,4 +1,8 @@
+import { any } from '@amcharts/amcharts4/.internal/core/utils/Array';
 import { Component, Input, OnInit } from '@angular/core';
+import { AppStateService } from 'src/app/services/app-state.service';
+import { UserService } from 'src/app/services/user.service';
+import { OverviewService } from '../../services/overview.service';
 
 @Component({
   selector: 'app-overview-wrapper',
@@ -11,47 +15,6 @@ export class OverviewWrapperComponent implements OnInit {
   @Input() selectedID: number; // country or retailer id
 
   countryName: string;
-  stats: any[] = [
-    {
-      metricTitle: 'Inversión',
-      metricValue: 'USD 35,000',
-      icon: 'fas fa-wallet',
-      iconBg: '#172b4d'
-    },
-    {
-      metricTitle: 'Clicks',
-      metricValue: '280,0000',
-      subMetricTitle: 'CTR',
-      subMetricValue: '000',
-      icon: 'fas fa-hand-pointer',
-      iconBg: '#2f9998'
-
-    },
-    {
-      metricTitle: 'Bounce Rate',
-      metricValue: '12%',
-      subMetricTitle: 'Usuarios',
-      subMetricValue: '27000',
-      icon: 'fas fa-stopwatch',
-      iconBg: '#a77dcc'
-    },
-    {
-      metricTitle: 'Transacciones',
-      metricValue: '3,500',
-      subMetricTitle: 'CR',
-      subMetricValue: '000',
-      icon: 'fas fa-shopping-basket',
-      iconBg: '#f89934'
-    },
-    {
-      metricTitle: 'Revenue',
-      metricValue: '3,500',
-      subMetricTitle: 'ROAS',
-      subMetricValue: '000',
-      icon: 'fas fa-hand-holding-usd',
-      iconBg: '#fbc001'
-    }
-  ];
 
   categoriesXRetailSearch: any[] = [
     {
@@ -518,23 +481,23 @@ export class OverviewWrapperComponent implements OnInit {
   ]
 
   devicesByTraffic: any[] = [
-    { id: 1, name: 'Desktop', value: 2500 },
-    { id: 2, name: 'Mobile', value: 10500 },
+    { name: 'Desktop', value: 2500 },
+    { name: 'Mobile', value: 10500 },
   ]
 
   devicesBySales: any[] = [
-    { id: 1, name: 'Desktop', value: 300 },
-    { id: 2, name: 'Mobile', value: 450 },
+    { name: 'Desktop', value: 300 },
+    { name: 'Mobile', value: 450 },
   ]
 
   genderByTraffic: any[] = [
-    { id: 1, name: 'Hombre', value: 5500 },
-    { id: 2, name: 'Mujer', value: 7500 },
+    { name: 'Hombre', value: 5500 },
+    { name: 'Mujer', value: 7500 },
   ]
 
   genderBySales: any[] = [
-    { id: 1, name: 'Hombre', value: 1200 },
-    { id: 2, name: 'Mujer', value: 12800 },
+    { name: 'Hombre', value: 1200 },
+    { name: 'Mujer', value: 12800 },
   ]
 
   ageByTraffic: any[] = [
@@ -864,9 +827,179 @@ export class OverviewWrapperComponent implements OnInit {
 
   valueName = 'Usuarios';
 
-  constructor() { }
+  countryID: number;
+  retailerID: number;
+  userRole: string;
+
+  kpisLegends1 = ['inversion', 'clicks', 'bounce_rate', 'transactions', 'revenue']
+  kpisLegends2 = ['ctr', 'users', 'cr', 'roas']
+
+  kpis: any[] = [
+    {
+      metricTitle: 'inversión',
+      metricName: 'investment',
+      metricFormat: 'currency',
+      metricSymbol: 'USD',
+      icon: 'fas fa-wallet',
+      iconBg: '#172b4d'
+    },
+    {
+      metricTitle: 'clicks',
+      metricName: 'clicks',
+      subMetricTitle: 'ctr',
+      subMetricName: 'ctr',
+      subMetricFormat: 'percentage',
+      icon: 'fas fa-hand-pointer',
+      iconBg: '#2f9998'
+
+    },
+    {
+      metricTitle: 'bounce rate',
+      metricName: 'bounce_rate',
+      metricFormat: 'percentage',
+      subMetricTitle: 'usuarios',
+      subMetricName: 'users',
+      icon: 'fas fa-stopwatch',
+      iconBg: '#a77dcc'
+    },
+    {
+      metricTitle: 'transacciones',
+      metricName: 'transaccions',
+      subMetricTitle: 'CR',
+      subMetricName: 'cr',
+      subMetricFormat: 'percentage',
+      icon: 'fas fa-shopping-basket',
+      iconBg: '#f89934'
+    },
+    {
+      metricTitle: 'revenue',
+      metricName: 'revenue',
+      metricFormat: 'currency',
+      subMetricTitle: 'roas',
+      subMetricName: 'roas',
+      subMetricFormat: 'decimals',
+      icon: 'fas fa-hand-holding-usd',
+      iconBg: '#fbc001'
+    }
+  ];
+
+  categoriesBySector: any[];
+  trafficAndSales = {};
+
+  kpisReqStatus: number = 0;
+  categoriesReqStatus: number = 0;
+  trafficSalesReqStatus = [
+    { name: 'device', reqStatus: 0 },
+    { name: 'gender', reqStatus: 0 },
+    { name: 'age', reqStatus: 0 },
+    { name: 'gender-and-age', reqStatus: 0 }
+  ];
+
+
+  constructor(
+    private appStateService: AppStateService,
+    private overviewService: OverviewService,
+    private userService: UserService
+  ) { }
 
   ngOnInit(): void {
+    // tengo que partir de valores iniciales cuando se inicualiza el componente ya que en ese momento puede que no haya cambio
+    this.userRole = this.userService.user.role_name;
+
+    const selectedCountry = this.appStateService.selectedCountry;
+    this.countryID = selectedCountry?.id && selectedCountry?.id;
+    this.countryID && this.getAllData();
+
+    this.appStateService.selectedCountry$.subscribe(country => {
+      if (this.userRole !== 'retailer' && country?.id !== this.countryID) {
+        this.countryID = country?.id !== this.countryID && country?.id;
+        this.getAllData();
+      }
+
+    });
+
+    this.appStateService.selectedRetailer$.subscribe(retailer => {
+      if (retailer?.id !== this.retailerID) {
+        this.retailerID = retailer?.id !== this.retailerID && retailer?.id;
+        this.getAllData();
+      }
+
+    });
+  }
+
+  getAllData() {
+    this.getKpis();
+    this.getCategoriesBySector('Search', 1);
+    this.getDataByTrafficAndSales('traffic', 1);
+  }
+
+
+  getKpis() {
+    this.kpisReqStatus = 1;
+    this.overviewService.getKpis(this.countryID).subscribe(
+      (resp: any[]) => {
+        const kpis1 = resp.filter(kpi => this.kpisLegends1.includes(kpi.string));
+        const kpis2 = resp.filter(kpi => this.kpisLegends2.includes(kpi.string));
+
+        for (let i = 0; i < this.kpis.length; i++) {
+          const baseObj = this.kpis[i];
+          baseObj.metricValue = kpis1[i]['value'];
+
+          if (i !== 0 && kpis2[i - 1]) {
+            baseObj.subMetricValue = kpis2[i - 1]['value'];
+          }
+
+        }
+        this.kpisReqStatus = 2;
+      },
+      error => {
+        const errorMsg = error?.error?.message ? error.error.message : error?.message;
+        console.error(`[overview-wrapper.component]: ${errorMsg}`);
+        this.kpisReqStatus = 3;
+      });
+  }
+
+  getCategoriesBySector(sector: string, selectedTab: number) {
+    this.categoriesReqStatus = 1;
+    this.overviewService.getCategoriesBySector(this.countryID, sector).subscribe(
+      (resp: any[]) => {
+        this.categoriesBySector = resp.sort((a, b) => (a.retailer < b.retailer ? -1 : 1));;
+        this.categoriesReqStatus = 2;
+      },
+      error => {
+        const errorMsg = error?.error?.message ? error.error.message : error?.message;
+        console.error(`[overview-wrapper.component]: ${errorMsg}`);
+        this.categoriesReqStatus = 3;
+      });
+
+    this.selectedTab1 = selectedTab;
+  }
+
+  getDataByTrafficAndSales(metricType: string, selectedTab: number) {
+    const requiredData = ['device', 'gender', 'age', 'gender-and-age']
+
+    for (let subMetricType of requiredData) {
+      const reqStatusObj = this.trafficSalesReqStatus.find(item => item.name === subMetricType);
+      reqStatusObj.reqStatus = 1;
+      this.overviewService.getTrafficAndSales(this.countryID, metricType, subMetricType).subscribe(
+        (resp: any[]) => {
+          if (subMetricType === 'gender-and-age') {
+            this.trafficAndSales['genderByAge'] = resp;
+          } else {
+            this.trafficAndSales[subMetricType] = resp;
+          }
+
+          reqStatusObj.reqStatus = 2;
+
+        },
+        error => {
+          const errorMsg = error?.error?.message ? error.error.message : error?.message;
+          console.error(`[overview-wrapper.component]: ${errorMsg}`);
+          reqStatusObj.reqStatus = 3;
+        });
+
+      this.selectedTab2 = selectedTab;
+    }
   }
 
   changeSectorData(category, selectedTab) {

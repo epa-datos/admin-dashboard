@@ -3,7 +3,29 @@
         <div class="metric-container">
             <div class="metric-data">
                 <h4 class="card-title text-uppercase text-muted mb-0">{{ stat.metricTitle }}</h4>
-                <span class="h3 font-weight-bold mb-0">{{ stat.metricValue }}</span>
+                <!-- content -->
+                <ng-container *ngIf="!loader">
+                    <ng-container [ngSwitch]="stat.metricFormat">
+                        <span *ngSwitchCase="'currency'" class="h3 font-weight-bold mb-0">
+                            {{ stat.metricValue | currency }}
+                        </span>
+                        <span *ngSwitchCase="'percentage'" class="h3 font-weight-bold mb-0">
+                            {{ stat.metricValue | number : '1.2-2' }}%
+                        </span>
+                        <span *ngSwitchCase="'decimals'" class="h3 font-weight-bold mb-0">
+                            {{ stat.metricValue | number : '1.2-2' }}
+                        </span>
+                        <span *ngSwitchDefault class="h3 font-weight-bold mb-0">
+                            {{ stat.metricValue }}
+                        </span>
+                    </ng-container>
+                    <span class="h3 font-weight-bold mb-0">{{ stat.metricSymbol }}</span>
+                </ng-container>
+
+                <!-- loader -->
+                <ng-container *ngIf="loader">
+                    <div class="bar-loader"></div>
+                </ng-container>
             </div>
             <div class="metric-icon">
                 <div class="icon icon-shape text-white rounded-circle shadow" [style.background-color]="stat.iconBg">
@@ -14,7 +36,29 @@
         <div class="submetric-container text-muted" *ngIf="stat.subMetricTitle">
             <div class="submetric-data">
                 <span class="text-nowrap h5 mr-2 text-muted text-uppercase"><b>{{ stat.subMetricTitle }}</b></span>
-                <span>{{ stat.subMetricValue }}</span>
+                <!-- content -->
+                <ng-container *ngIf="!loader">
+                    <ng-container [ngSwitch]="stat.subMetricFormat">
+                        <span *ngSwitchCase="'currency'">
+                            {{ stat.subMetricValue | currency }}
+                        </span>
+                        <span *ngSwitchCase="'percentage'">
+                            {{ stat.subMetricValue | number : '1.2-2' }}%
+                        </span>
+                        <span *ngSwitchCase="'decimals'">
+                            {{ stat.subMetricValue | number : '1.2-2' }}
+                        </span>
+                        <span *ngSwitchDefault>
+                            {{ stat.subMetricValue }}
+                        </span>
+                    </ng-container>
+                    <span>{{ stat.subMetricSymbol }}</span>
+                </ng-container>
+
+                <!-- loader -->
+                <ng-container *ngIf="loader">
+                    <div class="bar-loader"></div>
+                </ng-container>
             </div>
         </div>
     </div>

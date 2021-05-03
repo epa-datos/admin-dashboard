@@ -10,12 +10,12 @@ import am4themes_animated from '@amcharts/amcharts4/themes/animated';
 })
 export class ChartLollipopComponent implements OnInit, AfterViewInit {
 
-  @Input() value: string = 'value';
   @Input() category: string = 'category';
   @Input() height: string = '350px'; // height property value valid in css
+  @Input() status: number = 2; // 0) initial 1) load 2) ready 3) error
+  @Input() errorLegend: string;
 
   graphID;
-  loadStatus: number = 0;
 
   private _name: string;
   get name() {
@@ -32,8 +32,22 @@ export class ChartLollipopComponent implements OnInit, AfterViewInit {
   }
   @Input() set data(value) {
     this._data = value;
-    this.chart && this.loadChartData(this.chart);
+    if (this.chart) {
+      this.loadChartData(this.chart);
+    }
   }
+
+  private _value = 'value';
+  get value() {
+    return this._value;
+  }
+  @Input() set value(value) {
+    this._value = value;
+    if (this.series) {
+      this.series.dataFields.valueY = this.value;
+    }
+  }
+
 
   private _valueFormat;
   get valueFormat() {
@@ -105,7 +119,10 @@ export class ChartLollipopComponent implements OnInit, AfterViewInit {
   }
 
   loadChartData(chart) {
+    console.log('loadChartData')
     chart.data = this.data;
+
+    console.log('chart.data', chart.data)
     this.chart = chart;
   }
 
