@@ -8,6 +8,7 @@ import { Configuration } from 'src/app/app.constants';
 })
 export class OverviewService {
   private baseUrl: string;
+  period = `start_date=2021-04-15&end_date=2021-04-30`
 
   constructor(
     private http: HttpClient,
@@ -21,7 +22,7 @@ export class OverviewService {
     if (!countryID) {
       return throwError('[overview.service]: not countryID provided');
     }
-    return this.http.get(`${this.baseUrl}/country/${countryID}/kpis`);
+    return this.http.get(`${this.baseUrl}/countries/${countryID}/kpis?sectors=1,2,3&categories=1,2,3,4&${this.period}`);
   }
 
   // *** categories by sector ***
@@ -32,8 +33,8 @@ export class OverviewService {
     if (!sector) {
       return throwError('[overview.service]: not sector provided');
     }
-    return this.http.get(`${this.baseUrl}/country/${countryID}/retailer/categories/sector`);
-    return this.http.get(`${this.baseUrl}/country/${countryID}/retailer/categories?sector=${sector}`);
+    // return this.http.get(`${this.baseUrl}/countries/${countryID}/retailer/categories/sector`);
+    return this.http.get(`${this.baseUrl}/countries/${countryID}/retailer/categories?sector=${sector}&${this.period}`);
   }
 
   // *** traffic and sales ***
@@ -47,6 +48,6 @@ export class OverviewService {
     if (!subMetricType) {
       return throwError('[overview.service]: not subMetricType provided');
     }
-    return this.http.get(`${this.baseUrl}/country/${countryID}/${metricType}/${subMetricType}`);
+    return this.http.get(`${this.baseUrl}/countries/${countryID}/${metricType}/${subMetricType}?${this.period}`);
   }
 }
