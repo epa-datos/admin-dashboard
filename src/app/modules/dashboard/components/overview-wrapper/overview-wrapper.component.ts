@@ -877,7 +877,7 @@ export class OverviewWrapperComponent implements OnInit {
       metricFormat: 'currency',
       subMetricTitle: 'roas',
       subMetricName: 'roas',
-      subMetricFormat: 'percentage',
+      subMetricFormat: 'decimals',
       icon: 'fas fa-hand-holding-usd',
       iconBg: '#fbc001'
     }

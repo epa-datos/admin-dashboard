@@ -10,7 +10,10 @@
                             {{ stat.metricValue | currency }}
                         </span>
                         <span *ngSwitchCase="'percentage'" class="h3 font-weight-bold mb-0">
-                            {{ stat.metricValue | number : '1.2-3' }}%
+                            {{ stat.metricValue | number : '1.2-2' }}%
+                        </span>
+                        <span *ngSwitchCase="'decimals'" class="h3 font-weight-bold mb-0">
+                            {{ stat.metricValue | number : '1.2-2' }}
                         </span>
                         <span *ngSwitchDefault class="h3 font-weight-bold mb-0">
                             {{ stat.metricValue }}
@@ -40,7 +43,10 @@
                             {{ stat.subMetricValue | currency }}
                         </span>
                         <span *ngSwitchCase="'percentage'">
-                            {{ stat.subMetricValue | number : '1.2-3' }}%
+                            {{ stat.subMetricValue | number : '1.2-2' }}%
+                        </span>
+                        <span *ngSwitchCase="'decimals'">
+                            {{ stat.subMetricValue | number : '1.2-2' }}
                         </span>
                         <span *ngSwitchDefault>
                             {{ stat.subMetricValue }}
