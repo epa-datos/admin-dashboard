@@ -20,6 +20,8 @@ export class ChartHeatMapComponent implements OnInit, AfterViewInit {
   @Input() initialColor: string; // valid css color
   @Input() status: number = 2; // 0) initial 1) load 2) ready 3) error
   @Input() errorLegend: string;
+  @Input() minValue: number; // optional
+  @Input() maxValue: number; // optional
 
   private _name: string;
   get name() {
@@ -108,7 +110,9 @@ export class ChartHeatMapComponent implements OnInit, AfterViewInit {
       target: columnTemplate,
       property: 'fill',
       min: this.initialColor ? am4core.color(this.initialColor) : am4core.color(bgColor),
-      max: chart.colors.getIndex(0)
+      max: chart.colors.getIndex(0),
+      minValue: this.minValue && this.minValue,
+      maxValue: this.maxValue && this.maxValue
     });
 
     this.loadChartData(chart);
