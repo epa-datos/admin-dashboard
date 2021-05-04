@@ -1,0 +1,12 @@
+.select-value {
+    // max-width: calc(100% - 70px);
+    display: inline-block;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.select-value-container {
+    align-items: center;
+    display: flex;
+}

@@ -1,57 +1,71 @@
-<div class="row">
-    <div class="col-12 col-sm-6 col-lg-3 mb-4">
-        <div class="date-picker">
-            <span class="mb-1 h4">Periodo</span>
-            <mat-form-field appearance="fill">
-                <mat-date-range-input [rangePicker]="picker">
-                    <input matStartDate placeholder="Fecha inicio">
-                    <input matEndDate placeholder="Fecha fin">
-                </mat-date-range-input>
-                <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
-                <mat-date-range-picker #picker></mat-date-range-picker>
-            </mat-form-field>
+<form role="form" [formGroup]="form">
+    <div class="row">
+        <div class="col-12 col-sm-6 col-lg-3 mb-4">
+            <div class="date-picker">
+                <span class="mb-1 h4">Periodo</span>
+                <mat-form-field appearance="fill">
+                    <mat-date-range-input [rangePicker]="picker">
+                        <input matStartDate formControlName="startDate" placeholder="Fecha inicio">
+                        <input matEndDate formControlName="endDate" placeholder="Fecha fin">
+                    </mat-date-range-input>
+                    <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                    <mat-date-range-picker #picker></mat-date-range-picker>
+                </mat-form-field>
+                <small class="text-danger" *ngIf="!startDate.valid && startDate.touched">
+                    Fecha inicio inválida
+                </small>
+                <small class="text-danger" *ngIf="!endDate.valid && endDate.touched">
+                    Fecha fin inválida
+                </small>
+            </div>
+        </div>
+        <div class="col-12 col-sm-6 col-lg-3 mb-4">
+            <span class="mb-1 h4">Sector</span>
+            <mat-select formControlName="sectors" multiple placeholder="Selecciona un Sector">
+                <mat-select-trigger>
+                    <div class="select-value-container">
+                        <span class="select-value">{{sectors.value ? sectors.value[0]?.name : ''}}</span>
+                        <span *ngIf="sectors.value?.length > 1" class="example-additional-selection">
+                            (+ {{sectors.value?.length === 2 ? 'otra' : 'otras'}}
+                            {{ sectors.value?.length === 2 ? '' : sectors.value.length - 1}})
+                        </span>
+                    </div>
+                </mat-select-trigger>
+                <mat-option *ngFor="let sector of sectorList" [value]="sector">{{sector.name}}</mat-option>
+            </mat-select>
+        </div>
+        <div class="col-12 col-sm-6 col-lg-3 mb-4">
+            <span class="mb-1 h4">Categoría</span>
+            <mat-select formControlName="categories" multiple placeholder="Selecciona una Categoría">
+                <mat-select-trigger>
+                    <div class="select-value-container">
+                        <span class="select-value">{{categories.value ? categories.value[0]?.name : ''}}</span>
+                        <span *ngIf="categories.value?.length > 1" class="example-additional-selection">
+                            (+ {{categories.value?.length === 2 ? 'otra' : 'otras'}}
+                            {{ categories.value?.length === 2 ? '' : categories.value.length - 1}})
+                        </span>
+                    </div>
+                </mat-select-trigger>
+                <mat-option *ngFor="let category of categoryList" [value]="category">{{category.name}}</mat-option>
+            </mat-select>
+        </div>
+        <div class="col-12 col-sm-6 col-lg-3 mb-4">
+            <span class="mb-1 h4">Campaña</span>
+            <mat-select formControlName="campaigns" multiple placeholder="Selecciona una Campaña">
+                <mat-select-trigger>
+                    <div class="select-value-container">
+                        <span class="select-value">{{campaigns.value ? campaigns.value[0]?.name : ''}}</span>
+                        <span *ngIf="campaigns.value?.length > 1" class="example-additional-selection">
+                            (+ {{campaigns.value?.length === 2 ? 'otra' : 'otras'}}
+                            {{ campaigns.value?.length === 2 ? '' : campaigns.value.length - 1}})
+                        </span>
+                    </div>
+                </mat-select-trigger>
+                <mat-option *ngFor="let campaign of campaignList" [value]="campaign">{{campaign.name}}</mat-option>
+            </mat-select>
         </div>
     </div>
-    <div class="col-12 col-sm-6 col-lg-3 mb-4">
-        <span class="mb-1 h4">Sector</span>
-        <mat-select [formControl]="sectors" multiple placeholder="Selecciona un Sector">
-            <mat-select-trigger>
-                {{sectors.value ? sectors.value[0]?.name : ''}}
-                <span *ngIf="sectors.value?.length > 1" class="example-additional-selection">
-                    (+ {{sectors.value?.length === 2 ? 'otra' : 'otras'}}
-                    {{ sectors.value?.length === 2 ? '' : sectors.value.length - 1}})
-                </span>
-            </mat-select-trigger>
-            <mat-option *ngFor="let sector of sectorList" [value]="sector">{{sector.name}}</mat-option>
-        </mat-select>
-    </div>
-    <div class="col-12 col-sm-6 col-lg-3 mb-4">
-        <span class="mb-1 h4">Categoría</span>
-        <mat-select [formControl]="categories" multiple placeholder="Selecciona una Categoría">
-            <mat-select-trigger>
-                {{categories.value ? categories.value[0]?.name : ''}}
-                <span *ngIf="categories.value?.length > 1" class="example-additional-selection">
-                    (+ {{categories.value?.length === 2 ? 'otra' : 'otras'}}
-                    {{ categories.value?.length === 2 ? '' : categories.value.length - 1}})
-                </span>
-            </mat-select-trigger>
-            <mat-option *ngFor="let category of categoryList" [value]="category">{{category.name}}</mat-option>
-        </mat-select>
-    </div>
-    <div class="col-12 col-sm-6 col-lg-3 mb-4">
-        <span class="mb-1 h4">Campaña</span>
-        <mat-select [formControl]="campaigns" multiple placeholder="Selecciona una Campaña">
-            <mat-select-trigger>
-                {{campaigns.value ? campaigns.value[0]?.name : ''}}
-                <span *ngIf="campaigns.value?.length > 1" class="example-additional-selection">
-                    (+ {{campaigns.value?.length === 2 ? 'otra' : 'otras'}}
-                    {{ campaigns.value?.length === 2 ? '' : campaigns.value.length - 1}})
-                </span>
-            </mat-select-trigger>
-            <mat-option *ngFor="let campaign of campaignList" [value]="campaign">{{campaign.name}}</mat-option>
-        </mat-select>
-    </div>
-</div>
+</form>
 
 <div class="row">
     <div class="col-12 text-right">

@@ -2,8 +2,9 @@ import { Component, OnInit } from '@angular/core';
 import { UsersMngmtService } from 'src/app/modules/users-mngmt/services/users-mngmt.service';
 import { MomentDateAdapter, MAT_MOMENT_DATE_ADAPTER_OPTIONS } from '@angular/material-moment-adapter';
 import { DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE } from '@angular/material/core';
-import { FormControl } from '@angular/forms';
-
+import { AbstractControl, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { OverviewService } from '../../services/overview.service';
+import { AppStateService } from 'src/app/services/app-state.service';
 
 export const MY_FORMATS = {
   parse: {
@@ -34,67 +35,104 @@ export const MY_FORMATS = {
 })
 export class GeneralFiltersComponent implements OnInit {
 
-  sectors = new FormControl();
   sectorList: any[];
-
-  categories = new FormControl();
   categoryList: any[];
-
-  campaigns = new FormControl();
   campaignList: any[];
 
-  selectedSector: any;
-  selectedCategory: any;
-  selectedCampaign: any;
+  countryID: number;
 
-  constructor(private usersMngmtService: UsersMngmtService) { }
+  form: FormGroup;
+  startDate: AbstractControl;
+  endDate: AbstractControl;
+  sectors: AbstractControl;
+  categories: AbstractControl;
+  campaigns: AbstractControl;
 
-  ngOnInit(): void {
-    this.getSectors();
-    this.getCategories();
-    this.getCampaigns();
+  constructor(
+    private fb: FormBuilder,
+    private appStateService: AppStateService,
+    private usersMngmtService: UsersMngmtService,
+    private overviewService: OverviewService,
+  ) { }
+
+  ngOnInit() {
+    this.loadForm();
+    const selectedCountry = this.appStateService.selectedCountry;
+    if (selectedCountry?.id) {
+      this.countryID = selectedCountry.id;
+      this.fillFilters();
+    }
+
+    this.appStateService.selectedCountry$.subscribe(country => {
+      if (country?.id !== this.countryID) {
+        this.countryID = country.id;
+        this.fillFilters();
+      }
+    });
+  }
+
+  loadForm() {
+    let today = new Date();
+    let previousDay = new Date();
+    let daysAgo = 15;
+
+    previousDay.setDate(today.getDate() - daysAgo);
+
+    this.form = this.fb.group({
+      startDate: new FormControl(previousDay, [Validators.required]),
+      endDate: new FormControl(today, [Validators.required]),
+      sectors: new FormControl(),
+      categories: new FormControl(),
+      campaigns: new FormControl()
+    });
+
+    this.startDate = this.form.controls['startDate'];
+    this.endDate = this.form.controls['endDate'];
+    this.sectors = this.form.controls['sectors'];
+    this.categories = this.form.controls['categories'];
+    this.campaigns = this.form.controls['campaigns'];
+  }
+
+  async fillFilters() {
+    await this.getSectors();
+    await this.getCategories();
+    this.countryID && this.getCampaigns();
   }
 
   getSectors() {
     this.usersMngmtService.getSectors()
-      .subscribe(
-        (res: any[]) => {
-          this.sectorList = res;
-        },
-        error => {
-          console.error(`[general-filers.component]: ${error}`);
-        }
-      );
+      .toPromise()
+      .then((res: any[]) => {
+        this.sectorList = res;
+        this.sectors.patchValue([...this.sectorList.map(item => item), 0]);
+      })
+      .catch((error) => {
+        console.error(`[general-filers.component]: ${error}`);
+      });
   }
 
   getCategories() {
     this.usersMngmtService.getCategories()
+      .toPromise()
+      .then((res: any[]) => {
+        this.categoryList = res;
+        this.categories.patchValue([...this.categoryList.map(item => item), 0]);
+      })
+      .catch((error) => {
+        console.error(`[general-filers.component]: ${error}`);
+      });
+  }
+
+  getCampaigns() {
+    this.overviewService.getCampaigns(this.countryID)
       .subscribe(
         (res: any[]) => {
-          this.categoryList = res;
+          this.campaignList = res;
+          this.campaigns.patchValue([...this.campaignList.map(item => item), 0]);
         },
         error => {
           console.error(`[general-filers.component]: ${error}`);
         }
       );
-  }
-
-  getCampaigns() {
-    // this.usersMngmtService.getCategories()
-    //   .subscribe(
-    //     (res: any[]) => {
-    //       this.campaigns = res;
-    //     },
-    //     error => {
-    //       console.error(`[general-filers.component]: ${error}`);
-    //     }
-    //   );
-
-    this.campaignList = [
-      { id: 1, name: 'Campaña 1' },
-      { id: 2, name: 'Campaña 2' },
-      { id: 3, name: 'Campaña 3' },
-      { id: 4, name: 'Campaña 4' }
-    ]
   }
 }
