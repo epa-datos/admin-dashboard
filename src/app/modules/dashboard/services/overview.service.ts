@@ -17,6 +17,14 @@ export class OverviewService {
     this.baseUrl = this.config.endpoint;
   }
 
+  // *** filters ***
+  getCampaigns(countryID) {
+    if (!countryID) {
+      return throwError('[overview.service]: not countryID provided');
+    }
+    return this.http.get(`${this.baseUrl}/countries/${countryID}/campaigns`);
+  }
+
   // *** kpis ***
   getKpis(countryID: number) {
     if (!countryID) {
