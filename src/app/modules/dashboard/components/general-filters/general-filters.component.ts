@@ -5,6 +5,8 @@ import { DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE } from '@angular/materia
 import { AbstractControl, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { OverviewService } from '../../services/overview.service';
 import { AppStateService } from 'src/app/services/app-state.service';
+import { Subscription } from 'rxjs';
+import { debounceTime } from 'rxjs/operators';
 
 export const MY_FORMATS = {
   parse: {
@@ -47,6 +49,13 @@ export class GeneralFiltersComponent implements OnInit {
   sectors: AbstractControl;
   categories: AbstractControl;
   campaigns: AbstractControl;
+  formSub: Subscription;
+  countrySub: Subscription;
+
+  prevSectors: any[];
+  prevCategories: any[];
+  prevDate: any = {};
+  prevCamps: any[];
 
   constructor(
     private fb: FormBuilder,
@@ -63,7 +72,7 @@ export class GeneralFiltersComponent implements OnInit {
       this.fillFilters();
     }
 
-    this.appStateService.selectedCountry$.subscribe(country => {
+    this.countrySub = this.appStateService.selectedCountry$.subscribe(country => {
       if (country?.id !== this.countryID) {
         this.countryID = country.id;
         this.fillFilters();
@@ -91,12 +100,44 @@ export class GeneralFiltersComponent implements OnInit {
     this.sectors = this.form.controls['sectors'];
     this.categories = this.form.controls['categories'];
     this.campaigns = this.form.controls['campaigns'];
+
+    this.prevDate = { startDate: previousDay, endDate: today }
+
+    this.formSub = this.form.valueChanges
+      .pipe(debounceTime(5))
+      .subscribe(form => {
+        if (this.sectors.value && this.categories.value && !this.campaigns.value && this.countryID) {
+          // initial campaigns load
+          this.getCampaigns();
+        } else if (this.sectors.value?.length > 0 && this.categories.value?.length > 0 && this.form.valid) {
+          if (this.prevSectors !== this.sectors.value) {
+            // change in sectors selection
+            console.log('diffrentent sectors')
+            this.getCampaigns();
+            this.prevSectors = this.sectors.value;
+          } else if (this.prevCategories !== this.categories.value) {
+            // change in categories selection
+            console.log('different categories')
+            this.getCampaigns();
+            this.prevCategories = this.categories.value;
+          } else if (this.prevDate.startDate.getTime() !== this.startDate.value._d.getTime() || this.prevDate.endDate.getTime() !== this.endDate.value._d.getTime()) {
+            // change in date selection
+            console.log('different date')
+            this.getCampaigns();
+            this.prevDate = { startDate: this.startDate.value._d, endDate: this.endDate.value._d }
+          } else if (this.prevCamps !== this.campaigns.value) {
+            // change in campaign selection
+            console.log('different campaigns')
+            const areAll = this.areAllCampaignsSelected();
+            this.prevCamps = this.campaigns.value;
+          }
+        }
+      });
   }
 
   async fillFilters() {
     await this.getSectors();
     await this.getCategories();
-    this.countryID && this.getCampaigns();
   }
 
   getSectors() {
@@ -104,7 +145,8 @@ export class GeneralFiltersComponent implements OnInit {
       .toPromise()
       .then((res: any[]) => {
         this.sectorList = res;
-        this.sectors.patchValue([...this.sectorList.map(item => item), 0]);
+        this.sectors.patchValue([...this.sectorList.map(item => item)]);
+        this.prevSectors = this.sectors.value;
       })
       .catch((error) => {
         console.error(`[general-filers.component]: ${error}`);
@@ -116,7 +158,8 @@ export class GeneralFiltersComponent implements OnInit {
       .toPromise()
       .then((res: any[]) => {
         this.categoryList = res;
-        this.categories.patchValue([...this.categoryList.map(item => item), 0]);
+        this.categories.patchValue([...this.categoryList.map(item => item)]);
+        this.prevCategories = this.categories.value;
       })
       .catch((error) => {
         console.error(`[general-filers.component]: ${error}`);
@@ -124,15 +167,37 @@ export class GeneralFiltersComponent implements OnInit {
   }
 
   getCampaigns() {
-    this.overviewService.getCampaigns(this.countryID)
+    console.log('getCampaigns')
+    const sectorsStrList = this.convertArrayToString(this.sectors.value, 'id');
+    const categoriesStrList = this.convertArrayToString(this.categories.value, 'id');
+
+    this.overviewService.getCampaigns(this.countryID, sectorsStrList, categoriesStrList)
       .subscribe(
         (res: any[]) => {
           this.campaignList = res;
-          this.campaigns.patchValue([...this.campaignList.map(item => item), 0]);
+          this.campaigns.patchValue([...this.campaignList.map(item => item)]);
         },
         error => {
           console.error(`[general-filers.component]: ${error}`);
         }
       );
+  }
+
+  convertArrayToString(array, param: string): string {
+    let stringArray = '';
+    for (let i = 0; i < array.length; i++) {
+      stringArray = stringArray.concat(',', array[i][param]);
+    }
+
+    return stringArray.substring(1);
+  }
+
+  areAllCampaignsSelected(): boolean {
+    return JSON.stringify(this.campaignList) == JSON.stringify(this.campaigns.value) ? true : false;
+  }
+
+  ngOnDestroy() {
+    this.formSub && this.formSub.unsubscribe();
+    this.countrySub && this.countrySub.unsubscribe();
   }
 }
