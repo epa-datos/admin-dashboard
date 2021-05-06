@@ -774,37 +774,37 @@ export class OverviewWrapperComponent implements OnInit {
     {
       name: 'Search',
       serie: [
-        { date: new Date(2021, 3, 15), value: 2500 },
-        { date: new Date(2021, 3, 16), value: 4700 },
-        { date: new Date(2021, 3, 17), value: 4600 },
-        { date: new Date(2021, 3, 18), value: 4700 },
-        { date: new Date(2021, 3, 19), value: 4500 },
-        { date: new Date(2021, 3, 20), value: 4300 },
-        { date: new Date(2021, 3, 21), value: 4400 }
+        { date: '2021-03-15', value: 2500 },
+        { date: '2021-03-16', value: 4700 },
+        { date: '2021-03-17', value: 4600 },
+        { date: '2021-03-18', value: 4700 },
+        { date: '2021-03-19', value: 4500 },
+        { date: '2021-03-20', value: 4300 },
+        { date: '2021-03-21', value: 4400 }
       ]
     },
     {
       name: 'Marketing',
       serie: [
-        { date: new Date(2021, 3, 15), value: 2000 },
-        { date: new Date(2021, 3, 16), value: 3500 },
-        { date: new Date(2021, 3, 17), value: 3200 },
-        { date: new Date(2021, 3, 18), value: 3600 },
-        { date: new Date(2021, 3, 19), value: 3000 },
-        { date: new Date(2021, 3, 20), value: 3400 },
-        { date: new Date(2021, 3, 21), value: 3000 }
+        { date: '2021-03-15', value: 2000 },
+        { date: '2021-03-16', value: 3500 },
+        { date: '2021-03-17', value: 3200 },
+        { date: '2021-03-18', value: 3600 },
+        { date: '2021-03-19', value: 3000 },
+        { date: '2021-03-20', value: 3400 },
+        { date: '2021-03-21', value: 3000 }
       ]
     },
     {
       name: 'Ventas',
       serie: [
-        { date: new Date(2021, 3, 15), value: 4500 },
-        { date: new Date(2021, 3, 16), value: 3700 },
-        { date: new Date(2021, 3, 17), value: 3800 },
-        { date: new Date(2021, 3, 18), value: 3200 },
-        { date: new Date(2021, 3, 19), value: 3500 },
-        { date: new Date(2021, 3, 20), value: 4500 },
-        { date: new Date(2021, 3, 21), value: 4700 }
+        { date: '2021-03-15', value: 4500 },
+        { date: '2021-03-16', value: 3700 },
+        { date: '2021-03-17', value: 3800 },
+        { date: '2021-03-18', value: 3200 },
+        { date: '2021-03-19', value: 3500 },
+        { date: '2021-03-20', value: 4500 },
+        { date: '2021-03-21', value: 4700 }
       ]
     }
   ]
@@ -812,13 +812,13 @@ export class OverviewWrapperComponent implements OnInit {
   saleAndUsersBySector: any[] = this.usersBySector;
 
   investmentVsRevenue = [
-    { date: new Date(2021, 3, 15), value1: 12000, value2: 4370, previousDate: new Date(2021, 3, 15) },
-    { date: new Date(2021, 3, 16), value1: 25000, value2: 40500, previousDate: new Date(2021, 3, 16) },
-    { date: new Date(2021, 3, 17), value1: 40000, value2: 35000, previousDate: new Date(2021, 3, 17) },
-    { date: new Date(2021, 3, 18), value1: 15000, value2: 25000, previousDate: new Date(2021, 3, 18) },
-    { date: new Date(2021, 3, 19), value1: 13200, value2: 10000, previousDate: new Date(2021, 3, 19) },
-    { date: new Date(2021, 3, 20), value1: 12400, value2: 12000, previousDate: new Date(2021, 3, 20) },
-    { date: new Date(2021, 3, 21), value1: 80000, value2: 14000, previousDate: new Date(2021, 3, 21) }
+    { date: '2021-03-15', investment: 12000, revenue: 4370 },
+    { date: '2021-03-16', investment: 25000, revenue: 40500 },
+    { date: '2021-03-17', investment: 40000, revenue: 35000 },
+    { date: '2021-03-18', investment: 15000, revenue: 25000 },
+    { date: '2021-03-19', investment: 13200, revenue: 10000 },
+    { date: '2021-03-20', investment: 12400, revenue: 12000 },
+    { date: '2021-03-21', investment: 80000, revenue: 14000 }
   ]
 
   selectedTab1: number = 1;
