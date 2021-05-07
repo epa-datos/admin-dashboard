@@ -15,7 +15,7 @@ declare interface RouteInfo {
   class?: string;
   icon?: string;
   isParentOf?: string;
-  isForAdmin: boolean;
+  isForAdmin?: boolean;
 }
 
 export const ROUTES = [
@@ -77,6 +77,9 @@ export class SidebarComponent implements OnInit {
     try {
       this.menuReqStatus = 1;
       if (this.userRole === 'admin' || this.userRole === 'hp' || this.userRole === 'country') {
+        // load LATAM menu items
+        this.loadLatamSubmenu();
+        // load countries menu items
         await this.getAvailableCountries();
       } else if (this.userRole === 'retailer') {
         const newMenuItems = await this.getAvailableRetailers();
@@ -91,9 +94,8 @@ export class SidebarComponent implements OnInit {
 
     // Other routes
     const menuItem1 = {
-      // path: '',
       title: 'Comparador de campaña',
-      isForAdmin: false
+      path: '/campaign-comparator',
     }
     this.menuItems.push(menuItem1);
     this.appStateService.updateSidebarData(this.menuItems);
@@ -107,8 +109,35 @@ export class SidebarComponent implements OnInit {
     this.menuItems.push(menuItem2);
     this.appStateService.updateSidebarData(this.menuItems);
 
-
     this.getPrevSelection();
+  }
+
+  loadLatamSubmenu() {
+    const menuItem = {
+      title: 'LATAM',
+      submenu: [
+        {
+          title: 'Programa COOP',
+          path: '/dashboard/country',
+          paramName: 'country',
+          param: 'latam'
+        },
+        {
+          title: 'Otras herramientas',
+          path: '/dashboard/tools',
+          paramName: 'country',
+          param: 'latam'
+        },
+        {
+          title: 'Análisis de sentimientos OmniChat',
+          path: '/dashboard/omnichat',
+          paramName: 'country',
+          param: 'latam'
+        }
+      ],
+      submenuOpen: false
+    }
+    this.menuItems.push(menuItem);
   }
 
   async getPrevSelection() {
@@ -181,20 +210,16 @@ export class SidebarComponent implements OnInit {
         for (let country of countriesWithoutRegion) {
           const submenu = [
             {
-              id: 1,
               title: 'Programa COOP',
               path: '/dashboard/country',
               paramName: 'country',
-              param: country.name.toLowerCase().replaceAll(' ', '-'),
-              isForAdmin: false
+              param: country.name.toLowerCase().replaceAll(' ', '-')
             },
             {
-              id: 2,
               title: 'Otras herramientas',
               path: '/dashboard/tools',
               paramName: 'country',
-              param: country.name.toLowerCase().replaceAll(' ', '-'),
-              isForAdmin: false
+              param: country.name.toLowerCase().replaceAll(' ', '-')
             }
           ]
           const menuItem = {
@@ -204,8 +229,7 @@ export class SidebarComponent implements OnInit {
             param: country.name.toLowerCase().replaceAll(' ', '-'),
             submenu: submenu,
             submenuOpen: false,
-            isParentOf: 'countries',
-            isForAdmin: false
+            isParentOf: 'countries'
           }
 
           menuItems.push(menuItem);
@@ -217,20 +241,16 @@ export class SidebarComponent implements OnInit {
           for (let country of regions[region]) {
             const submenu = [
               {
-                id: 1,
                 title: 'Programa COOP',
                 path: '/dashboard/country',
                 paramName: 'country',
-                param: country.name.toLowerCase().replaceAll(' ', '-'),
-                isForAdmin: false,
+                param: country.name.toLowerCase().replaceAll(' ', '-')
               },
               {
-                id: 2,
                 title: 'Otras herramientas',
                 path: '/dashboard/tools',
                 paramName: 'country',
-                param: country.name.toLowerCase().replaceAll(' ', '-'),
-                isForAdmin: false,
+                param: country.name.toLowerCase().replaceAll(' ', '-')
               }
             ]
 
@@ -241,8 +261,7 @@ export class SidebarComponent implements OnInit {
               paramName: 'country',
               submenu: submenu,
               submenuOpen: false,
-              isParentOf: 'countries',
-              isForAdmin: false,
+              isParentOf: 'countries'
             }
 
             submenuCountries.push(menuItem);
@@ -303,20 +322,16 @@ export class SidebarComponent implements OnInit {
         menuItems = retailers.map(item => {
           const submenu = [
             {
-              id: 1,
               title: 'Programa COOP',
               path: '/dashboard/retailer',
               paramName: 'retailer',
-              param: item.name.toLowerCase().replaceAll(' ', '-'),
-              isForAdmin: false
+              param: item.name.toLowerCase().replaceAll(' ', '-')
             },
             {
-              id: 2,
               title: 'Otras herramientas',
               path: '/dashboard/tools',
               paramName: 'retailer',
-              param: item.name.toLowerCase().replaceAll(' ', '-'),
-              isForAdmin: false
+              param: item.name.toLowerCase().replaceAll(' ', '-')
             }
           ]
           return {
@@ -324,8 +339,7 @@ export class SidebarComponent implements OnInit {
             title: item.name,
             submenu,
             submenuOpen: false,
-            isParentOf: 'retailers',
-            isForAdmin: false,
+            isParentOf: 'retailers'
           }
         })
 
