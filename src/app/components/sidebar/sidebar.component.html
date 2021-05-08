@@ -82,7 +82,7 @@
               {{ menuItem.title }}
             </a>
 
-            <ul class="navbar-sub-nav" *ngIf="menuItem.submenu && menuItem.submenuOpen">
+            <ul class="navbar-nav sub-navbar" *ngIf="menuItem.submenu && menuItem.submenuOpen">
               <li class="{{menuItemL2.class}} nav-item" *ngFor="let menuItemL2 of menuItem.submenu">
                 <a routerLinkActive="active" class="nav-link" [ngClass]="{'active' : menuItemL2 === selectedItemL2 }"
                   (click)="selectItem(menuItemL2, menuItem)">
@@ -93,7 +93,7 @@
                   {{ menuItemL2.title }}
                 </a>
 
-                <ul class="navbar-sub-nav" *ngIf="menuItemL2.submenu && menuItemL2.submenuOpen">
+                <ul class="navbar-nav sub-navbar" *ngIf="menuItemL2.submenu && menuItemL2.submenuOpen">
                   <li class="{{menuItemL3.class}} nav-item" *ngFor="let menuItemL3 of menuItemL2.submenu">
                     <a class="nav-link" [ngClass]="{'active' : menuItemL3 === selectedItemL3 }"
                       (click)="selectItem(menuItemL3, menuItemL2, menuItem)">
@@ -105,7 +105,7 @@
                       {{ menuItemL3.title }}
                     </a>
 
-                    <ul class="navbar-sub-nav" *ngIf="menuItemL3.submenu && menuItemL3.submenuOpen">
+                    <ul class="navbar-nav sub-navbar" *ngIf="menuItemL3.submenu && menuItemL3.submenuOpen">
                       <li class="{{menuItemL4.class}} nav-item" *ngFor="let menuItemL4 of menuItemL3.submenu">
                         <a class="nav-link" [ngClass]="{'active' : menuItemL4 === selectedItemL4 }"
                           (click)="selectItem(menuItemL4, menuItemL3, menuItemL2, menuItem)">

@@ -6,9 +6,6 @@ li {
     cursor: pointer;
 }
 
-
-
-
 .menu-caret {
     min-width: 1.5rem !important;
 }
@@ -17,22 +14,12 @@ li {
     width: 6px;
 }
 
-@media (min-width: 768px) {
-    .navbar-vertical.navbar-expand-md .navbar-nav .nav-link {
-        padding: 0.65rem 2rem;
+.sub-navbar {
+    margin-right: 0 !important;
+    margin-left: 2.2rem !important;
+
+    .nav-link {
+        padding-top: 0.4rem;
+        padding-bottom: 0.4rem;
     }
-}
-
-.navbar-sub-nav {
-    list-style: none;
-
-    .navbar-sub-nav  {
-        .nav-link {
-            padding: 0.2rem 1rem 0.2rem 2.8rem !important;
-        }
-    }
-}
-
-.navbar-sub-nav {
-    padding-left: 1.5rem;
 }
