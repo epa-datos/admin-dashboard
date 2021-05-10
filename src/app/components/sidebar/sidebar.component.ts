@@ -19,11 +19,11 @@ declare interface RouteInfo {
 }
 
 export const ROUTES = [
-  {
-    path: '/dashboard/investment',
-    title: 'Google Investment',
-    isForAdmin: false
-  }
+  // {
+  //   path: '/dashboard/investment',
+  //   title: 'Google Investment',
+  //   isForAdmin: false
+  // }
 ]
 
 @Component({
@@ -162,7 +162,7 @@ export class SidebarComponent implements OnInit {
       this.selectedItemL2.submenu = [... this.selectedItemL2.submenu, ...retailersList];
 
       if (retailer) {
-        this.selectedItemL3 = this.selectedItemL2.submenu.find(item => item.title.toLocaleLowerCase() === retailer);
+        this.selectedItemL3 = this.selectedItemL2.submenu.find(item => item.title.toLocaleLowerCase() === retailer.replaceAll('-', ' '));
         this.appStateService.selectRetailer({ id: this.selectedItemL3.id, name: this.selectedItemL3.title });
         this.selectedItemL3.submenuOpen = true;
 
@@ -184,7 +184,7 @@ export class SidebarComponent implements OnInit {
       this.appStateService.selectCountry({ id: this.selectedItemL1.id, name: this.selectedItemL1.title });
 
       if (retailer) {
-        const itemL2 = this.selectedItemL1.submenu.find(item => item.title.toLocaleLowerCase() === retailer);
+        const itemL2 = this.selectedItemL1.submenu.find(item => item.title.toLocaleLowerCase() === retailer.replaceAll('-', ' '));
         this.selectedItemL2 = itemL2;
         this.appStateService.selectRetailer({ id: this.selectedItemL2.id, name: this.selectedItemL2.title });
 
@@ -202,6 +202,7 @@ export class SidebarComponent implements OnInit {
       this.selectedItemL1 = this.menuItems.find(item => item.title.toLowerCase() === country);
       this.selectedItemL1.submenuOpen = true;
       this.selectedItemL2 = this.getSelectionUsingRoute(this.selectedItemL1);
+      this.appStateService.selectCountry({ id: this.selectedItemL1.id, name: this.selectedItemL1.title });
     }
     else if (retailer) {
       const item = this.menuItems.find(item => item.title.toLowerCase() === retailer);
@@ -441,7 +442,7 @@ export class SidebarComponent implements OnInit {
 
       // save selected item
       if (this.userRole !== 'retailer' || (this.userRole === 'retailer' && !item.submenu)) {
-        if (item.isParentOf !== 'countries' && item.isParentOf !== 'countriesByRegion') {
+        if (item.isParentOf !== 'countries' && item.isParentOf !== 'countriesByRegion' && item.title.toLowerCase() !== 'latam') {
           this.selectedItemL1 = item;
         }
       }
@@ -449,7 +450,7 @@ export class SidebarComponent implements OnInit {
 
     item.path && this.redirectToSelectedItem(item);
 
-    if (!item.isParentOf) {
+    if (!item.isParentOf && item.title.toLowerCase() !== 'latam') {
       this.emitNewSelection(item);
     }
   }
@@ -508,12 +509,16 @@ export class SidebarComponent implements OnInit {
     switch (item.paramName) {
       case 'country':
         if (this.userRole !== 'retailer') {
-          if (this.selectedItemL1.param) {
+          if (this.selectedItemL1.param && this.selectedItemL1.paramName !== 'region') {
             // When a country is selectedItemL1
             this.appStateService.selectCountry({ id: this.selectedItemL1.id, name: this.selectedItemL1.title });
           } else if (this.selectedItemL2.param) {
             // When a country is selectedItemL2 (There is a region value in selectedItemL1)
-            this.appStateService.selectCountry({ id: this.selectedItemL2.id, name: this.selectedItemL2.title });
+            if (item.param === 'latam') {
+              this.appStateService.selectCountry({ id: this.selectedItemL1.id, name: this.selectedItemL1.title });
+            } else {
+              this.appStateService.selectCountry({ id: this.selectedItemL2.id, name: this.selectedItemL2.title });
+            }
           }
 
           this.appStateService.selectRetailer();
@@ -525,7 +530,7 @@ export class SidebarComponent implements OnInit {
           this.appStateService.selectCountry();
           this.appStateService.selectRetailer({ id: this.selectedItemL1.id, name: this.selectedItemL1.title });
         } else {
-          if (this.selectedItemL1.param) {
+          if (this.selectedItemL1.param && this.selectedItemL1.paramName !== 'region') {
             // When a country is selectedItemL1
             this.appStateService.selectCountry({ id: this.selectedItemL1.id, name: this.selectedItemL1.title });
             this.appStateService.selectRetailer({ id: this.selectedItemL2.id, name: this.selectedItemL2.title });
