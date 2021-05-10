@@ -118,7 +118,7 @@ export class SidebarComponent implements OnInit {
       submenu: [
         {
           title: 'Programa COOP',
-          path: '/dashboard/country',
+          path: '/dashboard/coop',
           paramName: 'country',
           param: 'latam'
         },
