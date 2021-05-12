@@ -31,31 +31,30 @@ export class FiltersStateService {
   campaigns: any[];
   campaignsQParams;
 
+  // filtersChange
+  private filtersSource = new Subject<any>();
+  filtersChange$ = this.filtersSource.asObservable();
 
   constructor() { }
 
   selectPeriod(period: Period) {
     this.periodSource.next(period);
     this.period = period;
-    console.log('new Period', period)
   }
 
   selectSectors(sectors: any[]) {
     this.sectorsSource.next(sectors);
     this.sectors = sectors;
-    console.log('new sectors', sectors)
   }
 
   selectCategories(categories: any[]) {
     this.categoriesSource.next(categories);
     this.categories = categories;
-    console.log('new categories', categories)
   }
 
   selectCampaigns(campaigns: any[]) {
     this.cammpaignsSource.next(campaigns);
     this.campaigns = campaigns;
-    console.log('new campaigns', campaigns)
   }
 
   convertFiltersToQueryParams() {
@@ -63,14 +62,8 @@ export class FiltersStateService {
     this.sectorsQParams = this.sectors && this.convertArrayToQueryParams(this.sectors, 'id');
     this.categoriesQParams = this.categories && this.convertArrayToQueryParams(this.categories, 'id');
     this.campaignsQParams = this.campaigns && this.convertArrayToQueryParams(this.campaigns, 'id');
-
-    console.log('periodParams', this.periodQParams)
-    console.log('sectorsQParams', this.sectorsQParams)
-    console.log('categoriesQParams', this.categoriesQParams)
-    console.log('campaignsQParams', this.campaignsQParams)
   }
 
-  // boton de filtrar
   convertArrayToQueryParams(array, param: string): string {
     let stringArray = '';
     for (let i = 0; i < array.length; i++) {
@@ -78,6 +71,11 @@ export class FiltersStateService {
     }
 
     return stringArray.substring(1);
+  }
+
+  filtersChange() {
+    this.convertFiltersToQueryParams();
+    this.filtersSource.next();
   }
 }
 
