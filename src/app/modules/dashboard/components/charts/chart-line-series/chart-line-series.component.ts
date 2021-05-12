@@ -58,6 +58,9 @@ export class ChartLineSeriesComponent implements OnInit, AfterViewInit {
     dateAxis.renderer.labels.template.fontSize = 12;
     valueAxis.renderer.labels.template.fontSize = 12;
 
+    dateAxis.renderer.minGridDistance = 50;
+    // dateAxis.renderer.labels.template.rotation = -90;
+
     this.loadChartData(chart);
 
     chart.legend = new am4charts.Legend();
