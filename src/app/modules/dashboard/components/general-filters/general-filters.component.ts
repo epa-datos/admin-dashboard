@@ -7,6 +7,7 @@ import { OverviewService } from '../../services/overview.service';
 import { AppStateService } from 'src/app/services/app-state.service';
 import { Subscription } from 'rxjs';
 import { debounceTime } from 'rxjs/operators';
+import { FiltersStateService } from '../../services/filters-state.service';
 
 export const MY_FORMATS = {
   parse: {
@@ -71,11 +72,15 @@ export class GeneralFiltersComponent implements OnInit {
     private appStateService: AppStateService,
     private usersMngmtService: UsersMngmtService,
     private overviewService: OverviewService,
+    private filtersStateService: FiltersStateService
   ) { }
 
-  ngOnInit() {
+  async ngOnInit() {
     this.loadForm();
-    this.fillFilters();
+
+    await this.getSectors();
+    await this.getCategories();
+    this.applyFilters();
 
     const selectedCountry = this.appStateService.selectedCountry;
     const selectedRetailer = this.appStateService.selectedRetailer;
@@ -91,7 +96,10 @@ export class GeneralFiltersComponent implements OnInit {
 
     this.retailerSub = this.appStateService.selectedRetailer$.subscribe(retailer => {
       this.retailerID = retailer?.id;
-      this.getCampaigns();
+      if (this.retailerID) {
+        this.getCampaigns();
+        this.applyFilters();
+      }
     });
   }
 
@@ -152,13 +160,8 @@ export class GeneralFiltersComponent implements OnInit {
       });
   }
 
-  async fillFilters() {
-    await this.getSectors();
-    await this.getCategories();
-  }
-
   getSectors() {
-    this.usersMngmtService.getSectors()
+    return this.usersMngmtService.getSectors()
       .toPromise()
       .then((res: any[]) => {
         this.sectorList = res;
@@ -173,7 +176,7 @@ export class GeneralFiltersComponent implements OnInit {
   }
 
   getCategories() {
-    this.usersMngmtService.getCategories()
+    return this.usersMngmtService.getCategories()
       .toPromise()
       .then((res: any[]) => {
         this.categoryList = res;
@@ -192,7 +195,7 @@ export class GeneralFiltersComponent implements OnInit {
     const sectorsStrList = this.convertArrayToString(this.sectors.value, 'id');
     const categoriesStrList = this.convertArrayToString(this.categories.value, 'id');
 
-    this.overviewService.getCampaigns(this.retailerID, sectorsStrList, categoriesStrList)
+    this.overviewService.getCampaigns(sectorsStrList, categoriesStrList)
       .subscribe(
         (res: any[]) => {
           this.campaignList = res;
@@ -219,6 +222,15 @@ export class GeneralFiltersComponent implements OnInit {
 
   areAllCampaignsSelected(): boolean {
     return JSON.stringify(this.campaignList) == JSON.stringify(this.campaigns.value) ? true : false;
+  }
+
+  applyFilters() {
+    this.filtersStateService.selectPeriod({ startDate: this.startDate.value._d, endDate: this.endDate.value._d });
+    this.filtersStateService.selectSectors(this.sectors.value);
+    this.filtersStateService.selectCategories(this.categories.value);
+    this.filtersStateService.selectCampaigns(this.campaigns.value);
+
+    this.filtersStateService.filtersChange();
   }
 
   ngOnDestroy() {
