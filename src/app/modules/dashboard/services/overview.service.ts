@@ -18,12 +18,12 @@ export class OverviewService {
   }
 
   // *** filters ***
-  getCampaigns(countryID, sectorsStrList?: string, categoriesStrList?: string) {
-    if (!countryID) {
+  getCampaigns(retailerID, sectorsStrList?: string, categoriesStrList?: string) {
+    if (!retailerID) {
       return throwError('[overview.service]: not countryID provided');
     }
 
-    return this.http.get(`${this.baseUrl}/countries/${countryID}/campaigns?sectors=${sectorsStrList}&categories=${categoriesStrList}&${this.period}`);
+    return this.http.get(`${this.baseUrl}/retailers/${retailerID}/campaigns?sectors=${sectorsStrList}&categories=${categoriesStrList}&${this.period}`);
   }
 
   // *** kpis ***
