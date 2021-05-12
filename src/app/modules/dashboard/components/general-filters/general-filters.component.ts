@@ -42,6 +42,7 @@ export class GeneralFiltersComponent implements OnInit {
   campaignList: any[];
 
   countryID: number;
+  retailerID: number;
 
   form: FormGroup;
   startDate: AbstractControl;
@@ -49,13 +50,23 @@ export class GeneralFiltersComponent implements OnInit {
   sectors: AbstractControl;
   categories: AbstractControl;
   campaigns: AbstractControl;
+
   formSub: Subscription;
   countrySub: Subscription;
+  retailerSub: Subscription;
 
   prevSectors: any[];
   prevCategories: any[];
   prevDate: any = {};
   prevCamps: any[];
+
+  viewType: string; // country, retailer
+
+  sectorsErrorMsg: string;
+  categoriesErrorMsg: string;
+  campaignsErrorMsg: string;
+
+  campaignsReqStatus: number = 0;
 
   constructor(
     private fb: FormBuilder,
@@ -66,17 +77,23 @@ export class GeneralFiltersComponent implements OnInit {
 
   ngOnInit() {
     this.loadForm();
+    this.fillFilters();
+
     const selectedCountry = this.appStateService.selectedCountry;
-    if (selectedCountry?.id) {
-      this.countryID = selectedCountry.id;
-      this.fillFilters();
+    const selectedRetailer = this.appStateService.selectedRetailer;
+
+    if (selectedCountry?.id || selectedRetailer?.id) {
+      this.countryID = selectedCountry?.id ? selectedCountry.id : undefined;
+      this.retailerID = selectedRetailer?.id ? selectedRetailer.id : undefined;
     }
 
     this.countrySub = this.appStateService.selectedCountry$.subscribe(country => {
-      if (country?.id !== this.countryID) {
-        this.countryID = country.id;
-        this.fillFilters();
-      }
+      this.countryID = country?.id;
+    });
+
+    this.retailerSub = this.appStateService.selectedRetailer$.subscribe(retailer => {
+      this.retailerID = retailer?.id;
+      this.getCampaigns();
     });
   }
 
@@ -106,6 +123,8 @@ export class GeneralFiltersComponent implements OnInit {
     this.formSub = this.form.valueChanges
       .pipe(debounceTime(5))
       .subscribe(form => {
+        if (!this.retailerID) return;
+
         if (this.sectors.value && this.categories.value && !this.campaigns.value && this.countryID) {
           // initial campaigns load
           this.getCampaigns();
@@ -147,8 +166,10 @@ export class GeneralFiltersComponent implements OnInit {
         this.sectorList = res;
         this.sectors.patchValue([...this.sectorList.map(item => item)]);
         this.prevSectors = this.sectors.value;
+        this.sectorsErrorMsg && delete this.sectorsErrorMsg;
       })
       .catch((error) => {
+        this.sectorsErrorMsg = 'Error al consultar sectores';
         console.error(`[general-filers.component]: ${error}`);
       });
   }
@@ -160,25 +181,30 @@ export class GeneralFiltersComponent implements OnInit {
         this.categoryList = res;
         this.categories.patchValue([...this.categoryList.map(item => item)]);
         this.prevCategories = this.categories.value;
+        this.categoriesErrorMsg && delete this.categoriesErrorMsg;
       })
       .catch((error) => {
+        this.categoriesErrorMsg = 'Error al consultar categorías';
         console.error(`[general-filers.component]: ${error}`);
       });
   }
 
   getCampaigns() {
-    console.log('getCampaigns')
+    this.campaignsReqStatus = 1;
     const sectorsStrList = this.convertArrayToString(this.sectors.value, 'id');
     const categoriesStrList = this.convertArrayToString(this.categories.value, 'id');
 
-    this.overviewService.getCampaigns(this.countryID, sectorsStrList, categoriesStrList)
+    this.overviewService.getCampaigns(this.retailerID, sectorsStrList, categoriesStrList)
       .subscribe(
         (res: any[]) => {
           this.campaignList = res;
-          this.campaigns.patchValue([...this.campaignList.map(item => item)]);
+          this.campaignsErrorMsg && delete this.campaignsErrorMsg;
+          this.campaignsReqStatus = 2;
         },
         error => {
+          this.campaignsErrorMsg = 'Error al consultar campañas';
           console.error(`[general-filers.component]: ${error}`);
+          this.campaignsReqStatus = 3;
         }
       );
   }
@@ -199,5 +225,6 @@ export class GeneralFiltersComponent implements OnInit {
   ngOnDestroy() {
     this.formSub && this.formSub.unsubscribe();
     this.countrySub && this.countrySub.unsubscribe();
+    this.retailerSub && this.retailerSub.unsubscribe();
   }
 }

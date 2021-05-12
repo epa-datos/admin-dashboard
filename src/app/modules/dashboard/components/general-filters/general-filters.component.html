@@ -36,6 +36,9 @@
             <small class="text-danger" *ngIf="sectors?.value?.length < 1 && sectors.touched">
                 Selecciona al menos un sector
             </small>
+            <small class="text-danger" *ngIf="sectorsErrorMsg">
+                {{ sectorsErrorMsg }}
+            </small>
         </div>
         <div class="col-12 col-sm-6 col-lg-3 mb-4">
             <span class="mb-1 h4">Categoría</span>
@@ -54,10 +57,14 @@
             <small class="text-danger" *ngIf="categories?.value?.length < 1 && categories.touched">
                 Selecciona al menos una categoría
             </small>
+            <small class="text-danger" *ngIf="categoriesErrorMsg">
+                {{ categoriesErrorMsg }}
+            </small>
         </div>
-        <div class="col-12 col-sm-6 col-lg-3 mb-4">
+        <div class="col-12 col-sm-6 col-lg-3 mb-4" [hidden]="!retailerID">
             <span class="mb-1 h4">Campaña</span>
-            <mat-select formControlName="campaigns" multiple placeholder="Selecciona una Campaña">
+            <mat-select formControlName="campaigns" multiple placeholder="Selecciona una Campaña"
+                [disabled]="campaignList?.length < 1 && campaignsReqStatus === 2">
                 <mat-select-trigger>
                     <div class="select-value-container">
                         <span class="select-value">{{campaigns.value ? campaigns.value[0]?.name : ''}}</span>
@@ -69,8 +76,11 @@
                 </mat-select-trigger>
                 <mat-option *ngFor="let campaign of campaignList" [value]="campaign">{{campaign.name}}</mat-option>
             </mat-select>
-            <small class="text-danger" *ngIf="campaigns?.value?.length < 1 && campaigns.touched">
-                Selecciona al menos una campaña
+            <small class="text-muted mt-1" *ngIf="campaignList?.length < 1 && campaignsReqStatus === 2">
+                No existen campañas para el Periodo, Sectores y Categorías seleccionados
+            </small>
+            <small class="text-danger" *ngIf="campaignsErrorMsg">
+                {{ campaignsErrorMsg }}
             </small>
         </div>
     </div>
@@ -82,8 +92,7 @@
         (!startDate.valid && startDate.touched) || 
         (!endDate.valid && endDate.touched) ||
         (sectors?.value?.length < 1 && sectors.touched) ||
-        (categories?.value?.length < 1 && categories.touched) ||
-        (campaigns?.value?.length < 1 && campaigns.touched)
+        (categories?.value?.length < 1 && categories.touched)
         ">
             <i class="fas fa-filter mr-2"></i>
             Filtrar
