@@ -105,4 +105,13 @@ export class OverviewService {
     let queryParams = this.concatedQueryParams();
     return this.http.get(`${this.baseUrl}/countries/${this.countryID}/${metricType}/${subMetricType}?${queryParams}`);
   }
+
+  getUsersAndSales(metricType: string) {
+    if (!this.countryID) {
+      return throwError('[overview.service]: not countryID provided');
+    }
+
+    let queryParams = this.concatedQueryParams();
+    return this.http.get(`${this.baseUrl}/countries/${this.countryID}/${metricType}?${queryParams}`);
+  }
 }
