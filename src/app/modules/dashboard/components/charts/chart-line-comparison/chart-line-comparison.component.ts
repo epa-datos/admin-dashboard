@@ -87,11 +87,6 @@ export class ChartLineComparisonComponent implements OnInit, AfterViewInit {
     // Create chart instance
     let chart = am4core.create(this.chartID, am4charts.XYChart);
 
-    chart.legend = new am4charts.Legend();
-    chart.legend.position = 'bottom';
-    chart.legend.align = 'center';
-    chart.legend.contentAlign = 'center';
-
     // Create axes
     let dateAxis = chart.xAxes.push(new am4charts.DateAxis());
     dateAxis.renderer.minGridDistance = 50;
@@ -122,6 +117,17 @@ export class ChartLineComparisonComponent implements OnInit, AfterViewInit {
     chart.cursor = new am4charts.XYCursor();
     chart.cursor.xAxis = dateAxis;
     chart.responsive.enabled = true;
+
+    chart.legend = new am4charts.Legend();
+    chart.legend.position = 'bottom';
+    chart.legend.align = 'center';
+    chart.legend.contentAlign = 'center';
+
+    // two decimals
+    chart.numberFormatter.numberFormat = '#,###.##';
+
+    // no decimals
+    // chart.numberFormatter.numberFormat = '#,###.';
 
     this.series = { series1: series, series2: series2 };
 
