@@ -65,16 +65,6 @@ export class OverviewWrapperComponent implements OnInit, OnDestroy {
     }
   ]
 
-  investmentVsRevenue = [
-    { date: '2021-03-15', investment: 12000, revenue: 4370 },
-    { date: '2021-03-16', investment: 25000, revenue: 40500 },
-    { date: '2021-03-17', investment: 40000, revenue: 35000 },
-    { date: '2021-03-18', investment: 15000, revenue: 25000 },
-    { date: '2021-03-19', investment: 13200, revenue: 10000 },
-    { date: '2021-03-20', investment: 12400, revenue: 12000 },
-    { date: '2021-03-21', investment: 80000, revenue: 14000 }
-  ]
-
   selectedTab1: number = 1;
   selectedTab2: number = 1;
   selectedTab3: number = 1;
@@ -150,6 +140,7 @@ export class OverviewWrapperComponent implements OnInit, OnDestroy {
   ];
 
   usersAndSalesBySector: any[] = [];
+  investmentVsRevenue: any[] = [];
 
   countrySub: Subscription;
   retailerSub: Subscription;
@@ -197,6 +188,7 @@ export class OverviewWrapperComponent implements OnInit, OnDestroy {
     this.getCategoriesBySector('Search', 1);
     this.getDataByTrafficAndSales('traffic', 1);
     this.getDataByUsersAndSales('users', 1);
+    this.getInvestmentVsRevenue();
   }
 
   getKpis() {
@@ -270,7 +262,6 @@ export class OverviewWrapperComponent implements OnInit, OnDestroy {
   getDataByUsersAndSales(metricType: string, selectedTab: number) {
     this.overviewService.getUsersAndSales(metricType).subscribe(
       (resp: any[]) => {
-
         this.usersAndSalesBySector = resp;
       },
       error => {
@@ -280,6 +271,18 @@ export class OverviewWrapperComponent implements OnInit, OnDestroy {
     )
 
     this.selectedTab3 = selectedTab;
+  }
+
+  getInvestmentVsRevenue() {
+    this.overviewService.getInvestmentVsRevenue().subscribe(
+      (resp: any[]) => {
+        this.investmentVsRevenue = resp;
+      },
+      error => {
+        const errorMsg = error?.error?.message ? error.error.message : error?.message;
+        console.error(`[overview-wrapper.component]: ${errorMsg}`);
+      }
+    )
   }
 
   ngOnDestroy() {
