@@ -105,14 +105,16 @@ export class GeneralFiltersComponent implements OnInit {
 
   loadForm() {
     let today = new Date();
-    let previousDay = new Date();
+    let startDate = new Date();
+    let endDate = new Date();
     let daysAgo = 15;
 
-    previousDay.setDate(today.getDate() - daysAgo);
+    startDate.setDate(today.getDate() - daysAgo);
+    endDate.setDate(today.getDate() - 1);
 
     this.form = this.fb.group({
-      startDate: new FormControl(previousDay, [Validators.required]),
-      endDate: new FormControl(today, [Validators.required]),
+      startDate: new FormControl(startDate, [Validators.required]),
+      endDate: new FormControl(endDate, [Validators.required]),
       sectors: new FormControl(),
       categories: new FormControl(),
       campaigns: new FormControl()
@@ -124,7 +126,7 @@ export class GeneralFiltersComponent implements OnInit {
     this.categories = this.form.controls['categories'];
     this.campaigns = this.form.controls['campaigns'];
 
-    this.prevDate = { startDate: previousDay, endDate: today }
+    this.prevDate = { startDate: startDate, endDate: endDate }
 
     this.formSub = this.form.valueChanges
       .pipe(debounceTime(5))
