@@ -92,13 +92,22 @@ export class GeneralFiltersComponent implements OnInit {
 
     this.countrySub = this.appStateService.selectedCountry$.subscribe(country => {
       this.countryID = country?.id;
+
+      if (this.campaigns.value) {
+        this.clearCampaignsSelection();
+      }
     });
 
     this.retailerSub = this.appStateService.selectedRetailer$.subscribe(retailer => {
       this.retailerID = retailer?.id;
+
+      if (this.campaigns.value) {
+        this.clearCampaignsSelection();
+      }
+
       if (this.retailerID) {
         this.getCampaigns();
-        this.applyFilters();
+        // this.applyFilters();
       }
     });
   }
@@ -193,6 +202,8 @@ export class GeneralFiltersComponent implements OnInit {
   }
 
   getCampaigns() {
+    this.campaigns.setValue([]);
+
     this.campaignsReqStatus = 1;
     const sectorsStrList = this.convertArrayToString(this.sectors.value, 'id');
     const categoriesStrList = this.convertArrayToString(this.categories.value, 'id');
@@ -226,6 +237,12 @@ export class GeneralFiltersComponent implements OnInit {
     return JSON.stringify(this.campaignList) == JSON.stringify(this.campaigns.value) ? true : false;
   }
 
+  clearCampaignsSelection() {
+    this.campaigns.setValue([]);
+    this.filtersStateService.selectCampaigns(this.campaigns.value);
+    this.filtersStateService.convertFiltersToQueryParams();
+  }
+
   applyFilters() {
     this.filtersStateService.selectPeriod({ startDate: this.startDate.value._d, endDate: this.endDate.value._d });
     this.filtersStateService.selectSectors(this.sectors.value);
@@ -236,8 +253,8 @@ export class GeneralFiltersComponent implements OnInit {
   }
 
   ngOnDestroy() {
-    this.formSub && this.formSub.unsubscribe();
-    this.countrySub && this.countrySub.unsubscribe();
-    this.retailerSub && this.retailerSub.unsubscribe();
+    this.formSub?.unsubscribe();
+    this.countrySub?.unsubscribe();
+    this.retailerSub?.unsubscribe();
   }
 }
