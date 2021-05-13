@@ -5,6 +5,9 @@
             <div class="stats-container">
                 <app-card-stat *ngFor="let stat of kpis" [stat]="stat" [loader]="kpisReqStatus <= 1"></app-card-stat>
             </div>
+            <p class="text-center text-muted mt-3 mb-0" [hidden]="kpisReqStatus !== 3">
+                Error al consultar datos
+            </p>
         </div>
     </div>
 
