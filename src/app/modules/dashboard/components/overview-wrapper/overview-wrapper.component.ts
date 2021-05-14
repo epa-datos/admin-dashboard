@@ -114,6 +114,7 @@ export class OverviewWrapperComponent implements OnInit, OnDestroy {
 
     if (this.filtersStateService.period && this.filtersStateService.sectors && this.filtersStateService.categories) {
       console.log('getAllData init')
+      this.filtersStateService.clearCampaignsSelection();
       this.getAllData();
     }
 
@@ -130,6 +131,7 @@ export class OverviewWrapperComponent implements OnInit, OnDestroy {
 
             if (this.retailerID) {
               console.log('getAllData retailer subs')
+              this.filtersStateService.clearCampaignsSelection();
               this.getAllData();
             }
 
@@ -137,7 +139,6 @@ export class OverviewWrapperComponent implements OnInit, OnDestroy {
         }
       });
     }
-
 
     if (this.selectedType === 'country') {
       this.appStateService.selectedCountry$.subscribe(country => {
@@ -147,6 +148,7 @@ export class OverviewWrapperComponent implements OnInit, OnDestroy {
           if (this.filtersStateService.period && this.filtersStateService.sectors && this.filtersStateService.categories) {
 
             if (!this.retailerID) {
+              this.filtersStateService.clearCampaignsSelection();
               console.log('getAllData country subs')
               this.getAllData();
             }
