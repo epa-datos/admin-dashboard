@@ -90,25 +90,17 @@ export class GeneralFiltersComponent implements OnInit {
       this.retailerID = selectedRetailer?.id ? selectedRetailer.id : undefined;
     }
 
-    this.countrySub = this.appStateService.selectedCountry$.subscribe(country => {
-      this.countryID = country?.id;
-
-      if (this.campaigns.value) {
-        this.clearCampaignsSelection();
-      }
-    });
-
     this.retailerSub = this.appStateService.selectedRetailer$.subscribe(retailer => {
       this.retailerID = retailer?.id;
-
-      if (this.campaigns.value) {
-        this.clearCampaignsSelection();
-      }
 
       if (this.retailerID) {
         this.getCampaigns();
         // this.applyFilters();
       }
+    });
+
+    this.countrySub = this.appStateService.selectedCountry$.subscribe(country => {
+      this.countryID = country?.id;
     });
   }
 
@@ -163,8 +155,7 @@ export class GeneralFiltersComponent implements OnInit {
             this.prevDate = { startDate: this.startDate.value._d, endDate: this.endDate.value._d }
           } else if (this.prevCamps !== this.campaigns.value) {
             // change in campaign selection
-            console.log('different campaigns')
-            const areAll = this.areAllCampaignsSelected();
+            // console.log('different campaigns')
             this.prevCamps = this.campaigns.value;
           }
         }
@@ -237,17 +228,13 @@ export class GeneralFiltersComponent implements OnInit {
     return JSON.stringify(this.campaignList) == JSON.stringify(this.campaigns.value) ? true : false;
   }
 
-  clearCampaignsSelection() {
-    this.campaigns.setValue([]);
-    this.filtersStateService.selectCampaigns(this.campaigns.value);
-    this.filtersStateService.convertFiltersToQueryParams();
-  }
-
   applyFilters() {
     this.filtersStateService.selectPeriod({ startDate: this.startDate.value._d, endDate: this.endDate.value._d });
     this.filtersStateService.selectSectors(this.sectors.value);
     this.filtersStateService.selectCategories(this.categories.value);
-    this.filtersStateService.selectCampaigns(this.campaigns.value);
+
+    const areAllCampsSelected = this.areAllCampaignsSelected();
+    this.filtersStateService.selectCampaigns(areAllCampsSelected ? [] : this.campaigns.value);
 
     this.filtersStateService.filtersChange();
   }
