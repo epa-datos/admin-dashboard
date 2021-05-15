@@ -93,14 +93,20 @@ export class GeneralFiltersComponent implements OnInit {
     this.retailerSub = this.appStateService.selectedRetailer$.subscribe(retailer => {
       this.retailerID = retailer?.id;
 
+      if (this.campaigns.value) {
+        this.campaigns.setValue([]);
+      }
+
       if (this.retailerID) {
         this.getCampaigns();
-        // this.applyFilters();
       }
     });
 
     this.countrySub = this.appStateService.selectedCountry$.subscribe(country => {
       this.countryID = country?.id;
+      if (this.campaigns.value) {
+        this.campaigns.setValue([]);
+      }
     });
   }
 
