@@ -1,7 +1,5 @@
-import { AfterViewInit, Component, Input, OnDestroy, OnInit } from '@angular/core';
-import { Subscription } from 'rxjs';
-import { AppStateService } from 'src/app/services/app-state.service';
-import { UserService } from 'src/app/services/user.service';
+import { Component, Input, OnDestroy, OnInit } from '@angular/core';
+import { Observable, Subscription } from 'rxjs';
 import { FiltersStateService } from '../../services/filters-state.service';
 import { OverviewService } from '../../services/overview.service';
 
@@ -13,22 +11,17 @@ import { OverviewService } from '../../services/overview.service';
 export class OverviewWrapperComponent implements OnInit, OnDestroy {
 
   @Input() selectedType: string; // country or retailer
+  @Input() requestInfoChange: Observable<void>;
 
-  countryName: string;
+  countryID: number;
+  retailerID: number;
 
   selectedTab1: number = 1;
   selectedTab2: number = 1;
   selectedTab3: number = 1;
 
-  valueName = 'Usuarios';
-
-  countryID: number;
-  retailerID: number;
-  userRole: string;
-
   kpisLegends1 = ['investment', 'clicks', 'bounce_rate', 'transactions', 'revenue']
   kpisLegends2 = ['ctr', 'users', 'cr', 'roas']
-
   kpis: any[] = [
     {
       metricTitle: 'inversión',
@@ -81,6 +74,10 @@ export class OverviewWrapperComponent implements OnInit, OnDestroy {
   categoriesBySector: any[] = [];
   trafficAndSales = {};
 
+  usersAndSalesBySector: any[] = [];
+  investmentVsRevenue: any[] = [];
+
+  // requests status
   kpisReqStatus: number = 0;
   categoriesReqStatus: number = 0;
   usersAndSalesReqStatus: number = 0;
@@ -92,71 +89,22 @@ export class OverviewWrapperComponent implements OnInit, OnDestroy {
     { name: 'gender-and-age', reqStatus: 0 }
   ];
 
-  usersAndSalesBySector: any[] = [];
-  investmentVsRevenue: any[] = [];
-
-  countrySub: Subscription;
-  retailerSub: Subscription;
-  filtersSub: Subscription;
+  requestInfoSub: Subscription;
 
   constructor(
-    private appStateService: AppStateService,
     private filtersStateService: FiltersStateService,
-    private overviewService: OverviewService,
-    private userService: UserService
+    private overviewService: OverviewService
   ) { }
 
   ngOnInit(): void {
-    this.userRole = this.userService.user.role_name;
-
-    const selectedCountry = this.appStateService.selectedCountry;
-    this.countryID = selectedCountry?.id && selectedCountry?.id;
-
     if (this.filtersStateService.period && this.filtersStateService.sectors && this.filtersStateService.categories) {
-      console.log('getAllData init')
       this.filtersStateService.clearCampaignsSelection();
       this.getAllData();
     }
 
-    this.filtersSub = this.filtersStateService.filtersChange$.subscribe(() => {
-      console.log('getAllData filtersChange subs')
+    this.requestInfoSub = this.requestInfoChange.subscribe(() => {
       this.getAllData();
-    });
-
-    if (this.selectedType === 'retailer') {
-      this.retailerSub = this.appStateService.selectedRetailer$.subscribe(retailer => {
-        if (retailer?.id !== this.retailerID) {
-          this.retailerID = retailer?.id !== this.retailerID && retailer?.id;
-          if (this.filtersStateService.period && this.filtersStateService.sectors && this.filtersStateService.categories) {
-
-            if (this.retailerID) {
-              console.log('getAllData retailer subs')
-              this.filtersStateService.clearCampaignsSelection();
-              this.getAllData();
-            }
-
-          }
-        }
-      });
-    }
-
-    if (this.selectedType === 'country') {
-      this.countrySub = this.appStateService.selectedCountry$.subscribe(country => {
-        if (country?.id !== this.countryID) {
-          this.countryID = country?.id;
-
-          if (this.filtersStateService.period && this.filtersStateService.sectors && this.filtersStateService.categories) {
-
-            if (!this.retailerID) {
-              this.filtersStateService.clearCampaignsSelection();
-              console.log('getAllData country subs')
-              this.getAllData();
-            }
-
-          }
-        }
-      });
-    }
+    })
   }
 
   getAllData() {
@@ -268,8 +216,6 @@ export class OverviewWrapperComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy() {
-    this.countrySub?.unsubscribe();
-    this.retailerSub?.unsubscribe();
-    this.filtersSub?.unsubscribe();
+    this.requestInfoSub?.unsubscribe();
   }
 }
