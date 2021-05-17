@@ -53,8 +53,11 @@ export class OverviewService {
     return `start_date=${startDate}&end_date=${endDate}&sectors=${sectors}&categories=${categories}${campaigns ? `&campaigns=${campaigns}` : ''}`;
   }
 
+  /**** COUNTRIES AND RETAILERS
+  * Overview endpoints for Countries and Retailers
+  * ****/
+
   // *** filters ***
-  // solo para este caso es una exepcion y si trabaja con sus query params
   getCampaigns(sectorsStrList?: string, categoriesStrList?: string) {
     if (!this.retailerID) {
       return throwError('[overview.service]: not countryID provided');
@@ -113,6 +116,7 @@ export class OverviewService {
     }
   }
 
+  // *** users and sales ***
   getUsersAndSales(metricType: string) {
     if (!metricType) {
       return throwError('[overview.service]: not metricType provided');
@@ -129,6 +133,7 @@ export class OverviewService {
     }
   }
 
+  // *** investment vs revenue ***
   getInvestmentVsRevenue() {
     let queryParams = this.concatedQueryParams();
 
@@ -139,5 +144,60 @@ export class OverviewService {
     } else {
       return throwError('[overview.service]: not retailerID or countryID provided');
     }
+  }
+
+
+  /**** LATAM
+  * Overview endpoints for LATAM
+  * ****/
+
+  // *** kpis ***
+  getKpisLatam() {
+    let queryParams = this.concatedQueryParams();
+    return this.http.get(`${this.baseUrl}/countries/1/kpis?${queryParams}`);
+    return this.http.get(`${this.baseUrl}/latam/kpis?${queryParams}`);
+  }
+
+  // *** categories by sector ***
+  getCategoriesBySectorLatam(sector: string) {
+    if (!sector) {
+      return throwError('[overview.service]: not sector provided');
+    }
+
+    let queryParams = this.concatedQueryParams();
+    return this.http.get(`${this.baseUrl}/countries/1/retailer/categories?sector=${sector}&${queryParams}`);
+    return this.http.get(`${this.baseUrl}/latam/categories?sector=${sector}&${queryParams}`);
+  }
+
+  // *** traffic and sales ***
+  getTrafficAndSalesLatam(metricType: string, subMetricType: string) {
+    if (!metricType) {
+      return throwError('[overview.service]: not metricType provided');
+    }
+    if (!subMetricType) {
+      return throwError('[overview.service]: not subMetricType provided');
+    }
+
+    let queryParams = this.concatedQueryParams();
+    return this.http.get(`${this.baseUrl}/countries/1/${metricType}/${subMetricType}?${queryParams}`);
+
+  }
+
+  // *** users and sales ***
+  getUsersAndSalesLatam(metricType: string) {
+    if (!metricType) {
+      return throwError('[overview.service]: not metricType provided');
+    }
+
+    let queryParams = this.concatedQueryParams();
+    // return this.http.get(`${this.baseUrl}/countries/1/${metricType}?${queryParams}`);
+    return this.http.get(`http://localhost:3000/api/v1/latam/${metricType}?${queryParams}`);
+  }
+
+  // *** investment vs revenue ***
+  getInvestmentVsRevenueLatam() {
+    let queryParams = this.concatedQueryParams();
+    return this.http.get(`${this.baseUrl}/countries/1/investment-vs-revenue?${queryParams}`);
+    return this.http.get(`${this.baseUrl}/latam/investment-vs-revenue?${queryParams}`);
   }
 }
