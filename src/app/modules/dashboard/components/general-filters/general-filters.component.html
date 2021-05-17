@@ -65,6 +65,15 @@
             <span class="mb-1 h4">Campaña</span>
             <mat-select formControlName="campaigns" multiple placeholder="Selecciona una Campaña"
                 [disabled]="(campaignList?.length < 1 && campaignsReqStatus === 2) || campaignsErrorMsg">
+
+                <div class="input-group input-group-alternative mb-1">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text"><i class="fas fa-search"></i></span>
+                    </div>
+                    <input class="form-control" [(ngModel)]="campaignsFilter" matInput type="text"
+                        (keyup)="filterCampaigns($event.target.value)" placeholder="Buscar campaña"
+                        [ngModelOptions]="{standalone: true}">
+                </div>
                 <mat-select-trigger>
                     <div class="select-value-container">
                         <span class="select-value">{{campaigns.value ? campaigns.value[0]?.name : ''}}</span>
