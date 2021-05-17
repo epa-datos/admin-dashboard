@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
-import { ReactiveFormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 // **** Angular Material ****
 import { MatNativeDateModule, MatRippleModule } from '@angular/material/core';
@@ -89,6 +89,7 @@ import { ChartLoaderComponent } from './components/charts/chart-loader/chart-loa
   imports: [
     CommonModule,
     RouterModule.forChild(DashboardRoutes),
+    FormsModule,
     ReactiveFormsModule,
     MatNativeDateModule,
     MatRippleModule,
