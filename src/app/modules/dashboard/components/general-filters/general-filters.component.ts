@@ -41,6 +41,9 @@ export class GeneralFiltersComponent implements OnInit {
   sectorList: any[];
   categoryList: any[];
   campaignList: any[];
+  filteredCampaignList: any[];
+  filteredCampaigns: boolean; // flag to kwnow is campaignsList is te result of a search filter
+  campaignsFilter: string; // filtered value in campaignsList
 
   countryID: number;
   retailerID: number;
@@ -95,6 +98,7 @@ export class GeneralFiltersComponent implements OnInit {
 
       if (this.campaigns.value) {
         this.campaigns.setValue([]);
+        this.campaignsFilter = '';
       }
 
       if (this.retailerID) {
@@ -106,6 +110,7 @@ export class GeneralFiltersComponent implements OnInit {
       this.countryID = country?.id;
       if (this.campaigns.value) {
         this.campaigns.setValue([]);
+        this.campaignsFilter = '';
       }
     });
   }
@@ -146,17 +151,17 @@ export class GeneralFiltersComponent implements OnInit {
         } else if (this.sectors.value?.length > 0 && this.categories.value?.length > 0 && this.form.valid) {
           if (this.prevSectors !== this.sectors.value) {
             // change in sectors selection
-            console.log('diffrentent sectors')
+            // console.log('diffrentent sectors')
             this.getCampaigns();
             this.prevSectors = this.sectors.value;
           } else if (this.prevCategories !== this.categories.value) {
             // change in categories selection
-            console.log('different categories')
+            // console.log('different categories')
             this.getCampaigns();
             this.prevCategories = this.categories.value;
           } else if (this.prevDate.startDate.getTime() !== this.startDate.value._d.getTime() || this.prevDate.endDate.getTime() !== this.endDate.value._d.getTime()) {
             // change in date selection
-            console.log('different date')
+            // console.log('different date')
             this.getCampaigns();
             this.prevDate = { startDate: this.startDate.value._d, endDate: this.endDate.value._d }
           } else if (this.prevCamps !== this.campaigns.value) {
@@ -200,6 +205,8 @@ export class GeneralFiltersComponent implements OnInit {
 
   getCampaigns() {
     this.campaigns.setValue([]);
+    this.campaignsFilter = '';
+    this.filteredCampaigns = false;
 
     this.campaignsReqStatus = 1;
     const sectorsStrList = this.convertArrayToString(this.sectors.value, 'id');
@@ -209,6 +216,7 @@ export class GeneralFiltersComponent implements OnInit {
       .subscribe(
         (res: any[]) => {
           this.campaignList = res;
+          this.filteredCampaignList = res;
           this.campaignsErrorMsg && delete this.campaignsErrorMsg;
           this.campaignsReqStatus = 2;
         },
@@ -231,7 +239,16 @@ export class GeneralFiltersComponent implements OnInit {
   }
 
   areAllCampaignsSelected(): boolean {
+    if (this.filteredCampaigns) {
+      return false;
+    }
     return JSON.stringify(this.campaignList) == JSON.stringify(this.campaigns.value) ? true : false;
+  }
+
+  filterCampaigns(value) {
+    this.campaignList = this.filteredCampaignList.filter(camp => camp.name.toLowerCase().includes(value.toLowerCase()));
+
+    this.filteredCampaigns = value.length > 0 ? true : false;
   }
 
   applyFilters() {
