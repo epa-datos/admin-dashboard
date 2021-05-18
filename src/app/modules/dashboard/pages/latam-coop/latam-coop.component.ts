@@ -141,7 +141,7 @@ export class LatamCoopComponent implements OnInit, OnDestroy {
 
   getCategoriesBySector(sector: string, selectedTab: number) {
     this.categoriesReqStatus = 1;
-    this.overviewService.getCategoriesBySectorLatam(sector).subscribe(
+    this.overviewService.getSectorsByCountryLatam(sector).subscribe(
       (resp: any[]) => {
         this.categoriesBySector = resp;
         this.categoriesReqStatus = 2;

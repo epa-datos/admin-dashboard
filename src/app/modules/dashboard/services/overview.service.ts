@@ -158,15 +158,15 @@ export class OverviewService {
     return this.http.get(`${this.baseUrl}/latam/kpis?${queryParams}`);
   }
 
-  // *** categories by sector ***
-  getCategoriesBySectorLatam(sector: string) {
+  // *** sectors by country ***
+  getSectorsByCountryLatam(sector: string) {
     if (!sector) {
       return throwError('[overview.service]: not sector provided');
     }
 
     let queryParams = this.concatedQueryParams();
-    return this.http.get(`${this.baseUrl}/countries/1/retailer/categories?sector=${sector}&${queryParams}`);
-    return this.http.get(`${this.baseUrl}/latam/categories?sector=${sector}&${queryParams}`);
+    // return this.http.get(`${this.baseUrl}/countries/1/retailer/categories?sector=${sector}&${queryParams}`);
+    return this.http.get(`http://localhost:3000/api/v1/latam/categories?sector=${sector}&${queryParams}`);
   }
 
   // *** traffic and sales ***
