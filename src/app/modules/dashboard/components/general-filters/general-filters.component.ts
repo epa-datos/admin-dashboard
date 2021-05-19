@@ -8,6 +8,8 @@ import { AppStateService } from 'src/app/services/app-state.service';
 import { Subscription } from 'rxjs';
 import { debounceTime } from 'rxjs/operators';
 import { FiltersStateService } from '../../services/filters-state.service';
+import { Router, NavigationEnd } from '@angular/router';
+import { filter } from 'rxjs/operators';
 
 export const MY_FORMATS = {
   parse: {
@@ -40,6 +42,13 @@ export class GeneralFiltersComponent implements OnInit {
 
   sectorList: any[];
   categoryList: any[];
+  sourceList: any[] = [
+    { id: 1, name: 'Google' },
+    { id: 2, name: 'Facebook' },
+    { id: 3, name: 'Programmatic' },
+    { id: 4, name: 'Institucional' },
+    { id: 5, name: 'Otro' }
+  ];
   campaignList: any[];
   filteredCampaignList: any[];
   filteredCampaigns: boolean; // flag to know is campaignsList is the result of a search filter
@@ -47,6 +56,7 @@ export class GeneralFiltersComponent implements OnInit {
 
   countryID: number;
   retailerID: number;
+  isLatamSelected: boolean;
 
   form: FormGroup;
   startDate: AbstractControl;
@@ -54,10 +64,12 @@ export class GeneralFiltersComponent implements OnInit {
   sectors: AbstractControl;
   categories: AbstractControl;
   campaigns: AbstractControl;
+  sources: AbstractControl;
 
   formSub: Subscription;
   countrySub: Subscription;
   retailerSub: Subscription;
+  routeSub: Subscription;
 
   prevSectors: any[];
   prevCategories: any[];
@@ -75,7 +87,8 @@ export class GeneralFiltersComponent implements OnInit {
     private appStateService: AppStateService,
     private usersMngmtService: UsersMngmtService,
     private overviewService: OverviewService,
-    private filtersStateService: FiltersStateService
+    private filtersStateService: FiltersStateService,
+    private router: Router,
   ) { }
 
   async ngOnInit() {
@@ -92,6 +105,17 @@ export class GeneralFiltersComponent implements OnInit {
       this.countryID = selectedCountry?.id ? selectedCountry.id : undefined;
       this.retailerID = selectedRetailer?.id ? selectedRetailer.id : undefined;
     }
+
+    this.isLatamSelected = this.router.url.includes('latam') ? true : false;
+
+    this.routeSub = this.router.events.pipe(
+      filter(event => event instanceof NavigationEnd)
+    )
+      .subscribe(event => {
+        if (event instanceof NavigationEnd)
+          this.isLatamSelected = event.url.includes('latam')
+      });
+
 
     this.retailerSub = this.appStateService.selectedRetailer$.subscribe(retailer => {
       this.retailerID = retailer?.id;
@@ -129,7 +153,8 @@ export class GeneralFiltersComponent implements OnInit {
       endDate: new FormControl(endDate, [Validators.required]),
       sectors: new FormControl(),
       categories: new FormControl(),
-      campaigns: new FormControl()
+      campaigns: new FormControl(),
+      sources: new FormControl([...this.sourceList.map(item => item)])
     });
 
     this.startDate = this.form.controls['startDate'];
@@ -137,6 +162,7 @@ export class GeneralFiltersComponent implements OnInit {
     this.sectors = this.form.controls['sectors'];
     this.categories = this.form.controls['categories'];
     this.campaigns = this.form.controls['campaigns'];
+    this.sources = this.form.controls['sources']
 
     this.prevDate = { startDate: startDate, endDate: endDate }
 
@@ -264,6 +290,7 @@ export class GeneralFiltersComponent implements OnInit {
 
   ngOnDestroy() {
     this.formSub?.unsubscribe();
+    this.routeSub?.unsubscribe();
     this.countrySub?.unsubscribe();
     this.retailerSub?.unsubscribe();
   }

@@ -1,5 +1,6 @@
 <form role="form" [formGroup]="form">
     <div class="row">
+        <!-- period -->
         <div class="col-12 col-sm-6 col-lg-3 mb-4">
             <div class="date-picker">
                 <span class="mb-1 h4">Periodo</span>
@@ -19,6 +20,8 @@
                 </small>
             </div>
         </div>
+
+        <!-- sector -->
         <div class="col-12 col-sm-6 col-lg-3 mb-4">
             <span class="mb-1 h4">Sector</span>
             <mat-select formControlName="sectors" multiple placeholder="Selecciona un Sector">
@@ -40,6 +43,8 @@
                 {{ sectorsErrorMsg }}
             </small>
         </div>
+
+        <!-- category -->
         <div class="col-12 col-sm-6 col-lg-3 mb-4">
             <span class="mb-1 h4">Categoría</span>
             <mat-select formControlName="categories" multiple placeholder="Selecciona una Categoría">
@@ -61,6 +66,8 @@
                 {{ categoriesErrorMsg }}
             </small>
         </div>
+
+        <!-- campaign -->
         <div class="col-12 col-sm-6 col-lg-3 mb-4" [hidden]="!retailerID">
             <span class="mb-1 h4">Campaña</span>
             <mat-select formControlName="campaigns" multiple placeholder="Selecciona una Campaña"
@@ -91,6 +98,23 @@
             <small class="text-danger" *ngIf="campaignsErrorMsg">
                 {{ campaignsErrorMsg }}
             </small>
+        </div>
+
+        <!-- medium -->
+        <div class="col-12 col-sm-6 col-lg-3 mb-4" [hidden]="!isLatamSelected">
+            <span class="mb-1 h4">Fuente</span>
+            <mat-select formControlName="sources" multiple placeholder="Selecciona una Fuente">
+                <mat-select-trigger>
+                    <div class="select-value-container">
+                        <span class="select-value">{{sources.value ? sources.value[0]?.name : ''}}</span>
+                        <span *ngIf="sources.value?.length > 1" class="example-additional-selection ml-1">
+                            (+ {{sources.value?.length === 2 ? 'otro' : 'otros'}}
+                            {{ sources.value?.length === 2 ? '' : sources.value.length - 1}})
+                        </span>
+                    </div>
+                </mat-select-trigger>
+                <mat-option *ngFor="let source of sourceList" [value]="source">{{source.name}}</mat-option>
+            </mat-select>
         </div>
     </div>
 </form>
