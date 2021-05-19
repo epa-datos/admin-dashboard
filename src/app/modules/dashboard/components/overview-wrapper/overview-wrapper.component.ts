@@ -12,9 +12,7 @@ export class OverviewWrapperComponent implements OnInit, OnDestroy {
 
   @Input() selectedType: string; // country or retailer
   @Input() requestInfoChange: Observable<void>;
-
-  countryID: number;
-  retailerID: number;
+  @Input() showTrafficAndSalesSection: boolean = true;
 
   selectedTab1: number = 1;
   selectedTab2: number = 1;
