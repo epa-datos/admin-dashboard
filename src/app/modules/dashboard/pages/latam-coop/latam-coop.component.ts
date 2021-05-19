@@ -18,6 +18,7 @@ export class LatamCoopComponent implements OnInit, OnDestroy {
   selectedTab3: number = 1;
   selectedTab4: number = 1;
   selectedTab5: number = 1;
+  selectedTab6: number = 1;
 
   kpisLegends1 = ['investment', 'clicks', 'bounce_rate', 'transactions', 'revenue']
   kpisLegends2 = ['ctr', 'users', 'cr', 'roas']
@@ -117,7 +118,7 @@ export class LatamCoopComponent implements OnInit, OnDestroy {
 
   getAllData() {
     this.getKpis();
-    this.getCategoriesBySector('Search', 1);
+    this.getSectorsAndCategories('sectors', 1);
     this.getDataByTrafficAndSales('sales', 2);
     this.getDataByUsersAndSales('sales', 2);
     this.getInvestmentVsRevenue();
@@ -150,9 +151,9 @@ export class LatamCoopComponent implements OnInit, OnDestroy {
       });
   }
 
-  getCategoriesBySector(sector: string, selectedTab: number) {
+  getSectorsAndCategories(metricType: string, selectedTab: number) {
     this.categoriesReqStatus = 1;
-    this.overviewService.getSectorsByCountryLatam(sector).subscribe(
+    this.overviewService.getSectorsAndCategoriesLatam(metricType).subscribe(
       (resp: any[]) => {
         this.categoriesBySector = resp;
         this.categoriesReqStatus = 2;
@@ -189,7 +190,7 @@ export class LatamCoopComponent implements OnInit, OnDestroy {
           reqStatusObj.reqStatus = 3;
         });
 
-      this.selectedTab1 = selectedTab;
+      this.selectedTab2 = selectedTab;
     }
   }
 
@@ -207,7 +208,7 @@ export class LatamCoopComponent implements OnInit, OnDestroy {
       }
     )
 
-    this.selectedTab2 = selectedTab;
+    this.selectedTab3 = selectedTab;
   }
 
   getInvestmentVsRevenue() {
