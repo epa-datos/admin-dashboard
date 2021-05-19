@@ -141,7 +141,10 @@
                     <!-- empty data -->
                     <div *ngIf="trafficSalesReqStatus[3].reqStatus === 2 && trafficAndSales['genderByAge']?.length === 0"
                         class="chart-error-container text-muted">
-                        <span>Sin datos disponibles</span>
+                        <p class="text-center">
+                            Sin datos disponibles <br>
+                            Muestra insuficiente
+                        </p>
                     </div>
 
                     <!-- error -->
