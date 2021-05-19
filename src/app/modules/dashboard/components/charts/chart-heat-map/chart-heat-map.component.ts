@@ -10,12 +10,11 @@ import am4themes_animated from '@amcharts/amcharts4/themes/animated';
 })
 export class ChartHeatMapComponent implements OnInit, AfterViewInit {
 
-  @Input() categoryX = 'weekday'; // property name in object inside array input data
-  @Input() categoryY = 'hour'; // property name in object inside array input data
   @Input() value;
   @Input() height = '350px' // valid css height to chart container
   @Input() showTooltipValue: boolean = true; // show the value in tooltip
   @Input() showGridBorders: boolean = false;
+  @Input() gridBordersColor: string = '#ffffff';  // valid css color
   @Input() showHeatLegend: boolean = true; // lower legend with average values triggering by column hover
   @Input() initialColor: string; // valid css color
   @Input() status: number = 2; // 0) initial 1) load 2) ready 3) error
@@ -29,7 +28,7 @@ export class ChartHeatMapComponent implements OnInit, AfterViewInit {
   }
   @Input() set name(value) {
     this._name = value;
-    this.chartID = `chart-heat-map-${this.name}`
+    this.chartID = `chart-heat-map-${this.name}`;
   }
 
   private _data;
@@ -38,11 +37,31 @@ export class ChartHeatMapComponent implements OnInit, AfterViewInit {
   }
   @Input() set data(value) {
     this._data = value;
-    this.chart && this.loadChartData(this.chart)
+    this.chart && this.loadChartData(this.chart);
+  }
+
+  private _categoryX = 'weekday'; // property name in object inside array input data
+  get categoryX() {
+    return this._categoryX;
+  }
+  @Input() set categoryX(value) {
+    this._categoryX = value;
+    this.axis && this.series && this.assignCategoriesNames(this.axis, this.series);
+  }
+
+  private _categoryY = 'hour'; // property name in object inside array input data
+  get categoryY() {
+    return this._categoryY;
+  }
+  @Input() set categoryY(value) {
+    this._categoryY = value;
+    this.axis && this.series && this.assignCategoriesNames(this.axis, this.series);
   }
 
   chart;
   chartID;
+  axis;
+  series;
 
   constructor() { }
 
@@ -59,12 +78,11 @@ export class ChartHeatMapComponent implements OnInit, AfterViewInit {
     let chart = am4core.create(this.chartID, am4charts.XYChart);
     chart.maskBullets = false;
     chart.responsive.enabled = true;
+    chart.numberFormatter.numberFormat = '#,###.##';
 
     let xAxis = chart.xAxes.push(new am4charts.CategoryAxis());
     let yAxis = chart.yAxes.push(new am4charts.CategoryAxis());
 
-    xAxis.dataFields.category = this.categoryX;
-    yAxis.dataFields.category = this.categoryY;
 
     xAxis.renderer.grid.template.disabled = true;
     xAxis.renderer.minGridDistance = 40;
@@ -77,9 +95,8 @@ export class ChartHeatMapComponent implements OnInit, AfterViewInit {
     yAxis.renderer.labels.template.fontSize = 12;
 
     let series = chart.series.push(new am4charts.ColumnSeries());
-    series.dataFields.categoryX = this.categoryX;
-    series.dataFields.categoryY = this.categoryY;
-    series.dataFields.value = 'value';
+
+    this.assignCategoriesNames({ xAxis, yAxis }, series);
     series.sequencedInterpolation = true;
     series.defaultState.transitionDuration = 3000;
 
@@ -88,7 +105,7 @@ export class ChartHeatMapComponent implements OnInit, AfterViewInit {
     let columnTemplate = series.columns.template;
 
     if (this.showGridBorders) {
-      let bgColor2 = am4core.color('#ffffff');
+      let bgColor2 = am4core.color(this.gridBordersColor);
       columnTemplate.stroke = bgColor2;
       columnTemplate.strokeWidth = 2;
     } else {
@@ -97,11 +114,6 @@ export class ChartHeatMapComponent implements OnInit, AfterViewInit {
       columnTemplate.strokeOpacity = 0.2;
     }
 
-    let tooltipLegend = this.showTooltipValue
-      ? `{${this.categoryX}}, {${this.categoryY}}: {value.workingValue.formatNumber('#.')}`
-      : `{${this.categoryX}} - {${this.categoryY}}`;
-
-    columnTemplate.tooltipText = tooltipLegend;
 
     columnTemplate.width = am4core.percent(100);
     columnTemplate.height = am4core.percent(100);
@@ -154,5 +166,24 @@ export class ChartHeatMapComponent implements OnInit, AfterViewInit {
   loadChartData(chart) {
     chart.data = this.data;
     this.chart = chart;
+  }
+
+  assignCategoriesNames(axis, series) {
+    axis.xAxis.dataFields.category = this.categoryX;
+    axis.yAxis.dataFields.category = this.categoryY;
+
+    series.dataFields.categoryX = this.categoryX;
+    series.dataFields.categoryY = this.categoryY;
+    series.dataFields.value = 'value';
+
+    let columnTemplate = series.columns.template;
+    let tooltipLegend = this.showTooltipValue
+      ? `{${this.categoryX}}, {${this.categoryY}}: {value.workingValue}`
+      : `{${this.categoryX}} - {${this.categoryY}}`;
+
+    columnTemplate.tooltipText = tooltipLegend;
+
+    this.axis = axis;
+    this.series = series;
   }
 }
