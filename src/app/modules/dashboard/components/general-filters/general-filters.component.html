@@ -10,7 +10,7 @@
                         <span class="input-group-text"><i class="fas fa-search"></i></span>
                     </div>
                     <input class="form-control" [(ngModel)]="countryFilter" matInput type="text"
-                        (keyup)="filterFromList('country', $event.target.value)" placeholder="Buscar País"
+                        (keyup)="filterFromList('countries', 'country', $event.target.value)" placeholder="Buscar País"
                         [ngModelOptions]="{standalone: true}">
                 </div>
                 <mat-select-trigger>
@@ -22,15 +22,17 @@
                         </span>
                     </div>
                 </mat-select-trigger>
-                <mat-option #allSelectedCountries
-                    (click)="toggleAllSelection('allSelectedCountries','countries', 'countryList')" [value]="0"
-                    class="font-weight-bold">
+                <mat-option #allSelectedCountries [value]="0" class="font-weight-bold"
+                    (click)="toggleAllSelection('countries', 'country')">
                     Todos
                 </mat-option>
-                <mat-option *ngFor="let country of countryList" [value]="country"
-                    (click)="tosslePerOne('allSelectedCountries', 'countries', 'countryList')">
-                    {{country.name}}
-                </mat-option>
+                <ng-container *ngFor="let country of countryList">
+                    <mat-option [hidden]="country.hidden" [value]="country"
+                        (click)="tosslePerOne('allSelectedCountries', 'countries', 'countryList')">
+                        {{country.name}}
+                    </mat-option>
+                </ng-container>
+
             </mat-select>
             <small class="text-danger" *ngIf="countries?.value?.length < 1 && countries.touched">
                 Selecciona al menos un País
@@ -49,8 +51,8 @@
                         <span class="input-group-text"><i class="fas fa-search"></i></span>
                     </div>
                     <input class="form-control" [(ngModel)]="retailerFilter" matInput type="text"
-                        (keyup)="filterFromList('retailer', $event.target.value)" placeholder="Buscar Retailer"
-                        [ngModelOptions]="{standalone: true}">
+                        (keyup)="filterFromList('retailers', 'retailer', $event.target.value)"
+                        placeholder="Buscar Retailer" [ngModelOptions]="{standalone: true}">
                 </div>
                 <mat-select-trigger>
                     <div class="select-value-container">
@@ -173,8 +175,8 @@
                         <span class="input-group-text"><i class="fas fa-search"></i></span>
                     </div>
                     <input class="form-control" [(ngModel)]="campaignFilter" matInput type="text"
-                        (keyup)="filterFromList('campaign', $event.target.value)" placeholder="Buscar Campaña"
-                        [ngModelOptions]="{standalone: true}">
+                        (keyup)="filterFromList('campaigns', 'campaign', $event.target.value)"
+                        placeholder="Buscar Campaña" [ngModelOptions]="{standalone: true}">
                 </div>
                 <mat-select-trigger>
                     <div class="select-value-container">
@@ -185,15 +187,18 @@
                         </span>
                     </div>
                 </mat-select-trigger>
-                <mat-option #allSelectedCampaigns
-                    (click)="toggleAllSelection('allSelectedCampaigns','campaigns', 'campaignList')" [value]="0"
+                <!-- (click)="toggleAllSelection('allSelectedCampaigns','campaigns', 'campaignList')" -->
+                <mat-option #allSelectedCampaigns (click)="toggleAllSelection('campaigns', 'campaign')" [value]="0"
                     class="font-weight-bold">
                     Todas
                 </mat-option>
-                <mat-option *ngFor="let campaign of campaignList" [value]="campaign"
-                    (click)="tosslePerOne('allSelectedCampaigns', 'campaigns', 'campaignList')">
-                    {{campaign.name}}
-                </mat-option>
+                <ng-container *ngFor="let campaign of campaignList">
+                    <mat-option [hidden]="campaign.hidden" [value]="campaign"
+                        (click)="tosslePerOne('allSelectedCampaigns', 'campaigns', 'campaignList')">
+                        {{campaign.name}}
+                    </mat-option>
+                </ng-container>
+
             </mat-select>
             <small class="text-muted mt-1" *ngIf="campaignList?.length < 1 && campaignsReqStatus === 2">
                 No existen campañas para el Periodo, Sectores y Categorías seleccionados

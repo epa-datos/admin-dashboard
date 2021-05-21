@@ -374,18 +374,117 @@ export class GeneralFiltersComponent implements OnInit {
     return this.arraysAreEquals(this.campaignList, this.campaigns.value);
   }
 
-  filterFromList(listName: string, value: string) {
-    const arrayReference = `${listName}List`;
-    const listNamePascalCase = `${listName.charAt(0).toUpperCase()}${listName.slice(1)}`;
-    const filteredArrayReference = `filtered${listNamePascalCase}List`;
-    const filteredFlagReference = `filtered${listNamePascalCase}`;
+  /**
+  * filterFromList
+  * Generic function to be used for sarch filter when all options in filters are selected by default
+  * @param controlRef // associated form control name
+  * @param listRef // associated elementList name
+  * @param value // filtered value
+  */
 
-    this[arrayReference] = this[filteredArrayReference].filter(camp => camp.name.toLowerCase().includes(value.toLowerCase()));
+  filterFromList(controlRef: string, listRef: string, value: string) {
+    const controlRefPascalCase = `${controlRef.charAt(0).toUpperCase()}${controlRef.slice(1)}`;
+    const listRefPascalCase = `${listRef.charAt(0).toUpperCase()}${listRef.slice(1)}`;
 
+    const arrayReference = `${listRef}List`;
+    const filteredArrayRef = `filtered${listRefPascalCase}List`;
+    const matOptionRef = `allSelected${controlRefPascalCase}`;
+    const filteredFlagReference = `filtered${listRefPascalCase}`;
+
+    if (value) {
+      this[controlRef].patchValue(this[filteredArrayRef].filter(item => {
+        const isSelected = this[controlRef].value.includes(item);
+
+        if (isSelected) {
+          return this[controlRef].value.includes(item)
+        } else {
+          return this[controlRef].value.includes(item), 0
+        }
+      }));
+    }
+
+    this[arrayReference].forEach(item => {
+      delete item.hidden;
+      if (!item.name.toLowerCase().includes(value.toLowerCase())) {
+        item.hidden = true;
+      }
+    });
+
+    this.allAreItemsSelected(controlRef, arrayReference, matOptionRef);
     this[filteredFlagReference] = value.length > 0 ? true : false;
   }
 
+  allAreItemsSelected(controlRef: string, arrayReference: string, matOptionRef: string) {
+    const shownElements = this[arrayReference].filter(item => !item.hidden);
+    let allAreSelected = true;
+    for (let item of shownElements) {
+      if (this[controlRef].value.includes(item)) {
+      } else {
+        allAreSelected = false;
+        break;
+      }
+    };
+
+    if (allAreSelected) {
+      this[matOptionRef].select();
+    } else {
+      this[matOptionRef].deselect();
+    }
+  }
+
+  toggleAllSelection(controlRef: string, listRef: string) {
+    const controlRefPascalCase = `${controlRef.charAt(0).toUpperCase()}${controlRef.slice(1)}`;
+    const listRefPascalCase = `${listRef.charAt(0).toUpperCase()}${listRef.slice(1)}`;
+
+    const arrayReference = `${listRef}List`;
+    const filteredArrayRef = `filtered${listRefPascalCase}List`;
+    const matOptionRef = `allSelected${controlRefPascalCase}`;
+
+
+    const allSelected = this[matOptionRef].selected;
+    const shownElements = this[arrayReference].filter(item => !item.hidden);
+
+    this[controlRef].patchValue(this[filteredArrayRef].filter(item => {
+      const isSelectedElement = this[controlRef].value.includes(item);
+      const isShownElement = shownElements.includes(item);
+
+      if (isShownElement) {
+        // change selection depending on allSelect new value
+        if (allSelected) {
+          return shownElements.includes(item)
+
+        } else {
+          return shownElements.includes(item), 0
+        }
+
+      } else {
+        // preserve the original selection
+        if (isSelectedElement) {
+          return this[controlRef].value.includes(item)
+        } else {
+          return this[controlRef].value.includes(item), 0
+        }
+      }
+    }));
+
+    this.allAreItemsSelected(controlRef, arrayReference, matOptionRef);
+  }
+
+  tosslePerOne(matOptionRef: string, controlRef: string, listRef: string) {
+    if (this[matOptionRef].selected) {
+      this[matOptionRef].deselect();
+      return false;
+    }
+
+    if (this[controlRef].value.length == this[listRef].length) {
+      this[matOptionRef].select();
+    }
+  }
+
   applyFilters() {
+    console.log('countries.value', this.countries.value)
+    console.log('retailers.value', this.retailers.value)
+    console.log('campaigns.value', this.campaigns.value)
     this.filtersStateService.selectPeriod({ startDate: this.startDate.value._d, endDate: this.endDate.value._d });
     this.filtersStateService.selectSectors(this.sectors.value);
     this.filtersStateService.selectCategories(this.categories.value);
@@ -394,24 +493,6 @@ export class GeneralFiltersComponent implements OnInit {
     this.filtersStateService.selectCampaigns(areAllCampsSelected ? [] : this.campaigns.value);
 
     this.filtersStateService.filtersChange();
-  }
-
-  toggleAllSelection(matOpionRef: string, controlRef: string, listRef: string) {
-    if (this[matOpionRef].selected) {
-      this[controlRef].patchValue([...this[listRef].map(item => item), 0]);
-    } else {
-      this[controlRef].patchValue([]);
-    }
-  }
-
-  tosslePerOne(matOpionRef: string, controlRef: string, listRef: string) {
-    if (this[matOpionRef].selected) {
-      this[matOpionRef].deselect();
-      return false;
-    }
-    if (this[controlRef].value.length == this[listRef].length) {
-      this[matOpionRef].select();
-    }
   }
 
   arraysAreEquals(array1: any[], array2: any[]): boolean {
