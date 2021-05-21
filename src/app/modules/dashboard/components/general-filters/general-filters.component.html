@@ -63,15 +63,17 @@
                         </span>
                     </div>
                 </mat-select-trigger>
-                <mat-option #allSelectedRetailers
-                    (click)="toggleAllSelection('allSelectedRetailers','retailers', 'retailerList')" [value]="0"
+                <mat-option #allSelectedRetailers (click)="toggleAllSelection('retailers', 'retailer')" [value]="0"
                     class="font-weight-bold">
                     Todos
                 </mat-option>
-                <mat-option *ngFor="let retailer of retailerList" [value]="retailer"
-                    (click)="tosslePerOne('allSelectedRetailers', 'retailers', 'retailerList')">
-                    {{retailer.name}}
-                </mat-option>
+                <ng-container *ngFor="let retailer of retailerList">
+                    <mat-option [hidden]="retailer.hidden" [value]="retailer"
+                        (click)="tosslePerOne('allSelectedRetailers', 'retailers', 'retailerList')">
+                        {{retailer.name}}
+                    </mat-option>
+                </ng-container>
+
             </mat-select>
             <small class="text-danger" *ngIf="retailers?.value?.length < 1 && retailers.touched">
                 Selecciona al menos un Retailer
