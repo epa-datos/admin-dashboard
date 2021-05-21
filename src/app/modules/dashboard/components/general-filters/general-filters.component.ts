@@ -1,7 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { UsersMngmtService } from 'src/app/modules/users-mngmt/services/users-mngmt.service';
 import { MomentDateAdapter, MAT_MOMENT_DATE_ADAPTER_OPTIONS } from '@angular/material-moment-adapter';
-import { DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE } from '@angular/material/core';
+import { DateAdapter, MatOption, MAT_DATE_FORMATS, MAT_DATE_LOCALE } from '@angular/material/core';
 import { AbstractControl, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { OverviewService } from '../../services/overview.service';
 import { AppStateService } from 'src/app/services/app-state.service';
@@ -101,6 +101,13 @@ export class GeneralFiltersComponent implements OnInit {
   categoriesErrorMsg: string;
   campaignsErrorMsg: string;
 
+  @ViewChild('allSelectedCountries') private allSelectedCountries: MatOption;
+  @ViewChild('allSelectedRetailers') private allSelectedRetailers: MatOption;
+  @ViewChild('allSelectedSectors') private allSelectedSectors: MatOption;
+  @ViewChild('allSelectedCategories') private allSelectedCategories: MatOption;
+  @ViewChild('allSelectedCampaigns') private allSelectedCampaigns: MatOption;
+  @ViewChild('allSelectedSources') private allSelectedSources: MatOption;
+
   constructor(
     private fb: FormBuilder,
     private appStateService: AppStateService,
@@ -115,7 +122,7 @@ export class GeneralFiltersComponent implements OnInit {
 
     await this.getSectors();
     await this.getCategories();
-    this.applyFilters(true);
+    this.applyFilters();
 
     const selectedCountry = this.appStateService.selectedCountry;
     const selectedRetailer = this.appStateService.selectedRetailer;
@@ -142,34 +149,32 @@ export class GeneralFiltersComponent implements OnInit {
         this.getCampaigns();
       }
 
-      this.restoreFilters(false);
+      this.restoreFilters();
     });
 
     this.countrySub = this.appStateService.selectedCountry$.subscribe(country => {
       this.countryID = country?.id;
-      this.restoreFilters(false);
+      this.restoreFilters();
     });
   }
 
-  restoreFilters(changeFromButton: boolean) {
+  restoreFilters() {
     if (this.defaultPeriod) {
       this.startDate.setValue(this.defaultPeriod.startDate);
       this.endDate.setValue(this.defaultPeriod.endDate);
     }
 
-    this.countryList && this.countries.patchValue([...this.countryList.map(item => item)]);
-    this.retailerList && this.retailers.patchValue([...this.retailerList.map(item => item)]);
-    this.sectorList && this.sectors.patchValue([...this.sectorList.map(item => item)]);
-    this.categoryList && this.categories.patchValue([...this.categoryList.map(item => item)]);
-    this.sourceList && this.sources.patchValue([...this.sourceList.map(item => item)]);
+    this.countryList && this.countries.patchValue([...this.countryList.map(item => item), 0]);
+    this.retailerList && this.retailers.patchValue([...this.retailerList.map(item => item), 0]);
+    this.sectorList && this.sectors.patchValue([...this.sectorList.map(item => item), 0]);
+    this.categoryList && this.categories.patchValue([...this.categoryList.map(item => item), 0]);
+    this.sourceList && this.sources.patchValue([...this.sourceList.map(item => item), 0]);
+
     this.campaigns.setValue([]);
 
     this.countryFilter && delete this.countryFilter;
     this.retailerFilter && delete this.retailerFilter;
     this.campaignFilter && delete this.campaignFilter;
-
-    this.applyFilters(changeFromButton);
-    this.filtersStateService.convertFiltersToQueryParams();
   }
 
   loadForm() {
@@ -189,7 +194,7 @@ export class GeneralFiltersComponent implements OnInit {
       sectors: new FormControl(),
       categories: new FormControl(),
       campaigns: new FormControl(),
-      sources: new FormControl([...this.sourceList.map(item => item)])
+      sources: new FormControl([...this.sourceList.map(item => item), 0])
     });
 
     this.countries = this.form.controls['countries'];
@@ -202,7 +207,8 @@ export class GeneralFiltersComponent implements OnInit {
     this.sources = this.form.controls['sources']
 
     this.defaultPeriod = { startDate: startDate, endDate: endDate };
-    this.prevPeriod = { startDate: startDate, endDate: endDate };
+    this.prevPeriod = this.defaultPeriod;
+    this.filtersStateService.periodInitial = this.defaultPeriod;
 
     this.formSub = this.form.valueChanges
       .pipe(debounceTime(5))
@@ -253,7 +259,7 @@ export class GeneralFiltersComponent implements OnInit {
         this.countryList = res;
         this.filteredCountryList = res;
 
-        this.countries.patchValue([...this.countryList.map(item => item)]);
+        this.countries.patchValue([...this.countryList.map(item => item), 0]);
         this.prevCountries = this.countries.value;
 
         this.countriesErrorMsg && delete this.countriesErrorMsg;
@@ -277,7 +283,7 @@ export class GeneralFiltersComponent implements OnInit {
         this.retailerList = retailers;
         this.filteredRetailerList = retailers;
 
-        this.retailers.patchValue([...this.retailerList.map(item => item)]);
+        this.retailers.patchValue([...this.retailerList.map(item => item), 0]);
         this.prevRetailers = this.retailers.value;
 
         this.retailersErrorMsg && delete this.retailersErrorMsg;
@@ -294,8 +300,9 @@ export class GeneralFiltersComponent implements OnInit {
       .then((res: any[]) => {
         this.sectorList = res;
 
-        this.sectors.patchValue([...this.sectorList.map(item => item)]);
+        this.sectors.patchValue([...this.sectorList.map(item => item), 0]);
         this.prevSectors = this.sectors.value;
+        this.filtersStateService.sectorsInitial = this.sectors.value;
 
         this.sectorsErrorMsg && delete this.sectorsErrorMsg;
       })
@@ -311,8 +318,9 @@ export class GeneralFiltersComponent implements OnInit {
       .then((res: any[]) => {
         this.categoryList = res;
 
-        this.categories.patchValue([...this.categoryList.map(item => item)]);
+        this.categories.patchValue([...this.categoryList.map(item => item), 0]);
         this.prevCategories = this.categories.value;
+        this.filtersStateService.categoriesInitial = this.categories.value;
 
         this.categoriesErrorMsg && delete this.categoriesErrorMsg;
       })
@@ -352,7 +360,7 @@ export class GeneralFiltersComponent implements OnInit {
   convertArrayToString(array, param: string): string {
     let stringArray = '';
     for (let i = 0; i < array.length; i++) {
-      stringArray = stringArray.concat(',', array[i][param]);
+      stringArray = array[i][param] ? stringArray.concat(',', array[i][param]) : stringArray;
     }
 
     return stringArray.substring(1);
@@ -377,7 +385,7 @@ export class GeneralFiltersComponent implements OnInit {
     this[filteredFlagReference] = value.length > 0 ? true : false;
   }
 
-  applyFilters(emitChange?: boolean) {
+  applyFilters() {
     this.filtersStateService.selectPeriod({ startDate: this.startDate.value._d, endDate: this.endDate.value._d });
     this.filtersStateService.selectSectors(this.sectors.value);
     this.filtersStateService.selectCategories(this.categories.value);
@@ -385,14 +393,32 @@ export class GeneralFiltersComponent implements OnInit {
     const areAllCampsSelected = this.areAllCampaignsSelected();
     this.filtersStateService.selectCampaigns(areAllCampsSelected ? [] : this.campaigns.value);
 
-    // in init or when Filter button is clicked
-    if (emitChange) {
-      this.filtersStateService.filtersChange();
+    this.filtersStateService.filtersChange();
+  }
+
+  toggleAllSelection(matOpionRef: string, controlRef: string, listRef: string) {
+    if (this[matOpionRef].selected) {
+      this[controlRef].patchValue([...this[listRef].map(item => item), 0]);
+    } else {
+      this[controlRef].patchValue([]);
+    }
+  }
+
+  tosslePerOne(matOpionRef: string, controlRef: string, listRef: string) {
+    if (this[matOpionRef].selected) {
+      this[matOpionRef].deselect();
+      return false;
+    }
+    if (this[controlRef].value.length == this[listRef].length) {
+      this[matOpionRef].select();
     }
   }
 
   arraysAreEquals(array1: any[], array2: any[]): boolean {
-    return JSON.stringify(array1) == JSON.stringify(array2) ? true : false;
+    const cleanArray1 = array1?.filter(item => item.id);
+    const cleanArray2 = array2?.filter(item => item.id);
+
+    return JSON.stringify(cleanArray1) == JSON.stringify(cleanArray2) ? true : false;
   }
 
   ngOnDestroy() {
