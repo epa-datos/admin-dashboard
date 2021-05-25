@@ -4,7 +4,7 @@
         <!-- country -->
         <div [hidden]="!isLatamSelected" class="col-12 col-sm-6 col-lg-2 mb-4">
             <span class="mb-1 h4">País</span>
-            <mat-select formControlName="countries" multiple placeholder="Selecciona un País">
+            <mat-select formControlName="countries" multiple placeholder="Selecciona un País" disableOptionCentering>
                 <div class="input-group input-group-alternative mb-1">
                     <div class="input-group-prepend">
                         <span class="input-group-text"><i class="fas fa-search"></i></span>
@@ -57,7 +57,8 @@
         <!-- retailer -->
         <div [hidden]="!isLatamSelected" class="col-12 col-sm-6 col-lg-2 mb-4">
             <span class="mb-1 h4">Retailer</span>
-            <mat-select formControlName="retailers" multiple placeholder="Selecciona un Retailer">
+            <mat-select formControlName="retailers" multiple placeholder="Selecciona un Retailer"
+                disableOptionCentering>
                 <div class="input-group input-group-alternative mb-1">
                     <div class="input-group-prepend">
                         <span class="input-group-text"><i class="fas fa-search"></i></span>
@@ -133,7 +134,7 @@
         <!-- sector -->
         <div class="col-12 col-sm-6 mb-4" [ngClass]="{'col-lg-3' : !isLatamSelected, 'col-lg-2' : isLatamSelected}">
             <span class="mb-1 h4">Sector</span>
-            <mat-select formControlName="sectors" multiple placeholder="Selecciona un Sector">
+            <mat-select formControlName="sectors" multiple placeholder="Selecciona un Sector" disableOptionCentering>
                 <mat-select-trigger>
                     <div class="select-value-container">
                         <span class="select-value">
@@ -177,7 +178,8 @@
         <!-- category -->
         <div class="col-12 col-sm-6 mb-4" [ngClass]="{'col-lg-3' : !isLatamSelected, 'col-lg-2' : isLatamSelected}">
             <span class="mb-1 h4">Categoría</span>
-            <mat-select formControlName="categories" multiple placeholder="Selecciona una Categoría">
+            <mat-select formControlName="categories" multiple placeholder="Selecciona una Categoría"
+                disableOptionCentering>
                 <mat-select-trigger>
                     <div class="select-value-container">
                         <span class="select-value">
@@ -221,9 +223,8 @@
         <!-- campaign -->
         <div [hidden]="!retailerID" class="col-12 col-sm-6 col-lg-3 mb-4">
             <span class="mb-1 h4">Campaña</span>
-            <mat-select formControlName="campaigns" multiple placeholder="Selecciona una Campaña"
+            <mat-select formControlName="campaigns" multiple placeholder="Selecciona una Campaña" disableOptionCentering
                 [disabled]="(campaignList?.length < 1 && campaignsReqStatus === 2) || campaignsErrorMsg">
-
                 <div class="input-group input-group-alternative mb-1">
                     <div class="input-group-prepend">
                         <span class="input-group-text"><i class="fas fa-search"></i></span>
@@ -277,7 +278,7 @@
         <!-- source -->
         <div [hidden]="!isLatamSelected" class="col-12 col-sm-6 col-lg-2 mb-4">
             <span class="mb-1 h4">Fuente</span>
-            <mat-select formControlName="sources" multiple placeholder="Selecciona una Fuente">
+            <mat-select formControlName="sources" multiple placeholder="Selecciona una Fuente" disableOptionCentering>
                 <mat-select-trigger>
                     <div class="select-value-container">
                         <span class="select-value">
