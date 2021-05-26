@@ -8,6 +8,7 @@ import { Md5 } from 'ts-md5';
 import { Configuration } from '../app.constants';
 import { User } from '../models/user';
 import { FiltersStateService } from '../modules/dashboard/services/filters-state.service';
+import { UsersMngmtService } from '../modules/users-mngmt/services/users-mngmt.service';
 
 @Injectable()
 export class UserService {
@@ -43,7 +44,8 @@ export class UserService {
     private router: Router,
     private config: Configuration,
     private cookieService: CookieService,
-    private filtersStateService: FiltersStateService
+    private filtersStateService: FiltersStateService,
+    private usersMngmtService: UsersMngmtService
   ) {
     this._loggedIn = !!window.localStorage.getItem('auth_token');
 
@@ -147,55 +149,75 @@ export class UserService {
     return role_name === 'admin' ? true : false;
   }
 
-  getDefaultRedirect(): Route {
-    const role = this.user.role_name;
-    let redirect: Route;
+  redirectToDefaultPage() {
+    return new Promise<void>((resolve) => {
+      this.getDefaultRedirect().then((route: Route) => {
 
-    if ((role === 'admin' || role === 'hp') || (role === 'countries' && this.viewLevel === 'latam')) {
-      // For users who have enable LATAM view
-      redirect = {
-        url: '/dashboard/main-region',
-        queryParams: { ['main-region']: 'latam' }
-      }
-    } else if (role === 'country' && this.viewLevel === 'general') {
-      // For users who have country role and general level
-      // the redirection is the first country that which they have access
-      let countries = this.filtersStateService.countriesInitial;
+        const { url, queryParams } = route;
+        this.router.navigate([url], { queryParams });
+        resolve();
 
-      for (let country of countries) {
-        country.title = country.region ? country.region : country.name;
-      }
+        console.log('route', route);
+      });
+    });
+  }
 
-      if (countries.some(country => country.region)) {
-        countries = countries.sort((a, b) => (a.title < b.title ? -1 : 1));
-      }
+  getDefaultRedirect() {
+    return new Promise(async (resolve) => {
+      const role = this.user.role_name;
+      let redirect: Route;
 
-      // If the first country that which they have access belongs to a region
-      // is necessary to include it in a 'region' query param
-      let queryParams;
-      if (!countries[0].region) {
-        queryParams = { ['country']: countries[0]?.name.toLowerCase().replaceAll(' ', '-') }
-      } else {
-        queryParams = {
-          ['region']: countries[0]?.region.toLowerCase().replaceAll(' ', '-'),
-          ['country']: countries[0]?.name.toLowerCase().replaceAll(' ', '-')
+      if ((role === 'admin' || role === 'hp') || (role === 'countries' && this.viewLevel === 'latam')) {
+        // For users who have enable LATAM view
+        redirect = {
+          url: '/dashboard/main-region',
+          queryParams: { ['main-region']: 'latam' }
+        }
+      } else if (role === 'country' && this.viewLevel === 'general') {
+        // For users who have country role and general level
+        // the redirection is the first country that which they have access
+
+        !this.filtersStateService.countriesInitial && await this.getCountries();
+        let countries = this.filtersStateService.countriesInitial
+
+        for (let country of countries) {
+          country.title = country.region ? country.region : country.name;
+        }
+
+        if (countries.some(country => country.region)) {
+          countries = countries.sort((a, b) => (a.title < b.title ? -1 : 1));
+        }
+
+        // If the first country that which they have access belongs to a region
+        // is necessary to include it in a 'region' query param
+        let queryParams;
+        if (!countries[0].region) {
+          queryParams = { ['country']: countries[0]?.name.toLowerCase().replaceAll(' ', '-') }
+        } else {
+          queryParams = {
+            ['region']: countries[0]?.region.toLowerCase().replaceAll(' ', '-'),
+            ['country']: countries[0]?.name.toLowerCase().replaceAll(' ', '-')
+          }
+        }
+
+        redirect = { url: '/dashboard/country', queryParams }
+
+      } else if (role === 'retailer' && this.viewLevel === 'general') {
+        // For users who have retailer role and general level
+        // the redirection is the first retailer that which they have access
+
+        !this.filtersStateService.retailersInitial && await this.getRetailers();
+        const retailers = this.filtersStateService.retailersInitial
+
+        const retailerName = retailers[0]?.name.split(' - ')[1];
+        redirect = {
+          url: '/dashboard/retailer',
+          queryParams: { ['retailer']: retailerName.toLowerCase().replaceAll(' ', '-') }
         }
       }
 
-      redirect = { url: '/dashboard/country', queryParams }
-
-    } else if (role === 'retailer' && this.viewLevel === 'general') {
-      // For users who have retailer role and general level
-      // the redirection is the first retailer that which they have access
-      const retailers = this.filtersStateService.retailersInitial;
-      const retailerName = retailers[0]?.name.split(' - ')[1];
-      redirect = {
-        url: '/dashboard/retailer',
-        queryParams: { ['retailer']: retailerName.toLowerCase().replaceAll(' ', '-') }
-      }
-    }
-
-    return redirect;
+      resolve(redirect);
+    });
   }
 
   logout() {
@@ -219,6 +241,31 @@ export class UserService {
     if (user) {
       this.cookieService.delete('coop_user');
     }
+  }
+
+  getCountries() {
+    return this.usersMngmtService.getCountries()
+      .toPromise()
+      .then((countries: any[]) => {
+        this.filtersStateService.countriesInitial = countries;
+      })
+      .catch((error) => {
+        console.error(`[user.service]: ${error}`);
+      });
+  }
+
+  getRetailers() {
+    return this.usersMngmtService.getRetailers()
+      .toPromise()
+      .then((res: any[]) => {
+        const retailers = res.map(retailer => {
+          return { id: retailer.id, name: `${retailer.country_code} - ${retailer.name}` }
+        });
+        this.filtersStateService.retailersInitial = retailers;
+      })
+      .catch((error) => {
+        console.error(`[user.service]: ${error}`);
+      });
   }
 }
 
