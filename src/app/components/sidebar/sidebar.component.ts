@@ -296,7 +296,6 @@ export class SidebarComponent implements OnInit, OnDestroy {
       })
       .catch(error => {
         const errMsg = error?.error?.message ? error.error.message : error?.message;
-        this.router.navigate(['dashboard/investment']);
         console.error(`[sidebar.component]: ${errMsg}`);
         throw (new Error(errMsg));
       });
