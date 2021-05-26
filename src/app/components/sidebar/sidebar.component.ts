@@ -19,13 +19,7 @@ declare interface RouteInfo {
   isForAdmin?: boolean;
 }
 
-export const ROUTES = [
-  // {
-  //   path: '/dashboard/investment',
-  //   title: 'Google Investment',
-  //   isForAdmin: false
-  // }
-]
+export const ROUTES = [];
 
 @Component({
   selector: 'app-sidebar',
