@@ -3,7 +3,6 @@ import { Location } from '@angular/common';
 import { UserService } from 'src/app/services/user.service';
 import { User } from 'src/app/models/user';
 import { AppStateService } from 'src/app/services/app-state.service';
-import { ActivatedRoute } from '@angular/router';
 import { Subscription } from 'rxjs';
 
 @Component({
@@ -12,23 +11,23 @@ import { Subscription } from 'rxjs';
   styleUrls: ['./navbar.component.scss']
 })
 export class NavbarComponent implements OnInit, OnDestroy {
-  public focus;
-  public listTitles: any[] = [];
-  public location: Location;
-  public user: User;
-  public customTitle: string;
-  public customSubtitle: string;
-  public routes: any[] = [];
+  focus;
+  listTitles: any[] = [];
+  location: Location;
+  user: User;
+  customTitle: string;
+  customSubtitle: string;
+  routes: any[] = [];
+  currentRoute;
 
-  public sidebarSub: Subscription;
-  public countrySub: Subscription;
-  public retailerSub: Subscription;
+  sidebarSub: Subscription;
+  countrySub: Subscription;
+  retailerSub: Subscription;
 
   constructor(
     location: Location,
     private userService: UserService,
-    private appStateService: AppStateService,
-    private route: ActivatedRoute,
+    private appStateService: AppStateService
   ) {
     this.location = location;
   }
@@ -55,7 +54,7 @@ export class NavbarComponent implements OnInit, OnDestroy {
 
     // custom title
     this.countrySub = this.appStateService.selectedCountry$.subscribe(resp => {
-      this.customTitle = resp?.name ? resp?.name : undefined;
+      this.customTitle = resp?.name ? resp.name : undefined;
       // this.customizeTitle();
     }, error => {
       console.error(`[navbar.component]: ${error}`);
@@ -66,7 +65,7 @@ export class NavbarComponent implements OnInit, OnDestroy {
       if (this.userService.user.role_name === 'retailer') {
         this.customTitle = resp?.name ? resp?.name : undefined;
       } else {
-        this.customSubtitle = resp?.name ? resp?.name : undefined;
+        this.customSubtitle = resp?.name ? resp.name : undefined;
       }
       // this.customizeTitle();
     }, error => {
@@ -74,31 +73,22 @@ export class NavbarComponent implements OnInit, OnDestroy {
     });
   }
 
-  getTitlesByParams() {
-    const params = this.route.snapshot.queryParams;
-    if (params['country'] || params['retailer']) {
-      this.customTitle = params['country'];
-      this.customSubtitle = params['retailer'];
-      this.customizeTitle();
-    }
-  }
-
   getTitleByRoute() {
-    var titlee = this.location.prepareExternalUrl(this.location.path());
-    if (titlee.charAt(0) === '#') {
-      titlee = titlee.slice(1);
+    let title = this.location.prepareExternalUrl(this.location.path());
+    if (title.charAt(0) === '#') {
+      title = title.slice(1);
     }
 
     for (var item = 0; item < this.listTitles.length; item++) {
-      if (this.listTitles[item].path === titlee) {
+      if (this.listTitles[item].path === title) {
         return this.listTitles[item].title;
       }
 
-      if (titlee.includes(this.listTitles[item].path)) {
+      if (title.includes(this.listTitles[item].path)) {
         return this.listTitles[item].title
       }
     }
-    return 'Dashboard';
+    return 'dashboard';
   }
 
   customizeTitle() {
