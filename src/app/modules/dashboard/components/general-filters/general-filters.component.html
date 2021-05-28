@@ -11,7 +11,7 @@
                     </div>
                     <input class="form-control" [(ngModel)]="countryFilter" matInput type="text"
                         (keyup)="filterFromList('countries', 'country', $event.target.value)" placeholder="Buscar País"
-                        [ngModelOptions]="{standalone: true}">
+                        [ngModelOptions]="{standalone: true}" (keydown.space)="$event.stopPropagation()">
                 </div>
                 <mat-select-trigger>
                     <div class="select-value-container">
@@ -65,7 +65,8 @@
                     </div>
                     <input class="form-control" [(ngModel)]="retailerFilter" matInput type="text"
                         (keyup)="filterFromList('retailers', 'retailer', $event.target.value)"
-                        placeholder="Buscar Retailer" [ngModelOptions]="{standalone: true}">
+                        placeholder="Buscar Retailer" [ngModelOptions]="{standalone: true}"
+                        (keydown.space)="$event.stopPropagation()">
                 </div>
                 <mat-select-trigger>
                     <div class="select-value-container">
@@ -231,7 +232,8 @@
                     </div>
                     <input class="form-control" [(ngModel)]="campaignFilter" matInput type="text"
                         (keyup)="filterFromList('campaigns', 'campaign', $event.target.value)"
-                        placeholder="Buscar Campaña" [ngModelOptions]="{standalone: true}">
+                        placeholder="Buscar Campaña" [ngModelOptions]="{standalone: true}"
+                        (keydown.space)="$event.stopPropagation()">
                 </div>
                 <mat-select-trigger>
                     <div class="select-value-container">
