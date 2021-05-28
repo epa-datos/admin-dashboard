@@ -4,6 +4,7 @@ import { Subscription, throwError } from 'rxjs';
 import { Configuration } from 'src/app/app.constants';
 import { AppStateService } from 'src/app/services/app-state.service';
 import { FiltersStateService } from './filters-state.service';
+import * as moment from 'moment';
 
 @Injectable({
   providedIn: 'root'
@@ -66,12 +67,16 @@ export class OverviewService {
   * ****/
 
   // *** filters ***
-  getCampaigns(sectorsStrList?: string, categoriesStrList?: string) {
+  getCampaigns(period?: any, sectorsStrList?: string, categoriesStrList?: string) {
     if (!this.retailerID) {
       return throwError('[overview.service]: not countryID provided');
     }
 
-    return this.http.get(`${this.baseUrl}/retailers/${this.retailerID}/campaigns?sectors=${sectorsStrList}&categories=${categoriesStrList}`);
+    const periodQParams = period ? `start_date=${moment(period.startDate).format('YYYY-MM-DD')}&end_date=${moment(period.endDate).format('YYYY-MM-DD')}` : '';
+    const sectorsQParams = sectorsStrList ? `sectors=${sectorsStrList}` : '';
+    const categoriesQParams = categoriesStrList ? `categories=${categoriesStrList}` : '';
+
+    return this.http.get(`${this.baseUrl}/retailers/${this.retailerID}/campaigns?${periodQParams}&${sectorsQParams}&${categoriesQParams}`);
   }
 
   // *** kpis ***
