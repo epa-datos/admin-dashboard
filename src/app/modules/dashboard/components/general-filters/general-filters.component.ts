@@ -10,6 +10,8 @@ import { debounceTime } from 'rxjs/operators';
 import { FiltersStateService } from '../../services/filters-state.service';
 import { Router, NavigationEnd } from '@angular/router';
 import { filter } from 'rxjs/operators';
+import { UserService } from 'src/app/services/user.service';
+import { equalsArrays } from 'src/app/tools/validators/arrays-comparator';
 
 export const MY_FORMATS = {
   parse: {
@@ -108,6 +110,8 @@ export class GeneralFiltersComponent implements OnInit {
   campaignsCounter: number = 0;
   sourcesCounter: number = this.sourceList.length;
 
+  campsGetByRetailerChange: boolean;
+
   @ViewChild('allSelectedCountries') private allSelectedCountries: MatOption;
   @ViewChild('allSelectedRetailers') private allSelectedRetailers: MatOption;
   @ViewChild('allSelectedSectors') private allSelectedSectors: MatOption;
@@ -121,6 +125,7 @@ export class GeneralFiltersComponent implements OnInit {
     private usersMngmtService: UsersMngmtService,
     private overviewService: OverviewService,
     private filtersStateService: FiltersStateService,
+    private userService: UserService,
     private router: Router,
   ) { }
 
@@ -129,6 +134,7 @@ export class GeneralFiltersComponent implements OnInit {
 
     await this.getSectors();
     await this.getCategories();
+    this.userService.user.role_name === 'retailer' && this.getCampaigns();
 
     const selectedCountry = this.appStateService.selectedCountry;
     const selectedRetailer = this.appStateService.selectedRetailer;
@@ -154,12 +160,12 @@ export class GeneralFiltersComponent implements OnInit {
 
     this.retailerSub = this.appStateService.selectedRetailer$.subscribe(retailer => {
       this.retailerID = retailer?.id;
+      this.restoreFilters();
 
       if (this.retailerID) {
         this.getCampaigns();
+        this.campsGetByRetailerChange = true;
       }
-
-      this.restoreFilters();
     });
 
     this.countrySub = this.appStateService.selectedCountry$.subscribe(country => {
@@ -181,6 +187,11 @@ export class GeneralFiltersComponent implements OnInit {
     this.sourceList && this.sources.patchValue([...this.sourceList.map(item => item), 0]);
 
     this.campaigns.setValue([]);
+
+    this.prevPeriod = { startDate: this.startDate.value._d, endDate: this.endDate.value._d };
+    this.prevSectors = this.sectors.value;
+    this.prevCategories = this.categories.value;
+    this.prevCamps = this.campaigns.value;
 
     this.countryFilter && delete this.countryFilter;
     this.retailerFilter && delete this.retailerFilter;
@@ -232,30 +243,41 @@ export class GeneralFiltersComponent implements OnInit {
       .subscribe(form => {
         if (!this.retailerID) return;
 
+        if (this.campsGetByRetailerChange) {
+          this.campsGetByRetailerChange = false;
+          return;
+        };
+
         if (this.sectors.value && this.categories.value && !this.campaigns.value && this.countryID) {
           // initial campaigns load
           // console.log('initial campaigns load')
           this.getCampaigns();
         } else if (this.sectors.value?.length > 0 && this.categories.value?.length > 0 && this.form.valid) {
-          if (this.prevSectors !== this.sectors.value) {
+          if (!equalsArrays(this.prevSectors, this.sectors.value)) {
             // change in sectors selection
             // console.log('diffrentent sectors')
             this.getCampaigns();
             this.prevSectors = this.sectors.value;
-          } else if (this.prevCategories !== this.categories.value) {
+          } else if (!equalsArrays(this.prevCategories, this.categories.value)) {
             // change in categories selection
             // console.log('different categories')
             this.getCampaigns();
             this.prevCategories = this.categories.value;
-          } else if (this.prevPeriod.startDate.getTime() !== this.startDate.value._d.getTime() || this.prevPeriod.endDate.getTime() !== this.endDate.value._d.getTime()) {
+          } else {
             // change in date selection
-            // console.log('different date')
-            this.getCampaigns();
-            this.prevPeriod = { startDate: this.startDate.value._d, endDate: this.endDate.value._d }
-          } else if (this.prevCamps !== this.campaigns.value) {
-            // change in campaign selection
-            // console.log('different campaigns')
-            this.prevCamps = this.campaigns.value;
+            const prevPeriodObj = { startDate: this.prevPeriod.startDate.getTime(), endDate: this.prevPeriod.endDate.getTime() }
+            const periodObj = { startDate: this.startDate.value._d.getTime(), endDate: this.endDate.value._d.getTime() }
+            const equalsPeriodObjs = JSON.stringify(prevPeriodObj) == JSON.stringify(periodObj);
+
+            if (!equalsPeriodObjs) {
+              // console.log('different date')
+              this.getCampaigns();
+              this.prevPeriod = { startDate: this.startDate.value._d, endDate: this.endDate.value._d }
+            } else {
+              // console.log('change in campaigns')
+              // if (equalsArrays(this.prevCategories, this.categories.value))
+              // this.prevCamps = this.campaigns.value;
+            }
           }
         }
       });
@@ -377,8 +399,9 @@ export class GeneralFiltersComponent implements OnInit {
     this.campaignsReqStatus = 1;
     const sectorsStrList = this.convertArrayToString(this.sectors.value, 'id');
     const categoriesStrList = this.convertArrayToString(this.categories.value, 'id');
+    const period = { startDate: this.startDate.value._d, endDate: this.endDate.value._d }
 
-    this.overviewService.getCampaigns(sectorsStrList, categoriesStrList)
+    this.overviewService.getCampaigns(period, sectorsStrList, categoriesStrList)
       .subscribe(
         (res: any[]) => {
           this.campaignList = res;
