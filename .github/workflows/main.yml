@@ -15,6 +15,8 @@ jobs:
         uses: actions/setup-node@v2
         with:
           node-version: "14"
+        run: npm install
+        run: npm build
       - name: Deploy to GAE
         uses: google-github-actions/deploy-appengine@main
         with:
