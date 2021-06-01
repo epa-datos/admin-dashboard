@@ -19,11 +19,11 @@
                     <ul class="nav nav-pills nav-fill">
                         <li class="nav-item">
                             <a class="nav-link p-2" [ngClass]="{'active': selectedTab1 === 1}"
-                                (click)="getSectorsAndCategories('sectors', 1)">Sector</a>
+                                (click)="getSectorsAndCategories('sectors')">Sector</a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link p-2" [ngClass]="{'active': selectedTab1 === 2}"
-                                (click)="getSectorsAndCategories('categories', 2)">Categoría</a>
+                                (click)="getSectorsAndCategories('categories')">Categoría</a>
                         </li>
                     </ul>
                 </div>
@@ -51,11 +51,11 @@
                     <ul class="nav nav-pills nav-fill">
                         <li class="nav-item">
                             <a class="nav-link p-2" [ngClass]="{'active': selectedTab2 === 1}"
-                                (click)="getDataByTrafficAndSales('traffic', 1); chartsInitLoad = chartsInitLoad && false;">Tráfico</a>
+                                (click)="getDataByTrafficAndSales('traffic'); chartsInitLoad = chartsInitLoad && false;">Tráfico</a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link p-2" [ngClass]="{'active': selectedTab2 === 2}"
-                                (click)="getDataByTrafficAndSales('sales', 2); chartsInitLoad = chartsInitLoad && false;">Ventas</a>
+                                (click)="getDataByTrafficAndSales('sales'); chartsInitLoad = chartsInitLoad && false;">Ventas</a>
                         </li>
                     </ul>
                 </div>
@@ -185,12 +185,12 @@
                                         *ngIf="selectedTab4 === 1 && selectedSectors?.length > 1">
                                         <li class="nav-item mb-2">
                                             <a class="nav-link p-2" [ngClass]="{'active': selectedTab5 === 1}"
-                                                (click)="selectedTab5 = 1; getDataByUsersAndSales(selectedTab3 === 1 ? 'users' : 'sales')">Todo</a>
+                                                (click)="selectedTab5 = 1; getDataByUsersAndSales(selectedTab3 === 1 ? 'users' : 'sales'); clearUsersAndSalesTabs()">Todo</a>
                                         </li>
                                         <li class="nav-item mb-2" *ngFor="let sector of selectedSectors">
                                             <a class="nav-link p-2"
                                                 [ngClass]="{'active': sector.id + 2 === selectedTab5}"
-                                                (click)="selectedTab5 = sector.id + 2; getDataByUsersAndSales(selectedTab3 === 1 ? 'users' : 'sales', sector.id)">
+                                                (click)="selectedTab5 = sector.id + 2; getDataByUsersAndSales(selectedTab3 === 1 ? 'users' : 'sales', sector)">
                                                 {{ sector.name}}
                                             </a>
                                         </li>
@@ -206,7 +206,7 @@
                                         <li class="nav-item mb-2" *ngFor="let category of selectedCategories">
                                             <a class="nav-link p-2"
                                                 [ngClass]="{'active': category.id + 2 === selectedTab5}"
-                                                (click)="selectedTab5 = category.id + 2; getDataByUsersAndSales(selectedTab3 === 1 ? 'users' : 'sales', null, category.id)">
+                                                (click)="selectedTab5 = category.id + 2; getDataByUsersAndSales(selectedTab3 === 1 ? 'users' : 'sales', null, category)">
                                                 {{ category.name}}
                                             </a>
                                         </li>
@@ -222,7 +222,7 @@
                                         <li class="nav-item mb-2" *ngFor="let source of selectedSources">
                                             <a class="nav-link p-2"
                                                 [ngClass]="{'active': source.id + 2 === selectedTab5}"
-                                                (click)="selectedTab5 = source.id + 2; getDataByUsersAndSales(selectedTab3 === 1 ? 'users' : 'sales', null, null, source.id)">
+                                                (click)="selectedTab5 = source.id + 2; getDataByUsersAndSales(selectedTab3 === 1 ? 'users' : 'sales', null, null, source)">
                                                 {{ source.name}}
                                             </a>
                                         </li>
@@ -277,7 +277,7 @@
                     <ul class="nav nav-pills nav-fill">
                         <li class="nav-item" *ngFor="let category of selectedCategories">
                             <a class="nav-link p-2" [ngClass]="{'active': category.id === selectedTab6}"
-                                (click)="selectedTab6 = category.id; getTopProducts(category.id)">
+                                (click)="getTopProducts(category)">
                                 {{ category.name}}
                             </a>
                         </li>
