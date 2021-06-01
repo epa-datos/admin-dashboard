@@ -2,7 +2,6 @@
     <div class="card-body">
         <div class="metric-container" [ngClass]="{ 'with-icon': stat.icon, 'with-submetric' : stat.subMetricTitle}">
             <div class="metric-data">
-                <!-- <h4 class="card-title text-uppercase text-muted mb-0">{{ stat.metricTitle }}</h4> -->
                 <p class="card-title text-uppercase text-muted mb-0"
                     [ngClass]="{'h4': !smallHeader, 'h5': smallHeader}">{{ stat.metricTitle }}</p>
                 <!-- content -->
@@ -37,7 +36,6 @@
         </div>
         <div class="submetric-container text-muted" *ngIf="stat.subMetricTitle">
             <div class="submetric-data my-0 h5">
-                <!-- <span class="text-nowrap h5 mr-2 text-muted text-uppercase"><b>{{ stat.subMetricTitle }}</b></span> -->
                 <span class="text-nowrap mr-2 text-muted text-uppercase">{{ stat.subMetricTitle }}</span>
                 <!-- content -->
                 <ng-container *ngIf="!loader">
