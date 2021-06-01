@@ -1,0 +1,5 @@
+<div class="row mt-4">
+    <div *ngFor="let stat of kpis" class="col-12 col-md-6 col-lg-4 col-xl-2 mb-2">
+        <app-card-stat [stat]="stat" [loader]="kpisReqStatus <= 1" [smallHeader]="true" height="100px"></app-card-stat>
+    </div>
+</div>

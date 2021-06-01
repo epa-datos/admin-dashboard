@@ -54,6 +54,7 @@ import { ChartPictorialComponent } from './components/charts/chart-pictorial/cha
 import { ChartPyramidComponent } from './components/charts/chart-pyramid/chart-pyramid.component';
 import { ChartMultipleAxesComponent } from './components/charts/chart-multiple-axes/chart-multiple-axes.component';
 import { ChartLoaderComponent } from './components/charts/chart-loader/chart-loader.component';
+import { OmnichatWrapperComponent } from './components/omnichat-wrapper/omnichat-wrapper.component';
 
 
 @NgModule({
@@ -88,6 +89,7 @@ import { ChartLoaderComponent } from './components/charts/chart-loader/chart-loa
     CampaignComparatorComponent,
     SentimentAnalysisComponent,
     OverviewLatamComponent,
+    OmnichatWrapperComponent,
   ],
   imports: [
     CommonModule,
