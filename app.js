@@ -4,7 +4,7 @@ const cors = require('cors');
 const fs = require('fs');
 
 ENV = process.env.ENVIRONMENT || 'production';
-PORT = process.env.ABRAHAM_PORT || 8000;
+PORT = 8000;
 
 const app = express();
 app.use(cors());
@@ -27,5 +27,5 @@ app.get('/*', function (req, res) {
 });
 
 app.listen(PORT, () => {
-    console.log(`Server has started in: http://localhost:${PORT}`);
+    console.log(`Server has started in port:${PORT}`);
 });
