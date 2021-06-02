@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { MatTableDataSource } from '@angular/material/table';
 
 @Component({
   selector: 'app-omnichat-wrapper',
@@ -1473,7 +1474,7 @@ export class OmnichatWrapperComponent implements OnInit {
     date: '2021-03-21',
     traffic: 2114,
     transactions: 66,
-  },];
+  }];
 
   conversionByCategories = [
     {
@@ -1512,10 +1513,61 @@ export class OmnichatWrapperComponent implements OnInit {
 
   ]
 
+  aupVsRevenue = [{
+    date: '2021-03-15',
+    revenue: 2816.232,
+    aup: 35977,
+  }, {
+    date: '2021-03-16',
+    revenue: 3517.643,
+    aup: 22677,
+  }, {
+    date: '2021-03-17',
+    revenue: 8923.765,
+    aup: 25541,
+  }, {
+    date: '2021-03-18',
+    revenue: 6205.837,
+    aup: 28172,
+  }, {
+    date: '2021-03-19',
+    revenue: 2326.599,
+    aup: 26498,
+  }, {
+    date: '2021-03-20',
+    revenue: 3585.788,
+    aup: 43770,
+  }, {
+    date: '2021-03-21',
+    revenue: 4850.785,
+    aup: 40874,
+  }];
+
+  categoryAndUsersColumns: string[] = ['category', 'users', 'conversion_rate', 'conversion_rate_yoy', 'amount', 'amount_yoy', 'revenue', 'revenue_yoy', 'aup', 'aup_yoy'];
+  private categoryAndUsers = [
+    { category: 'PS', users: 5388, conversion_rate: 8, conversion_rate_yoy: 2, amount: 300, amount_yoy: -3, revenue: 3480, revenue_yoy: 6, aup: 10358, aup_yoy: -1 },
+    { category: 'HW Print', users: 2345, conversion_rate: 16, conversion_rate_yoy: 14, amount: 150, amount_yoy: 4, revenue: 7350, revenue_yoy: -4, aup: 10358, aup_yoy: 8 },
+    { category: 'Supplies', users: 1345, conversion_rate: 3, conversion_rate_yoy: -4, amount: 180, amount_yoy: 8, revenue: 12000, revenue_yoy: 0, aup: 10358, aup_yoy: -3 }
+  ];
+
+  categoryAndUsersSource = new MatTableDataSource<any>(this.categoryAndUsers);
+  categoryAndUsersReqStatus = 2;
+
+  usersAndAmount = [
+    { date: '2021-03-15', value1: 1200, value2: 200 },
+    { date: '2021-03-16', value1: 1600, value2: 230 },
+    { date: '2021-03-17', value1: 1400, value2: 180 },
+    { date: '2021-03-18', value1: 1250, value2: 80 },
+    { date: '2021-03-19', value1: 800, value2: 60 },
+    { date: '2021-03-20', value1: 1000, value2: 110 },
+    { date: '2021-03-21', value1: 1100, value2: 120 }
+  ]
+
   selectedTab1 = 1;
   selectedTab2 = 1;
   selectedTab3 = 1;
   selectedTab4 = 1;
+  selectedTab5 = 1;
 
   constructor() { }
 

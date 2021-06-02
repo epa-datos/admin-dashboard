@@ -13,7 +13,7 @@
                 <span class="h4">Chats por país</span>
             </div>
             <div class="card-body">
-                <app-chart-bar-horizontal [data]="chatsByCountry" name="chats-by-country" category="country"
+                <app-chart-bar-horizontal [data]="chatsByCountry" name="omnichat-chats-by-country" category="country"
                     value="chats">
                 </app-chart-bar-horizontal>
             </div>
@@ -26,8 +26,8 @@
             </div>
             <div class="card-body">
                 <div class="retailers-chart-container">
-                    <app-chart-bar-horizontal [data]="chatsByRetailer" name="chats-by-retailer" category="retailer"
-                        value="chats" height="600px">
+                    <app-chart-bar-horizontal [data]="chatsByRetailer" name="omnichat-chats-by-retailer"
+                        category="retailer" value="chats" height="600px">
                     </app-chart-bar-horizontal>
                 </div>
             </div>
@@ -45,7 +45,7 @@
                 <span class="h4">Chats vs Tráfico</span>
             </div>
             <div class="card-body">
-                <app-chart-gauge [value]="32" name="charts-vs-traffic" height="250px"></app-chart-gauge>
+                <app-chart-gauge [value]="32" name="omnichat-charts-vs-traffic" height="250px"></app-chart-gauge>
             </div>
         </div>
 
@@ -56,8 +56,9 @@
                 <span class="h4">Chats por dispositivo</span>
             </div>
             <div class="card-body">
-                <app-chart-pictorial [data]="chatsByDevices" name="chats-by-devices" category="name" iconType="monitor"
-                    [status]="devicesReqStatus" position="bottom" valign="middle" [legendSquareSize]="14">
+                <app-chart-pictorial [data]="chatsByDevices" name="omnichat-chats-by-devices" category="name"
+                    iconType="monitor" [status]="devicesReqStatus" position="bottom" valign="middle"
+                    [legendSquareSize]="14">
                 </app-chart-pictorial>
             </div>
         </div>
@@ -68,7 +69,7 @@
                 <span class="h4">Chats por categoría</span>
             </div>
             <div class="card-body">
-                <app-chart-pie [data]="chatsByCategories" name="chats-by-category" legendPosition="bottom">
+                <app-chart-pie [data]="chatsByCategories" name="omnichat-chats-by-category" legendPosition="bottom">
                 </app-chart-pie>
             </div>
         </div>
@@ -83,7 +84,7 @@
                 <span class="h4">Histórico de chats</span>
             </div>
             <div class="card-body">
-                <app-chart-line [data]="chatHistory" name="chat-history">
+                <app-chart-line [data]="chatHistory" name="omnichat-chat-history">
                 </app-chart-line>
             </div>
         </div>
@@ -114,7 +115,7 @@
                     <span class="h4">{{selectedTab1 === 1 ? 'Tráfico' : 'Ventas'}} por dispositivos</span>
                 </div>
                 <div class="card-body">
-                    <app-chart-pictorial [data]="trafficAndSales['device']" name="latam-devices" category="name"
+                    <app-chart-pictorial [data]="trafficAndSales['device']" name="omnichat-devices" category="name"
                         iconType="monitor" [status]="trafficSalesReqStatus[0].reqStatus" height="280px">
                     </app-chart-pictorial>
                 </div>
@@ -128,7 +129,7 @@
                     <span class="h4">{{selectedTab1 === 1 ? 'Tráfico' : 'Ventas'}} por Género</span>
                 </div>
                 <div class="card-body">
-                    <app-chart-pictorial [data]="trafficAndSales['gender']" name="latam-gender" category="name"
+                    <app-chart-pictorial [data]="trafficAndSales['gender']" name="omnichat-gender" category="name"
                         iconType="man" [status]="trafficSalesReqStatus[1].reqStatus" height="280px">
                     </app-chart-pictorial>
                 </div>
@@ -142,7 +143,7 @@
                     <span class="h4">{{selectedTab1 === 1 ? 'Tráfico' : 'Ventas'}} por Edad</span>
                 </div>
                 <div class="card-body">
-                    <app-chart-lollipop [data]="trafficAndSales['age']" name="latam-age" category="age"
+                    <app-chart-lollipop [data]="trafficAndSales['age']" name="omnichat-age" category="age"
                         [value]="selectedTab1 === 1 ? 'visits' : 'sales'" height="280px"
                         [status]="trafficSalesReqStatus[2].reqStatus">
                     </app-chart-lollipop>
@@ -163,7 +164,7 @@
 
                     <!-- ready -->
                     <app-chart-pyramid *ngIf="trafficAndSales['genderByAge']?.length > 0"
-                        [data]="trafficAndSales['genderByAge']" name="latam-age-and-gender"
+                        [data]="trafficAndSales['genderByAge']" name="omnichat-age-and-gender"
                         [status]="trafficSalesReqStatus[3].reqStatus" height="280px">
                     </app-chart-pyramid>
 
@@ -220,7 +221,7 @@
                         por día de la semana y hora del día</span>
                 </div>
                 <div class="card-body">
-                    <app-chart-heat-map [data]="heatmapData" name="weekday-sesions" height="100%">
+                    <app-chart-heat-map [data]="heatmapData" name="omnichat-weekday-sesions" height="100%">
                     </app-chart-heat-map>
                 </div>
             </div>
@@ -232,8 +233,8 @@
                         por día de la semana</span>
                 </div>
                 <div class="card-body">
-                    <app-chart-bar-horizontal [data]="trafficByDay" name="traffic-day" category='weekday' value='value'
-                        height="250px">
+                    <app-chart-bar-horizontal [data]="trafficByDay" name="omnichat-traffic-day" category='weekday'
+                        value='value' height="250px">
                     </app-chart-bar-horizontal>
                 </div>
             </div>
@@ -244,8 +245,8 @@
                         por hora del día</span>
                 </div>
                 <div class="card-body">
-                    <app-chart-lollipop [data]="trafficByHour" name="traffic-hour" category="hour" value="visits"
-                        height="250px">
+                    <app-chart-lollipop [data]="trafficByHour" name="omnichat-traffic-hour" category="hour"
+                        value="visits" height="250px">
                     </app-chart-lollipop>
                 </div>
             </div>
@@ -280,7 +281,7 @@
             </div>
             <div class="card-body">
                 <app-chart-multiple-axes [data]="trafficVsTransactions" valueName1="Tráfico" valueName2="Transacciones"
-                    value1="traffic" value2="transactions" name="traffic-vs-transactions">
+                    value1="traffic" value2="transactions" name="omnichat-traffic-vs-transactions">
                 </app-chart-multiple-axes>
             </div>
         </div>
@@ -294,8 +295,8 @@
                 <span class="h4">Transacciones por país</span>
             </div>
             <div class="card-body">
-                <app-chart-bar-horizontal [data]="chatsByCountry" name="transactions-by-country" category="country"
-                    value="chats">
+                <app-chart-bar-horizontal [data]="chatsByCountry" name="omnichat-transactions-by-country"
+                    category="country" value="chats">
                 </app-chart-bar-horizontal>
             </div>
         </div>
@@ -307,7 +308,7 @@
             </div>
             <div class="card-body">
                 <div class="retailers-chart-container">
-                    <app-chart-bar-horizontal [data]="chatsByRetailer" name="transactions-by-retailer"
+                    <app-chart-bar-horizontal [data]="chatsByRetailer" name="omnichat-transactions-by-retailer"
                         category="retailer" value="chats" height="600px">
                     </app-chart-bar-horizontal>
                 </div>
@@ -338,30 +339,30 @@
             </ul>
         </div>
     </div>
-    <div class="col-12">
+    <div class="col-12 mt-3">
         <p class="h4">Tasas de conversión</p>
         <div class="row">
             <div *ngFor="let stat of conversionByCategories" class="col-lg-4 mb-2">
                 <app-card-stat [stat]="stat" [loader]="false" [smallHeader]="true" height="auto"></app-card-stat>
             </div>
         </div>
-
     </div>
 </div>
 <div class="row">
-    <div class="col-12 col-xl-3 mt-3">
-        <div class="card height-fluid">
+    <div class="col-12 col-xl-3 mt-xl-3">
+        <div class="card">
             <div class="card-header">
                 <span class="h4">Transacciones por categoría</span>
             </div>
             <div class="card-body">
-                <app-chart-pie [data]="chatsByCategories" name="transactions-by-category" legendPosition="bottom"
-                    height="410px">
+                <app-chart-pie [data]="chatsByCategories" name="omnichat-transactions-by-category"
+                    legendPosition="bottom" height="425px">
                 </app-chart-pie>
             </div>
         </div>
     </div>
-    <div class="col-12 col-xl-9 mt-3">
+
+    <div class="col-12 col-xl-9 mt-3 bordered-panel">
         <div class="pills-container">
             <ul class="nav nav-pills nav-fill">
                 <li class="nav-item">
@@ -377,22 +378,21 @@
                 </li>
             </ul>
         </div>
-
         <div class="row">
             <div class="col-12 col-xl-5 mt-4">
-                <div class="card">
+                <div class="card height-fluid superimposed">
                     <div class="card-header">
                         <span class="h4">Transacciones por producto</span>
                     </div>
                     <div class="card-body">
-                        <app-chart-bar-horizontal [data]="transactionsByProduct" name="transactions-by-product"
+                        <app-chart-bar-horizontal [data]="transactionsByProduct" name="omnichat-transactions-by-product"
                             category="product" value="transactions" [truncateLabels]="true">
                         </app-chart-bar-horizontal>
                     </div>
                 </div>
             </div>
             <div class="col-12 col-xl-7 mt-4">
-                <div class="card">
+                <div class="card height-fluid">
                     <div class="card-header">
                         <span class="h4">Usuarios, Transacciones y Tasa de conversión por fecha</span>
                     </div>
@@ -411,9 +411,182 @@
                                 <div class="legend-label">Tasa de conversión</div>
                             </div>
                         </div>
-                        <app-chart-bar-group name="users-transactions-rate" height="325px"></app-chart-bar-group>
+                        <app-chart-bar-group name="omnichat-users-transactions-rate" height="325px">
+                        </app-chart-bar-group>
                     </div>
                 </div>
+            </div>
+
+            <div class="col-12 mt-4">
+                <div class="card height-fluid">
+                    <div class="card-header">
+                        <span class="h4">AUP vs Revenue</span>
+                    </div>
+                    <div class="card-body">
+                        <app-chart-multiple-axes [data]="aupVsRevenue" valueName1="AUP" valueName2="Revenue"
+                            value1="aup" value2="revenue" name="omnichat-aup-vs-revenue" valueFormat1="USD"
+                            valueFormat2="USD">
+                        </app-chart-multiple-axes>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- CATEGORY AND USERS TABLE -->
+<div class="row mt-5">
+    <div class="adaptable-container" [ngClass]="{'auto': categoryAndUsersReqStatus === 3}">
+        <div class="loading-shade" [hidden]="categoryAndUsersReqStatus > 1">
+            <mat-spinner></mat-spinner>
+        </div>
+
+        <table mat-table [dataSource]="categoryAndUsersSource">
+            <!-- category column -->
+            <ng-container matColumnDef="category">
+                <th mat-header-cell *matHeaderCellDef>Categoría</th>
+                <td mat-cell *matCellDef="let element">
+                    {{ element.category }}
+                </td>
+            </ng-container>
+
+            <!-- users column -->
+            <ng-container matColumnDef="users">
+                <th mat-header-cell *matHeaderCellDef>Usuarios</th>
+                <td mat-cell *matCellDef="let element">
+                    <span>{{ element.users | number }}</span>
+                </td>
+            </ng-container>
+
+            <!-- conversion_rate -->
+            <ng-container matColumnDef="conversion_rate">
+                <th mat-header-cell *matHeaderCellDef>Tasa de conversión</th>
+                <td mat-cell *matCellDef="let element">
+                    {{ element.conversion_rate }}%
+                </td>
+            </ng-container>
+
+            <!-- conversion_rate_yoy -->
+            <ng-container matColumnDef="conversion_rate_yoy">
+                <th mat-header-cell *matHeaderCellDef>%YoY</th>
+                <td mat-cell *matCellDef="let element">
+                    <div class="value-container">
+                        <span>{{ element.conversion_rate_yoy }}%</span>
+                        <i class="fas fa-arrow-up text-success" *ngIf="element.conversion_rate_yoy > 0"></i>
+                        <i class="fas fa-equals text-warning" *ngIf="element.conversion_rate_yoy === 0"></i>
+                        <i class="fas fa-arrow-down text-danger" *ngIf="element.conversion_rate_yoy < 0"></i>
+                    </div>
+                </td>
+            </ng-container>
+
+            <!-- amount -->
+            <ng-container matColumnDef="amount">
+                <th mat-header-cell *matHeaderCellDef>Cantidad</th>
+                <td mat-cell *matCellDef="let element">
+                    {{ element.amount | number }}
+                </td>
+            </ng-container>
+
+            <!-- amount_yoy -->
+            <ng-container matColumnDef="amount_yoy">
+                <th mat-header-cell *matHeaderCellDef>%YoY</th>
+                <td mat-cell *matCellDef="let element">
+                    <div class="value-container">
+                        <span>{{ element.amount_yoy }}%</span>
+                        <i class="fas fa-arrow-up text-success" *ngIf="element.amount_yoy > 0"></i>
+                        <i class="fas fa-equals text-warning" *ngIf="element.amount_yoy === 0"></i>
+                        <i class="fas fa-arrow-down text-danger" *ngIf="element.amount_yoy < 0"></i>
+                    </div>
+                </td>
+            </ng-container>
+
+            <!-- revenue -->
+            <ng-container matColumnDef="revenue">
+                <th mat-header-cell *matHeaderCellDef>Revenue</th>
+                <td mat-cell *matCellDef="let element">
+                    {{ element.revenue | number }}
+                </td>
+            </ng-container>
+
+            <!-- revenue_yoy -->
+            <ng-container matColumnDef="revenue_yoy">
+                <th mat-header-cell *matHeaderCellDef>%YoY</th>
+                <td mat-cell *matCellDef="let element">
+                    <div class="value-container">
+                        <span>{{ element.revenue_yoy }}%</span>
+                        <i class="fas fa-arrow-up text-success" *ngIf="element.revenue_yoy > 0"></i>
+                        <i class="fas fa-equals text-warning" *ngIf="element.revenue_yoy === 0"></i>
+                        <i class="fas fa-arrow-down text-danger" *ngIf="element.revenue_yoy < 0"></i>
+                    </div>
+                </td>
+            </ng-container>
+
+            <!-- aup -->
+            <ng-container matColumnDef="aup">
+                <th mat-header-cell *matHeaderCellDef>AUP</th>
+                <td mat-cell *matCellDef="let element">
+                    {{ element.aup | number }}
+                </td>
+            </ng-container>
+
+            <!-- aup_yoy -->
+            <ng-container matColumnDef="aup_yoy">
+                <th mat-header-cell *matHeaderCellDef>%YoY</th>
+                <td mat-cell *matCellDef="let element">
+                    <div class="value-container">
+                        <span>{{ element.aup_yoy }}%</span>
+                        <i class="fas fa-arrow-up text-success" *ngIf="element.aup_yoy > 0"></i>
+                        <i class="fas fa-equals text-warning" *ngIf="element.aup_yoy === 0"></i>
+                        <i class="fas fa-arrow-down text-danger" *ngIf="element.aup_yoy < 0"></i>
+                    </div>
+                </td>
+            </ng-container>
+
+            <!-- ERROR COLUMN -->
+            <ng-container matColumnDef="disclaimer">
+                <td mat-footer-cell *matFooterCellDef colspan="3">
+                    <div class="text-danger text-center" [hidden]="categoryAndUsersReqStatus !== 3">
+                        Ocurrió un error al consultar los productos
+                    </div>
+                </td>
+            </ng-container>
+
+            <tr mat-header-row *matHeaderRowDef="categoryAndUsersColumns"></tr>
+            <tr mat-row *matRowDef="let row; columns: categoryAndUsersColumns;"></tr>
+            <tr mat-footer-row *matFooterRowDef="['disclaimer']" class="example-second-footer-row"
+                [hidden]="categoryAndUsersReqStatus !== 3"></tr>
+        </table>
+    </div>
+</div>
+
+<!-- USUARIOS - TRANSACCIONES & CANTIDAD - AUP -->
+<div class="row mb-5">
+    <div class="col-12">
+        <div class="pills-container">
+            <ul class="nav nav-pills nav-fill">
+                <li class="nav-item">
+                    <a class="nav-link p-2" [ngClass]="{'active': selectedTab5 === 1}" (click)="selectedTab5=1">Usuarios
+                        - Transacciones</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link p-2" [ngClass]="{'active': selectedTab5 === 2}" (click)="selectedTab5=2">Cantidad
+                        - AUP</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+    <div class="col-12 mt-4">
+        <div class="card">
+            <div class="card-header">
+                <span class="h4" [hidden]="selectedTab5 === 2">Usuarios vs Transacciones</span>
+                <span class="h4" [hidden]="selectedTab5 === 1">Cantidad vs AUP</span>
+            </div>
+            <div class="card-body">
+                <app-chart-line-comparison [data]="usersAndAmount" name="omnichat-users-vs-transaccions"
+                    [valueName1]="selectedTab5 === 1 ? 'Usuarios' : 'Cantidad'"
+                    [valueName2]="selectedTab5 === 1 ? 'Transacciones' : 'AUP'"
+                    [valueFormat2]="selectedTab5 === 2 && 'USD'" height="250px">
+                </app-chart-line-comparison>
             </div>
         </div>
     </div>
