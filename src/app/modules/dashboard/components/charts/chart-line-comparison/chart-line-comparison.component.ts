@@ -88,6 +88,8 @@ export class ChartLineComparisonComponent implements OnInit, AfterViewInit {
     // Create chart instance
     let chart = am4core.create(this.chartID, am4charts.XYChart);
     chart.language.locale = am4lang_es_ES;
+    chart.language.locale["_decimalSeparator"] = ".";
+    chart.language.locale["_thousandSeparator"] = ",";
 
     // Create axes
     let dateAxis = chart.xAxes.push(new am4charts.DateAxis());
