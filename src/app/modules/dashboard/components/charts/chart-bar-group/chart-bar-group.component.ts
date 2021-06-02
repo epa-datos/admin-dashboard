@@ -14,9 +14,9 @@ export class ChartBarGroupComponent implements OnInit, AfterViewInit {
   @Input() valueBar1: string = 'value1'; // object property represented as first bar
   @Input() valueBar2: string = 'value2'; // object property represented as second bar
   @Input() valueLine1: string = 'value3'; // object property represented as valueAxis2 (right axis)
-  @Input() valueNameBar1: string = 'Value 1';
-  @Input() valueNameBar2: string = 'Value 2';
-  @Input() valueNameLine1: string = 'Value 3';
+  @Input() valueNameBar1: string = 'Value 1'; // for labels and tooltips text
+  @Input() valueNameBar2: string = 'Value 2'; // for labels and tooltips text
+  @Input() valueNameLine1: string = 'Value 3'; // for labels and tooltips text
   @Input() valueFormatBar1: string;
   @Input() valueFormatBar2: string;
   @Input() valueFormatLine1: string;
@@ -102,22 +102,21 @@ export class ChartBarGroupComponent implements OnInit, AfterViewInit {
     hoverState.properties.cornerRadiusTopRight = 0;
     hoverState.properties.fillOpacity = 1;
 
-    // second value axis for quantity
+    // second value axis for valueLine1
     let valueAxis2 = chart.yAxes.push(new am4charts.ValueAxis());
     valueAxis2.renderer.opposite = true;
     valueAxis2.syncWithAxis = valueAxis;
     valueAxis2.tooltip.disabled = true;
     valueAxis2.renderer.labels.template.fontSize = 12;
     valueAxis2.renderer.labels.template.adapter.add('text', (text) => {
-      return text + '%';
+      return `${text}${this.valueFormatLine1 ? this.valueFormatLine1 : ''}`;
     });
 
-
-    // quantity line series
+    // valueLine1 line series
     let lineSeries = chart.series.push(new am4charts.LineSeries());
-    lineSeries.tooltipText = '{valueY}%';
+    lineSeries.tooltipText = `{valueY}${this.valueFormatLine1 ? this.valueFormatLine1 : ''}`;
     lineSeries.dataFields.categoryX = 'category';
-    lineSeries.dataFields.valueY = 'conversion_rate';
+    lineSeries.dataFields.valueY = this.valueLine1;
     lineSeries.yAxis = valueAxis2;
     lineSeries.bullets.push(new am4charts.CircleBullet());
     lineSeries.stroke = chart.colors.getIndex(0);
@@ -130,12 +129,9 @@ export class ChartBarGroupComponent implements OnInit, AfterViewInit {
     // fill adapter, here we save color value to colors object so that each time the item has the same name, the same color is used
     columnSeries.columns.template.adapter.add('fill', ((fill, target) => {
       let name = target.dataItem.dataContext['realName'];
-      // console.log('name', name)
-      // console.log('colors[name]', colors[name])
       if (!colors[name]) {
         colors[name] = chart.colors.next();
       }
-      // target.stroke = colors[name];
       return colors[name];
     }));
 
@@ -151,70 +147,37 @@ export class ChartBarGroupComponent implements OnInit, AfterViewInit {
 
     ///// DATA
     let chartData = [];
-    // let lineSeriesData = [];
-
-    let data = {
-      'Ene 21': {
-        'usuarios': 1517,
-        'transacciones': 68,
-        'conversion_rate': 5
-      },
-      'Feb 21': {
-        'usuarios': 2400,
-        'transacciones': 81,
-        'conversion_rate': 6
-      },
-      'Abr 21': {
-        'usuarios': 2941,
-        'transacciones': 134,
-        'conversion_rate': 7
-      },
-      'May 21': {
-        'usuarios': 6780,
-        'transacciones': 328,
-        'conversion_rate': 9
-      }
-    }
-
-
     // process data ant prepare it for the chart
-    for (let serieName in data) {
-      let serieData = data[serieName];
-      console.log('serieData', serieData)
+    for (let serieName in this.data) {
+      let serieData = this.data[serieName];
 
       // add data of one provider to temp array
       let tempArray = [];
       let count = 0;
       // add items
       for (let itemName in serieData) {
-        if (itemName != 'conversion_rate') {
-          console.log('itemName', itemName)
+        if (itemName != this.valueLine1) {
           count++;
           // we generate unique category for each column (serieName + '_' + itemName) and store realName
+
+          let custonName = itemName === this.valueBar1
+            ? this.valueNameBar1
+            : itemName === this.valueBar2
+              ? this.valueNameBar2
+              : itemName
+
           tempArray.push({
             category: serieName + '_' + itemName,
-            realName: itemName,
+            realName: custonName,
             value: serieData[itemName],
             provider: serieName
           })
         }
       }
-      // // sort temp array
-      // tempArray.sort(function (a, b) {
-      //   if (a.value > b.value) {
-      //     return 1;
-      //   }
-      //   else if (a.value < b.value) {
-      //     return -1
-      //   }
-      //   else {
-      //     return 0;
-      //   }
-      // })
 
       // add quantity and count to middle data item (line series uses it)
       let lineSeriesDataIndex = Math.floor(count / 2);
-      tempArray[lineSeriesDataIndex].conversion_rate = serieData.conversion_rate;
+      tempArray[lineSeriesDataIndex][this.valueLine1] = serieData[this.valueLine1];
       tempArray[lineSeriesDataIndex].count = count;
       // push to the final data
       am4core.array.each(tempArray, function (item) {
