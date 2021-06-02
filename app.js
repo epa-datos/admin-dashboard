@@ -4,7 +4,7 @@ const cors = require('cors');
 const fs = require('fs');
 
 ENV = process.env.ENVIRONMENT || 'production';
-PORT = 8000;
+PORT = process.env.ABRAHAM_PORT || 8000;
 
 const app = express();
 app.use(cors());
