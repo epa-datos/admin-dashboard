@@ -119,8 +119,8 @@ export class OmnichatWrapperComponent implements OnInit {
   ];
 
   chatsByDevices = [
-    { name: 'desktop', value: 2500 },
-    { name: 'mobile', value: 10500 }
+    { name: 'Desktop', value: 2500 },
+    { name: 'Mobile', value: 10500 }
   ];
 
   devicesReqStatus = 2;

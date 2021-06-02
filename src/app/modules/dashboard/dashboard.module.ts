@@ -55,6 +55,7 @@ import { ChartPyramidComponent } from './components/charts/chart-pyramid/chart-p
 import { ChartMultipleAxesComponent } from './components/charts/chart-multiple-axes/chart-multiple-axes.component';
 import { ChartLoaderComponent } from './components/charts/chart-loader/chart-loader.component';
 import { OmnichatWrapperComponent } from './components/omnichat-wrapper/omnichat-wrapper.component';
+import { ChartGaugeComponent } from './components/charts/chart-gauge/chart-gauge.component';
 
 
 @NgModule({
@@ -90,6 +91,7 @@ import { OmnichatWrapperComponent } from './components/omnichat-wrapper/omnichat
     SentimentAnalysisComponent,
     OverviewLatamComponent,
     OmnichatWrapperComponent,
+    ChartGaugeComponent,
   ],
   imports: [
     CommonModule,

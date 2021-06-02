@@ -35,21 +35,21 @@
 </div>
 
 <div class="row">
-    <div class="col-12 col-md-4 mt-4">
+    <div class="col-12 col-lg-4 mt-4">
         <app-card-stat [stat]="proactiveChatData" [loader]="false" [smallHeader]="true" height="100px"></app-card-stat>
 
         <div class="card mt-4">
             <div class="card-header">
-                <span class="h4">Chats Vs Tráfico</span>
+                <span class="h4">Chats vs Tráfico</span>
             </div>
             <div class="card-body">
-                chart
+                <app-chart-gauge [value]="32" name="charts-vs-traffic" height="250px"></app-chart-gauge>
             </div>
         </div>
 
     </div>
-    <div class="col-12 col-md-4 mt-4">
-        <div class="card">
+    <div class="col-12 col-md-6 col-lg-4 mt-4">
+        <div class="card height-fluid">
             <div class="card-header">
                 <span class="h4">Chats por dispositivo</span>
             </div>
@@ -60,8 +60,8 @@
             </div>
         </div>
     </div>
-    <div class="col-12 col-md-4 mt-4">
-        <div class="card">
+    <div class="col-12 col-md-6 col-lg-4 mt-4">
+        <div class="card height-fluid">
             <div class="card-header">
                 <span class="h4">Chats por categoría</span>
             </div>
