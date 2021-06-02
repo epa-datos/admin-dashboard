@@ -321,7 +321,7 @@
 <div class="row mt-5">
     <div class="col-12">
         <div class="mb-3">
-            <span class="h3">Tráfico y conversiones por hora y por día</span>
+            <span class="h3">Tráfico y conversiones</span>
         </div>
     </div>
     <div class="col-12">
@@ -349,13 +349,14 @@
     </div>
 </div>
 <div class="row">
-    <div class="col-12 col-xl-3 mt-4">
-        <div class="card">
+    <div class="col-12 col-xl-3 mt-3">
+        <div class="card height-fluid">
             <div class="card-header">
                 <span class="h4">Transacciones por categoría</span>
             </div>
             <div class="card-body">
-                <app-chart-pie [data]="chatsByCategories" name="transactions-by-category" legendPosition="bottom">
+                <app-chart-pie [data]="chatsByCategories" name="transactions-by-category" legendPosition="bottom"
+                    height="410px">
                 </app-chart-pie>
             </div>
         </div>
@@ -390,8 +391,29 @@
                     </div>
                 </div>
             </div>
-            <div class="col-12 col-xl-7">
-                Usuarios, Transacciones y Tasa
+            <div class="col-12 col-xl-7 mt-4">
+                <div class="card">
+                    <div class="card-header">
+                        <span class="h4">Usuarios, Transacciones y Tasa de conversión por fecha</span>
+                    </div>
+                    <div class="card-body">
+                        <div class="chart-legend mt-0 mb-2">
+                            <div class="legend-container">
+                                <div class="legend-square color-1"></div>
+                                <div class="legend-label">Usuarios</div>
+                            </div>
+                            <div class="legend-container ml-3">
+                                <div class="legend-square color-2"></div>
+                                <div class="legend-label">Transacciones</div>
+                            </div>
+                            <div class="legend-container ml-3">
+                                <div class="legend-square color-3"></div>
+                                <div class="legend-label">Tasa de conversión</div>
+                            </div>
+                        </div>
+                        <app-chart-bar-group name="users-transactions-rate" height="325px"></app-chart-bar-group>
+                    </div>
+                </div>
             </div>
         </div>
     </div>

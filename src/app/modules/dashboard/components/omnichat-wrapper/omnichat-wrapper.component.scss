@@ -22,3 +22,39 @@
 .card.height-fluid {
     height: 100%;
 }
+
+.chart-legend {
+    align-items: center;
+    display: flex;
+    justify-content: flex-end;
+    padding: 0 15px;
+
+    .legend-container {
+        align-items: center;
+        display: flex;
+       
+        .legend-square {
+            border-radius: 4px;
+            height: 16px;
+            margin-right: 4px;
+            width: 16px;
+
+            &.color-1 {
+                background-color: #858DE3;
+            }
+
+            &.color-2 {
+                background-color: #9985E3;
+            }
+
+            &.color-3 {
+                background-color: #67B6DC;
+            }
+        }
+
+        .legend-label {
+            color: #000000;
+            font-size: 12px;
+        }
+    }
+}
