@@ -354,8 +354,85 @@ export class GeneralFiltersComponent implements OnInit {
       }));
 
     } else if (!selectedRetailer) {
+      // traer paises previamente seleccionados 
+      this.countries.patchValue(this.filteredCountryList.filter(country => {
+        const previouslySelected = this.countries.value.some(prevCountry => prevCountry.id === country.id);
+        console.log('previouslySelected', previouslySelected)
 
+
+        // apagar el país si retailer.country_id = country.id
+
+        if (country.id === retailer.country_id && previouslySelected) {
+          console.log('es el mismo país pero ahora esta incompleto', country)
+          return false;
+        }
+
+        if (previouslySelected) {
+          return true;
+        }
+
+
+        return false;
+
+      }));
     }
+
+    this.allAreItemsSelected('countries', 'countryList', 'allSelectedCountries');
+  }
+
+  selectAllComplementaryFilter(filterRef: string) {
+    console.log('filterRef', filterRef)
+
+    // si apago todos los retailers se apagan todos los paises
+    // si apago todos los paises se conservan todos los retailers prendidos? 
+
+    switch (filterRef) {
+      case 'retailers':
+        const allSelectedCountries = this.allSelectedCountries.selected;
+        console.log('allSelectedCountries', allSelectedCountries)
+
+        if (allSelectedCountries) {
+          this.retailers.patchValue([...this.retailerList.map(item => item), 0]);
+        }
+
+        break;
+
+      case 'countries':
+        const allSelectedRetailers = this.allSelectedRetailers.selected;
+        console.log('allSelectedRetailers', allSelectedRetailers)
+
+        if (allSelectedRetailers) {
+          this.countries.patchValue([...this.countryList.map(item => item), 0]);
+        }
+        break;
+    }
+  }
+
+  selectOnlyComplementaryFilter(filterRef: string, selectedElement: any) {
+    console.log('filterRef', filterRef)
+    console.log('selectedElement', selectedElement)
+
+    switch (filterRef) {
+      case 'retailers':
+        // selectedElement is a country
+        this.retailers.patchValue(this.retailerList.filter(retailer => {
+          return retailer.country_id === selectedElement.id;
+        }));
+        break;
+
+      case 'countries':
+        console.log('cae en case countries')
+        // selectedElement is a retailer
+        this.countries.patchValue(this.countryList.filter(country => {
+          // console.log('country.id', country.id)
+          // console.log('selectedElement', selectedElement.country_id)
+          // return country.id === selectedElement.country_id;
+          return false;
+        }));
+        break;
+    }
+
+    console.log('_____________________________')
   }
 
   loadLatamContent() {
