@@ -16,6 +16,7 @@ export class ChartPieComponent implements OnInit, AfterViewInit {
   @Input() value: string = 'value';
   @Input() category: string = 'category';
   @Input() legendPosition: am4charts.LegendPosition = 'left';
+  @Input() height: string = '350px'; // height property value valid in css
 
   chartID;
   loadStatus: number = 0;

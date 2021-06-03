@@ -17,17 +17,16 @@
         </li>
     </ul>
 
-    <!-- <ng-container *ngIf="activeTabView === 1">
-        <p class="text-muted">Indexado</p>
+    <ng-container *ngIf="activeTabView === 1">
+        <app-maintenance></app-maintenance>
     </ng-container>
 
     <ng-container *ngIf="activeTabView === 2">
-        <p class="text-muted">OmniChat</p>
+        <!-- <p class="text-muted">OmniChat</p> -->
+        <app-omnichat-wrapper></app-omnichat-wrapper>
     </ng-container>
 
     <ng-container *ngIf="activeTabView === 3">
-        <p class="text-muted">PC Selector</p>
-    </ng-container> -->
-
-    <app-maintenance></app-maintenance>
+        <app-maintenance></app-maintenance>
+    </ng-container>
 </div>

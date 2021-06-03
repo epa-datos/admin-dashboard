@@ -1,0 +1,123 @@
+.retailers-chart-container {
+    max-height: 350px;
+    overflow-y: auto;
+}
+
+::-webkit-scrollbar {
+    width: 6px;
+}
+
+.pills-container {
+    width: 60%;
+
+    @media screen and (max-width: 820px) {
+        width: 100%;
+    }
+}
+
+.nav-item .nav-link {
+    cursor: pointer;
+}
+
+.card.height-fluid {
+    height: 100%;
+}
+
+.chart-legend {
+    align-items: center;
+    display: flex;
+    justify-content: flex-end;
+    padding: 0 15px;
+
+    .legend-container {
+        align-items: center;
+        display: flex;
+       
+        .legend-square {
+            border-radius: 4px;
+            height: 16px;
+            margin-right: 4px;
+            width: 16px;
+
+            &.color-1 {
+                background-color: #858DE3;
+            }
+
+            &.color-2 {
+                background-color: #9985E3;
+            }
+
+            &.color-3 {
+                background-color: #67B6DC;
+            }
+        }
+
+        .legend-label {
+            color: #000000;
+            font-size: 12px;
+        }
+    }
+}
+
+.superimposed {
+    z-index: 1;
+}
+
+.bordered-panel {
+    border: 1px solid rgba(0, 0, 0, 0.12);
+    padding-bottom: 15px;
+    padding-top: 15px;
+    border-radius: 0.375rem;
+}
+
+.adaptable-container {
+    min-height: 250px;
+    overflow: auto;
+    position: relative;
+    width: 100%;
+   
+    table {
+        width: 100%;
+    
+        th:nth-of-type(n + 2),
+        td:nth-of-type(n + 2) {
+            text-align: center;
+        }
+    }
+
+    .lg-container {
+        max-width: 27rem;
+        span {
+            text-overflow: ellipsis;
+            overflow: hidden;
+            white-space: nowrap;
+            max-width: inherit;
+            display: inline-block;
+        }
+    }
+
+    .value-container {
+        align-items: center;
+        display: grid;
+        grid-template-columns: 40px 16px;
+        gap: 4px;
+        justify-content: center;
+    }
+
+    &.auto {
+        min-height: auto;
+    }
+}
+
+.loading-shade {
+    align-items: center;
+    background: rgba(0, 0, 0, 0.03);
+    bottom: 0px;
+    display: flex;
+    justify-content: center;
+    left: 0;
+    position: absolute;
+    right: 0;
+    top: 0;
+    z-index: 1;
+}
