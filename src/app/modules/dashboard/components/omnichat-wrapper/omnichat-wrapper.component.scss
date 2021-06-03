@@ -1,3 +1,25 @@
+.stats-container {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    column-gap: 20px;
+
+    @media screen and (min-width: 1200px) {
+        row-gap: 20px;
+    }
+
+    @media screen and (max-width: 1200px) {
+        grid-template-columns: repeat(3, 1fr);
+    }
+
+    @media screen and (max-width: 1000px) {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    @media screen and (max-width: 480px) {
+        grid-template-columns: 1fr;
+    }
+}
+
 .retailers-chart-container {
     max-height: 350px;
     overflow-y: auto;

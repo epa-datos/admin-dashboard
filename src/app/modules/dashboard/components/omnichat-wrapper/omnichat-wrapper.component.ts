@@ -45,34 +45,38 @@ export class OmnichatWrapperComponent implements OnInit {
       subMetricValue: '< 48 Seg'
     },
     {
-      metricTitle: 'total chat',
-      metricName: 'total_chat',
-      metricValue: '4.56/5',
-      subMetricTitle: 'roas',
-      subMetricName: 'roas',
-      subMetricValue: 91.14,
-      subMetricFormat: 'percentage',
+      metricTitle: 'calificación del chat',
+      metricName: 'chat_score',
+      metricValue: 91.1,
+      metricFormat: 'score',
+      subMetricTitle: 'resultado',
+      subMetricName: 'chat_score',
+      subMetricValue: '4.56/5'
+    },
+    {
+      metricTitle: 'usuarios',
+      metricName: 'users',
+      metricValue: '4500',
+      metricFormat: 'integer'
     },
     {
       metricTitle: 'transacciones',
       metricName: 'transactions',
       metricValue: 0,
       metricFormat: 'integer',
-      subMetricTitle: 'CR',
-      subMetricName: 'cr',
-      subMetricValue: 0,
-      subMetricFormat: 'percentage'
+    },
+    {
+      metricTitle: 'conversion rate',
+      metricName: 'conversion_rate',
+      metricValue: 0,
+      metricFormat: 'percentage',
     },
     {
       metricTitle: 'revenue',
       metricName: 'revenue',
       metricValue: 0,
       metricFormat: 'decimals',
-      metricSymbol: 'USD',
-      subMetricTitle: 'roas',
-      subMetricName: 'roas',
-      subMetricValue: 0,
-      subMetricFormat: 'decimals'
+      metricSymbol: 'USD'
     }
   ];
 

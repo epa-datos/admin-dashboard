@@ -1,8 +1,11 @@
 <!-- TARJETAS DE MÉTRICAS -->
 <div class="row mt-5">
-    <div *ngFor="let stat of kpis" class="col-12 col-md-6 col-lg-4 col-xl-2 mb-xl-4"
-        [ngClass]="{'offset-xl-8' : stat.metricName === 'transactions' }">
-        <app-card-stat [stat]="stat" [loader]="kpisReqStatus <= 1" [smallHeader]="true" height="100px"></app-card-stat>
+    <div class="col-12">
+        <div class="stats-container">
+            <app-card-stat *ngFor="let stat of kpis" [stat]="stat" [loader]="kpisReqStatus <= 1" [smallHeader]="true"
+                height="100px">
+            </app-card-stat>
+        </div>
     </div>
 </div>
 
