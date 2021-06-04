@@ -86,6 +86,10 @@ export class RetailerComponent implements OnInit, OnDestroy {
     const selectedRetailer = this.appStateService.selectedRetailer;
     this.retailerID = selectedRetailer?.id;
 
+    if (this.filtersStateService.period && this.filtersStateService.sectors && this.filtersStateService.categories) {
+      this.filtersStateService.restoreFilters();
+    }
+
     this.filtersSub = this.filtersStateService.filtersChange$.subscribe((manualChange: boolean) => {
       this.requestInfoSource.next(manualChange);
     });
