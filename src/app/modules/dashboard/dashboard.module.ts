@@ -40,6 +40,7 @@ import { AcquisitionWrapperComponent } from './components/acquisition-wrapper/ac
 import { BehaviourWrapperComponent } from './components/behaviour-wrapper/behaviour-wrapper.component';
 import { ConversionWrapperComponent } from './components/conversion-wrapper/conversion-wrapper.component';
 import { OmnichatWrapperComponent } from './components/omnichat-wrapper/omnichat-wrapper.component';
+import { CampaignTowardsRetailWrapperComponent } from './components/campaign-towards-retail-wrapper/campaign-towards-retail-wrapper.component';
 
 // charts
 import { ChartBarComponent } from './components/charts/chart-bar/chart-bar.component';
@@ -96,6 +97,7 @@ import { StarRaitingComponent } from './components/star-raiting/star-raiting.com
     ChartGaugeComponent,
     ChartBarGroupComponent,
     StarRaitingComponent,
+    CampaignTowardsRetailWrapperComponent,
   ],
   imports: [
     CommonModule,
