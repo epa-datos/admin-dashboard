@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnDestroy, OnInit } from '@angular/core';
 import { Observable, Subscription } from 'rxjs';
 import { CampaignTowardsRetailService } from '../../services/campaign-towards-retail.service';
 
@@ -7,7 +7,7 @@ import { CampaignTowardsRetailService } from '../../services/campaign-towards-re
   templateUrl: './campaign-towards-retail-wrapper.component.html',
   styleUrls: ['./campaign-towards-retail-wrapper.component.scss']
 })
-export class CampaignTowardsRetailWrapperComponent implements OnInit {
+export class CampaignTowardsRetailWrapperComponent implements OnInit, OnDestroy {
   @Input() requestInfoChange: Observable<boolean>;
 
   campPerformance: any[] = [];
@@ -90,5 +90,9 @@ export class CampaignTowardsRetailWrapperComponent implements OnInit {
           item.reqStatus = 3;
         });
     });
+  }
+
+  ngOnDestroy() {
+    this.requestInfoSub?.unsubscribe();
   }
 }
