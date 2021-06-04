@@ -84,8 +84,8 @@
                     <!-- disclaimer column -->
                     <ng-container matColumnDef="disclaimer">
                         <td mat-footer-cell *matFooterCellDef colspan="8">
-                            <div class="text-danger text-center" *ngIf="campList?.reqStatus === 3">
-                                Ocurrió un error al consultar las campañas
+                            <div class="text-muted text-center" *ngIf="campList?.reqStatus === 3">
+                                Error al consultar datos
                             </div>
                             <div class="text-muted text-center"
                                 *ngIf="campList?.campaigns.length === 0 && campList?.reqStatus !== 3">
