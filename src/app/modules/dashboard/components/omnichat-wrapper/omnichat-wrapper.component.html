@@ -53,7 +53,7 @@
             <span class="h3">Tráfico y Conversiones</span>
         </div>
     </div>
-    <div class="col-12">
+    <div class="col-12" *ngIf="!retailerView">
         <div class="pills-container">
             <ul class="nav nav-pills nav-fill">
                 <li class="nav-item">
@@ -68,7 +68,7 @@
         </div>
     </div>
 
-    <div class="col-12 col-lg-4 mt-4">
+    <div class="col-12 col-lg-4 mt-4" *ngIf="latamView">
         <div class="card height-fluid">
             <div class="card-header">
                 <span class="h4">{{ selectedTab2 === 1 ? 'Tráfico' : 'Conversiones' }} por país</span>
@@ -80,7 +80,7 @@
             </div>
         </div>
     </div>
-    <div class="col-12 col-lg-4 mt-4">
+    <div class="col-12 col-lg-4 mt-4" *ngIf="latamView || countryView" [ngClass]="{'col-lg-6' : !latamView}">
         <div class="card height-fluid superimposed">
             <div class="card-header">
                 <span class="h4">{{ selectedTab2 === 1 ? 'Tráfico' : 'Conversiones' }} por retailer</span>
@@ -96,13 +96,27 @@
             </div>
         </div>
     </div>
-    <div class="col-12 col-lg-4 mt-4">
+    <div class="col-12 col-lg-4 mt-4" [ngClass]="{'col-lg-6' : !latamView}">
         <div class="card height-fluid">
             <div class="card-header">
-                <span class="h4">{{ selectedTab2 === 1 ? 'Tráfico' : 'Conversiones' }} por categoría</span>
+                <span class="h4" *ngIf="!retailerView">{{ selectedTab2 === 1 ? 'Tráfico' : 'Conversiones' }} por
+                    categoría</span>
+                <span class="h4" *ngIf="retailerView">Tráfico por categoría</span>
             </div>
             <div class="card-body">
-                <app-chart-pie [data]="chatsByCategories" name="omnichat-chats-by-category" legendPosition="bottom">
+                <app-chart-pie [data]="chatsByCategories" name="omnichat-chats-by-category-1" legendPosition="bottom">
+                </app-chart-pie>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-12 col-lg-6 mt-4" *ngIf="retailerView">
+        <div class="card height-fluid">
+            <div class="card-header">
+                <span class="h4" *ngIf="retailerView">Conversiones por categoría</span>
+            </div>
+            <div class="card-body">
+                <app-chart-pie [data]="chatsByCategories" name="omnichat-chats-by-category-2" legendPosition="bottom">
                 </app-chart-pie>
             </div>
         </div>

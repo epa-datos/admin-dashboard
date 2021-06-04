@@ -1,12 +1,16 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { MatTableDataSource } from '@angular/material/table';
+import { NavigationEnd, Router } from '@angular/router';
+import { Subscription } from 'rxjs';
+import { filter } from 'rxjs/operators';
+import { AppStateService } from 'src/app/services/app-state.service';
 
 @Component({
   selector: 'app-omnichat-wrapper',
   templateUrl: './omnichat-wrapper.component.html',
   styleUrls: ['./omnichat-wrapper.component.scss']
 })
-export class OmnichatWrapperComponent implements OnInit {
+export class OmnichatWrapperComponent implements OnInit, OnDestroy {
 
   kpis: any[] = [
     {
@@ -1333,9 +1337,51 @@ export class OmnichatWrapperComponent implements OnInit {
   selectedTab4 = 1;
   selectedTab5 = 1;
 
-  constructor() { }
+  countrySub: Subscription;
+  retailerSub: Subscription;
+  routeSub: Subscription;
+
+  countryID: number;
+  retailerID: number;
+
+  latamView: boolean;
+  countryView: boolean;
+  retailerView: boolean;
+
+  constructor(
+    private router: Router,
+    private appStateService: AppStateService,
+
+  ) { }
 
   ngOnInit(): void {
+
+    this.countryID = this.appStateService.selectedCountry?.id;
+    this.retailerID = this.appStateService.selectedRetailer?.id;
+    this.latamView = this.router.url.includes('latam') ? true : false;
+
+    if (this.countryID || this.retailerID || this.latamView) {
+      this.getActiveView();
+    }
+
+    this.routeSub = this.router.events.pipe(
+      filter(event => event instanceof NavigationEnd)
+    )
+      .subscribe(event => {
+        if (event instanceof NavigationEnd)
+          this.latamView = this.router.url.includes('latam') ? true : false;
+        this.getActiveView();
+      });
+
+    this.retailerSub = this.appStateService.selectedRetailer$.subscribe(retailer => {
+      this.retailerID = retailer?.id;
+      this.getActiveView();
+    });
+
+    this.countrySub = this.appStateService.selectedCountry$.subscribe(country => {
+      this.countryID = country?.id;
+      this.getActiveView();
+    });
   }
 
   getDataByTrafficAndSales(metricType: string) {
@@ -1357,8 +1403,28 @@ export class OmnichatWrapperComponent implements OnInit {
 
   }
 
+  getActiveView() {
+    if (this.retailerID) {
+      this.retailerView = true;
+      this.countryView = false;
+      this.latamView = false;
+    } else if (this.countryID) {
+      this.countryView = true;
+      this.retailerView = false;
+      this.latamView = false;
+    } else if (this.latamView) {
+      this.countryView = false;
+      this.retailerView = false;
+    }
+  }
+
   getDataByTrafficAndConversions(metricType: string) {
     this.selectedTab2 = metricType === 'traffic' ? 1 : 2;
   }
 
+  ngOnDestroy() {
+    this.routeSub?.unsubscribe();
+    this.countrySub?.unsubscribe();
+    this.retailerSub?.unsubscribe();
+  }
 }
