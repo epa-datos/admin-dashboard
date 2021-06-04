@@ -45,34 +45,38 @@ export class OmnichatWrapperComponent implements OnInit {
       subMetricValue: '< 48 Seg'
     },
     {
-      metricTitle: 'total chat',
-      metricName: 'total_chat',
-      metricValue: '4.56/5',
-      subMetricTitle: 'roas',
-      subMetricName: 'roas',
-      subMetricValue: 91.14,
-      subMetricFormat: 'percentage',
+      metricTitle: 'calificación del chat',
+      metricName: 'chat_score',
+      metricValue: 91.1,
+      metricFormat: 'score',
+      subMetricTitle: 'resultado',
+      subMetricName: 'chat_score',
+      subMetricValue: '4.56/5'
+    },
+    {
+      metricTitle: 'usuarios',
+      metricName: 'users',
+      metricValue: '4500',
+      metricFormat: 'integer'
     },
     {
       metricTitle: 'transacciones',
       metricName: 'transactions',
       metricValue: 0,
       metricFormat: 'integer',
-      subMetricTitle: 'CR',
-      subMetricName: 'cr',
-      subMetricValue: 0,
-      subMetricFormat: 'percentage'
+    },
+    {
+      metricTitle: 'conversion rate',
+      metricName: 'conversion_rate',
+      metricValue: 0,
+      metricFormat: 'percentage',
     },
     {
       metricTitle: 'revenue',
       metricName: 'revenue',
       metricValue: 0,
       metricFormat: 'decimals',
-      metricSymbol: 'USD',
-      subMetricTitle: 'roas',
-      subMetricName: 'roas',
-      subMetricValue: 0,
-      subMetricFormat: 'decimals'
+      metricSymbol: 'USD'
     }
   ];
 
@@ -125,281 +129,6 @@ export class OmnichatWrapperComponent implements OnInit {
   ];
 
   devicesReqStatus = 2;
-
-  chatHistory = [{
-    date: '2020-11-01',
-    value: 73
-  }, {
-    date: '2020-11-02',
-    value: 67
-  }, {
-    date: '2020-11-03',
-    value: 68
-  }, {
-    date: '2020-11-04',
-    value: 65
-  }, {
-    date: '2020-11-05',
-    value: 71
-  }, {
-    date: '2020-11-06',
-    value: 75
-  }, {
-    date: '2020-11-07',
-    value: 74
-  }, {
-    date: '2020-11-08',
-    value: 71
-  }, {
-    date: '2020-11-09',
-    value: 76
-  }, {
-    date: '2020-11-10',
-    value: 77
-  }, {
-    date: '2020-11-11',
-    value: 81
-  }, {
-    date: '2020-11-12',
-    value: 83
-  }, {
-    date: '2020-11-13',
-    value: 80
-  }, {
-    date: '2020-11-14',
-    value: 81
-  }, {
-    date: '2020-11-15',
-    value: 87
-  }, {
-    date: '2020-11-16',
-    value: 82
-  }, {
-    date: '2020-11-17',
-    value: 86
-  }, {
-    date: '2020-11-18',
-    value: 80
-  }, {
-    date: '2020-11-19',
-    value: 87
-  }, {
-    date: '2020-11-20',
-    value: 83
-  }, {
-    date: '2020-11-21',
-    value: 85
-  }, {
-    date: '2020-11-22',
-    value: 84
-  }, {
-    date: '2020-11-23',
-    value: 82
-  }, {
-    date: '2020-11-24',
-    value: 73
-  }, {
-    date: '2020-11-25',
-    value: 71
-  }, {
-    date: '2020-11-26',
-    value: 75
-  }, {
-    date: '2020-11-27',
-    value: 79
-  }, {
-    date: '2020-11-28',
-    value: 70
-  }, {
-    date: '2020-11-29',
-    value: 73
-  }, {
-    date: '2020-11-30',
-    value: 61
-  }, {
-    date: '2020-12-01',
-    value: 62
-  }, {
-    date: '2020-12-02',
-    value: 66
-  }, {
-    date: '2020-12-03',
-    value: 65
-  }, {
-    date: '2020-12-04',
-    value: 73
-  }, {
-    date: '2020-12-05',
-    value: 79
-  }, {
-    date: '2020-12-06',
-    value: 78
-  }, {
-    date: '2020-12-07',
-    value: 78
-  }, {
-    date: '2020-12-08',
-    value: 78
-  }, {
-    date: '2020-12-09',
-    value: 74
-  }, {
-    date: '2020-12-10',
-    value: 73
-  }, {
-    date: '2020-12-11',
-    value: 75
-  }, {
-    date: '2020-12-12',
-    value: 70
-  }, {
-    date: '2020-12-13',
-    value: 77
-  }, {
-    date: '2020-12-14',
-    value: 67
-  }, {
-    date: '2020-12-15',
-    value: 62
-  }, {
-    date: '2020-12-16',
-    value: 64
-  }, {
-    date: '2020-12-17',
-    value: 61
-  }, {
-    date: '2020-12-18',
-    value: 59
-  }, {
-    date: '2020-12-19',
-    value: 53
-  }, {
-    date: '2020-12-20',
-    value: 54
-  }, {
-    date: '2020-12-21',
-    value: 56
-  }, {
-    date: '2020-12-22',
-    value: 59
-  }, {
-    date: '2020-12-23',
-    value: 58
-  }, {
-    date: '2020-12-24',
-    value: 55
-  }, {
-    date: '2020-12-25',
-    value: 52
-  }, {
-    date: '2020-12-26',
-    value: 54
-  }, {
-    date: '2020-12-27',
-    value: 50
-  }, {
-    date: '2020-12-28',
-    value: 50
-  }, {
-    date: '2020-12-29',
-    value: 51
-  }, {
-    date: '2020-12-30',
-    value: 52
-  }, {
-    date: '2020-12-31',
-    value: 58
-  }, {
-    date: '2021-01-01',
-    value: 60
-  }, {
-    date: '2021-01-02',
-    value: 67
-  }, {
-    date: '2021-01-03',
-    value: 64
-  }, {
-    date: '2021-01-04',
-    value: 66
-  }, {
-    date: '2021-01-05',
-    value: 60
-  }, {
-    date: '2021-01-06',
-    value: 63
-  }, {
-    date: '2021-01-07',
-    value: 61
-  }, {
-    date: '2021-01-08',
-    value: 60
-  }, {
-    date: '2021-01-09',
-    value: 65
-  }, {
-    date: '2021-01-10',
-    value: 75
-  }, {
-    date: '2021-01-11',
-    value: 77
-  }, {
-    date: '2021-01-12',
-    value: 78
-  }, {
-    date: '2021-01-13',
-    value: 70
-  }, {
-    date: '2021-01-14',
-    value: 70
-  }, {
-    date: '2021-01-15',
-    value: 73
-  }, {
-    date: '2021-01-16',
-    value: 71
-  }, {
-    date: '2021-01-17',
-    value: 74
-  }, {
-    date: '2021-01-18',
-    value: 78
-  }, {
-    date: '2021-01-19',
-    value: 85
-  }, {
-    date: '2021-01-20',
-    value: 82
-  }, {
-    date: '2021-01-21',
-    value: 83
-  }, {
-    date: '2021-01-22',
-    value: 88
-  }, {
-    date: '2021-01-23',
-    value: 85
-  }, {
-    date: '2021-01-24',
-    value: 85
-  }, {
-    date: '2021-01-25',
-    value: 80
-  }, {
-    date: '2021-01-26',
-    value: 87
-  }, {
-    date: '2021-01-27',
-    value: 84
-  }, {
-    date: '2021-01-28',
-    value: 83
-  }, {
-    date: '2021-01-29',
-    value: 84
-  }, {
-    date: '2021-01-30',
-    value: 81
-  }];
 
   chatsByCategories = [
     { category: 'PS', value: 3200 },
@@ -1412,19 +1141,6 @@ export class OmnichatWrapperComponent implements OnInit {
     { hour: '9 PM', visits: 100 }
   ]
 
-  proactiveChatData = {
-    metricTitle: 'chats proactivos manual con respuesta',
-    metricName: 'proactive_chats',
-    metricValue: 100,
-    metricFormat: 'integer',
-    metricSymbol: '%',
-    subMetricTitle: 'benchmark',
-    subMetricName: 'benchmark',
-    subMetricValue: 33,
-    subMetricFormat: 'integer',
-    subMetricSymbol: '%',
-  }
-
   transactionsData = [
     {
       metricTitle: 'usuarios *',
@@ -1446,34 +1162,34 @@ export class OmnichatWrapperComponent implements OnInit {
     }
   ]
 
-  trafficVsTransactions = [{
+  trafficVsConversions = [{
     date: '2021-03-15',
     traffic: 1298,
-    transactions: 66,
+    conversions: 66,
   }, {
     date: '2021-03-16',
     traffic: 816,
-    transactions: 39,
+    conversions: 39,
   }, {
     date: '2021-03-17',
     traffic: 1963,
-    transactions: 43,
+    conversions: 43,
   }, {
     date: '2021-03-18',
     traffic: 1809,
-    transactions: 29,
+    conversions: 29,
   }, {
     date: '2021-03-19',
     traffic: 1434,
-    transactions: 36,
+    conversions: 36,
   }, {
     date: '2021-03-20',
     traffic: 2359,
-    transactions: 16,
+    conversions: 16,
   }, {
     date: '2021-03-21',
     traffic: 2114,
-    transactions: 66,
+    conversions: 66,
   }];
 
   conversionByCategories = [
@@ -1553,15 +1269,6 @@ export class OmnichatWrapperComponent implements OnInit {
   categoryAndUsersSource = new MatTableDataSource<any>(this.categoryAndUsers);
   categoryAndUsersReqStatus = 2;
 
-  usersAndAmount = [
-    { date: '2021-03-15', value1: 1200, value2: 200 },
-    { date: '2021-03-16', value1: 1600, value2: 230 },
-    { date: '2021-03-17', value1: 1400, value2: 180 },
-    { date: '2021-03-18', value1: 1250, value2: 80 },
-    { date: '2021-03-19', value1: 800, value2: 60 },
-    { date: '2021-03-20', value1: 1000, value2: 110 },
-    { date: '2021-03-21', value1: 1100, value2: 120 }
-  ]
 
   usersTransactionsConversion = {
     'Ene 21': {
@@ -1586,6 +1293,40 @@ export class OmnichatWrapperComponent implements OnInit {
     }
   }
 
+
+  dataByUsersAndRevenue: any[] = this.trafficVsConversions;
+
+  sessionsAndConversions = [{
+    date: '2021-03-15',
+    conversions: 2816.232,
+    sessions: 35977,
+  }, {
+    date: '2021-03-16',
+    conversions: 3517.643,
+    sessions: 22677,
+  }, {
+    date: '2021-03-17',
+    conversions: 8923.765,
+    sessions: 25541,
+  }, {
+    date: '2021-03-18',
+    conversions: 6205.837,
+    sessions: 28172,
+  }, {
+    date: '2021-03-19',
+    conversions: 2326.599,
+    sessions: 26498,
+  }, {
+    date: '2021-03-20',
+    conversions: 3585.788,
+    sessions: 43770,
+  }, {
+    date: '2021-03-21',
+    conversions: 4850.785,
+    sessions: 40874,
+  }];
+
+
   selectedTab1 = 1;
   selectedTab2 = 1;
   selectedTab3 = 1;
@@ -1599,6 +1340,25 @@ export class OmnichatWrapperComponent implements OnInit {
 
   getDataByTrafficAndSales(metricType: string) {
     this.selectedTab1 = metricType === 'traffic' ? 1 : 2;
+  }
+
+  getDataByTrafficAndSales2(metricType: string) {
+    this.selectedTab4 = metricType === 'traffic' ? 1 : 2;
+  }
+
+  getDataByUsersAndRevenue(metricType: string) {
+    this.selectedTab1 = metricType === 'users' ? 1 : 2;
+
+    if (metricType === 'users') {
+      this.dataByUsersAndRevenue = this.trafficVsConversions;
+    } else if (metricType === 'revenue') {
+      this.dataByUsersAndRevenue = this.aupVsRevenue;
+    }
+
+  }
+
+  getDataByTrafficAndConversions(metricType: string) {
+    this.selectedTab2 = metricType === 'traffic' ? 1 : 2;
   }
 
 }
