@@ -11,7 +11,6 @@ import { FiltersStateService } from './filters-state.service';
 export class CampaignTowardsRetailService {
   private baseUrl: string;
 
-  private countryID: number;
   private retailerID: number;
 
 
@@ -23,17 +22,8 @@ export class CampaignTowardsRetailService {
 
     this.baseUrl = this.config.endpoint;
 
-    const selectedCountry = this.appStateService.selectedCountry;
     const selectedRetailer = this.appStateService.selectedRetailer;
-
-    if (selectedCountry?.id || selectedRetailer?.id) {
-      this.countryID = selectedCountry?.id ? selectedCountry.id : undefined;
-      this.retailerID = selectedRetailer?.id ? selectedRetailer.id : undefined;
-    }
-
-    this.appStateService.selectedCountry$.subscribe(country => {
-      this.countryID = country?.id;
-    });
+    this.retailerID = selectedRetailer?.id ? selectedRetailer.id : undefined;
 
     this.appStateService.selectedRetailer$.subscribe(retailer => {
       this.retailerID = retailer?.id;
