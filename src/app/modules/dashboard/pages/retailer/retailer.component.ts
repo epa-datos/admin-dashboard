@@ -96,8 +96,12 @@ export class RetailerComponent implements OnInit, OnDestroy {
 
         if (this.filtersStateService.period && this.filtersStateService.sectors && this.filtersStateService.categories) {
           if (this.retailerID) {
+
             this.filtersStateService.restoreFilters();
-            this.requestInfoSource.next();
+            if (this.activeTabView === 1) {
+              this.requestInfoSource.next();
+            }
+            this.activeTabView = 1;
           }
         }
       }
