@@ -1,0 +1,14 @@
+<div class="row my-5">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-body">
+                <app-chart-line-series [series]="campPerformance" [status]="campPerformanceReqStatus"
+                    name="campaign-towards-retail-metrics">
+                </app-chart-line-series>
+            </div>
+        </div>
+    </div>
+</div>
+
+<app-campaigns-tables *ngFor="let campaigns of campList" [campList]="campaigns" [campListChange]="campaigns.campaigns">
+</app-campaigns-tables>
