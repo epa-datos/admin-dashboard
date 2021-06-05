@@ -18,7 +18,8 @@
             </p>
         </div>
         <app-generic-table [displayedColumns]="campListDisplayedColumns" [tableData]="campaigns"
-            [tableDataChange]="campaigns.data">
+            [tableDataChange]="campaigns.data" errorMsg="Error al consultar campañas"
+            emptyDataMsg="No se encontraron campañas">
         </app-generic-table>
     </div>
 </div>
