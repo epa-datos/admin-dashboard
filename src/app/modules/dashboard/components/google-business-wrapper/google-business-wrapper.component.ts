@@ -5,11 +5,11 @@ import { MatTableDataSource } from '@angular/material/table';
 import * as moment from 'moment'
 
 @Component({
-  selector: 'app-google-business',
-  templateUrl: './google-business.component.html',
-  styleUrls: ['./google-business.component.scss']
+  selector: 'app-google-business-wrapper',
+  templateUrl: './google-business-wrapper.component.html',
+  styleUrls: ['./google-business-wrapper.component.scss']
 })
-export class GoogleBusinessComponent implements OnInit, AfterViewInit {
+export class GoogleBusinessWrapperComponent implements OnInit, AfterViewInit {
 
   provinces = new FormControl();
   provinceList: any[] = [{ id: 1, name: 'Provincia 1' }, { id: 2, name: 'Provincia 2' }, { id: 3, name: 'Provincia 3' }, { id: 4, name: 'Provincia 4' }];

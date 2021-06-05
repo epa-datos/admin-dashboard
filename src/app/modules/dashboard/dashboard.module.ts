@@ -22,7 +22,6 @@ import { GeneralFiltersComponent } from './components/general-filters/general-fi
 import { RetailFiltersComponent } from './components/retail-filters/retail-filters.component';
 import { CardStatComponent } from './components/card-stat/card-stat.component';
 import { GenericTableComponent } from './components/generic-table/generic-table.component';
-import { GoogleBusinessComponent } from './components/google-business/google-business.component';
 import { CampaignComparatorComponent } from './pages/campaign-comparator/campaign-comparator.component';
 import { SentimentAnalysisComponent } from './pages/sentiment-analysis/sentiment-analysis.component';
 import { DashboardRoutes } from './dashboard.routing';
@@ -35,13 +34,16 @@ import { OverviewLatamComponent } from './pages/overview-latam/overview-latam.co
 
 // wrappers
 import { OverviewWrapperComponent } from './components/overview-wrapper/overview-wrapper.component';
+import { CampaignTowardsRetailWrapperComponent } from './components/campaign-towards-retail-wrapper/campaign-towards-retail-wrapper.component';
+import { GoogleBusinessWrapperComponent } from './components/google-business-wrapper/google-business-wrapper.component';
+
 import { AudiencesWrapperComponent } from './components/audiences-wrapper/audiences-wrapper.component';
 import { AcquisitionWrapperComponent } from './components/acquisition-wrapper/acquisition-wrapper.component';
 import { BehaviourWrapperComponent } from './components/behaviour-wrapper/behaviour-wrapper.component';
 import { ConversionWrapperComponent } from './components/conversion-wrapper/conversion-wrapper.component';
-import { OmnichatWrapperComponent } from './components/omnichat-wrapper/omnichat-wrapper.component';
-import { CampaignTowardsRetailWrapperComponent } from './components/campaign-towards-retail-wrapper/campaign-towards-retail-wrapper.component';
+
 import { IndexedWrapperComponent } from './components/indexed-wrapper/indexed-wrapper.component';
+import { OmnichatWrapperComponent } from './components/omnichat-wrapper/omnichat-wrapper.component';
 
 // charts
 import { ChartBarComponent } from './components/charts/chart-bar/chart-bar.component';
@@ -88,7 +90,7 @@ import { StarRaitingComponent } from './components/star-raiting/star-raiting.com
     OverviewWrapperComponent,
     GenericTableComponent,
     ChartPyramidComponent,
-    GoogleBusinessComponent,
+    GoogleBusinessWrapperComponent,
     ChartMultipleAxesComponent,
     ChartLoaderComponent,
     CampaignComparatorComponent,
