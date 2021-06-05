@@ -22,7 +22,7 @@ export class GenericTableComponent implements OnInit, AfterViewInit {
     this.displayedColumnsHeaders = this.displayedColumns.map(item => item.name);
   }
 
-  private _tableData;
+  private _tableData: any; // object with any properties but "data" and "reqStatus" are required 
   get tableData() {
     return this._tableData;
   }
