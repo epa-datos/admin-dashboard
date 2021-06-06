@@ -29,24 +29,24 @@
                     </div>
                 </mat-select-trigger>
                 <mat-option #allSelectedCountries [value]="0" class="font-weight-bold"
-                    (click)="toggleAllSelection('countries', 'country')">
+                    (click)="toggleAllSelection('countries', 'country'); selectAllComplementaryFilter('retailers')">
                     Todos
                 </mat-option>
                 <ng-container *ngFor="let country of countryList">
                     <mat-option class="mat-option-container" [hidden]="country.hidden" [value]="country"
-                        (click)="tosslePerOne('allSelectedCountries', 'countries', 'countryList')">
+                        (click)="tosslePerOne('allSelectedCountries', 'countries', 'countryList'); countryChange(country)">
                         <span class="option-name">{{ country.name }}</span>
                         <button type="button" class="btn btn-sm btn-secondary"
-                            (click)="uniqueSelection('countries', 'country', country)">
+                            (click)="uniqueSelection('countries', 'country', country); selectOnlyComplementaryFilter('retailers', country)">
                             Solamente
                         </button>
                     </mat-option>
                 </ng-container>
 
             </mat-select>
-            <small class="text-danger" *ngIf="countries?.value?.length < 1 && countries.touched">
+            <!-- <small class="text-danger" *ngIf="countries?.value?.length < 1 && countries.touched">
                 Selecciona al menos un País
-            </small>
+            </small> -->
             <small class="text-danger" *ngIf="countriesErrorMsg">
                 {{ countriesErrorMsg }}
             </small>
@@ -83,23 +83,24 @@
                         </span>
                     </div>
                 </mat-select-trigger>
-                <mat-option #allSelectedRetailers (click)="toggleAllSelection('retailers', 'retailer')" [value]="0"
-                    class="font-weight-bold">
+                <mat-option #allSelectedRetailers
+                    (click)="toggleAllSelection('retailers', 'retailer'); selectAllComplementaryFilter('countries')"
+                    [value]="0" class="font-weight-bold">
                     Todos
                 </mat-option>
                 <ng-container *ngFor="let retailer of retailerList">
                     <mat-option class="mat-option-container" [hidden]="retailer.hidden" [value]="retailer"
-                        (click)="tosslePerOne('allSelectedRetailers', 'retailers', 'retailerList')">
+                        (click)="tosslePerOne('allSelectedRetailers', 'retailers', 'retailerList'); retailerChange(retailer)">
                         <span class="option-name">{{ retailer.name }}</span>
                         <button type="button" class="btn btn-sm btn-secondary"
-                            (click)="uniqueSelection('retailers', 'retailer', retailer)">
+                            (click)="uniqueSelection('retailers', 'retailer', retailer); selectOnlyComplementaryFilter('countries', retailer)">
                             Solamente
                         </button>
                     </mat-option>
                 </ng-container>
 
             </mat-select>
-            <small class="text-danger" *ngIf="retailers?.value?.length < 1 && retailers.touched">
+            <small class="text-danger" *ngIf="retailers?.value?.length < 1 && (retailers.touched || countries.touched)">
                 Selecciona al menos un Retailer
             </small>
             <small class="text-danger" *ngIf="retailersErrorMsg">
@@ -308,10 +309,10 @@
     </div>
 </form>
 
+<!-- (isLatamSelected && this.countries?.value?.length < 1) || -->
 <div class="row">
     <div class="col-12 text-right">
         <button type="button" class="btn btn-primary" [disabled]="
-            (isLatamSelected && this.countries?.value?.length < 1) ||
             (isLatamSelected && this.retailers?.value?.length < 1) ||
             (isLatamSelected && this.sources?.value?.length < 1) ||
             (!startDate.valid && startDate.touched) ||
