@@ -283,190 +283,6 @@ export class GeneralFiltersComponent implements OnInit {
       });
   }
 
-  countryChange(country) {
-    // check if country was selected or deselected 
-    const selectedCountry = this.countries.value.some(item => item.id === country.id);
-
-    if (selectedCountry) {
-      this.retailers.patchValue(this.filteredRetailerList.filter(retailer => {
-        const retailerInCountry = retailer.country_id === country.id;
-        const previouslySelected = this.retailers.value.some(prevRetailer => prevRetailer.id === retailer.id);
-
-        return retailerInCountry || previouslySelected;
-      }));
-    } else if (!selectedCountry) {
-      this.retailers.patchValue(this.filteredRetailerList.filter(retailer => {
-        const retailerInCountry = retailer.country_id === country.id;
-        const previouslyDeselected = !this.retailers.value.some(prevRetailer => prevRetailer.id === retailer.id);
-
-        if (previouslyDeselected) {
-          return false;
-        }
-
-        return !retailerInCountry;
-      }));
-    }
-
-    this.retailersCounter = this.retailers.value.length;
-    this.allAreItemsSelected('retailers', 'retailerList', 'allSelectedRetailers');
-  }
-
-  retailerChange(retailer) {
-    // check if retailer was selected or deselected 
-    const selectedRetailer = this.retailers.value.some(item => item.id === retailer.id);
-
-    if (selectedRetailer) {
-      const allRetailersInCountry = this.filteredRetailerList.filter(item => item.country_id === retailer.country_id);
-      const selectedRetailers = this.retailers.value.filter(item => item.country_id === retailer.country_id);
-
-      this.countries.patchValue(this.filteredCountryList.filter(country => {
-        const previouslySelected = this.countries.value.some(prevCountry => prevCountry.id === country.id);
-        if (previouslySelected) {
-          return true;
-        }
-
-        if (country.id === retailer.country_id) {
-          return allRetailersInCountry.length === selectedRetailers.length;
-        }
-
-        return false;
-      }));
-
-    } else if (!selectedRetailer) {
-      this.countries.patchValue(this.filteredCountryList.filter(country => {
-        const previouslySelected = this.countries.value.some(prevCountry => prevCountry.id === country.id);
-
-        if (country.id === retailer.country_id && previouslySelected) {
-          return false;
-        }
-
-        return previouslySelected ? true : false;
-      }));
-    }
-
-    this.countriesCounter = this.countries.value.length;
-    this.allAreItemsSelected('countries', 'countryList', 'allSelectedCountries');
-  }
-
-  selectAllComplementaryFilter(filterRef: string) {
-    let shownElements;
-
-    switch (filterRef) {
-      case 'retailers':
-        shownElements = this.countryList.filter(item => !item.hidden);
-        const allSelectedCountries = this.allSelectedCountries.selected;
-
-        if (allSelectedCountries) {
-          this.retailers.patchValue(this.retailerList.filter(retailer => {
-            const relativeToSearch = shownElements.some(item => item.id === retailer.country_id);
-            const previouslySelected = this.retailers.value.some(prevRetailer => prevRetailer.id === retailer.id);
-
-            return relativeToSearch || previouslySelected
-          }))
-        } else {
-
-          this.retailers.patchValue(this.retailerList.filter(retailer => {
-            const relativeToSearch = shownElements.some(item => item.id === retailer.country_id);
-            const previouslySelected = this.retailers.value.some(prevRetailer => prevRetailer.id === retailer.id);
-
-            if (previouslySelected && !relativeToSearch) {
-              return true;
-            }
-
-            if (relativeToSearch) {
-              return false;
-            }
-
-            return previouslySelected;
-          }))
-        }
-        this.retailersCounter = this.retailers.value.length;
-        this.allAreItemsSelected('retailers', 'retailerList', 'allSelectedRetailers');
-
-        break;
-
-      case 'countries':
-        shownElements = this.retailerList.filter(item => !item.hidden);
-        const allSelectedRetailers = this.allSelectedRetailers.selected;
-
-        if (allSelectedRetailers) {
-          // *********************************************************************************************
-          // 1. de los retailers mostrados (o filtrados) shownElements obtener todos los .country_id seleccionados (sin repeticiones) y alacenarlos en linkedCountries
-          // 2. iterar linkedCountries y hacer un nuevo arrar con [{id: coutry.id, allSelectedRetailers: boolan}]
-          // 3. con este nuevo array usaremos un some (por id para ver si prendemos el país)
-
-          const linkedCountries = []
-
-          for (let item of shownElements) {
-            if (!linkedCountries.some(item => item.country_id)) {
-              linkedCountries.push({ id: item.country_id }); // evitar repetidos
-            }
-          }
-
-          console.log('linkedCountries', linkedCountries)
-
-
-          const countriesWithAllSelectedRetalers = [];
-
-          for (let country of linkedCountries) {
-            const allRetailersInCountry = this.filteredRetailerList.filter(item => item.country_id === country.id);
-
-            const selectedRetailersInCountry = this.retailers.value.filter(item => item.country_id === country.id);
-            console.log('allRetailes in', country, allRetailersInCountry);
-            console.log('selectedRetailersInCountry', country, selectedRetailersInCountry);
-            console.log('_______________________')
-
-            if (allRetailersInCountry.length === selectedRetailersInCountry.length) {
-              countriesWithAllSelectedRetalers.push({ id: country.id });
-            }
-          }
-
-          console.log('countriesWithAllSelectedRetalers', countriesWithAllSelectedRetalers)
-          this.countries.patchValue(this.countryList.filter(country => {
-            const previouslySelected = this.countries.value.some(prevCountry => prevCountry.id === country.id);
-            const allSelectedRetailers = countriesWithAllSelectedRetalers.some(item => item.id === country.id);
-
-            return previouslySelected || allSelectedRetailers ? true : false;
-          }))
-
-        } else {
-          this.countries.patchValue(this.countryList.filter(country => {
-            const relativeToSearch = shownElements.some(item => item.country_id === country.id);
-            const previouslySelected = this.countries.value.some(prevCountry => prevCountry.id === country.id);
-
-            if (previouslySelected && !relativeToSearch) {
-              return true;
-            }
-
-            if (relativeToSearch) {
-              return false;
-            }
-
-            return previouslySelected;
-          }))
-
-        }
-        this.countriesCounter = this.countries.value.length;
-        this.allAreItemsSelected('countries', 'countryList', 'allSelectedCountries');
-
-        break;
-    }
-  }
-
-  selectOnlyComplementaryFilter(filterRef: string, selectedElement: any) {
-    switch (filterRef) {
-      case 'retailers':
-        this.retailers.patchValue(this.retailerList.filter(retailer => {
-          return retailer.country_id === selectedElement.id;
-        }));
-        break;
-
-      case 'countries':
-        this.countries.patchValue([]);
-        break;
-    }
-  }
-
   loadLatamContent() {
     return new Promise<void>(async (resolve) => {
       this.isLatamSelected = this.router.url.includes('latam') ? true : false;
@@ -676,7 +492,7 @@ export class GeneralFiltersComponent implements OnInit {
       }
     };
 
-    if (allAreSelected) {
+    if (allAreSelected && shownElements.length > 0) {
       this[matOptionRef].select();
     } else {
       this[matOptionRef].deselect();
@@ -754,6 +570,176 @@ export class GeneralFiltersComponent implements OnInit {
     this[counterRef] = selectionCounter.length;
   }
 
+  countryChange(country) {
+    // check if country was selected or deselected 
+    const selectedCountry = this.countries.value.some(item => item.id === country.id);
+
+    if (selectedCountry) {
+      this.retailers.patchValue(this.filteredRetailerList.filter(retailer => {
+        const retailerInCountry = retailer.country_id === country.id;
+        const previouslySelected = this.retailers.value.some(prevRetailer => prevRetailer.id === retailer.id);
+
+        return retailerInCountry || previouslySelected;
+      }));
+    } else if (!selectedCountry) {
+      this.retailers.patchValue(this.filteredRetailerList.filter(retailer => {
+        const retailerInCountry = retailer.country_id === country.id;
+        const previouslyDeselected = !this.retailers.value.some(prevRetailer => prevRetailer.id === retailer.id);
+
+        if (previouslyDeselected) {
+          return false;
+        }
+
+        return !retailerInCountry;
+      }));
+    }
+
+    this.retailersCounter = this.retailers.value.length;
+    this.allAreItemsSelected('retailers', 'retailerList', 'allSelectedRetailers');
+  }
+
+  retailerChange(retailer) {
+    // check if retailer was selected or deselected 
+    const selectedRetailer = this.retailers.value.some(item => item.id === retailer.id);
+
+    if (selectedRetailer) {
+      const allRetailersInCountry = this.filteredRetailerList.filter(item => item.country_id === retailer.country_id);
+      const selectedRetailers = this.retailers.value.filter(item => item.country_id === retailer.country_id);
+
+      this.countries.patchValue(this.filteredCountryList.filter(country => {
+        const previouslySelected = this.countries.value.some(prevCountry => prevCountry.id === country.id);
+        if (previouslySelected) {
+          return true;
+        }
+
+        if (country.id === retailer.country_id) {
+          return allRetailersInCountry.length === selectedRetailers.length;
+        }
+
+        return false;
+      }));
+
+    } else if (!selectedRetailer) {
+      this.countries.patchValue(this.filteredCountryList.filter(country => {
+        const previouslySelected = this.countries.value.some(prevCountry => prevCountry.id === country.id);
+
+        if (country.id === retailer.country_id && previouslySelected) {
+          return false;
+        }
+
+        return previouslySelected ? true : false;
+      }));
+    }
+
+    this.countriesCounter = this.countries.value.length;
+    this.allAreItemsSelected('countries', 'countryList', 'allSelectedCountries');
+  }
+
+  selectAllComplementaryFilter(filterRef: string) {
+    let shownElements;
+
+    switch (filterRef) {
+      case 'retailers':
+        shownElements = this.countryList.filter(item => !item.hidden);
+        const allSelectedCountries = this.allSelectedCountries.selected;
+
+        if (allSelectedCountries) {
+          this.retailers.patchValue(this.retailerList.filter(retailer => {
+            const relativeToSearch = shownElements.some(item => item.id === retailer.country_id);
+            const previouslySelected = this.retailers.value.some(prevRetailer => prevRetailer.id === retailer.id);
+
+            return relativeToSearch || previouslySelected
+          }));
+        } else {
+
+          this.retailers.patchValue(this.retailerList.filter(retailer => {
+            const relativeToSearch = shownElements.some(item => item.id === retailer.country_id);
+            const previouslySelected = this.retailers.value.some(prevRetailer => prevRetailer.id === retailer.id);
+
+            if (previouslySelected && !relativeToSearch) {
+              return true;
+            }
+
+            if (relativeToSearch) {
+              return false;
+            }
+
+            return previouslySelected;
+          }));
+        }
+        this.retailersCounter = this.retailers.value.length;
+        this.allAreItemsSelected('retailers', 'retailerList', 'allSelectedRetailers');
+
+        break;
+
+      case 'countries':
+        shownElements = this.retailerList.filter(item => !item.hidden);
+        const allSelectedRetailers = this.allSelectedRetailers.selected;
+
+        if (allSelectedRetailers) {
+          const linkedCountries = [];  // linked cities in selected retailers
+
+          for (let item of shownElements) {
+            if (!linkedCountries.some(item => item.country_id)) {
+              linkedCountries.push({ id: item.country_id });
+            }
+          }
+
+          const countriesWithAllSelectedRetalers = [];
+
+          for (let country of linkedCountries) {
+            const allRetailersInCountry = this.filteredRetailerList.filter(item => item.country_id === country.id);
+            const selectedRetailersInCountry = this.retailers.value.filter(item => item.country_id === country.id);
+
+            if (allRetailersInCountry.length === selectedRetailersInCountry.length) {
+              countriesWithAllSelectedRetalers.push({ id: country.id });
+            }
+          }
+
+          this.countries.patchValue(this.countryList.filter(country => {
+            const previouslySelected = this.countries.value.some(prevCountry => prevCountry.id === country.id);
+            const allSelectedRetailers = countriesWithAllSelectedRetalers.some(item => item.id === country.id);
+
+            return previouslySelected || allSelectedRetailers ? true : false;
+          }));
+
+        } else {
+          this.countries.patchValue(this.countryList.filter(country => {
+            const relativeToSearch = shownElements.some(item => item.country_id === country.id);
+            const previouslySelected = this.countries.value.some(prevCountry => prevCountry.id === country.id);
+
+            if (previouslySelected && !relativeToSearch) {
+              return true;
+            }
+
+            if (relativeToSearch) {
+              return false;
+            }
+
+            return previouslySelected;
+          }));
+
+        }
+        this.countriesCounter = this.countries.value.length;
+        this.allAreItemsSelected('countries', 'countryList', 'allSelectedCountries');
+
+        break;
+    }
+  }
+
+  selectOnlyComplementaryFilter(filterRef: string, selectedElement: any) {
+    switch (filterRef) {
+      case 'retailers':
+        this.retailers.patchValue(this.retailerList.filter(retailer => {
+          return retailer.country_id === selectedElement.id;
+        }));
+        break;
+
+      case 'countries':
+        this.countries.patchValue([]);
+        break;
+    }
+  }
 
   /**
    * Applys filters
