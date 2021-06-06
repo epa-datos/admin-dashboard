@@ -62,6 +62,7 @@ import { ChartLoaderComponent } from './components/charts/chart-loader/chart-loa
 import { ChartGaugeComponent } from './components/charts/chart-gauge/chart-gauge.component';
 import { ChartBarGroupComponent } from './components/charts/chart-bar-group/chart-bar-group.component';
 import { StarRaitingComponent } from './components/star-raiting/star-raiting.component';
+import { GoogleBusinessFiltersComponent } from './components/google-business-filters/google-business-filters.component';
 
 
 @NgModule({
@@ -102,6 +103,7 @@ import { StarRaitingComponent } from './components/star-raiting/star-raiting.com
     StarRaitingComponent,
     CampaignTowardsRetailWrapperComponent,
     IndexedWrapperComponent,
+    GoogleBusinessFiltersComponent,
   ],
   imports: [
     CommonModule,
