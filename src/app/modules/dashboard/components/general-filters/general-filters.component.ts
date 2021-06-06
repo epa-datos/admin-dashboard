@@ -284,31 +284,20 @@ export class GeneralFiltersComponent implements OnInit {
   }
 
   countryChange(country) {
-    // console.log('country change', country)
-
+    // check if country was selected or deselected 
     const selectedCountry = this.countries.value.some(item => item.id === country.id);
-    // console.log('selectedCountry', selectedCountry);
 
     if (selectedCountry) {
       this.retailers.patchValue(this.filteredRetailerList.filter(retailer => {
-        // console.log('retailer', retailer)
         const retailerInCountry = retailer.country_id === country.id;
         const previouslySelected = this.retailers.value.some(prevRetailer => prevRetailer.id === retailer.id);
-        // console.log('retailerInCountry', retailerInCountry);
-        // console.log('previouslySelected', previouslySelected);
 
         return retailerInCountry || previouslySelected;
       }));
     } else if (!selectedCountry) {
-      // solo apagar aquellos que pertenecen al país seleccionado
       this.retailers.patchValue(this.filteredRetailerList.filter(retailer => {
-        // console.log('retailer', retailer)
         const retailerInCountry = retailer.country_id === country.id;
         const previouslyDeselected = !this.retailers.value.some(prevRetailer => prevRetailer.id === retailer.id);
-        // console.log('retailerInCountry', retailerInCountry);
-        // console.log('previouslyDeselected', previouslyDeselected);
-
-        // conservar apagados los que estaban apagados
 
         if (previouslyDeselected) {
           return false;
@@ -323,58 +312,35 @@ export class GeneralFiltersComponent implements OnInit {
   }
 
   retailerChange(retailer) {
-    // console.log('retailer change', retailer)
-
+    // check if retailer was selected or deselected 
     const selectedRetailer = this.retailers.value.some(item => item.id === retailer.id);
-    // console.log('selectedRetailer', selectedRetailer);
 
     if (selectedRetailer) {
-      // verificar si todos los retailers que tengan el mismo country.id se encuentran en this.retailers.value
-      // o es una ciudad que ya estaba prendida
-
       const allRetailersInCountry = this.filteredRetailerList.filter(item => item.country_id === retailer.country_id);
-      // console.log('allRetailersInCountry', allRetailersInCountry)
-
       const selectedRetailers = this.retailers.value.filter(item => item.country_id === retailer.country_id);
-      // console.log('selectedRetailers', selectedRetailers)
 
       this.countries.patchValue(this.filteredCountryList.filter(country => {
         const previouslySelected = this.countries.value.some(prevCountry => prevCountry.id === country.id);
-        // console.log('previouslySelected', previouslySelected)
         if (previouslySelected) {
           return true;
         }
 
         if (country.id === retailer.country_id) {
-          // console.log('es el mismo país', country)
           return allRetailersInCountry.length === selectedRetailers.length;
         }
 
         return false;
-
       }));
 
     } else if (!selectedRetailer) {
-      // traer paises previamente seleccionados 
       this.countries.patchValue(this.filteredCountryList.filter(country => {
         const previouslySelected = this.countries.value.some(prevCountry => prevCountry.id === country.id);
-        // console.log('previouslySelected', previouslySelected)
-
-
-        // apagar el país si retailer.country_id = country.id
 
         if (country.id === retailer.country_id && previouslySelected) {
-          // console.log('es el mismo país pero ahora esta incompleto', country)
           return false;
         }
 
-        if (previouslySelected) {
-          return true;
-        }
-
-
-        return false;
-
+        return previouslySelected ? true : false;
       }));
     }
 
@@ -383,25 +349,14 @@ export class GeneralFiltersComponent implements OnInit {
   }
 
   selectAllComplementaryFilter(filterRef: string) {
-    // console.log('filterRef', filterRef)
-
-    // si apago todos los retailers se apagan todos los paises
-    // si apago todos los paises se conservan todos los retailers prendidos? 
-
-
-    // si filtro algo solo debo de aplicar el select o deselect para los elementos filtrados
-
-
     let shownElements;
+
     switch (filterRef) {
       case 'retailers':
-        // si filtro ma en paises y doy seleccionar o deseleccionar debo afectar solo a los retailers relacionados al filtro
-
         shownElements = this.countryList.filter(item => !item.hidden);
         const allSelectedCountries = this.allSelectedCountries.selected;
 
         if (allSelectedCountries) {
-          // this.retailers.patchValue([...this.retailerList.map(item => item), 0]);
           this.retailers.patchValue(this.retailerList.filter(retailer => {
             const relativeToSearch = shownElements.some(item => item.id === retailer.country_id);
             const previouslySelected = this.retailers.value.some(prevRetailer => prevRetailer.id === retailer.id);
@@ -409,10 +364,6 @@ export class GeneralFiltersComponent implements OnInit {
             return relativeToSearch || previouslySelected
           }))
         } else {
-          // apagar todos los retailers y forzar al usuario que seleccione alguno
-          // igual, solo aplica a los que estan filtrados 
-
-          // this.retailers.patchValue([]);
 
           this.retailers.patchValue(this.retailerList.filter(retailer => {
             const relativeToSearch = shownElements.some(item => item.id === retailer.country_id);
@@ -429,20 +380,14 @@ export class GeneralFiltersComponent implements OnInit {
             return previouslySelected;
           }))
         }
-        this.allAreItemsSelected('retailers', 'retailerList', 'allSelectedRetailers');
         this.retailersCounter = this.retailers.value.length;
+        this.allAreItemsSelected('retailers', 'retailerList', 'allSelectedRetailers');
+
         break;
 
       case 'countries':
-        const allSelectedRetailers = this.allSelectedRetailers.selected;
-        console.log('allSelectedRetailers', allSelectedRetailers)
         shownElements = this.retailerList.filter(item => !item.hidden);
-        console.log('shownElements', shownElements)
-
-        // si todos los retailers de un pais resultan ser seleccionados o deseleccionados 
-        // debo de prender o apagar el pais correspondiente
-
-
+        const allSelectedRetailers = this.allSelectedRetailers.selected;
 
         if (allSelectedRetailers) {
           // *********************************************************************************************
@@ -450,31 +395,40 @@ export class GeneralFiltersComponent implements OnInit {
           // 2. iterar linkedCountries y hacer un nuevo arrar con [{id: coutry.id, allSelectedRetailers: boolan}]
           // 3. con este nuevo array usaremos un some (por id para ver si prendemos el país)
 
-          // const allRetailersInCountry = this.filteredRetailerList.filter(item => item.country_id === retailer.country_id);
-          // console.log('allRetailersInCountry', allRetailersInCountry)
+          const linkedCountries = []
 
-          // const selectedRetailers = this.retailers.value.filter(item => item.country_id === retailer.country_id);
+          for (let item of shownElements) {
+            if (!linkedCountries.some(item => item.country_id)) {
+              linkedCountries.push({ id: item.country_id }); // evitar repetidos
+            }
+          }
 
+          console.log('linkedCountries', linkedCountries)
+
+
+          const countriesWithAllSelectedRetalers = [];
+
+          for (let country of linkedCountries) {
+            const allRetailersInCountry = this.filteredRetailerList.filter(item => item.country_id === country.id);
+
+            const selectedRetailersInCountry = this.retailers.value.filter(item => item.country_id === country.id);
+            console.log('allRetailes in', country, allRetailersInCountry);
+            console.log('selectedRetailersInCountry', country, selectedRetailersInCountry);
+            console.log('_______________________')
+
+            if (allRetailersInCountry.length === selectedRetailersInCountry.length) {
+              countriesWithAllSelectedRetalers.push({ id: country.id });
+            }
+          }
+
+          console.log('countriesWithAllSelectedRetalers', countriesWithAllSelectedRetalers)
           this.countries.patchValue(this.countryList.filter(country => {
-            const relativeToSearch = shownElements.some(item => item.country_id === country.id);
             const previouslySelected = this.countries.value.some(prevCountry => prevCountry.id === country.id);
+            const allSelectedRetailers = countriesWithAllSelectedRetalers.some(item => item.id === country.id);
 
-            // aparte debe de considerarse que solo se debe de prender el país si cada uno de los retailers que tiene esta seleccionado
-
-            // console.log('previouslySelected', previouslySelected)
-            // if (previouslySelected) {
-            //   return true;
-            // }
-
-            // if (country.id === retailer.country_id) {
-            //   // console.log('es el mismo país', country)
-            //   return allRetailersInCountry.length === selectedRetailers.length;
-            // }
-
-            // return false;
-
-            return relativeToSearch || previouslySelected
+            return previouslySelected || allSelectedRetailers ? true : false;
           }))
+
         } else {
           this.countries.patchValue(this.countryList.filter(country => {
             const relativeToSearch = shownElements.some(item => item.country_id === country.id);
@@ -492,37 +446,25 @@ export class GeneralFiltersComponent implements OnInit {
           }))
 
         }
-        this.allAreItemsSelected('countries', 'countryList', 'allSelectedCountries');
         this.countriesCounter = this.countries.value.length;
+        this.allAreItemsSelected('countries', 'countryList', 'allSelectedCountries');
+
         break;
     }
   }
 
   selectOnlyComplementaryFilter(filterRef: string, selectedElement: any) {
-    // console.log('filterRef', filterRef)
-    // console.log('selectedElement', selectedElement)
-
     switch (filterRef) {
       case 'retailers':
-        // selectedElement is a country
         this.retailers.patchValue(this.retailerList.filter(retailer => {
           return retailer.country_id === selectedElement.id;
         }));
         break;
 
       case 'countries':
-        // console.log('cae en case countries')
-        // selectedElement is a retailer
-        this.countries.patchValue(this.countryList.filter(country => {
-          // console.log('country.id', country.id)
-          // console.log('selectedElement', selectedElement.country_id)
-          // return country.id === selectedElement.country_id;
-          return false;
-        }));
+        this.countries.patchValue([]);
         break;
     }
-
-    // console.log('_____________________________')
   }
 
   loadLatamContent() {
