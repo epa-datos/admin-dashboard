@@ -12,11 +12,12 @@ import { isPlatformBrowser } from '@angular/common';
 export class ChartPieComponent implements OnInit, AfterViewInit {
   private chart: am4charts.XYChart;
 
-  @Input() data;
   @Input() value: string = 'value';
   @Input() category: string = 'category';
   @Input() legendPosition: am4charts.LegendPosition = 'left';
   @Input() height: string = '350px'; // height property value valid in css
+  @Input() status: number = 2; // 0) initial 1) load 2) ready 3) error
+  @Input() errorLegend: string;
 
   chartID;
   loadStatus: number = 0;
@@ -28,6 +29,17 @@ export class ChartPieComponent implements OnInit, AfterViewInit {
   @Input() set name(value) {
     this._name = value;
     this.chartID = `chart-pie-${this.name}`
+  }
+
+  private _data;
+  get data() {
+    return this._data;
+  }
+  @Input() set data(value) {
+    this._data = value;
+    if (this.chart) {
+      this.loadChartData(this.chart);
+    }
   }
 
   constructor(
@@ -55,7 +67,7 @@ export class ChartPieComponent implements OnInit, AfterViewInit {
       // Chart code goes in here
       am4core.useTheme(am4themes_animated);
       let chart = am4core.create(this.chartID, am4charts.PieChart);
-      chart.data = this.data;
+      this.loadChartData(chart);
 
       // Add and configure Series
       let pieSeries = chart.series.push(new am4charts.PieSeries());
@@ -144,4 +156,8 @@ export class ChartPieComponent implements OnInit, AfterViewInit {
 
   }
 
+  loadChartData(chart) {
+    chart.data = this.data;
+    this.chart = chart;
+  }
 }

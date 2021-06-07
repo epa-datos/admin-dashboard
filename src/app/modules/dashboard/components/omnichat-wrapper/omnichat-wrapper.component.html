@@ -33,12 +33,11 @@
             </div>
             <div class="card-body">
                 <app-chart-multiple-axes [data]="dataByUsersAndRevenue"
-                    [value1]="selectedTab1 === 1 ? 'traffic' : 'aup'"
-                    [value2]="selectedTab1 === 1 ? 'conversions' : 'revenue'"
-                    [valueName1]="selectedTab1 === 1 ? 'Tráfico' : 'AUP'"
-                    [valueName2]="selectedTab1 === 1 ? 'Conversiones' : 'Revenue'"
-                    [valueFormat1]="selectedTab1 === 2 && 'USD'" [valueFormat2]="selectedTab1 === 2 && 'USD'"
-                    name="omnichat-traffic-vs-conversions">
+                    [value1]="selectedTab1 === 1 ? 'conversions' : 'revenue'"
+                    [value2]="selectedTab1 === 1 ? 'traffic' : 'aup'"
+                    [valueName1]="selectedTab1 === 1 ? 'Conversiones' : 'Revenue'"
+                    [valueName2]="selectedTab1 === 1 ? 'Usuarios' : 'AUP'" [valueFormat1]="selectedTab1 === 2 && 'USD'"
+                    [valueFormat2]="selectedTab1 === 2 && 'USD'" name="omnichat-traffic-vs-conversions">
                 </app-chart-multiple-axes>
             </div>
         </div>
@@ -58,11 +57,11 @@
             <ul class="nav nav-pills nav-fill">
                 <li class="nav-item">
                     <a class="nav-link p-2" [ngClass]="{'active': selectedTab2 === 1}"
-                        (click)="getDataByTrafficAndConversions('traffic')">Tráfico</a>
+                        (click)="selectedTab2 = 1">Tráfico</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link p-2" [ngClass]="{'active': selectedTab2 === 2}"
-                        (click)="getDataByTrafficAndConversions('conversions')">Conversiones</a>
+                        (click)="selectedTab2 = 2">Conversiones</a>
                 </li>
             </ul>
         </div>
@@ -74,8 +73,8 @@
                 <span class="h4">{{ selectedTab2 === 1 ? 'Tráfico' : 'Conversiones' }} por país</span>
             </div>
             <div class="card-body">
-                <app-chart-bar-horizontal [data]="chatsByCountry" name="omnichat-chats-by-country" category="country"
-                    value="chats" [singleColorBars]="true">
+                <app-chart-bar-horizontal [data]="countries" name="omnichat-chats-by-country" category="country"
+                    value="chats" [singleColorBars]="true" [status]="chartsReqStatus.countries">
                 </app-chart-bar-horizontal>
             </div>
         </div>
@@ -104,7 +103,8 @@
                 <span class="h4" *ngIf="retailerView">Tráfico por categoría</span>
             </div>
             <div class="card-body">
-                <app-chart-pie [data]="chatsByCategories" name="omnichat-chats-by-category-1" legendPosition="bottom">
+                <app-chart-pie [data]="categories" [status]="chartsReqStatus.categories"
+                    name="omnichat-chats-by-category-1" legendPosition="bottom">
                 </app-chart-pie>
             </div>
         </div>
@@ -127,7 +127,7 @@
 <!-- CONVERSIONES - TASAS DE CONVERSION -->
 <div class="row mt-5">
     <div class="col-12">
-        <span class="h3">Conversiones</span>
+        <span class="h3">Análisis de conversión por categoría</span>
         <p class="h4 mt-3">Tasas de conversión</p>
         <div class="row">
             <div *ngFor="let stat of conversionByCategories" class="col-lg-4 mb-2">
@@ -139,40 +139,43 @@
         <div class="pills-container">
             <ul class="nav nav-pills nav-fill">
                 <li class="nav-item">
-                    <a class="nav-link p-2" [ngClass]="{'active': selectedTab3 === 1}" (click)="selectedTab3 = 1">PS</a>
+                    <a class="nav-link p-2" [ngClass]="{'active': selectedTab3 === 1}"
+                        (click)="getDataByCategory(1)">PS</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link p-2" [ngClass]="{'active': selectedTab3 === 2}" (click)="selectedTab3 = 2">HW
+                    <a class="nav-link p-2" [ngClass]="{'active': selectedTab3 === 2}" (click)="getDataByCategory(2)">HW
                         Print</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link p-2" [ngClass]="{'active': selectedTab3 === 3}"
-                        (click)="selectedTab3 = 3">Supplies</a>
+                        (click)="getDataByCategory(3)">Supplies</a>
                 </li>
             </ul>
         </div>
         <div class="row">
-            <div class="col-12 col-xl-5 mt-4">
+            <div class="col-12 mt-4">
                 <div class="card height-fluid superimposed">
                     <div class="card-header">
                         <span class="h4">Conversiones por producto</span>
                     </div>
                     <div class="card-body">
                         <app-chart-bar-horizontal [data]="transactionsByProduct" name="omnichat-transactions-by-product"
-                            category="product" value="transactions" [truncateLabels]="true"
-                            [showCategoryInToolip]="true" [singleColorBars]="true">
+                            category="product" value="transactions" [singleColorBars]="true">
                         </app-chart-bar-horizontal>
+                        <small class="text-muted mt-2 d-block d-sm-none">
+                            Para mejor visualización usar la versión de <strong>Escritorio</strong>
+                        </small>
                     </div>
                 </div>
             </div>
-            <div class="col-12 col-xl-7 mt-4">
+            <div class="col-12 mt-4">
                 <div class="card height-fluid">
                     <div class="card-header">
                         <span class="h4">Usuarios, Conversiones y Tasa de conversión por fecha</span>
                     </div>
                     <div class="card-body">
                         <div class="chart-legend mt-0 mb-2">
-                            <div class="legend-container">
+                            <div class="legend-container legend-right">
                                 <div class="legend-square color-1"></div>
                                 <div class="legend-label">Usuarios</div>
                             </div>
@@ -193,6 +196,13 @@
                     </div>
                 </div>
             </div>
+
+            <!-- <div class="col-12 mt-4">
+                <app-generic-table [displayedColumns]="categoriesAndUsersColumns" [tableData]="categoriesAndUsers2"
+                    [tableDataChange]="categoriesAndUsers2.data" errorMsg="Error al consultar datos"
+                    emptyDataMsg="No se encontraron datos">
+                </app-generic-table>
+            </div> -->
 
             <!-- CATEGORY AND USERS TABLE -->
             <div class="col-12 mt-4">
@@ -345,6 +355,7 @@
                     </ul>
                 </div>
             </div>
+
             <!-- devices -->
             <div class="col-12 col-md-6 mt-4">
                 <div class="card">
@@ -352,9 +363,32 @@
                         <span class="h4">{{selectedTab4 === 1 ? 'Tráfico' : 'Conversiones'}} por dispositivos</span>
                     </div>
                     <div class="card-body">
-                        <app-chart-pictorial [data]="trafficAndSales['device']" name="omnichat-devices" category="name"
-                            iconType="monitor" [status]="trafficSalesReqStatus[0].reqStatus" height="280px">
-                        </app-chart-pictorial>
+                        <div class="row">
+                            <div class="col-12 col-xl-6 mt-5 mt-xl-0">
+                                <div class="chart-legend legend-center mt-0">
+                                    <div class="legend-container">
+                                        <div class="legend-square on color-4"></div>
+                                        <div class="legend-label">Desktop {{ desktopAudiences[1].value }}%</div>
+                                    </div>
+                                </div>
+                                <app-chart-pictorial [data]="desktopAudiences" name="omnichat-devices-desktop"
+                                    [uniqueDimensionConf]="{color: '#67B6DC'}" category="name" iconType="monitor"
+                                    height="280px">
+                                </app-chart-pictorial>
+                            </div>
+                            <div class="col-12 col-xl-6 mt-5 mt-xl-0">
+                                <div class="chart-legend legend-center mt-0">
+                                    <div class="legend-container">
+                                        <div class="legend-square on color-5"></div>
+                                        <div class="legend-label">Mobile {{ mobileAudiences[1].value }}%</div>
+                                    </div>
+                                </div>
+                                <app-chart-pictorial [data]="mobileAudiences" name="omnichat-devices-mobile"
+                                    [uniqueDimensionConf]="{color: '#6794DC'}" category="name" iconType="cellphone"
+                                    height="280px">
+                                </app-chart-pictorial>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -366,9 +400,33 @@
                         <span class="h4">{{selectedTab4 === 1 ? 'Tráfico' : 'Conversiones'}} por Género</span>
                     </div>
                     <div class="card-body">
-                        <app-chart-pictorial [data]="trafficAndSales['gender']" name="omnichat-gender" category="name"
-                            iconType="man" [status]="trafficSalesReqStatus[1].reqStatus" height="280px">
-                        </app-chart-pictorial>
+                        <div class="row">
+                            <div class="col-12 col-xl-6 mt-5 mt-xl-0">
+                                <div class="chart-legend legend-center mt-0">
+                                    <div class="legend-container">
+                                        <div class="legend-square on color-4"></div>
+                                        <div class="legend-label">Hombres {{ menAudiences[1].value }}%</div>
+                                    </div>
+                                </div>
+                                <app-chart-pictorial [data]="menAudiences" name="omnichat-gender-man"
+                                    [uniqueDimensionConf]="{color: '#67B6DC'}" category="name" iconType="man"
+                                    height="280px">
+                                </app-chart-pictorial>
+                            </div>
+
+                            <div class="col-12 col-xl-6 mt-5 mt-xl-0">
+                                <div class="chart-legend legend-center mt-0">
+                                    <div class="legend-container">
+                                        <div class="legend-square on color-5"></div>
+                                        <div class="legend-label">Mujeres {{ womenAudiences[1].value }}%</div>
+                                    </div>
+                                </div>
+                                <app-chart-pictorial [data]="womenAudiences" name="omnichat-gender-woman"
+                                    [uniqueDimensionConf]="{color: '#6794DC'}" category="name" iconType="woman"
+                                    height="280px">
+                                </app-chart-pictorial>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -463,26 +521,6 @@
                         </app-chart-lollipop>
                     </div>
                 </div>
-            </div>
-        </div>
-    </div>
-</div>
-<hr>
-
-<!-- HISTORICO DE CHATS -->
-<div class="row mt-5">
-    <div class="col-12 mb-3">
-        <span class="h3">Histórico de chats</span>
-    </div>
-    <div class="col-12">
-        <div class="card">
-            <div class="card-header">
-                <span class="h4">Sesiones vs Conversiones</span>
-            </div>
-            <div class="card-body">
-                <app-chart-multiple-axes [data]="sessionsAndConversions" valueName1="Sesiones" valueName2="Conversiones"
-                    value1="sessions" value2="conversions" name="omnichat-sessions-vs-conversions">
-                </app-chart-multiple-axes>
             </div>
         </div>
     </div>
