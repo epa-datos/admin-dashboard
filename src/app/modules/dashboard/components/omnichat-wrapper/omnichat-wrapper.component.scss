@@ -42,15 +42,21 @@
 }
 
 .chart-legend {
-    align-items: center;
     display: flex;
-    justify-content: flex-end;
     padding: 0 15px;
+
+    &.legend-right {
+        justify-content: flex-end;
+    }
+
+    &.legend-center {
+        justify-content: center;
+    }
 
     .legend-container {
         align-items: center;
         display: flex;
-       
+
         .legend-square {
             border-radius: 4px;
             height: 16px;
@@ -67,6 +73,14 @@
 
             &.color-3 {
                 background-color: #FCD713;
+            }
+
+            &.color-4 {
+                background-color: #67B6DC;
+            }
+
+            &.color-5 {
+                background-color: #6794DC;
             }
         }
 
