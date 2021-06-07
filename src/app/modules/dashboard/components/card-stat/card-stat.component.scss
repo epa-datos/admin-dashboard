@@ -8,14 +8,30 @@
     
     .metric-container {
         display: grid;
-        grid-template-columns: 1fr;
         gap: 16px;
-        padding: 1rem 1.5rem;
+        grid-template-columns: 1fr;
         height: calc(100% - 24px);
+        padding: 1rem 1.5rem;
 
-        .card-title {
-            @media screen and (min-width: 1200px) and (max-width: 1328px){
+        @media screen and (min-width: 1200px) and (max-width: 1328px) {
+            grid-template-columns: 1fr;
+            .icon {
+                display: none;
+            }
+    
+            .card-title {
                 line-height: 16px;
+            }
+        }
+    
+        .metric-details {
+            align-items: center;
+            display: flex;
+            flex-wrap: wrap;
+            margin-bottom: 0;
+        
+            span {
+                display: inline-block;
             }
         }
         
@@ -40,10 +56,22 @@
         width: 100%;
     
         .submetric-data {
-            padding: 0.3rem 1.5rem;
+            align-items: center;
+            display: flex;
+            flex-wrap: wrap;
             height: 25px;
             overflow: hidden;
+            padding: 0.1rem 1.5rem;
             text-overflow: ellipsis;
+        }
+
+        .submetric-details {
+            font-size: 13px;
+            margin-bottom: 0;
+           
+            span {
+                display: inline-block;
+            }
         }
     }
 
