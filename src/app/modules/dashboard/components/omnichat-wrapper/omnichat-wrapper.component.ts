@@ -1292,38 +1292,27 @@ export class OmnichatWrapperComponent implements OnInit, OnDestroy {
     }
   }
 
+  desktopAudiences: any[] = [
+    { name: 'empty', value: 55 },
+    { id: 1, name: 'Desktop', value: 45 },
+  ];
+
+  mobileAudiences: any[] = [
+    { name: 'empty', value: 30 },
+    { id: 1, name: 'Mobile', value: 70 },
+  ];
+
+  womenAudiences: any[] = [
+    { name: 'empty', value: 55 },
+    { id: 1, name: 'woman', value: 45 },
+  ]
+
+  menAudiences: any[] = [
+    { name: 'empty', value: 30 },
+    { id: 1, name: 'men', value: 70 },
+  ];
 
   dataByUsersAndRevenue: any[] = this.trafficVsConversions;
-
-  sessionsAndConversions = [{
-    date: '2021-03-15',
-    conversions: 2816.232,
-    sessions: 35977,
-  }, {
-    date: '2021-03-16',
-    conversions: 3517.643,
-    sessions: 22677,
-  }, {
-    date: '2021-03-17',
-    conversions: 8923.765,
-    sessions: 25541,
-  }, {
-    date: '2021-03-18',
-    conversions: 6205.837,
-    sessions: 28172,
-  }, {
-    date: '2021-03-19',
-    conversions: 2326.599,
-    sessions: 26498,
-  }, {
-    date: '2021-03-20',
-    conversions: 3585.788,
-    sessions: 43770,
-  }, {
-    date: '2021-03-21',
-    conversions: 4850.785,
-    sessions: 40874,
-  }];
 
   // *************************
 
@@ -1345,14 +1334,14 @@ export class OmnichatWrapperComponent implements OnInit, OnDestroy {
   retailerView: boolean;
 
   chartsReqStatus = {
-    countries: 0,
-    retailers: 0,
-    categories: 0
+    countries: 2,
+    retailers: 2,
+    categories: 2
   }
 
-  countries: any[] = [];
-  retailers: any[] = [];
-  categories: any[] = [];
+  countries: any[] = this.chatsByCountry;
+  retailers: any[] = this.chatsByRetailer;
+  categories: any[] = this.chatsByCategories;
 
 
   categoriesAndUsersColumns: TableItem[] = [
@@ -1441,8 +1430,6 @@ export class OmnichatWrapperComponent implements OnInit, OnDestroy {
   categoryAndUsersSource = new MatTableDataSource<any>(this.categoryAndUsers);
   categoryAndUsersReqStatus = 2;
 
-
-
   constructor(
     private router: Router,
     private appStateService: AppStateService,
@@ -1457,7 +1444,7 @@ export class OmnichatWrapperComponent implements OnInit, OnDestroy {
 
     if (this.countryID || this.retailerID || this.latamView) {
       this.getActiveView();
-      this.getAllData();
+      // this.getAllData();
     }
 
     this.routeSub = this.router.events.pipe(
@@ -1481,7 +1468,6 @@ export class OmnichatWrapperComponent implements OnInit, OnDestroy {
   }
 
   getAllData() {
-    console.log('getAllData')
     this.getCountries('traffic');
     this.getCategories('traffic');
   }
