@@ -5,26 +5,28 @@
                 <p class="card-title text-uppercase text-muted mb-0"
                     [ngClass]="{'h4': !smallHeader, 'h5': smallHeader}">{{ stat.metricTitle }}</p>
                 <!-- content -->
-                <ng-container *ngIf="!loader">
+                <p *ngIf="!loader" class="metric-details">
                     <ng-container [ngSwitch]="stat.metricFormat">
-                        <span *ngSwitchCase="'percentage'" class="h3 font-weight-bold mb-0">
-                            {{ stat.metricValue | number : '1.2-2' }}%
-                        </span>
-                        <span *ngSwitchCase="'decimals'" class="h3 font-weight-bold mb-0">
-                            {{ stat.metricValue | number : '1.2-2' }}
-                        </span>
-                        <span *ngSwitchCase="'integer'" class="h3 font-weight-bold mb-0">
-                            {{ stat.metricValue | number : '1.0-0' }}
-                        </span>
+                        <div class="h3 font-weight-bold mb-0" [ngClass]="{'mr-1': stat.metricSymbol}">
+                            <span *ngSwitchCase="'percentage'">
+                                {{ stat.metricValue | number : '1.2-2' }}%
+                            </span>
+                            <span *ngSwitchCase="'decimals'">
+                                {{ stat.metricValue | number : '1.2-2' }}
+                            </span>
+                            <span *ngSwitchCase="'integer'">
+                                {{ stat.metricValue | number : '1.0-0' }}
+                            </span>
 
-                        <app-star-raiting *ngSwitchCase="'score'" [value]="stat.metricValue"></app-star-raiting>
+                            <app-star-raiting *ngSwitchCase="'score'" [value]="stat.metricValue"></app-star-raiting>
 
-                        <span *ngSwitchDefault class="h3 font-weight-bold mb-0">
-                            {{ stat.metricValue }}
-                        </span>
+                            <span *ngSwitchDefault class="h3 font-weight-bold mb-0">
+                                {{ stat.metricValue }}
+                            </span>
+                        </div>
                     </ng-container>
                     <span class="h3 font-weight-bold mb-0">{{ stat.metricSymbol }}</span>
-                </ng-container>
+                </p>
 
                 <!-- loader -->
                 <ng-container *ngIf="loader">
@@ -41,7 +43,7 @@
             <div class="submetric-data my-0 h5">
                 <span class="text-nowrap mr-2 text-muted text-uppercase">{{ stat.subMetricTitle }}</span>
                 <!-- content -->
-                <ng-container *ngIf="!loader">
+                <p *ngIf="!loader" class="submetric-details">
                     <ng-container [ngSwitch]="stat.subMetricFormat">
                         <span *ngSwitchCase="'percentage'" class="text-muted">
                             {{ stat.subMetricValue | number : '1.2-2' }}%
@@ -56,8 +58,8 @@
                             {{ stat.subMetricValue }}
                         </span>
                     </ng-container>
-                    <span class="text-muted">{{ stat.subMetricSymbol }}</span>
-                </ng-container>
+                    <span class="text-muted ml-2">{{ stat.subMetricSymbol }}</span>
+                </p>
 
                 <!-- loader -->
                 <ng-container *ngIf="loader">
