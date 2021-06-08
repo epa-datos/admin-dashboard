@@ -14,6 +14,7 @@ export class ChartLineComparisonComponent implements OnInit, AfterViewInit {
   @Input() value2: string = 'value2';
   @Input() status: number = 2; // 0) initial 1) load 2) ready 3) error
   @Input() errorLegend: string;
+  @Input() inputDateFormat: string; // date format in data array e.g yyyy-MM-dd HH:mm:ss | HH:mm. Char by default uses: yyyy-MM-dd
 
   chart;
   chartID;
@@ -95,6 +96,10 @@ export class ChartLineComparisonComponent implements OnInit, AfterViewInit {
     let dateAxis = chart.xAxes.push(new am4charts.DateAxis());
     dateAxis.renderer.minGridDistance = 50;
     dateAxis.renderer.labels.template.fontSize = 12;
+
+    if (this.inputDateFormat) {
+      chart.dateFormatter.inputDateFormat = this.inputDateFormat;
+    }
 
     let valueAxis = chart.yAxes.push(new am4charts.ValueAxis());
     valueAxis.renderer.labels.template.fontSize = 12;
