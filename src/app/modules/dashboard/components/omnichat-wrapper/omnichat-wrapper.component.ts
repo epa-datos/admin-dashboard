@@ -1293,8 +1293,8 @@ export class OmnichatWrapperComponent implements OnInit, OnDestroy {
   }
 
   desktopAudiences: any[] = [
-    { name: 'empty', value: 55 },
-    { id: 1, name: 'Desktop', value: 45 },
+    { name: 'empty', value: 70 },
+    { id: 1, name: 'Desktop', value: 30 },
   ];
 
   mobileAudiences: any[] = [
@@ -1308,8 +1308,8 @@ export class OmnichatWrapperComponent implements OnInit, OnDestroy {
   ]
 
   menAudiences: any[] = [
-    { name: 'empty', value: 30 },
-    { id: 1, name: 'men', value: 70 },
+    { name: 'empty', value: 45 },
+    { id: 1, name: 'men', value: 55 },
   ];
 
   dataByUsersAndRevenue: any[] = this.trafficVsConversions;
