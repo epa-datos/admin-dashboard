@@ -112,6 +112,7 @@ export class ChartBarHorizontalComponent implements OnInit, AfterViewInit {
 
     // Cursor
     chart.cursor = new am4charts.XYCursor();
+    chart.responsive.enabled = true;
   }
 
   loadChartData(chart) {
