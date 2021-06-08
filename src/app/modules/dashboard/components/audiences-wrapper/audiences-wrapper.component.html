@@ -303,7 +303,7 @@
         <div class="col-12 col-lg-6 mt-4">
             <div class="card">
                 <div class="card-header">
-                    <span class="h4">Conversiones y tráfico por día de la semana</span>
+                    <span class="h4">Conversiones y tráfico por día</span>
                 </div>
                 <div class="card-body">
                     <app-chart-line-comparison [data]="conversionsTrafficPerDay" name="conv-tra-day"
@@ -319,7 +319,7 @@
                 </div>
                 <div class="card-body">
                     <app-chart-line-comparison [data]="conversionsTrafficPerHour" name="conv-tra-hour"
-                        valueName1="Conversiones" valueName2="Tráfico">
+                        valueName1="Conversiones" valueName2="Tráfico" inputDateFormat="HH:mm">
                     </app-chart-line-comparison>
                 </div>
             </div>
