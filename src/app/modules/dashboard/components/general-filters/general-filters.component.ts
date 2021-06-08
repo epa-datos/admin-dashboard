@@ -112,6 +112,8 @@ export class GeneralFiltersComponent implements OnInit {
 
   campsGetByRetailerChange: boolean;
 
+  currentPage: string; // overview | tools;
+
   @ViewChild('allSelectedCountries') private allSelectedCountries: MatOption;
   @ViewChild('allSelectedRetailers') private allSelectedRetailers: MatOption;
   @ViewChild('allSelectedSectors') private allSelectedSectors: MatOption;
@@ -148,14 +150,19 @@ export class GeneralFiltersComponent implements OnInit {
       this.applyFilters();
     });
 
+    this.getCurrentPage();
+
     this.routeSub = this.router.events.pipe(
       filter(event => event instanceof NavigationEnd)
     )
       .subscribe(event => {
-        if (event instanceof NavigationEnd)
+        if (event instanceof NavigationEnd) {
+          this.getCurrentPage();
+
           this.loadLatamContent().then(() => {
             this.isLatamSelected && this.applyFilters();
           });
+        }
       });
 
     this.retailerSub = this.appStateService.selectedRetailer$.subscribe(retailer => {
@@ -172,6 +179,16 @@ export class GeneralFiltersComponent implements OnInit {
       this.countryID = country?.id;
       this.restoreFilters();
     });
+  }
+
+  getCurrentPage() {
+    if (this.router.url.includes('main-region?') || this.router.url.includes('country?') || this.router.url.includes('retailer?')) {
+      this.currentPage = 'overview';
+    } else if (this.router.url.includes('tools?')) {
+      this.currentPage = 'tools';
+    } else {
+      delete this.currentPage;
+    }
   }
 
   restoreFilters() {

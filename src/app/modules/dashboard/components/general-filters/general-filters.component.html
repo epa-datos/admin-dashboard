@@ -130,7 +130,8 @@
         </div>
 
         <!-- sector -->
-        <div class="col-12 col-sm-6 mb-4" [ngClass]="{'col-lg-3' : !isLatamSelected, 'col-lg-2' : isLatamSelected}">
+        <div class="col-12 col-sm-6 mb-4" [hidden]="currentPage === 'tools'"
+            [ngClass]="{'col-lg-3' : !isLatamSelected, 'col-lg-2' : isLatamSelected}">
             <span class="mb-1 h4">Sector</span>
             <mat-select formControlName="sectors" multiple placeholder="Selecciona un Sector" disableOptionCentering>
                 <mat-select-trigger>
@@ -215,7 +216,7 @@
         </div>
 
         <!-- campaign -->
-        <div [hidden]="!retailerID" class="col-12 col-sm-6 col-lg-3 mb-4">
+        <div [hidden]="!retailerID || currentPage === 'tools'" class="col-12 col-sm-6 col-lg-3 mb-4">
             <span class="mb-1 h4">Campaña</span>
             <mat-select formControlName="campaigns" multiple placeholder="Selecciona una Campaña" disableOptionCentering
                 [disabled]="(campaignList?.length < 1 && campaignsReqStatus === 2) || campaignsErrorMsg">
@@ -272,7 +273,7 @@
         </div>
 
         <!-- source -->
-        <div [hidden]="!isLatamSelected" class="col-12 col-sm-6 col-lg-2 mb-4">
+        <div [hidden]="!isLatamSelected || currentPage === 'tools'" class="col-12 col-sm-6 col-lg-2 mb-4">
             <span class="mb-1 h4">Fuente</span>
             <mat-select formControlName="sources" multiple placeholder="Selecciona una Fuente" disableOptionCentering>
                 <mat-select-trigger>
