@@ -3,7 +3,8 @@ import { CommonModule } from '@angular/common';
 import { ModalComponent } from './components/modal/modal.component';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MaintenanceComponent } from './components/maintenance/maintenance.component';
-
+import { TranslateModule } from '@ngx-translate/core';
+import { HttpClient } from '@angular/common/http';
 
 
 @NgModule({
@@ -13,11 +14,15 @@ import { MaintenanceComponent } from './components/maintenance/maintenance.compo
   ],
   imports: [
     CommonModule,
-    MatDialogModule
+    MatDialogModule,
   ],
   exports: [
     ModalComponent,
-    MaintenanceComponent
+    MaintenanceComponent,
+    TranslateModule,
+  ],
+  providers: [
+    HttpClient
   ]
 })
 export class SharedModule { }

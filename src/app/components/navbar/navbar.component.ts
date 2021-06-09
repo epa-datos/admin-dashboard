@@ -6,6 +6,7 @@ import { AppStateService } from 'src/app/services/app-state.service';
 import { Subscription } from 'rxjs';
 import { NavigationEnd, Router } from '@angular/router';
 import { filter } from 'rxjs/operators';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-navbar',
@@ -37,16 +38,24 @@ export class NavbarComponent implements OnInit, OnDestroy {
   countryInit: boolean = true;
   retailerInit: boolean = true;
 
+  lang;
+
   constructor(
     location: Location,
     private userService: UserService,
     private appStateService: AppStateService,
     private router: Router,
+    private translate: TranslateService
   ) {
     this.location = location;
+
+    translate.setDefaultLang('es');
+    translate.use(localStorage.getItem('lang') || 'es');
+    this.appStateService.selectLang(localStorage.getItem('lang') || 'es');
   }
 
   ngOnInit() {
+    this.lang = localStorage.getItem('lang') || 'es';
     this.user = this.userService.user;
 
     this.newRetailer = this.appStateService.selectedRetailer;
@@ -163,6 +172,13 @@ export class NavbarComponent implements OnInit, OnDestroy {
 
   logout() {
     this.userService.logout();
+  }
+
+  changeLang(lang) {
+    this.lang = lang;
+    localStorage.setItem('lang', lang);
+    this.translate.use(localStorage.getItem('lang') || 'es');
+    this.appStateService.selectLang(lang);
   }
 
   ngOnDestroy() {

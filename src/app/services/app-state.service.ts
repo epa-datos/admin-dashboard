@@ -25,6 +25,11 @@ export class AppStateService {
   selectedRetailer$ = this.retailerSource.asObservable();
   selectedRetailer;
 
+  // selected language
+  private langSource = new Subject<string>();
+  selectedLang$ = this.langSource.asObservable();
+  selectedLang: string;
+
   constructor() { }
 
   selectMainRegion(mainRegion?) {
@@ -59,5 +64,10 @@ export class AppStateService {
 
   updateSidebarData(data) {
     this.sidebarSource.next(data);
+  }
+
+  selectLang(lang) {
+    this.langSource.next(lang);
+    this.selectedLang = lang;
   }
 }
