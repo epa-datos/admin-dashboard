@@ -13,7 +13,41 @@
         "feelingsAnalysis": "Análisis de sentimientos Omnichat"
     },
     "overviewLatam": {
+        "chart1CardTitle1": "Inversión en ",
+        "chart1CardTitle2": "Sectores",
+        "chart1CardTitle3": "Categorías",
+        "chart1CardTitle4": " por País",
+        "chart2CardTitle1": " por Dispositivos",
+        "chart3CardTitle1": " por Género",
+        "chart4CardTitle1": " por Edad",
+        "chart5CardTitle1": " por Género y Edad",
+        "chart7CardTitle1": "Inversión vs Revenue",
         "chart7ValueName1": "Inversión",
-        "chart7ValueName2": "Revenue"
+        "chart7ValueName2": "Revenue",
+        "table1CardTitle1": "Top Productos"
+    },
+    "kpis": {
+        "investment": "inversión",
+        "transactions": "transacciones"
+    },
+    "general": {
+        "sector": "Sector",
+        "category": "Categoría",
+        "source": "Medio",
+        "traffic": "Tráfico",
+        "sales": "Ventas",
+        "users": "Usuarios",
+        "ranking": "Ranking",
+        "product": "Producto",
+        "amount": "Catindad",
+        "institutional": "Institucional",
+        "others": "Otros",
+        "errorData": "Error al consultar datos",
+        "withoutData": "Sin datos disponibles",
+        "withoutData2": "Muestra insuficiente"
+    },
+    "others": {
+        "by": "por",
+        "all": "todo"
     }
 }
