@@ -10,7 +10,39 @@
         "overviewCountry": "Visión general del país",
         "overviewRetailer": "Visión general del retailer",
         "otherTools": "Otras herramientas",
-        "feelingsAnalysis": "Análisis de sentimientos Omnichat"
+        "feelingsAnalysis": "Análisis de sentimientos Omnichat",
+        "campaignComparator": "Comparador de campaña",
+        "settings": "Configuración",
+        "manager": "Administrador",
+        "activityRegister": "Registro de actividad"
+    },
+    "filters": {
+        "country": "País",
+        "countryPh": "Selecciona un País",
+        "countrySearchPh": "Buscar País",
+        "countryError1": "Error al consultar países",
+        "retailerPh": "Selecciona un Retailer",
+        "retailerSearchPh": "Buscar Retailer",
+        "retailerError1": "Selecciona al menos un Retailer",
+        "retailerError2": "Error al consultar retailers",
+        "period": "Período",
+        "periodPh1": "Fecha inicio",
+        "periodPh2": "Fecha fin",
+        "periodError1": "Fecha inicio inválida",
+        "periodError2": "Fecha fin inválida",
+        "sectorPh": "Selecciona un Sector",
+        "sectorError1": "Selecciona al menos un Sector",
+        "sectorError2": "Error al consultar sectores",
+        "categoryPh": "Selecciona una Categoría",
+        "categoryError1": "Selecciona al menos una Categoría",
+        "categoryError2": "Error al consultar categorías",
+        "campaignPh": "Selecciona una Campaña",
+        "campaignSearchPh": "Buscar Campaña",
+        "campaignError1": "No existen campañas para el Periodo, Sectores y Categorías seleccionados",
+        "campaignError2": "Error al consultar campañas",
+        "sourcePh": "Selecciona una Fuente",
+        "sourceError1": "Selecciona al menos una Fuente",
+        "filter": "Filtrar"
     },
     "overviewLatam": {
         "chart1CardTitle1": "Inversión en ",
@@ -31,9 +63,11 @@
         "transactions": "transacciones"
     },
     "general": {
+        "coop": "Programa COOP",
         "sector": "Sector",
         "category": "Categoría",
-        "source": "Medio",
+        "source": "Fuente",
+        "campaign": "Campaña",
         "traffic": "Tráfico",
         "sales": "Ventas",
         "users": "Usuarios",
@@ -48,6 +82,15 @@
     },
     "others": {
         "by": "por",
-        "all": "todo"
+        "all": "todo",
+        "allPluralM": "todos",
+        "allPluralF": "todas",
+        "otherSingularM": "otro",
+        "otherSingularF": "otra",
+        "otherPluralM": "otros",
+        "otherPluralF": "otras",
+        "only": "solamente",
+        "men": "Hombres",
+        "women": "Mujeres"
     }
 }

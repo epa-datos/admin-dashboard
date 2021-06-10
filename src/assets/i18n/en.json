@@ -10,7 +10,39 @@
         "overviewCountry": "Country overview",
         "overviewRetailer": "Retailer overview",
         "otherTools": "Other tools",
-        "feelingsAnalysis": "Feelings Analysis Omnichat"
+        "feelingsAnalysis": "Feelings Analysis Omnichat",
+        "campaignComparator": "Campaign comparator",
+        "settings": "Settings",
+        "manager": "Manage",
+        "activityRegister": "Activity Register"
+    },
+    "filters": {
+        "country": "Country",
+        "countryPh": "Select a Country",
+        "countrySearchPh": "Search Country",
+        "countryError1": "Error when consulting countries",
+        "retailerPh": "Select a Retailer",
+        "retailerSearchPh": "Search Retailer",
+        "retailerError1": "Select at least one Retailer",
+        "retailerError2": "Error when consulting retailers",
+        "period": "Period",
+        "periodPh1": "Start date",
+        "periodPh2": "End date",
+        "periodError1": "Invalid start date",
+        "periodError2": "Invalid end date",
+        "sectorPh": "Select a sector",
+        "sectorError1": "Select at least one Sector",
+        "sectorError2": "Error when consulting sectors",
+        "categoryPh": "Select a Category",
+        "categoryError1": "Select at least one Category",
+        "categoryError2": "Error when consulting categories",
+        "campaignPh": "Select a campaign",
+        "campaignSearchPh": "Search Campaign",
+        "campaignError1": "There aren't campaigns for the selected Period, Sectors and Categories",
+        "campaignError2": "Error when consulting campaigns",
+        "sourcePh": "Select a Source",
+        "sourceError1": "Select at least one Source",
+        "filter": "Filter"
     },
     "overviewLatam": {
         "chart1CardTitle1": "Investment in ",
@@ -31,6 +63,7 @@
         "transactions": "transactions"
     },
     "general": {
+        "coop": "COOP Program",
         "sector": "Sector",
         "category": "Category",
         "source": "Source",
@@ -48,6 +81,15 @@
     },
     "others": {
         "by": "by",
-        "all": "all"
+        "all": "all",
+        "allPluralM": "all",
+        "allPluralF": "all",
+        "otherSingularM": "another",
+        "otherSingularF": "another",
+        "otherPluralM": "others",
+        "otherPluralF": "others",
+        "only": "only",
+        "men": "Men",
+        "women": "Women"
     }
 }
