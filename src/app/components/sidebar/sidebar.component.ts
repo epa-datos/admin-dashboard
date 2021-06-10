@@ -66,49 +66,6 @@ export class SidebarComponent implements OnInit, OnDestroy {
     });
   }
 
-  loadI18nMenuItems(menuItems) {
-    if (!menuItems) {
-      return;
-    }
-    for (let item of menuItems) {
-      this.loadTitles(item);
-      if (item.submenu) {
-        this.loadI18nMenuItems(item.submenu)
-      }
-    }
-  }
-
-  loadTitles(item) {
-    const path = item.path?.split('/dashboard/')[1];
-
-    if (!path) {
-      return;
-    }
-
-    switch (path) {
-      case 'main-region':
-      case 'country':
-      case 'retailer':
-        item.title = this.translate.instant('general.coop');
-        break;
-      case 'tools':
-        item.title = this.translate.instant('dashboard.otherTools');
-        break;
-      case 'omnichat':
-        item.title = this.translate.instant('dashboard.feelingsAnalysis');
-        break;
-      case 'campaign-comparator':
-        item.title = this.translate.instant('dashboard.campaignComparator');
-        break;
-      case 'users':
-        item.title = this.translate.instant('general.users');
-        break;
-      case 'users/activity-register':
-        item.title = this.translate.instant('dashboard.activityRegister');
-        break;
-    }
-  }
-
   async ngOnInit() {
     this.userIsAdmin = this.userService.isAdmin();
     this.userRole = this.userService.user.role_name;
@@ -140,7 +97,6 @@ export class SidebarComponent implements OnInit, OnDestroy {
       } else if (this.userRole === 'retailer') {
         const newMenuItems = await this.getAvailableRetailers();
         this.menuItems = [... this.menuItems, ...newMenuItems];
-        this.loadI18nMenuItems(this.menuItems);
       }
       this.menuReqStatus = 2;
 
@@ -158,6 +114,7 @@ export class SidebarComponent implements OnInit, OnDestroy {
 
     // Admin routes
     const menuItem2 = {
+      id: 'admin',
       title: this.translate.instant('dashboard.manager'),
       submenu: [
         {
@@ -433,13 +390,13 @@ export class SidebarComponent implements OnInit, OnDestroy {
         menuItems = retailers.map(item => {
           const submenu = [
             {
-              title: 'Programa COOP',
+              title: this.translate.instant('general.coop'),
               path: '/dashboard/retailer',
               paramName: 'retailer',
               param: item.name.toLowerCase().replaceAll(' ', '-')
             },
             {
-              title: 'Otras herramientas',
+              title: this.translate.instant('dashboard.otherTools'),
               path: '/dashboard/tools',
               paramName: 'retailer',
               param: item.name.toLowerCase().replaceAll(' ', '-')
@@ -533,7 +490,7 @@ export class SidebarComponent implements OnInit, OnDestroy {
 
     item.path && this.redirectToSelectedItem(item);
 
-    if (!item.isParentOf && item.title.toLowerCase() !== 'latam') {
+    if (!item.isParentOf && item.title.toLowerCase() !== 'latam' && item.id !== 'admin') {
       this.emitNewSelection(item);
     }
   }
@@ -665,6 +622,53 @@ export class SidebarComponent implements OnInit, OnDestroy {
 
   logout() {
     this.userService.logout();
+  }
+
+  loadI18nMenuItems(menuItems) {
+    if (!menuItems) {
+      return;
+    }
+    for (let item of menuItems) {
+      this.loadTitles(item);
+      if (item.submenu) {
+        this.loadI18nMenuItems(item.submenu)
+      }
+
+      if (item.id === 'admin') {
+        item.title = this.translate.instant('dashboard.manager');
+      }
+    }
+  }
+
+  loadTitles(item) {
+    const path = item.path?.split('/dashboard/')[1];
+
+    if (!path) {
+      return;
+    }
+
+    switch (path) {
+      case 'main-region':
+      case 'country':
+      case 'retailer':
+        item.title = this.translate.instant('general.coop');
+        break;
+      case 'tools':
+        item.title = this.translate.instant('dashboard.otherTools');
+        break;
+      case 'omnichat':
+        item.title = this.translate.instant('dashboard.feelingsAnalysis');
+        break;
+      case 'campaign-comparator':
+        item.title = this.translate.instant('dashboard.campaignComparator');
+        break;
+      case 'users':
+        item.title = this.translate.instant('general.users');
+        break;
+      case 'users/activity-register':
+        item.title = this.translate.instant('dashboard.activityRegister');
+        break;
+    }
   }
 
   ngOnDestroy() {
