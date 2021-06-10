@@ -3,15 +3,17 @@
 
         <!-- country -->
         <div [hidden]="!isLatamSelected" class="col-12 col-sm-6 col-lg-2 mb-4">
-            <span class="mb-1 h4">País</span>
-            <mat-select formControlName="countries" multiple placeholder="Selecciona un País" disableOptionCentering>
+            <span class="mb-1 h4">{{ 'filters.country' | translate }}</span>
+            <mat-select formControlName="countries" multiple [placeholder]="'filters.countryPh' | translate"
+                disableOptionCentering>
                 <div class="input-group input-group-alternative mb-1">
                     <div class="input-group-prepend">
                         <span class="input-group-text"><i class="fas fa-search"></i></span>
                     </div>
                     <input class="form-control" [(ngModel)]="countryFilter" matInput type="text"
-                        (keyup)="filterFromList('countries', 'country', $event.target.value)" placeholder="Buscar País"
-                        [ngModelOptions]="{standalone: true}" (keydown.space)="$event.stopPropagation()">
+                        (keyup)="filterFromList('countries', 'country', $event.target.value)"
+                        [placeholder]="'filters.countrySearchPh' | translate" [ngModelOptions]="{standalone: true}"
+                        (keydown.space)="$event.stopPropagation()">
                 </div>
                 <mat-select-trigger>
                     <div class="select-value-container">
@@ -23,14 +25,15 @@
                             : ''}}
                         </span>
                         <span *ngIf="countriesCounter > 1" class="example-additional-selection ml-1">
-                            (+ {{countriesCounter === 2 ? 'otro' : 'otros' }}
+                            (+
+                            {{ (countriesCounter === 2 ? 'others.otherSingularM' : 'others.otherPluralM') | translate }}
                             {{ countriesCounter === 2 ? '' : countriesCounter - 1 }} )
                         </span>
                     </div>
                 </mat-select-trigger>
                 <mat-option #allSelectedCountries [value]="0" class="font-weight-bold"
                     (click)="toggleAllSelection('countries', 'country'); selectAllComplementaryFilter('retailers')">
-                    Todos
+                    {{ 'others.allPluralM' | translate | titlecase }}
                 </mat-option>
                 <ng-container *ngFor="let country of countryList">
                     <mat-option class="mat-option-container" [hidden]="country.hidden" [value]="country"
@@ -38,7 +41,7 @@
                         <span class="option-name">{{ country.name }}</span>
                         <button type="button" class="btn btn-sm btn-secondary"
                             (click)="uniqueSelection('countries', 'country', country); selectOnlyComplementaryFilter('retailers', country)">
-                            Solamente
+                            {{ 'others.only' | translate | titlecase }}
                         </button>
                     </mat-option>
                 </ng-container>
@@ -47,15 +50,15 @@
             <!-- <small class="text-danger" *ngIf="countries?.value?.length < 1 && countries.touched">
                 Selecciona al menos un País
             </small> -->
-            <small class="text-danger" *ngIf="countriesErrorMsg">
-                {{ countriesErrorMsg }}
+            <small class="text-danger" *ngIf="countriesError">
+                {{ 'filters.countryError1' | translate }}
             </small>
         </div>
 
         <!-- retailer -->
         <div [hidden]="!isLatamSelected" class="col-12 col-sm-6 col-lg-2 mb-4">
             <span class="mb-1 h4">Retailer</span>
-            <mat-select formControlName="retailers" multiple placeholder="Selecciona un Retailer"
+            <mat-select formControlName="retailers" multiple [placeholder]="'filters.retailerPh' | translate"
                 disableOptionCentering>
                 <div class="input-group input-group-alternative mb-1">
                     <div class="input-group-prepend">
@@ -63,7 +66,7 @@
                     </div>
                     <input class="form-control" [(ngModel)]="retailerFilter" matInput type="text"
                         (keyup)="filterFromList('retailers', 'retailer', $event.target.value)"
-                        placeholder="Buscar Retailer" [ngModelOptions]="{standalone: true}"
+                        [placeholder]="'filters.retailerSearchPh' | translate" [ngModelOptions]="{standalone: true}"
                         (keydown.space)="$event.stopPropagation()">
                 </div>
                 <mat-select-trigger>
@@ -78,7 +81,8 @@
                             }}
                         </span>
                         <span *ngIf="retailersCounter > 1" class="example-additional-selection ml-1">
-                            (+ {{ retailersCounter === 2 ? 'otro' : 'otros' }}
+                            (+
+                            {{ (retailersCounter === 2 ? 'others.otherSingularM' : 'others.otherPluralM') | translate }}
                             {{ retailersCounter === 2 ? '' : retailersCounter - 1 }} )
                         </span>
                     </div>
@@ -86,7 +90,7 @@
                 <mat-option #allSelectedRetailers
                     (click)="toggleAllSelection('retailers', 'retailer'); selectAllComplementaryFilter('countries')"
                     [value]="0" class="font-weight-bold">
-                    Todos
+                    {{ 'others.allPluralM' | translate | titlecase }}
                 </mat-option>
                 <ng-container *ngFor="let retailer of retailerList">
                     <mat-option class="mat-option-container" [hidden]="retailer.hidden" [value]="retailer"
@@ -94,37 +98,37 @@
                         <span class="option-name">{{ retailer.name }}</span>
                         <button type="button" class="btn btn-sm btn-secondary"
                             (click)="uniqueSelection('retailers', 'retailer', retailer); selectOnlyComplementaryFilter('countries', retailer)">
-                            Solamente
+                            {{ 'others.only' | translate | titlecase }}
                         </button>
                     </mat-option>
                 </ng-container>
 
             </mat-select>
             <small class="text-danger" *ngIf="retailers?.value?.length < 1 && (retailers.touched || countries.touched)">
-                Selecciona al menos un Retailer
+                {{ 'filters.retailerError1' | translate }}
             </small>
-            <small class="text-danger" *ngIf="retailersErrorMsg">
-                {{ retailersErrorMsg }}
+            <small class="text-danger" *ngIf="retailersError">
+                {{ 'filters.retailerError2' | translate }}
             </small>
         </div>
 
         <!-- period -->
         <div class="col-12 col-sm-6 mb-4" [ngClass]="{'col-lg-3' : !isLatamSelected, 'col-lg-2' : isLatamSelected}">
             <div class="date-picker">
-                <span class="mb-1 h4">Período</span>
+                <span class="mb-1 h4">{{ 'filters.period' | translate }}</span>
                 <mat-form-field appearance="fill">
                     <mat-date-range-input [rangePicker]="picker">
-                        <input matStartDate formControlName="startDate" placeholder="Fecha inicio">
-                        <input matEndDate formControlName="endDate" placeholder="Fecha fin">
+                        <input matStartDate formControlName="startDate" [placeholder]="'filters.periodPh1' | translate">
+                        <input matEndDate formControlName="endDate" [placeholder]="'filters.periodPh2' | translate">
                     </mat-date-range-input>
                     <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
                     <mat-date-range-picker #picker></mat-date-range-picker>
                 </mat-form-field>
                 <small class="text-danger" *ngIf="!startDate.valid && startDate.touched">
-                    Fecha inicio inválida
+                    {{ 'filters.periodError1' | translate }}
                 </small>
                 <small class="text-danger" *ngIf="!endDate.valid && endDate.touched">
-                    Fecha fin inválida
+                    {{ 'filters.periodError2' | translate }}
                 </small>
             </div>
         </div>
@@ -132,8 +136,9 @@
         <!-- sector -->
         <div class="col-12 col-sm-6 mb-4" [hidden]="currentPage === 'tools'"
             [ngClass]="{'col-lg-3' : !isLatamSelected, 'col-lg-2' : isLatamSelected}">
-            <span class="mb-1 h4">Sector</span>
-            <mat-select formControlName="sectors" multiple placeholder="Selecciona un Sector" disableOptionCentering>
+            <span class="mb-1 h4">{{ 'general.sector' | translate }}</span>
+            <mat-select formControlName="sectors" multiple [placeholder]="'filters.sectorPh' | translate"
+                disableOptionCentering>
                 <mat-select-trigger>
                     <div class="select-value-container">
                         <span class="select-value">
@@ -146,36 +151,37 @@
                             }}
                         </span>
                         <span *ngIf="sectorsCounter > 1" class="example-additional-selection ml-1">
-                            (+ {{ sectorsCounter === 2 ? 'otro' : 'otros' }}
+                            (+
+                            {{ (sectorsCounter === 2 ? 'others.otherSingularM' : 'others.otherPluralM') | translate }}
                             {{ sectorsCounter === 2 ? '' : sectorsCounter - 1 }} )
                         </span>
                     </div>
                 </mat-select-trigger>
                 <mat-option #allSelectedSectors (click)="toggleAllSelection('sectors','sector')" [value]="0"
                     class="font-weight-bold">
-                    Todos
+                    {{ 'others.allPluralM' | translate | titlecase }}
                 </mat-option>
                 <mat-option class="mat-option-container" *ngFor="let sector of sectorList" [value]="sector"
                     (click)="tosslePerOne('allSelectedSectors', 'sectors', 'sectorList')">
                     <span class="option-name">{{ sector.name }}</span>
                     <button type="button" class="btn btn-sm btn-secondary"
                         (click)="uniqueSelection('sectors', 'sector', sector)">
-                        Solamente
+                        {{ 'others.only' | translate | titlecase }}
                     </button>
                 </mat-option>
             </mat-select>
             <small class="text-danger" *ngIf="sectors?.value?.length < 1 && sectors.touched">
-                Selecciona al menos un Sector
+                {{ 'filters.sectorError1' | translate }}
             </small>
-            <small class="text-danger" *ngIf="sectorsErrorMsg">
-                {{ sectorsErrorMsg }}
+            <small class="text-danger" *ngIf="sectorsError">
+                {{ 'filters.sectorError2' | translate }}
             </small>
         </div>
 
         <!-- category -->
         <div class="col-12 col-sm-6 mb-4" [ngClass]="{'col-lg-3' : !isLatamSelected, 'col-lg-2' : isLatamSelected}">
-            <span class="mb-1 h4">Categoría</span>
-            <mat-select formControlName="categories" multiple placeholder="Selecciona una Categoría"
+            <span class="mb-1 h4">{{ 'general.category' | translate }}</span>
+            <mat-select formControlName="categories" multiple [placeholder]="'filters.categoryPh' | translate"
                 disableOptionCentering>
                 <mat-select-trigger>
                     <div class="select-value-container">
@@ -189,44 +195,47 @@
                             }}
                         </span>
                         <span *ngIf="categoriesCounter > 1" class="example-additional-selection ml-1">
-                            (+ {{ categoriesCounter === 2 ? 'otra' : 'otras' }}
+                            (+
+                            {{ (categoriesCounter === 2 ? 'others.otherSingularF' : 'others.otherPluralF') | translate
+                            }}
                             {{ categoriesCounter === 2 ? '' : categoriesCounter - 1 }} )
                         </span>
                     </div>
                 </mat-select-trigger>
                 <mat-option #allSelectedCategories (click)="toggleAllSelection('categories', 'category')" [value]="0"
                     class="font-weight-bold">
-                    Todas
+                    {{ 'others.allPluralF' | translate | titlecase}}
                 </mat-option>
                 <mat-option class="mat-option-container" *ngFor="let category of categoryList" [value]="category"
                     (click)="tosslePerOne('allSelectedCategories', 'categories', 'categoryList')">
                     <span class="option-name">{{ category.name }}</span>
                     <button type="button" class="btn btn-sm btn-secondary"
                         (click)="uniqueSelection('categories', 'category', category)">
-                        Solamente
+                        {{ 'others.only' | translate | titlecase }}
                     </button>
                 </mat-option>
             </mat-select>
             <small class="text-danger" *ngIf="categories?.value?.length < 1 && categories.touched">
-                Selecciona al menos una Categoría
+                {{ 'filters.categoryError1' | translate }}
             </small>
-            <small class="text-danger" *ngIf="categoriesErrorMsg">
-                {{ categoriesErrorMsg }}
+            <small class="text-danger" *ngIf="categoriesError">
+                {{ 'filters.categoryError2' | translate }}
             </small>
         </div>
 
         <!-- campaign -->
         <div [hidden]="!retailerID || currentPage === 'tools'" class="col-12 col-sm-6 col-lg-3 mb-4">
-            <span class="mb-1 h4">Campaña</span>
-            <mat-select formControlName="campaigns" multiple placeholder="Selecciona una Campaña" disableOptionCentering
-                [disabled]="(campaignList?.length < 1 && campaignsReqStatus === 2) || campaignsErrorMsg">
+            <span class="mb-1 h4">{{ 'general.campaign' | translate }}</span>
+            <mat-select formControlName="campaigns" multiple [placeholder]="'filters.campaignPh' | translate"
+                disableOptionCentering
+                [disabled]="(campaignList?.length < 1 && campaignsReqStatus === 2) || campaignsError">
                 <div class="input-group input-group-alternative mb-1">
                     <div class="input-group-prepend">
                         <span class="input-group-text"><i class="fas fa-search"></i></span>
                     </div>
                     <input class="form-control" [(ngModel)]="campaignFilter" matInput type="text"
                         (keyup)="filterFromList('campaigns', 'campaign', $event.target.value)"
-                        placeholder="Buscar Campaña" [ngModelOptions]="{standalone: true}"
+                        [placeholder]="'filters.campaignSearchPh' | translate" [ngModelOptions]="{standalone: true}"
                         (keydown.space)="$event.stopPropagation()">
                 </div>
                 <mat-select-trigger>
@@ -241,14 +250,15 @@
                             }}
                         </span>
                         <span *ngIf="campaignsCounter > 1" class="example-additional-selection ml-1">
-                            (+ {{ campaignsCounter === 2 ? 'otra' : 'otras' }}
+                            (+
+                            {{ (campaignsCounter === 2 ? 'others.otherSingularF' : 'others.otherPluralF') | translate }}
                             {{ campaignsCounter === 2 ? '' : campaignsCounter - 1 }} )
                         </span>
                     </div>
                 </mat-select-trigger>
                 <mat-option #allSelectedCampaigns (click)="toggleAllSelection('campaigns', 'campaign')" [value]="0"
                     class="font-weight-bold">
-                    Todas
+                    {{ 'others.allPluralF' | translate | titlecase}}
                 </mat-option>
                 <ng-container *ngFor="let campaign of campaignList">
                     <mat-option class="mat-option-container" [hidden]="campaign.hidden" [value]="campaign"
@@ -259,23 +269,24 @@
                         </span>
                         <button type="button" class="btn btn-sm btn-secondary"
                             (click)="uniqueSelection('campaigns', 'campaign', campaign)">
-                            Solamente
+                            {{ 'others.only' | translate | titlecase }}
                         </button>
                     </mat-option>
                 </ng-container>
             </mat-select>
             <small class="text-muted mt-1" *ngIf="campaignList?.length < 1 && campaignsReqStatus === 2">
-                No existen campañas para el Periodo, Sectores y Categorías seleccionados
+                {{ 'filters.campaignError1' | translate }}
             </small>
-            <small class="text-danger" *ngIf="campaignsErrorMsg">
-                {{ campaignsErrorMsg }}
+            <small class="text-danger" *ngIf="campaignsError">
+                {{ 'filters.campaignError2' | translate }}
             </small>
         </div>
 
         <!-- source -->
         <div [hidden]="!isLatamSelected || currentPage === 'tools'" class="col-12 col-sm-6 col-lg-2 mb-4">
-            <span class="mb-1 h4">Fuente</span>
-            <mat-select formControlName="sources" multiple placeholder="Selecciona una Fuente" disableOptionCentering>
+            <span class="mb-1 h4">{{ 'general.source' | translate }}</span>
+            <mat-select formControlName="sources" multiple [placeholder]="'filters.sourcePh' | translate"
+                disableOptionCentering>
                 <mat-select-trigger>
                     <div class="select-value-container">
                         <span class="select-value">
@@ -288,24 +299,28 @@
                             }}
                         </span>
                         <span *ngIf="sourcesCounter > 1" class="example-additional-selection ml-1">
-                            (+ {{ sourcesCounter === 2 ? 'otra' : 'otras' }}
+                            (+
+                            {{ (sourcesCounter === 2 ? 'others.otherSingularF' : 'others.otherPluralF') | translate }}
                             {{ sourcesCounter === 2 ? '' : sourcesCounter - 1 }} )
                         </span>
                     </div>
                 </mat-select-trigger>
                 <mat-option #allSelectedSources (click)="toggleAllSelection('sources', 'source')" [value]="0"
                     class="font-weight-bold">
-                    Todas
+                    {{ 'others.allPluralF' | translate | titlecase }}
                 </mat-option>
                 <mat-option class="mat-option-container" *ngFor="let source of sourceList" [value]="source"
                     (click)="tosslePerOne('allSelectedSources', 'sources', 'sourceList')">
                     <span class="option-name">{{ source.name }}</span>
                     <button type="button" class="btn btn-sm btn-secondary"
                         (click)="uniqueSelection('sources', 'source', source)">
-                        Solamente
+                        {{ 'others.only' | translate | titlecase }}
                     </button>
                 </mat-option>
             </mat-select>
+            <small class="text-danger" *ngIf="sources?.value?.length < 1 && sources.touched">
+                {{ 'filters.sourceError1' | translate }}
+            </small>
         </div>
     </div>
 </form>
@@ -322,7 +337,7 @@
             (categories?.value?.length < 1 && categories.touched)
             " (click)="applyFilters(true)">
             <i class="fas fa-filter mr-2"></i>
-            Filtrar
+            {{ 'filters.filter' | translate }}
         </button>
     </div>
 </div>

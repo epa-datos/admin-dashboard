@@ -97,11 +97,11 @@ export class GeneralFiltersComponent implements OnInit {
 
   campaignsReqStatus: number = 0;
 
-  countriesErrorMsg: string;
-  retailersErrorMsg: string;
-  sectorsErrorMsg: string;
-  categoriesErrorMsg: string;
-  campaignsErrorMsg: string;
+  countriesError: boolean;
+  retailersError: boolean;
+  sectorsError: boolean;
+  categoriesError: boolean;
+  campaignsError: boolean;
 
   countriesCounter: number;
   retailersCounter: number;
@@ -226,7 +226,7 @@ export class GeneralFiltersComponent implements OnInit {
     let today = new Date();
     let startDate = new Date();
     let endDate = new Date();
-    let daysAgo = 15;
+    let daysAgo = 150;
 
     startDate.setDate(today.getDate() - daysAgo);
     endDate.setDate(today.getDate() - 1);
@@ -319,10 +319,10 @@ export class GeneralFiltersComponent implements OnInit {
       .toPromise()
       .then((res: any[]) => {
         this.loadCountriesData(res);
-        this.countriesErrorMsg && delete this.countriesErrorMsg;
+        this.countriesError = this.countriesError && false;
       })
       .catch((error) => {
-        this.countriesErrorMsg = 'Error al consultar países';
+        this.countriesError = true;
         console.error(`[general-filers.component]: ${error}`);
       });
   }
@@ -343,10 +343,10 @@ export class GeneralFiltersComponent implements OnInit {
         retailers.sort((a, b) => a.name.localeCompare(b.name));
 
         this.loadRetailersData(retailers);
-        this.retailersErrorMsg && delete this.retailersErrorMsg;
+        this.retailersError = this.retailersError && false;
       })
       .catch((error) => {
-        this.retailersErrorMsg = 'Error al consultar retailers';
+        this.retailersError = true;
         console.error(`[general-filers.component]: ${error}`);
       });
   }
@@ -386,10 +386,10 @@ export class GeneralFiltersComponent implements OnInit {
         this.sectors.patchValue([...this.sectorList.map(item => item), 0]);
         this.prevSectors = this.sectors.value;
 
-        this.sectorsErrorMsg && delete this.sectorsErrorMsg;
+        this.sectorsError = this.sectorsError && false;
       })
       .catch((error) => {
-        this.sectorsErrorMsg = 'Error al consultar sectores';
+        this.sectorsError = true;
         console.error(`[general-filers.component]: ${error}`);
       });
   }
@@ -405,10 +405,10 @@ export class GeneralFiltersComponent implements OnInit {
         this.categories.patchValue([...this.categoryList.map(item => item), 0]);
         this.prevCategories = this.categories.value;
 
-        this.categoriesErrorMsg && delete this.categoriesErrorMsg;
+        this.categoriesError = this.categoriesError && false;
       })
       .catch((error) => {
-        this.categoriesErrorMsg = 'Error al consultar categorías';
+        this.categoriesError = true;
         console.error(`[general-filers.component]: ${error}`);
       });
   }
@@ -429,12 +429,12 @@ export class GeneralFiltersComponent implements OnInit {
           this.campaignList = res;
           this.filteredCampaignList = res;
 
-          this.campaignsErrorMsg && delete this.campaignsErrorMsg;
+          this.campaignsError = this.campaignsError && false;
           this.campaignsReqStatus = 2;
         },
         error => {
           this.campaignList = [];
-          this.campaignsErrorMsg = 'Error al consultar campañas';
+          this.campaignsError = true;
           console.error(`[general-filers.component]: ${error}`);
           this.campaignsReqStatus = 3;
         }
@@ -784,6 +784,23 @@ export class GeneralFiltersComponent implements OnInit {
     const cleanArray2 = array2?.filter(item => item.id);
 
     return JSON.stringify(cleanArray1) == JSON.stringify(cleanArray2) ? true : false;
+  }
+
+  geti18nTexts() {
+    // const salesSector = this.selectedSectors.find(sectors => sectors.id === 3);
+    // if (salesSector) {
+    //   salesSector.name = this.translate.instant('general.sales');
+    // }
+
+    // const institutionalSource = this.selectedSources.find(sources => sources.id === 'institucional');
+    // if (institutionalSource) {
+    //   institutionalSource.name = this.translate.instant('general.institutional');
+    // }
+
+    // const othersSource = this.selectedSources.find(sources => sources.id === 'otros');
+    // if (othersSource) {
+    //   othersSource.name = this.translate.instant('general.others');
+    // }
   }
 
   ngOnDestroy() {
