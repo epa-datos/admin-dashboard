@@ -16,7 +16,7 @@ export class ChartLollipopComponent implements OnInit, AfterViewInit {
   @Input() status: number = 2; // 0) initial 1) load 2) ready 3) error
   @Input() errorLegend: string;
 
-  graphID;
+  chartID;
 
   private _name: string;
   get name() {
@@ -24,7 +24,7 @@ export class ChartLollipopComponent implements OnInit, AfterViewInit {
   }
   @Input() set name(value) {
     this._name = value;
-    this.graphID = `chart-lollipop-${this.name}`
+    this.chartID = `chart-lollipop-${this.name}`
   }
 
   private _data;
@@ -80,7 +80,7 @@ export class ChartLollipopComponent implements OnInit, AfterViewInit {
   loadChart(lang?: string) {
     am4core.useTheme(am4themes_animated);
 
-    let chart = am4core.create(this.graphID, am4charts.XYChart);
+    let chart = am4core.create(this.chartID, am4charts.XYChart);
     this.loadChartData(chart);
     loadLanguage(chart, lang);
 

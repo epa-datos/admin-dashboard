@@ -17,9 +17,10 @@ export class ChartBarComponent implements OnInit, AfterViewInit {
   @Input() valueFormat: string; // USD MXN Copy shown in tooltip
   @Input() height: string = '350px'; // height property value valid in css
   @Input() legendsByCategory: boolean; // show a legend (category + value + value format) per category only recommended for a small number of categories
+  @Input() status: number = 2; // 0) initial 1) load 2) ready 3) error
+  @Input() errorLegend: string;
 
   chartID;
-  loadStatus: number = 0;
 
   private _name: string;
   get name() {

@@ -19,9 +19,10 @@ export class ChartColumnLineMixComponent implements OnInit, AfterViewInit {
   @Input() lineName: string;
   @Input() valueFormat: string; // USD MXN Copy shown in tooltip
   @Input() height: string = '350px' // height property value valid in css
+  @Input() status: number = 2; // 0) initial 1) load 2) ready 3) error
+  @Input() errorLegend: string;
 
   chartID;
-  loadStatus: number = 0;
 
   private _name: string;
   get name() {
@@ -46,8 +47,6 @@ export class ChartColumnLineMixComponent implements OnInit, AfterViewInit {
  * @param [lang] 'es': Spanish | 'en': English | 'pt': Portuguese
  */
   loadChart(lang?: string) {
-    this.loadStatus = 1;
-
     am4core.useTheme(am4themes_animated);
 
     // Create chart instance
