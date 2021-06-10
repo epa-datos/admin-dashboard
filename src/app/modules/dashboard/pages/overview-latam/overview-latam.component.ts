@@ -145,7 +145,8 @@ export class OverviewLatamComponent implements OnInit, OnDestroy {
   constructor(
     private filtersStateService: FiltersStateService,
     private overviewService: OverviewService,
-    private translate: TranslateService) {
+    private translate: TranslateService
+  ) {
 
     this.translateSub = translate.stream('overviewLatam').subscribe(() => {
       this.kpis[0].metricTitle = this.translate.instant('kpis.investment');
@@ -161,20 +162,13 @@ export class OverviewLatamComponent implements OnInit, OnDestroy {
       this.usersAndSalesMetrics[1] = this.translate.instant('general.category').toLowerCase();
       this.usersAndSalesMetrics[2] = this.translate.instant('general.source').toLowerCase();
 
-      const salesSector = this.selectedSectors.find(sectors => sectors.id === 3);
-      if (salesSector) {
-        salesSector.name = this.translate.instant('general.sales');
-      }
-
-      const institutionalSource = this.selectedSources.find(sources => sources.id === 'institucional');
-      if (institutionalSource) {
-        institutionalSource.name = this.translate.instant('general.institutional');
-      }
-
-      const othersSource = this.selectedSources.find(sources => sources.id === 'otros');
-      if (othersSource) {
-        othersSource.name = this.translate.instant('general.others');
-      }
+      this.trafficAndSales['gender'] = this.trafficAndSales['gender']?.map(item => {
+        if (item.id === 1) {
+          return { ...item, name: this.translate.instant('others.women') }
+        } else if (item.id === 2) {
+          return { ...item, name: this.translate.instant('others.men') }
+        }
+      });
     });
   }
 
@@ -276,6 +270,16 @@ export class OverviewLatamComponent implements OnInit, OnDestroy {
         (resp: any[]) => {
           if (subMetricType === 'gender-and-age') {
             this.trafficAndSales['genderByAge'] = resp;
+
+          } else if (subMetricType === 'gender') {
+            this.trafficAndSales['gender'] = resp.map(item => {
+              if (item.name.toLowerCase() == 'mujer') {
+                return { id: 1, name: this.translate.instant('others.women'), value: item.value }
+              } else if (item.name.toLowerCase() == 'hombre') {
+                return { id: 2, name: this.translate.instant('others.men'), value: item.value }
+              }
+            });
+
           } else {
             this.trafficAndSales[subMetricType] = resp;
           }
