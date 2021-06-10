@@ -3,6 +3,7 @@ import { Subscription } from 'rxjs';
 import { FiltersStateService } from '../../services/filters-state.service';
 import { OverviewService } from '../../services/overview.service';
 import { TableItem } from '../../components/generic-table/generic-table.component';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-overview-latam',
@@ -138,11 +139,38 @@ export class OverviewLatamComponent implements OnInit, OnDestroy {
   selectedSourceTab: any;
 
   filtersSub: Subscription;
+  translateSub: Subscription;
   chartsInitLoad: boolean = true;
 
   constructor(
     private filtersStateService: FiltersStateService,
-    private overviewService: OverviewService) { }
+    private overviewService: OverviewService,
+    private translate: TranslateService
+  ) {
+
+    this.translateSub = translate.stream('overviewLatam').subscribe(() => {
+      this.kpis[0].metricTitle = this.translate.instant('kpis.investment');
+      this.kpis[2].subMetricTitle = this.translate.instant('general.users');
+      this.kpis[3].metricTitle = this.translate.instant('kpis.transactions');
+      this.kpis[3].metricTitle = this.translate.instant('kpis.transactions');
+
+      this.topProductsColumns[0].title = this.translate.instant('general.ranking');
+      this.topProductsColumns[1].title = this.translate.instant('general.product');
+      this.topProductsColumns[2].title = this.translate.instant('general.amount');
+
+      this.usersAndSalesMetrics[0] = this.translate.instant('general.sector').toLowerCase();
+      this.usersAndSalesMetrics[1] = this.translate.instant('general.category').toLowerCase();
+      this.usersAndSalesMetrics[2] = this.translate.instant('general.source').toLowerCase();
+
+      this.trafficAndSales['gender'] = this.trafficAndSales['gender']?.map(item => {
+        if (item.id === 1) {
+          return { ...item, name: this.translate.instant('others.women') }
+        } else if (item.id === 2) {
+          return { ...item, name: this.translate.instant('others.men') }
+        }
+      });
+    });
+  }
 
   ngOnInit(): void {
     if (this.filtersStateService.countries &&
@@ -242,6 +270,16 @@ export class OverviewLatamComponent implements OnInit, OnDestroy {
         (resp: any[]) => {
           if (subMetricType === 'gender-and-age') {
             this.trafficAndSales['genderByAge'] = resp;
+
+          } else if (subMetricType === 'gender') {
+            this.trafficAndSales['gender'] = resp.map(item => {
+              if (item.name.toLowerCase() == 'mujer') {
+                return { id: 1, name: this.translate.instant('others.women'), value: item.value }
+              } else if (item.name.toLowerCase() == 'hombre') {
+                return { id: 2, name: this.translate.instant('others.men'), value: item.value }
+              }
+            });
+
           } else {
             this.trafficAndSales[subMetricType] = resp;
           }
@@ -327,5 +365,6 @@ export class OverviewLatamComponent implements OnInit, OnDestroy {
 
   ngOnDestroy() {
     this.filtersSub?.unsubscribe();
+    this.translateSub?.unsubscribe();
   }
 }

@@ -32,7 +32,7 @@
           <!-- <div class="dropdown-divider"></div> -->
           <a class="dropdown-item" (click)="logout()">
             <i class="ni ni-user-run"></i>
-            <span>Cerrar sesión</span>
+            <span>{{ 'navbar.logout' | translate }}</span>
           </a>
         </div>
       </li>
@@ -71,9 +71,9 @@
       <ul class="navbar-nav" *ngIf="menuItems?.length > 1">
         <ng-container *ngFor="let menuItem of menuItems">
 
-          <div class="admin-header" *ngIf="menuItem.title === 'Administrador'">
+          <div class="admin-header" *ngIf="menuItem.id === 'admin' && menuItem.isForAdmin && userIsAdmin">
             <hr class="my-3">
-            <h6 class="navbar-heading text-muted">Configuración</h6>
+            <h6 class="navbar-heading text-muted">{{ 'dashboard.settings' | translate }}</h6>
           </div>
 
           <li class="{{menuItem.class}} nav-item" *ngIf="!menuItem.isForAdmin || (menuItem.isForAdmin && userIsAdmin)">
@@ -129,8 +129,11 @@
 
       <div class="text-danger mt-5 pl-3 pr-3" *ngIf="menuReqStatus === 3 || submenuReqStatus === 3">
         <small>
-          Ocurrió un error al consultar los {{ userRole === 'retailer' ? 'retailers' : 'países o retailers' }} a los que
-          tienes acceso. Intenta más tarde.
+          {{
+          ('dashboard.sidebarError1' | translate) + ' ' +
+          ((userRole === 'retailer' ? 'retailers' : 'dashboard.sidebarError2') | translate) + ' ' +
+          ('dashboard.sidebarError3' | translate)
+          }}
         </small>
       </div>
 

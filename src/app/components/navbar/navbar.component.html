@@ -31,7 +31,7 @@
           <!-- <div class="dropdown-divider"></div> -->
           <a class="dropdown-item" (click)="logout()">
             <i class="ni ni-user-run"></i>
-            <span class="mb-0 text-sm font-weight-bold"> | {{ 'navbar.logout' | translate }}</span>
+            <span class="mb-0 text-sm">{{ 'navbar.logout' | translate }}</span>
           </a>
         </div>
       </li>
@@ -40,17 +40,17 @@
         <a class="nav-link pr-0" role="button" ngbDropdownToggle>
           <div class="media align-items-center">
             <i class="fas fa-globe"></i>
-            <span class="ml-2"> {{ lang }} </span>
+            <span class="ml-2">{{ lang | uppercase }}</span>
           </div>
         </a>
         <div class="dropdown-menu-arrow dropdown-menu-right" ngbDropdownMenu>
-          <a class="dropdown-item" (click)="changeLang('en')">
+          <a class="dropdown-item" (click)="changeLang('en')" [hidden]="lang === 'en'">
             <span>{{ 'navbar.english' | translate }}</span>
           </a>
-          <a class="dropdown-item" (click)="changeLang('pt')">
+          <a class="dropdown-item" (click)="changeLang('pt')" [hidden]="lang === 'pt'">
             <span>{{ 'navbar.portuguese' | translate }}</span>
           </a>
-          <a class="dropdown-item" (click)="changeLang('es')">
+          <a class="dropdown-item" (click)="changeLang('es')" [hidden]="lang === 'es'">
             <span>{{ 'navbar.spanish' | translate }}</span>
           </a>
         </div>
