@@ -53,7 +53,8 @@ export class ChartLineSeriesComponent implements OnInit, AfterViewInit, OnDestro
   }
 
   ngAfterViewInit() {
-    this.loadChart();
+    const defaultLang = this.appStateService.selectedLang;
+    this.loadChart(defaultLang);
   }
 
   /**
