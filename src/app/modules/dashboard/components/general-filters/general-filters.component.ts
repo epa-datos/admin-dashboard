@@ -226,7 +226,7 @@ export class GeneralFiltersComponent implements OnInit {
     let today = new Date();
     let startDate = new Date();
     let endDate = new Date();
-    let daysAgo = 150;
+    let daysAgo = 15;
 
     startDate.setDate(today.getDate() - daysAgo);
     endDate.setDate(today.getDate() - 1);
