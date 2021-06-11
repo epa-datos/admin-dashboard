@@ -16,7 +16,7 @@ export class PcSelectorWrapperComponent implements OnInit {
     {
       metricTitle: 'usuarios',
       metricName: 'users',
-      metricValue: 25,
+      metricValue: 85,
       metricFormat: 'integer',
       icon: 'fas fa-users',
       iconBg: '#172b4d'
@@ -24,7 +24,7 @@ export class PcSelectorWrapperComponent implements OnInit {
     {
       metricTitle: 'usuarios nuevos',
       metricName: 'new_users',
-      metricValue: 9,
+      metricValue: 81,
       metricFormat: 'integer',
       icon: 'fas fa-user-plus',
       iconBg: '#2f9998'
@@ -32,14 +32,14 @@ export class PcSelectorWrapperComponent implements OnInit {
     {
       metricTitle: 'duración media de la sesión',
       metricName: 'avg_sessions_duration',
-      metricValue: '00:03:25',
+      metricValue: '00:05:28',
       icon: 'fas fa-user-clock',
       iconBg: '#a77dcc'
     },
     {
       metricTitle: 'conversiones',
       metricName: 'transactions',
-      metricValue: 0,
+      metricValue: 2,
       metricFormat: 'integer',
       icon: 'fas fa-shopping-cart',
       iconBg: '#f89934'
@@ -47,7 +47,7 @@ export class PcSelectorWrapperComponent implements OnInit {
     {
       metricTitle: 'conversion rate',
       metricName: 'conversion_rate',
-      metricValue: 0,
+      metricValue: 2.35,
       metricFormat: 'percentage',
       icon: 'fas fa-percentage',
       iconBg: '#fbc001'
@@ -55,7 +55,7 @@ export class PcSelectorWrapperComponent implements OnInit {
     {
       metricTitle: 'revenue',
       metricName: 'revenue',
-      metricValue: 0,
+      metricValue: 16799.4,
       metricFormat: 'decimals',
       metricSymbol: 'USD',
       icon: 'fas fa-hand-holding-usd',
@@ -64,199 +64,456 @@ export class PcSelectorWrapperComponent implements OnInit {
   ];
 
   usersVsConversions = [{
-    date: '2021-03-15',
-    traffic: 1298,
-    conversions: 66,
+    date: '2021-06-10',
+    traffic: 8,
+    conversions: 0,
   }, {
-    date: '2021-03-16',
-    traffic: 816,
-    conversions: 39,
+    date: '2021-06-11',
+    traffic: 7,
+    conversions: 1,
   }, {
-    date: '2021-03-17',
-    traffic: 1963,
-    conversions: 43,
+    date: '2021-06-12',
+    traffic: 15,
+    conversions: 0,
   }, {
-    date: '2021-03-18',
-    traffic: 1809,
-    conversions: 29,
+    date: '2021-06-13',
+    traffic: 4,
+    conversions: 0,
   }, {
-    date: '2021-03-19',
-    traffic: 1434,
-    conversions: 36,
+    date: '2021-06-14',
+    traffic: 16,
+    conversions: 0,
   }, {
-    date: '2021-03-20',
-    traffic: 2359,
-    conversions: 16,
+    date: '2021-06-15',
+    traffic: 21,
+    conversions: 1,
   }, {
-    date: '2021-03-21',
-    traffic: 2114,
-    conversions: 66,
+    date: '2021-06-16',
+    traffic: 19,
+    conversions: 0,
   }];
 
   aupVsRevenue = [{
-    date: '2021-03-15',
-    revenue: 2816.232,
-    aup: 35977,
+    date: '2021-06-10',
+    revenue: 0,
+    aup: 0,
   }, {
-    date: '2021-03-16',
-    revenue: 3517.643,
-    aup: 22677,
+    date: '2021-06-11',
+    revenue: 8399.7,
+    aup: 8399.7,
   }, {
-    date: '2021-03-17',
-    revenue: 8923.765,
-    aup: 25541,
+    date: '2021-06-12',
+    revenue: 0,
+    aup: 0,
   }, {
-    date: '2021-03-18',
-    revenue: 6205.837,
-    aup: 28172,
+    date: '2021-06-13',
+    revenue: 0,
+    aup: 0,
   }, {
-    date: '2021-03-19',
-    revenue: 2326.599,
-    aup: 26498,
+    date: '2021-06-14',
+    revenue: 0,
+    aup: 0,
   }, {
-    date: '2021-03-20',
-    revenue: 3585.788,
-    aup: 43770,
+    date: '2021-06-15',
+    revenue: 8399.7,
+    aup: 8399.7,
   }, {
-    date: '2021-03-21',
-    revenue: 4850.785,
-    aup: 40874,
+    date: '2021-06-16',
+    revenue: 0,
+    aup: 0,
   }];
 
   trafficByCountry = [
-    { country: 'Panama', chats: 18 },
-    { country: 'Honduras', chats: 135 },
-    { country: 'Guatemala', chats: 202 },
-    { country: 'El Salvador', chats: 405 },
-    { country: 'Costa Rica', chats: 615 },
-    { country: 'Brasil', chats: 625 },
-    { country: 'Colombia', chats: 700 },
-    { country: 'Argentina', chats: 950 },
-    { country: 'Mexico', chats: 1150 },
-    { country: 'Peru', chats: 1250 },
-    { country: 'Chile', chats: 1300 },
+    { country: 'Panama', chats: 0 },
+    { country: 'Honduras', chats: 0 },
+    { country: 'Guatemala', chats: 0 },
+    { country: 'El Salvador', chats: 0 },
+    { country: 'Costa Rica', chats: 0 },
+    { country: 'Brasil', chats: 0 },
+    { country: 'Colombia', chats: 0 },
+    { country: 'Argentina', chats: 0 },
+    { country: 'Peru', chats: 0 },
+    { country: 'Chile', chats: 0 },
+    { country: 'Mexico', chats: 85 }
   ];
 
   conversionsByCountry = [
-    { country: 'Panama', chats: 9 },
-    { country: 'Honduras', chats: 15 },
-    { country: 'Guatemala', chats: 18 },
-    { country: 'El Salvador', chats: 32 },
-    { country: 'Costa Rica', chats: 45 },
-    { country: 'Brasil', chats: 60 },
-    { country: 'Colombia', chats: 70 },
-    { country: 'Argentina', chats: 95 },
-    { country: 'Mexico', chats: 115 },
-    { country: 'Peru', chats: 125 },
-    { country: 'Chile', chats: 130 },
+    { country: 'Panama', chats: 0 },
+    { country: 'Honduras', chats: 0 },
+    { country: 'Guatemala', chats: 0 },
+    { country: 'El Salvador', chats: 0 },
+    { country: 'Costa Rica', chats: 0 },
+    { country: 'Brasil', chats: 0 },
+    { country: 'Colombia', chats: 0 },
+    { country: 'Argentina', chats: 0 },
+    { country: 'Peru', chats: 0 },
+    { country: 'Chile', chats: 0 },
+    { country: 'Mexico', chats: 2 },
   ];
 
   trafficByRetailer = [
-    { retailer: 'MX - Pedidos', chats: 0 },
-    { retailer: 'HN - Jestereo', chats: 0 },
-    { retailer: 'HN - Office Depot', chats: 3 },
-    { retailer: 'AR - Musimundo', chats: 4 },
-    { retailer: 'GT - Office Depot', chats: 6 },
-    { retailer: 'SV - Office Depot', chats: 8 },
-    { retailer: 'MX - Dusof', chats: 10 },
-    { retailer: 'CR - Unimart', chats: 20 },
-    { retailer: 'CR - Office Depot', chats: 65 },
-    { retailer: 'BR - Casas Bahia', chats: 70 },
-    { retailer: 'AR - Carrefour', chats: 95 },
-    { retailer: 'BR - Portinfo', chats: 99 },
-    { retailer: 'AR - Fravega', chats: 100 },
-    { retailer: 'BR - Kalunga', chats: 120 },
-    { retailer: 'AR - Garbarino', chats: 145 },
-    { retailer: 'BR - Portifino', chats: 150 },
-    { retailer: 'AR - Compumundo', chats: 198 },
-    { retailer: 'MX - Liverpool', chats: 215 },
-    { retailer: 'MX - Walmart', chats: 250 },
-    { retailer: 'PE - Rodelag', chats: 320 },
-    { retailer: 'PE - Hiroka', chats: 450 },
-    { retailer: 'PE - Riplay', chats: 550 },
-    { retailer: 'CL- PC Factory', chats: 680 },
-    { retailer: 'CL - Alkosto', chats: 750 },
-  ];
+    {
+      "retailer": "SV - Office Depot",
+      "chats": 0
+    },
+    {
+      "retailer": "PE - Ripley",
+      "chats": 0
+    },
+    {
+      "retailer": "PE - Plaza Vea",
+      "chats": 0
+    },
+    {
+      "retailer": "PE - La Curaçao",
+      "chats": 0
+    },
+    {
+      "retailer": "PE - Hiraoka",
+      "chats": 0
+    },
+    {
+      "retailer": "PA - Rodelag",
+      "chats": 0
+    },
+    {
+      "retailer": "PA - Panafoto",
+      "chats": 0
+    },
+    {
+      "retailer": "PA - Office Depot",
+      "chats": 0
+    },
+    {
+      "retailer": "MX - Radio Shack",
+      "chats": 0
+    },
+    {
+      "retailer": "MX - Office Max",
+      "chats": 0
+    },
+    {
+      "retailer": "MX - Office Depot",
+      "chats": 0
+    },
+    {
+      "retailer": "MX - Liverpool",
+      "chats": 0
+    },
+    {
+      "retailer": "MX - El Palacio de Hierro",
+      "chats": 0
+    },
+    {
+      "retailer": "MX - Dusof",
+      "chats": 0
+    },
+    {
+      "retailer": "MX - Cyberpuerta",
+      "chats": 0
+    },
+    {
+      "retailer": "HN - Office Depot",
+      "chats": 0
+    },
+    {
+      "retailer": "HN - Jetstereo",
+      "chats": 0
+    },
+    {
+      "retailer": "GT - Office Depot",
+      "chats": 0
+    },
+    {
+      "retailer": "CR - Unimart",
+      "chats": 0
+    },
+    {
+      "retailer": "CR - Office Depot",
+      "chats": 0
+    },
+    {
+      "retailer": "CO - Teknopolis",
+      "chats": 0
+    },
+    {
+      "retailer": "CO - Panamericana",
+      "chats": 0
+    },
+    {
+      "retailer": "CO - Éxito",
+      "chats": 0
+    },
+    {
+      "retailer": "CO - Alkosto",
+      "chats": 0
+    },
+    {
+      "retailer": "CL - Ripley",
+      "chats": 0
+    },
+    {
+      "retailer": "CL - PC Factory",
+      "chats": 0
+    },
+    {
+      "retailer": "CL - Lider",
+      "chats": 0
+    },
+    {
+      "retailer": "CL - AbcDin",
+      "chats": 0
+    },
+    {
+      "retailer": "BR - Portinfo",
+      "chats": 0
+    },
+    {
+      "retailer": "BR - Kalunga",
+      "chats": 0
+    },
+    {
+      "retailer": "BR - Casas Bahia",
+      "chats": 0
+    },
+    {
+      "retailer": "AR - Walmart",
+      "chats": 0
+    },
+    {
+      "retailer": "AR - Musimundo",
+      "chats": 0
+    },
+    {
+      "retailer": "AR - Garbarino",
+      "chats": 0
+    },
+    {
+      "retailer": "AR - Fravega",
+      "chats": 0
+    },
+    {
+      "retailer": "AR - Compumundo",
+      "chats": 0
+    },
+    {
+      "retailer": "AR - Carrefour",
+      "chats": 0
+    },
+    {
+      "retailer": "MX - Pedidos",
+      "chats": 85
+    },
+  ]
 
   conversionsByRetailer = [
-    { retailer: 'MX - Pedidos', chats: 0 },
-    { retailer: 'HN - Jestereo', chats: 0 },
-    { retailer: 'HN - Office Depot', chats: 3 },
-    { retailer: 'AR - Musimundo', chats: 4 },
-    { retailer: 'GT - Office Depot', chats: 6 },
-    { retailer: 'SV - Office Depot', chats: 8 },
-    { retailer: 'MX - Dusof', chats: 10 },
-    { retailer: 'CR - Unimart', chats: 20 },
-    { retailer: 'CR - Office Depot', chats: 65 },
-    { retailer: 'BR - Casas Bahia', chats: 70 },
-    { retailer: 'AR - Carrefour', chats: 95 },
-    { retailer: 'BR - Portinfo', chats: 99 },
-    { retailer: 'AR - Fravega', chats: 100 },
-    { retailer: 'BR - Kalunga', chats: 120 },
-    { retailer: 'AR - Garbarino', chats: 145 },
-    { retailer: 'BR - Portifino', chats: 150 },
-    { retailer: 'AR - Compumundo', chats: 198 },
-    { retailer: 'MX - Liverpool', chats: 215 },
-    { retailer: 'MX - Walmart', chats: 250 },
-    { retailer: 'PE - Rodelag', chats: 320 },
-    { retailer: 'PE - Hiroka', chats: 450 },
-    { retailer: 'PE - Riplay', chats: 550 },
-    { retailer: 'CL- PC Factory', chats: 680 },
-    { retailer: 'CL - Alkosto', chats: 750 },
+    {
+      "retailer": "SV - Office Depot",
+      "chats": 0
+    },
+    {
+      "retailer": "PE - Ripley",
+      "chats": 0
+    },
+    {
+      "retailer": "PE - Plaza Vea",
+      "chats": 0
+    },
+    {
+      "retailer": "PE - La Curaçao",
+      "chats": 0
+    },
+    {
+      "retailer": "PE - Hiraoka",
+      "chats": 0
+    },
+    {
+      "retailer": "PA - Rodelag",
+      "chats": 0
+    },
+    {
+      "retailer": "PA - Panafoto",
+      "chats": 0
+    },
+    {
+      "retailer": "PA - Office Depot",
+      "chats": 0
+    },
+    {
+      "retailer": "MX - Radio Shack",
+      "chats": 0
+    },
+    {
+      "retailer": "MX - Office Max",
+      "chats": 0
+    },
+    {
+      "retailer": "MX - Office Depot",
+      "chats": 0
+    },
+    {
+      "retailer": "MX - Liverpool",
+      "chats": 0
+    },
+    {
+      "retailer": "MX - El Palacio de Hierro",
+      "chats": 0
+    },
+    {
+      "retailer": "MX - Dusof",
+      "chats": 0
+    },
+    {
+      "retailer": "MX - Cyberpuerta",
+      "chats": 0
+    },
+    {
+      "retailer": "HN - Office Depot",
+      "chats": 0
+    },
+    {
+      "retailer": "HN - Jetstereo",
+      "chats": 0
+    },
+    {
+      "retailer": "GT - Office Depot",
+      "chats": 0
+    },
+    {
+      "retailer": "CR - Unimart",
+      "chats": 0
+    },
+    {
+      "retailer": "CR - Office Depot",
+      "chats": 0
+    },
+    {
+      "retailer": "CO - Teknopolis",
+      "chats": 0
+    },
+    {
+      "retailer": "CO - Panamericana",
+      "chats": 0
+    },
+    {
+      "retailer": "CO - Éxito",
+      "chats": 0
+    },
+    {
+      "retailer": "CO - Alkosto",
+      "chats": 0
+    },
+    {
+      "retailer": "CL - Ripley",
+      "chats": 0
+    },
+    {
+      "retailer": "CL - PC Factory",
+      "chats": 0
+    },
+    {
+      "retailer": "CL - Lider",
+      "chats": 0
+    },
+    {
+      "retailer": "CL - AbcDin",
+      "chats": 0
+    },
+    {
+      "retailer": "BR - Portinfo",
+      "chats": 0
+    },
+    {
+      "retailer": "BR - Kalunga",
+      "chats": 0
+    },
+    {
+      "retailer": "BR - Casas Bahia",
+      "chats": 0
+    },
+    {
+      "retailer": "AR - Walmart",
+      "chats": 0
+    },
+    {
+      "retailer": "AR - Musimundo",
+      "chats": 0
+    },
+    {
+      "retailer": "AR - Garbarino",
+      "chats": 0
+    },
+    {
+      "retailer": "AR - Fravega",
+      "chats": 0
+    },
+    {
+      "retailer": "AR - Compumundo",
+      "chats": 0
+    },
+    {
+      "retailer": "AR - Carrefour",
+      "chats": 0
+    },
+    {
+      "retailer": "MX - Pedidos",
+      "chats": 2
+    },
   ];
 
   conversionsByProduct = [
-    { product: 'Impresora Multifunción HP In 2', transactions: 7 },
-    { product: 'Impresora HP Ink Tank 115 - HP 2', transactions: 8 },
-    { product: 'Impresora Multifunción HP Ink 2', transactions: 10 },
-    { product: 'Impresora Láser HP 107W - HP 2', transactions: 20 },
-    { product: 'Impresora Multifunción HP Deskjet 2', transactions: 25 },
-    { product: 'Impresora HP Deskjet Ink Advance 2', transactions: 28 },
-    { product: 'Impresora Multifunción HP In', transactions: 30 },
-    { product: 'Impresora HP Ink Tank 115 - HP', transactions: 37 },
-    { product: 'Impresora Multifunción HP Ink', transactions: 41 },
-    { product: 'Impresora Láser HP 107W - HP', transactions: 41 },
-    { product: 'Impresora Multifunción HP Deskjet', transactions: 74 },
-    { product: 'Impresora HP Deskjet Ink Advance', transactions: 89 },
+    { product: 'LAPTOP HP 15 EF1007LA AMD RYZEN 3 12 GB SSD 256 GB', transactions: 0 },
+    { product: 'LAPTOP HP 240 G7 INTEL CORE I3 RAM 4 GB DD 500 GB WINDOWS 10 HOME', transactions: 0 },
+    { product: 'LAPTOP HP 14-CK2097LA PROCESADOR INTEL CELERON RAM 4 GB DD 1 TB', transactions: 0 },
+    { product: 'LAPTOP HP CHROMEBOOK 11A G8 EE APU AMD A4 RAM 4 GB DD 32 GB EMMC', transactions: 0 },
+    { product: 'LAPTOP HP 240 G7 153J8LT INTEL CORE I5 RAM 8 GB DD 1 TB', transactions: 0 },
+    { product: 'LAPTOP HP 240 G7-151F5LT PROCESADOR INTEL CORE I5 RAM 8 GB DD 1 TB WINDOWS 10 HOME', transactions: 0 },
+    { product: 'LAPTOP HP 14 DK1010LA AMD ATHLON SILVER 3050U 4 GB 500 GB', transactions: 0 },
+    { product: 'LAPTOP HP 245 G7 AMD RYZEN 3 8 GB 1 TB', transactions: 0 },
+    { product: 'LAPTOP HP 445 G7 AMD RYZEN 7 RAM 8 GB DD 512 GB SSD', transactions: 0 },
+    { product: 'LAPTOP HP NOTEBOOK 250 G7 PROCESADOR INTEL CORE I3 RAM 8 GB DD 1 TB', transactions: 0 },
+    { product: 'LAPTOP HP PROBOOK X360 435 G7 PROCESADOR AMD RYZEN 5 RAM 8 GB DD SSD 256 GB', transactions: 0 },
+    { product: 'LAPTOP HP 240 G7 INTEL CELERON N4020 4 GB 500 GB', transactions: 2 },
   ]
 
+
   usersTransactionsConversion: any = {
-    'Ene 21': {
-      'users': 1517,
-      'transactions': 68,
-      'conversion_rate': 5
-    },
-    'Feb 21': {
-      'users': 2400,
-      'transactions': 81,
-      'conversion_rate': 6
+    'Mar 21': {
+      'users': 0,
+      'transactions': 0,
+      'conversion_rate': 0
     },
     'Abr 21': {
-      'users': 2941,
-      'transactions': 134,
-      'conversion_rate': 7
+      'users': 0,
+      'transactions': 0,
+      'conversion_rate': 0
     },
     'May 21': {
-      'users': 6780,
-      'transactions': 328,
-      'conversion_rate': 9
+      'users': 0,
+      'transactions': 0,
+      'conversion_rate': 0
+    },
+    'Jun 21': {
+      'users': 85,
+      'transactions': 2,
+      'conversion_rate': 2.35
     }
   }
 
   conversionsColumns: string[] = ['category', 'users', 'conversion_rate', 'conversion_rate_yoy', 'amount', 'amount_yoy', 'revenue', 'revenue_yoy', 'aup', 'aup_yoy'];
   private conversionsDataSource = [
-    { category: 'PS', users: 5388, conversion_rate: 8, conversion_rate_yoy: 2, amount: 300, amount_yoy: -3, revenue: 3480, revenue_yoy: 6, aup: 10358, aup_yoy: -1 },
+    { category: 'PS', users: 58, conversion_rate: 2.35, conversion_rate_yoy: 0, amount: 2, amount_yoy: 0, revenue: 16799.4, revenue_yoy: 0, aup: 7399.7, aup_yoy: 0 },
   ];
 
 
   trafficDemographic = {
     desktop: [
-      { name: 'empty', value: 70 },
-      { name: 'Desktop', value: 30 },
+      { name: 'empty', value: 12.5 },
+      { name: 'Desktop', value: 87.5 },
     ],
     mobile: [
-      { name: 'empty', value: 30 },
-      { name: 'Mobile', value: 70 },
+      { name: 'empty', value: 87.5 },
+      { name: 'Mobile', value: 12.5 },
     ],
     women: [
       { name: 'empty', value: 55 },
@@ -381,58 +638,58 @@ export class PcSelectorWrapperComponent implements OnInit {
 
   conversionsDemographic = {
     desktop: [
-      { name: 'empty', value: 10 },
-      { name: 'Desktop', value: 90 },
+      { name: 'empty', value: 70 },
+      { name: 'Desktop', value: 30 },
     ],
     mobile: [
-      { name: 'empty', value: 90 },
-      { name: 'Mobile', value: 10 },
+      { name: 'empty', value: 30 },
+      { name: 'Mobile', value: 70 },
     ],
     women: [
-      { name: 'empty', value: 55 },
-      { name: 'woman', value: 45 },
+      { name: 'empty', value: 100 },
+      { name: 'woman', value: 0 },
     ],
     men: [
-      { name: 'empty', value: 45 },
-      { name: 'men', value: 55 },
+      { name: 'empty', value: 100 },
+      { name: 'men', value: 0 },
     ],
     age: [
       {
         "age": "15-19",
-        "sales": 3
+        "sales": 0
       }, {
         "age": "20-24",
-        "sales": 12
+        "sales": 0
       }, {
         "age": "25-29",
-        "sales": 60
+        "sales": 0
       }, {
         "age": "30-34",
-        "sales": 22
+        "sales": 0
       }, {
         "age": "35-39",
-        "sales": 45
+        "sales": 0
       }, {
         "age": "40-44",
-        "sales": 3
+        "sales": 0
       }, {
         "age": "45-49",
-        "sales": 3
+        "sales": 0
       }, {
         "age": "50-54",
-        "sales": 2
+        "sales": 0
       }, {
         "age": "55-59",
-        "sales": 1
+        "sales": 0
       }, {
         "age": "60-64",
-        "sales": 1
+        "sales": 0
       }, {
         "age": "65-69",
-        "sales": 1
+        "sales": 0
       }, {
         "age": "70-74",
-        "sales": 1
+        "sales": 0
       }, {
         "age": "75-79",
         "sales": 0
@@ -447,64 +704,64 @@ export class PcSelectorWrapperComponent implements OnInit {
     genderByAge: [
       {
         "age": "85+",
-        "male": -0.1,
-        "female": 0.3
+        "male": 0,
+        "female": 0
       }, {
         "age": "80-54",
-        "male": -0.2,
-        "female": 0.3
+        "male": 0,
+        "female": 0
       }, {
         "age": "75-79",
-        "male": -0.3,
-        "female": 0.6
+        "male": 0,
+        "female": 0
       }, {
         "age": "70-74",
-        "male": -0.5,
-        "female": 0.8
+        "male": 0,
+        "female": 0
       }, {
         "age": "65-69",
-        "male": -0.8,
-        "female": 1.0
+        "male": 0,
+        "female": 0
       }, {
         "age": "60-64",
-        "male": -1.1,
-        "female": 1.3
+        "male": 0,
+        "female": 0
       }, {
         "age": "55-59",
-        "male": -1.7,
-        "female": 1.9
+        "male": 0,
+        "female": 0
       }, {
         "age": "50-54",
-        "male": -2.2,
-        "female": 2.5
+        "male": 0,
+        "female": 0
       }, {
         "age": "45-49",
-        "male": -2.8,
-        "female": 3.0
+        "male": 0,
+        "female": 0
       }, {
         "age": "40-44",
-        "male": -3.4,
-        "female": 3.6
+        "male": 0,
+        "female": 0
       }, {
         "age": "35-39",
-        "male": -4.2,
-        "female": 4.1
+        "male": 0,
+        "female": 0
       }, {
         "age": "30-34",
-        "male": -5.2,
-        "female": 4.8
+        "male": 0,
+        "female": 0
       }, {
         "age": "25-29",
-        "male": -5.6,
-        "female": 5.1
+        "male": 0,
+        "female": 0
       }, {
         "age": "20-24",
-        "male": -5.1,
-        "female": 5.1
+        "male": 0,
+        "female": 0
       }, {
         "age": "15-19",
-        "male": -3.8,
-        "female": 3.8
+        "male": 0,
+        "female": 0
       }
     ]
   }
@@ -513,901 +770,902 @@ export class PcSelectorWrapperComponent implements OnInit {
     {
       "hour": "12pm",
       "weekday": "Lun",
-      "value": 3346
+      "value": 0
     },
     {
       "hour": "1am",
       "weekday": "Lun",
-      "value": 2725
+      "value": 0
     },
     {
       "hour": "2am",
       "weekday": "Lun",
-      "value": 3052
+      "value": 0
     },
     {
       "hour": "3am",
       "weekday": "Lun",
-      "value": 3876
+      "value": 1
     },
     {
       "hour": "4am",
       "weekday": "Lun",
-      "value": 4453
+      "value": 0
     },
     {
       "hour": "5am",
       "weekday": "Lun",
-      "value": 3972
+      "value": 0
     },
     {
       "hour": "6am",
       "weekday": "Lun",
-      "value": 4644
+      "value": 0
     },
     {
       "hour": "7am",
       "weekday": "Lun",
-      "value": 5715
+      "value": 1
     },
     {
       "hour": "8am",
       "weekday": "Lun",
-      "value": 7080
+      "value": 0
     },
     {
       "hour": "9am",
       "weekday": "Lun",
-      "value": 8022
+      "value": 1
     },
     {
       "hour": "10am",
       "weekday": "Lun",
-      "value": 8446
+      "value": 0
     },
     {
       "hour": "11am",
       "weekday": "Lun",
-      "value": 9313
+      "value": 2
     },
     {
       "hour": "12am",
       "weekday": "Lun",
-      "value": 9011
+      "value": 0
     },
     {
       "hour": "1pm",
       "weekday": "Lun",
-      "value": 8508
+      "value": 1
     },
     {
       "hour": "2pm",
       "weekday": "Lun",
-      "value": 8515
+      "value": 1
     },
     {
       "hour": "3pm",
       "weekday": "Lun",
-      "value": 8399
+      "value": 3
     },
     {
       "hour": "4pm",
       "weekday": "Lun",
-      "value": 8649
+      "value": 1
     },
     {
       "hour": "5pm",
       "weekday": "Lun",
-      "value": 7869
+      "value": 2
     },
     {
       "hour": "6pm",
       "weekday": "Lun",
-      "value": 6933
+      "value": 0
     },
     {
       "hour": "7pm",
       "weekday": "Lun",
-      "value": 5969
+      "value": 2
     },
     {
       "hour": "8pm",
       "weekday": "Lun",
-      "value": 5552
+      "value": 4
     },
     {
       "hour": "9pm",
       "weekday": "Lun",
-      "value": 5434
+      "value": 1
     },
     {
       "hour": "10pm",
       "weekday": "Lun",
-      "value": 5070
+      "value": 1
     },
     {
       "hour": "11pm",
       "weekday": "Lun",
-      "value": 4851
+      "value": 0
     },
     {
       "hour": "12pm",
       "weekday": "Mar",
-      "value": 4468
+      "value": 0
     },
     {
       "hour": "1am",
       "weekday": "Mar",
-      "value": 3306
+      "value": 1
     },
     {
       "hour": "2am",
       "weekday": "Mar",
-      "value": 3906
+      "value": 0
     },
     {
       "hour": "3am",
       "weekday": "Mar",
-      "value": 4413
+      "value": 0
     },
     {
       "hour": "4am",
       "weekday": "Mar",
-      "value": 4726
+      "value": 1
     },
     {
       "hour": "5am",
       "weekday": "Mar",
-      "value": 4584
+      "value": 1
     },
     {
       "hour": "6am",
       "weekday": "Mar",
-      "value": 5717
+      "value": 3
     },
     {
       "hour": "7am",
       "weekday": "Mar",
-      "value": 6504
+      "value": 1
     },
     {
       "hour": "8am",
       "weekday": "Mar",
-      "value": 8104
+      "value": 0
     },
     {
       "hour": "9am",
       "weekday": "Mar",
-      "value": 8813
+      "value": 2
     },
     {
       "hour": "10am",
       "weekday": "Mar",
-      "value": 9278
+      "value": 1
     },
     {
       "hour": "11am",
       "weekday": "Mar",
-      "value": 10425
+      "value": 3
     },
     {
       "hour": "12am",
       "weekday": "Mar",
-      "value": 10137
+      "value": 1
     },
     {
       "hour": "1pm",
       "weekday": "Mar",
-      "value": 9290
+      "value": 2
     },
     {
       "hour": "2pm",
       "weekday": "Mar",
-      "value": 9255
+      "value": 3
     },
     {
       "hour": "3pm",
       "weekday": "Mar",
-      "value": 9614
+      "value": 4
     },
     {
       "hour": "4pm",
       "weekday": "Mar",
-      "value": 9713
+      "value": 1
     },
     {
       "hour": "5pm",
       "weekday": "Mar",
-      "value": 9667
+      "value": 0
     },
     {
       "hour": "6pm",
       "weekday": "Mar",
-      "value": 8774
+      "value": 1
     },
     {
       "hour": "7pm",
       "weekday": "Mar",
-      "value": 8649
+      "value": 4
     },
     {
       "hour": "8pm",
       "weekday": "Mar",
-      "value": 9937
+      "value": 1
     },
     {
       "hour": "9pm",
       "weekday": "Mar",
-      "value": 10286
+      "value": 1
     },
     {
       "hour": "10pm",
       "weekday": "Mar",
-      "value": 9175
+      "value": 1
     },
     {
       "hour": "11pm",
       "weekday": "Mar",
-      "value": 8581
+      "value": 0
     },
     {
       "hour": "12pm",
       "weekday": "Mie",
-      "value": 8145
+      "value": 1
     },
     {
       "hour": "1am",
       "weekday": "Mie",
-      "value": 7177
+      "value": 1
     },
     {
       "hour": "2am",
       "weekday": "Mie",
-      "value": 5657
+      "value": 0
     },
     {
       "hour": "3am",
       "weekday": "Mie",
-      "value": 6802
+      "value": 0
     },
     {
       "hour": "4am",
       "weekday": "Mie",
-      "value": 8159
+      "value": 0
     },
     {
       "hour": "5am",
       "weekday": "Mie",
-      "value": 8449
+      "value": 0
     },
     {
       "hour": "6am",
       "weekday": "Mie",
-      "value": 9453
+      "value": 1
     },
     {
       "hour": "7am",
       "weekday": "Mie",
-      "value": 9947
+      "value": 0
     },
     {
       "hour": "8am",
       "weekday": "Mie",
-      "value": 11471
+      "value": 0
     },
     {
       "hour": "9am",
       "weekday": "Mie",
-      "value": 12492
+      "value": 2
     },
     {
       "hour": "10am",
       "weekday": "Mie",
-      "value": 9388
+      "value": 3
     },
     {
       "hour": "11am",
       "weekday": "Mie",
-      "value": 9928
+      "value": 1
     },
     {
       "hour": "12am",
       "weekday": "Mie",
-      "value": 9644
+      "value": 3
     },
     {
       "hour": "1pm",
       "weekday": "Mie",
-      "value": 9034
+      "value": 1
     },
     {
       "hour": "2pm",
       "weekday": "Mie",
-      "value": 8964
+      "value": 2
     },
     {
       "hour": "3pm",
       "weekday": "Mie",
-      "value": 9069
+      "value": 2
     },
     {
       "hour": "4pm",
       "weekday": "Mie",
-      "value": 8898
+      "value": 0
     },
     {
       "hour": "5pm",
       "weekday": "Mie",
-      "value": 8322
+      "value": 5
     },
     {
       "hour": "6pm",
       "weekday": "Mie",
-      "value": 6909
+      "value": 2
     },
     {
       "hour": "7pm",
       "weekday": "Mie",
-      "value": 5810
+      "value": 3
     },
     {
       "hour": "8pm",
       "weekday": "Mie",
-      "value": 5151
+      "value": 1
     },
     {
       "hour": "9pm",
       "weekday": "Mie",
-      "value": 4911
+      "value": 0
     },
     {
       "hour": "10pm",
       "weekday": "Mie",
-      "value": 4487
+      "value": 1
     },
     {
       "hour": "11pm",
       "weekday": "Mie",
-      "value": 4118
+      "value": 3
     },
     {
       "hour": "12pm",
       "weekday": "Jue",
-      "value": 3689
+      "value": 2
     },
     {
       "hour": "1am",
       "weekday": "Jue",
-      "value": 3081
+      "value": 0
     },
     {
       "hour": "2am",
       "weekday": "Jue",
-      "value": 6525
+      "value": 0
     },
     {
       "hour": "3am",
       "weekday": "Jue",
-      "value": 6228
+      "value": 0
     },
     {
       "hour": "4am",
       "weekday": "Jue",
-      "value": 6917
+      "value": 0
     },
     {
       "hour": "5am",
       "weekday": "Jue",
-      "value": 6568
+      "value": 1
     },
     {
       "hour": "6am",
       "weekday": "Jue",
-      "value": 6405
+      "value": 1
     },
     {
       "hour": "7am",
       "weekday": "Jue",
-      "value": 8106
+      "value": 1
     },
     {
       "hour": "8am",
       "weekday": "Jue",
-      "value": 8542
+      "value": 2
     },
     {
       "hour": "9am",
       "weekday": "Jue",
-      "value": 8501
+      "value": 1
     },
     {
       "hour": "10am",
       "weekday": "Jue",
-      "value": 8802
+      "value": 3
     },
     {
       "hour": "11am",
       "weekday": "Jue",
-      "value": 9420
+      "value": 2
     },
     {
       "hour": "12am",
       "weekday": "Jue",
-      "value": 8966
+      "value": 2
     },
     {
       "hour": "1pm",
       "weekday": "Jue",
-      "value": 8135
+      "value": 1
     },
     {
       "hour": "2pm",
       "weekday": "Jue",
-      "value": 8224
+      "value": 1
     },
     {
       "hour": "3pm",
       "weekday": "Jue",
-      "value": 8387
+      "value": 1
     },
     {
       "hour": "4pm",
       "weekday": "Jue",
-      "value": 8218
+      "value": 2
     },
     {
       "hour": "5pm",
       "weekday": "Jue",
-      "value": 7641
+      "value": 1
     },
     {
       "hour": "6pm",
       "weekday": "Jue",
-      "value": 6469
+      "value": 2
     },
     {
       "hour": "7pm",
       "weekday": "Jue",
-      "value": 5441
+      "value": 0
     },
     {
       "hour": "8pm",
       "weekday": "Jue",
-      "value": 4952
+      "value": 1
     },
     {
       "hour": "9pm",
       "weekday": "Jue",
-      "value": 4643
+      "value": 1
     },
     {
       "hour": "10pm",
       "weekday": "Jue",
-      "value": 4393
+      "value": 2
     },
     {
       "hour": "11pm",
       "weekday": "Jue",
-      "value": 4017
+      "value": 0
     },
     {
       "hour": "12pm",
       "weekday": "Vier",
-      "value": 4022
+      "value": 0
     },
     {
       "hour": "1am",
       "weekday": "Vier",
-      "value": 3063
+      "value": 0
     },
     {
       "hour": "2am",
       "weekday": "Vier",
-      "value": 3638
+      "value": 1
     },
     {
       "hour": "3am",
       "weekday": "Vier",
-      "value": 3968
+      "value": 1
     },
     {
       "hour": "4am",
       "weekday": "Vier",
-      "value": 4070
+      "value": 2
     },
     {
       "hour": "5am",
       "weekday": "Vier",
-      "value": 4019
+      "value": 0
     },
     {
       "hour": "6am",
       "weekday": "Vier",
-      "value": 4548
+      "value": 1
     },
     {
       "hour": "7am",
       "weekday": "Vier",
-      "value": 5465
+      "value": 1
     },
     {
       "hour": "8am",
       "weekday": "Vier",
-      "value": 6909
+      "value": 4
     },
     {
       "hour": "9am",
       "weekday": "Vier",
-      "value": 7706
+      "value": 2
     },
     {
       "hour": "10am",
       "weekday": "Vier",
-      "value": 7867
+      "value": 1
     },
     {
       "hour": "11am",
       "weekday": "Vier",
-      "value": 8615
+      "value": 2
     },
     {
       "hour": "12am",
       "weekday": "Vier",
-      "value": 8218
+      "value": 1
     },
     {
       "hour": "1pm",
       "weekday": "Vier",
-      "value": 7604
+      "value": 3
     },
     {
       "hour": "2pm",
       "weekday": "Vier",
-      "value": 7429
+      "value": 2
     },
     {
       "hour": "3pm",
       "weekday": "Vier",
-      "value": 7488
+      "value": 1
     },
     {
       "hour": "4pm",
       "weekday": "Vier",
-      "value": 7493
+      "value": 3
     },
     {
       "hour": "5pm",
       "weekday": "Vier",
-      "value": 6998
+      "value": 2
     },
     {
       "hour": "6pm",
       "weekday": "Vier",
-      "value": 5941
+      "value": 3
     },
     {
       "hour": "7pm",
       "weekday": "Vier",
-      "value": 5068
+      "value": 2
     },
     {
       "hour": "8pm",
       "weekday": "Vier",
-      "value": 4636
+      "value": 1
     },
     {
       "hour": "9pm",
       "weekday": "Vier",
-      "value": 4241
+      "value": 2
     },
     {
       "hour": "10pm",
       "weekday": "Vier",
-      "value": 3858
+      "value": 3
     },
     {
       "hour": "11pm",
       "weekday": "Vier",
-      "value": 3833
+      "value": 1
     },
     {
       "hour": "12pm",
       "weekday": "Sab",
-      "value": 3503
+      "value": 2
     },
     {
       "hour": "1am",
       "weekday": "Sab",
-      "value": 2842
+      "value": 2
     },
     {
       "hour": "2am",
       "weekday": "Sab",
-      "value": 2808
+      "value": 0
     },
     {
       "hour": "3am",
       "weekday": "Sab",
-      "value": 2399
+      "value": 0
     },
     {
       "hour": "4am",
       "weekday": "Sab",
-      "value": 2280
+      "value": 0
     },
     {
       "hour": "5am",
       "weekday": "Sab",
-      "value": 2139
+      "value": 1
     },
     {
       "hour": "6am",
       "weekday": "Sab",
-      "value": 2527
+      "value": 1
     },
     {
       "hour": "7am",
       "weekday": "Sab",
-      "value": 2940
+      "value": 0
     },
     {
       "hour": "8am",
       "weekday": "Sab",
-      "value": 3066
+      "value": 1
     },
     {
       "hour": "9am",
       "weekday": "Sab",
-      "value": 3494
+      "value": 1
     },
     {
       "hour": "10am",
       "weekday": "Sab",
-      "value": 3287
+      "value": 2
     },
     {
       "hour": "11am",
       "weekday": "Sab",
-      "value": 3416
+      "value": 1
     },
     {
       "hour": "12am",
       "weekday": "Sab",
-      "value": 3432
+      "value": 1
     },
     {
       "hour": "1pm",
       "weekday": "Sab",
-      "value": 3523
+      "value": 2
     },
     {
       "hour": "2pm",
       "weekday": "Sab",
-      "value": 3542
+      "value": 1
     },
     {
       "hour": "3pm",
       "weekday": "Sab",
-      "value": 3347
+      "value": 2
     },
     {
       "hour": "4pm",
       "weekday": "Sab",
-      "value": 3292
+      "value": 1
     },
     {
       "hour": "5pm",
       "weekday": "Sab",
-      "value": 3416
+      "value": 1
     },
     {
       "hour": "6pm",
       "weekday": "Sab",
-      "value": 3131
+      "value": 1
     },
     {
       "hour": "7pm",
       "weekday": "Sab",
-      "value": 3057
+      "value": 2
     },
     {
       "hour": "8pm",
       "weekday": "Sab",
-      "value": 3227
+      "value": 0
     },
     {
       "hour": "9pm",
       "weekday": "Sab",
-      "value": 3060
+      "value": 0
     },
     {
       "hour": "10pm",
       "weekday": "Sab",
-      "value": 2855
+      "value": 2
     },
     {
       "hour": "11pm",
       "weekday": "Sab",
-      "value": 2625
+      "value": 1
     },
     {
       "hour": "12pm",
       "weekday": "Dom",
-      "value": 2990
+      "value": 0
     },
     {
       "hour": "1am",
       "weekday": "Dom",
-      "value": 2520
+      "value": 0
     },
     {
       "hour": "2am",
       "weekday": "Dom",
-      "value": 2334
+      "value": 1
     },
     {
       "hour": "3am",
       "weekday": "Dom",
-      "value": 2230
+      "value": 0
     },
     {
       "hour": "4am",
       "weekday": "Dom",
-      "value": 2325
+      "value": 0
     },
     {
       "hour": "5am",
       "weekday": "Dom",
-      "value": 2019
+      "value": 0
     },
     {
       "hour": "6am",
       "weekday": "Dom",
-      "value": 2128
+      "value": 0
     },
     {
       "hour": "7am",
       "weekday": "Dom",
-      "value": 2246
+      "value": 0
     },
     {
       "hour": "8am",
       "weekday": "Dom",
-      "value": 2421
+      "value": 2
     },
     {
       "hour": "9am",
       "weekday": "Dom",
-      "value": 2788
+      "value": 1
     },
     {
       "hour": "10am",
       "weekday": "Dom",
-      "value": 2959
+      "value": 1
     },
     {
       "hour": "11am",
       "weekday": "Dom",
-      "value": 3018
+      "value": 2
     },
     {
       "hour": "12am",
       "weekday": "Dom",
-      "value": 3154
+      "value": 2
     },
     {
       "hour": "1pm",
       "weekday": "Dom",
-      "value": 3172
+      "value": 2
     },
     {
       "hour": "2pm",
       "weekday": "Dom",
-      "value": 3368
+      "value": 1
     },
     {
       "hour": "3pm",
       "weekday": "Dom",
-      "value": 3464
+      "value": 1
     },
     {
       "hour": "4pm",
       "weekday": "Dom",
-      "value": 3746
+      "value": 1
     },
     {
       "hour": "5pm",
       "weekday": "Dom",
-      "value": 3656
+      "value": 1
     },
     {
       "hour": "6pm",
       "weekday": "Dom",
-      "value": 3336
+      "value": 0
     },
     {
       "hour": "7pm",
       "weekday": "Dom",
-      "value": 3292
+      "value": 0
     },
     {
       "hour": "8pm",
       "weekday": "Dom",
-      "value": 3269
+      "value": 2
     },
     {
       "hour": "9pm",
       "weekday": "Dom",
-      "value": 3300
+      "value": 1
     },
     {
       "hour": "10pm",
       "weekday": "Dom",
-      "value": 3403
+      "value": 0
     },
     {
       "hour": "11pm",
       "weekday": "Dom",
-      "value": 3323
+      "value": 0
     }
   ];
 
+
   trafficByHour = [
-    { hour: '12 AM', visits: 5 },
-    { hour: '3 AM', visits: 1 },
-    { hour: '6 AM', visits: 9 },
-    { hour: '9 AM', visits: 67 },
-    { hour: '12 PM', visits: 101 },
-    { hour: '3 PM', visits: 81 },
-    { hour: '6 PM', visits: 105 },
-    { hour: '9 PM', visits: 100 }
+    { hour: '12 AM', visits: 11 },
+    { hour: '3 AM', visits: 8 },
+    { hour: '6 AM', visits: 20 },
+    { hour: '9 AM', visits: 34 },
+    { hour: '12 PM', visits: 33 },
+    { hour: '3 PM', visits: 35 },
+    { hour: '6 PM', visits: 32 },
+    { hour: '9 PM', visits: 21 }
   ]
 
   trafficByDay = [
-    { weekday: 'Dom', value: 180 },
-    { weekday: 'Sab', value: 166 },
-    { weekday: 'Vier', value: 166 },
-    { weekday: 'Jue', value: 267 },
-    { weekday: 'Mier', value: 277 },
-    { weekday: 'Mar', value: 270 },
-    { weekday: 'Lun', value: 230 },
+    { weekday: 'Dom', value: 21 },
+    { weekday: 'Sab', value: 32 },
+    { weekday: 'Vier', value: 32 },
+    { weekday: 'Jue', value: 27 },
+    { weekday: 'Mier', value: 39 },
+    { weekday: 'Mar', value: 25 },
+    { weekday: 'Lun', value: 18 },
   ];
 
   conversionsByDay = [
-    { weekday: 'Dom', value: 180 },
-    { weekday: 'Sab', value: 166 },
-    { weekday: 'Vier', value: 166 },
-    { weekday: 'Jue', value: 267 },
-    { weekday: 'Mier', value: 277 },
-    { weekday: 'Mar', value: 270 },
-    { weekday: 'Lun', value: 230 },
+    { weekday: 'Dom', value: 0 },
+    { weekday: 'Sab', value: 0 },
+    { weekday: 'Vier', value: 0 },
+    { weekday: 'Jue', value: 1 },
+    { weekday: 'Mier', value: 0 },
+    { weekday: 'Mar', value: 0 },
+    { weekday: 'Lun', value: 1 },
   ];
 
   churnRateInInit = [
-    { category: 'Abandona', value: 1 },
-    { category: 'No abandona', value: 22 }
+    { category: 'Abandona', value: 0 },
+    { category: 'No abandona', value: 100 }
   ];
 
   useRateVirtualAssistant = [
-    { category: 'Utiliza', value: 16 },
-    { category: 'No utiliza', value: 6 }
+    { category: 'Utiliza', value: 56 },
+    { category: 'No utiliza', value: 44 }
   ];
 
   churnRateByQuestion = [{
     'name': 'Pregunta 2',
-    'value': 47
+    'value': 85
   }, {
     'name': 'Pregunta 3',
-    'value': 49
+    'value': 0
   }, {
     'name': 'Pregunta 5',
-    'value': 1
+    'value': 0
   }, {
     'name': 'Pregunta 9',
-    'value': 19
+    'value': 0
   }, {
     'name': 'Termina el proceso',
-    'value': 631
+    'value': 0
   }];
 
   kpisReqStatus = 2;
@@ -1441,6 +1699,7 @@ export class PcSelectorWrapperComponent implements OnInit {
   countries: any[] = this.trafficByCountry;
   retailers: any[] = this.trafficByRetailer;
   demographics: any = this.trafficDemographic;
+  weekdays: any[] = this.trafficByDay;
 
   categoryAndUsersSource = new MatTableDataSource<any>(this.conversionsDataSource);
   categoryAndUsersReqStatus = 2;
@@ -1527,8 +1786,10 @@ export class PcSelectorWrapperComponent implements OnInit {
 
     if (metricType === 'traffic') {
       this.demographics = this.trafficDemographic;
+      this.weekdays = this.trafficByDay;
     } else if (metricType === 'conversions') {
       this.demographics = this.conversionsDemographic;
+      this.weekdays = this.conversionsByDay;
     }
   }
 }

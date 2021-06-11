@@ -90,7 +90,7 @@
                 <div class="card-body retailers-chart-container">
                     <app-chart-bar-horizontal [data]="retailers" name="pc-selector-chats-by-retailer"
                         category="retailer" value="chats" [truncateLabels]="true" [singleColorBars]="true"
-                        height="600px">
+                        height="900px">
                     </app-chart-bar-horizontal>
                 </div>
             </div>
@@ -458,7 +458,7 @@
                             por día de la semana</span>
                     </div>
                     <div class="card-body">
-                        <app-chart-bar-horizontal [data]="trafficByDay" name="pc-selectortraffic-day" category='weekday'
+                        <app-chart-bar-horizontal [data]="weekdays" name="pc-selectortraffic-day" category='weekday'
                             value='value' height="250px">
                         </app-chart-bar-horizontal>
                     </div>
