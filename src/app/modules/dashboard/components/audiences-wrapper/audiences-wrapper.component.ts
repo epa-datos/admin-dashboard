@@ -77,7 +77,7 @@ export class AudiencesWrapperComponent implements OnInit, OnDestroy {
     for (let subMetricType of requiredData) {
       const reqStatusObj = this.demoReqStatus.find(item => item.name === subMetricType);
       reqStatusObj.reqStatus = 1;
-      this.campInRetailService.getAudiencesByMetric(metricType, subMetricType).subscribe(
+      this.campInRetailService.getDataByMetric(metricType, subMetricType).subscribe(
         (resp: any[]) => {
           if (subMetricType === 'gender-and-age') {
             this.demographics['genderByAge'] = resp;
@@ -108,7 +108,7 @@ export class AudiencesWrapperComponent implements OnInit, OnDestroy {
     for (let subMetricType of requiredData) {
       const reqStatusObj = this.weekDaysAndHoursReqStatus.find(item => item.name === subMetricType);
       reqStatusObj.reqStatus = 1;
-      this.campInRetailService.getAudiencesByMetric(metricType, subMetricType).subscribe(
+      this.campInRetailService.getDataByMetric(metricType, subMetricType).subscribe(
         (resp: any[]) => {
           if (subMetricType === 'weekday-and-hour') {
             this.weekDaysAndHours['weekdayAndHour'] = resp.map(item => {
@@ -143,7 +143,7 @@ export class AudiencesWrapperComponent implements OnInit, OnDestroy {
     for (let subMetricType of requiredData) {
       const reqStatusObj = this.conversionsVsTrafficReqStatus.find(item => item.name === subMetricType);
       reqStatusObj.reqStatus = 1;
-      this.campInRetailService.getAudiencesByMetric('conversions-vs-traffic', subMetricType).subscribe(
+      this.campInRetailService.getDataByMetric('conversions-vs-traffic', subMetricType).subscribe(
         (resp: any[]) => {
           if (subMetricType === 'weekday') {
             this.conversionsVsTraffic[subMetricType] = resp.map(item => {
@@ -168,7 +168,7 @@ export class AudiencesWrapperComponent implements OnInit, OnDestroy {
     for (let subMetricType of requiredData) {
       const reqStatusObj = this.interestsReqStatus.find(item => item.name === subMetricType);
       reqStatusObj.reqStatus = 1;
-      this.campInRetailService.getAudiencesByMetric('interests', subMetricType).subscribe(
+      this.campInRetailService.getDataByMetric('interests', subMetricType).subscribe(
         (resp: any[]) => {
           resp = resp.sort((a, b) => (a.users < b.users ? -1 : 1));
 
