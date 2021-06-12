@@ -1,194 +1,159 @@
-import { AfterViewInit, Component, OnInit, ViewChild } from '@angular/core';
-import { MatPaginator } from '@angular/material/paginator';
-import { MatTableDataSource } from '@angular/material/table';
+import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Subscription } from 'rxjs';
+import { CampaignInRetailService } from '../../services/campaign-in-retail.service';
+import { FiltersStateService } from '../../services/filters-state.service';
+import { TableItem } from '../generic-table/generic-table.component';
 
 @Component({
   selector: 'app-acquisition-wrapper',
   templateUrl: './acquisition-wrapper.component.html',
   styleUrls: ['./acquisition-wrapper.component.scss']
 })
-export class AcquisitionWrapperComponent implements OnInit, AfterViewInit {
+export class AcquisitionWrapperComponent implements OnInit, OnDestroy {
 
+  // users (by sectors and by sources)
   selectedTab1: number = 1;
+  users: any[] = [];
+  usersReqStatus: number = 0;
 
-  usersByCategory = [
+  // campaigns
+  campaignsTableColumns: TableItem[] = [
     {
-      name: 'Search',
-      serie: [
-        { date: new Date(2021, 3, 15), value: 2500 },
-        { date: new Date(2021, 3, 16), value: 4700 },
-        { date: new Date(2021, 3, 17), value: 4600 },
-        { date: new Date(2021, 3, 18), value: 4700 },
-        { date: new Date(2021, 3, 19), value: 4500 },
-        { date: new Date(2021, 3, 20), value: 4300 },
-        { date: new Date(2021, 3, 21), value: 4400 }
-      ]
+      name: 'source',
+      title: 'Fuente'
     },
     {
-      name: 'Marketing',
-      serie: [
-        { date: new Date(2021, 3, 15), value: 2000 },
-        { date: new Date(2021, 3, 16), value: 3500 },
-        { date: new Date(2021, 3, 17), value: 3200 },
-        { date: new Date(2021, 3, 18), value: 3600 },
-        { date: new Date(2021, 3, 19), value: 3000 },
-        { date: new Date(2021, 3, 20), value: 3400 },
-        { date: new Date(2021, 3, 21), value: 3000 }
-      ]
+      name: 'medium',
+      title: 'Medio'
     },
     {
-      name: 'Ventas',
-      serie: [
-        { date: new Date(2021, 3, 15), value: 4500 },
-        { date: new Date(2021, 3, 16), value: 3700 },
-        { date: new Date(2021, 3, 17), value: 3800 },
-        { date: new Date(2021, 3, 18), value: 3200 },
-        { date: new Date(2021, 3, 19), value: 3500 },
-        { date: new Date(2021, 3, 20), value: 4500 },
-        { date: new Date(2021, 3, 21), value: 4700 }
-      ]
+      name: 'campaign',
+      title: 'Campaña',
+      tooltip: true,
+      maxWidthTdPercentage: 15,
+      maxWidthSpan: '250px',
+    },
+    {
+      name: 'users',
+      title: 'Usuarios',
+      textAlign: 'center',
+      formatValue: 'integer'
+    },
+    {
+      name: 'newUsers',
+      title: 'Nuevos usuarios',
+      textAlign: 'center',
+      formatValue: 'integer'
+    },
+    {
+      name: 'sessions',
+      title: 'Sesiones',
+      textAlign: 'center',
+      formatValue: 'integer'
+    },
+    {
+      name: 'pagesBySession',
+      title: 'Páginas por sesión',
+      textAlign: 'center'
+    },
+    {
+      name: 'bounceRate',
+      title: 'Porcentaje de rebote',
+      textAlign: 'center',
+      formatValue: 'percentage',
+      comparativeName: 'bounceRateComparison'
+    },
+    {
+      name: 'sessionDuration',
+      title: 'Duración media de la sesión',
+      textAlign: 'center',
+    },
+    {
+      name: 'amount',
+      title: 'Cantidad',
+      textAlign: 'center',
+      formatValue: 'integer'
+    },
+    {
+      name: 'income',
+      title: 'Ingresos del producto',
+      textAlign: 'center',
+      formatValue: 'currency'
+    },
+    {
+      name: 'yoy',
+      title: '%YoY',
+      textAlign: 'center',
+      // formatValue: 'percentage' // provisional until data exists 
     }
-  ]
-
-  usersBySectors = [
-    {
-      name: 'Search',
-      serie: [
-        { date: new Date(2021, 3, 15), value: 2500 },
-        { date: new Date(2021, 3, 16), value: 4700 },
-        { date: new Date(2021, 3, 17), value: 4600 },
-        { date: new Date(2021, 3, 18), value: 4700 },
-        { date: new Date(2021, 3, 19), value: 4500 },
-        { date: new Date(2021, 3, 20), value: 4300 },
-        { date: new Date(2021, 3, 21), value: 4400 }
-      ]
-    },
-    {
-      name: 'Marketing',
-      serie: [
-        { date: new Date(2021, 3, 15), value: 2000 },
-        { date: new Date(2021, 3, 16), value: 3500 },
-        { date: new Date(2021, 3, 17), value: 3200 },
-        { date: new Date(2021, 3, 18), value: 3600 },
-        { date: new Date(2021, 3, 19), value: 3000 },
-        { date: new Date(2021, 3, 20), value: 3400 },
-        { date: new Date(2021, 3, 21), value: 3000 }
-      ]
-    },
-    {
-      name: 'Ventas',
-      serie: [
-        { date: new Date(2021, 3, 15), value: 4500 },
-        { date: new Date(2021, 3, 16), value: 3700 },
-        { date: new Date(2021, 3, 17), value: 3800 },
-        { date: new Date(2021, 3, 18), value: 3200 },
-        { date: new Date(2021, 3, 19), value: 3500 },
-        { date: new Date(2021, 3, 20), value: 4500 },
-        { date: new Date(2021, 3, 21), value: 4700 }
-      ]
-    }
-  ]
-
-  usersBySources = [
-    {
-      name: 'Google',
-      serie: [
-        { date: new Date(2021, 3, 15), value: 350 },
-        { date: new Date(2021, 3, 16), value: 280 },
-        { date: new Date(2021, 3, 17), value: 120 },
-        { date: new Date(2021, 3, 18), value: 400 },
-        { date: new Date(2021, 3, 19), value: 450 },
-        { date: new Date(2021, 3, 20), value: 100 },
-        { date: new Date(2021, 3, 21), value: 80 }
-      ]
-    },
-    {
-      name: 'Display',
-      serie: [
-        { date: new Date(2021, 3, 15), value: 80 },
-        { date: new Date(2021, 3, 16), value: 150 },
-        { date: new Date(2021, 3, 17), value: 120 },
-        { date: new Date(2021, 3, 18), value: 100 },
-        { date: new Date(2021, 3, 19), value: 70 },
-        { date: new Date(2021, 3, 20), value: 85 },
-        { date: new Date(2021, 3, 21), value: 160 }
-      ]
-    },
-    {
-      name: 'Social',
-      serie: [
-        { date: new Date(2021, 3, 15), value: 40 },
-        { date: new Date(2021, 3, 16), value: 60 },
-        { date: new Date(2021, 3, 17), value: 95 },
-        { date: new Date(2021, 3, 18), value: 120 },
-        { date: new Date(2021, 3, 19), value: 121 },
-        { date: new Date(2021, 3, 20), value: 96 },
-        { date: new Date(2021, 3, 21), value: 88 }
-      ]
-    },
-    {
-      name: 'Otros',
-      serie: [
-        { date: new Date(2021, 3, 15), value: 44 },
-        { date: new Date(2021, 3, 16), value: 56 },
-        { date: new Date(2021, 3, 17), value: 75 },
-        { date: new Date(2021, 3, 18), value: 95 },
-        { date: new Date(2021, 3, 19), value: 80 },
-        { date: new Date(2021, 3, 20), value: 120 },
-        { date: new Date(2021, 3, 21), value: 200 }
-      ]
-    }
-  ]
-
-  displayedColumns: string[] = ['source', 'way', 'campaign', 'users', 'newUsers', 'sessions', 'pagesBySession', 'bounceRate', 'sessionDuration', 'amount', 'income', 'yoy'];
-  private acqBySources = [
-    { source: 'Google', way: 'Medio 1', campaign: 'Campaña1_Campaña 1_Campaña 1_Campaña 1_Campaña 1', users: 7000, newUsers: 450, sessions: 1500, pagesBySession: 7, bounceRate: 50, bounceRateComparison: 70, sessionDuration: '3 min', amount: 50, income: 35000, yoy: 20, yoy_before: 20 },
-    { source: 'Display', way: 'Medio 2', campaign: 'Campaña 2', users: 2000, newUsers: 120, sessions: 1200, pagesBySession: 6, bounceRate: 70, bounceRateComparison: 70, sessionDuration: '4 min', amount: 20, income: 28000, yoy: 18, yoy_before: 25 },
-    { source: 'Social', way: 'Medio 3', campaign: 'Campaña 3', users: 1800, newUsers: 380, sessions: 1600, pagesBySession: 4, bounceRate: 60, bounceRateComparison: 50, sessionDuration: '6 min', amount: 15, income: 15000, yoy: 21, yoy_before: 18 },
-    { source: 'Otros', way: 'Medio 4', campaign: 'Campaña 4', users: 9750, newUsers: 270, sessions: 880, pagesBySession: 7, bounceRate: 55, bounceRateComparison: 40, sessionDuration: '2 min', amount: 50, income: 17000, yoy: 14, yoy_before: 16 },
-
   ];
-  dataSource = new MatTableDataSource<any>(this.acqBySources);
-  @ViewChild(MatPaginator) paginator: MatPaginator;
 
-  constructor() { }
+  campaigns = {
+    data: [],
+    reqStatus: 0
+  }
+
+  generalFiltersSub: Subscription;
+  retailFiltersSub: Subscription;
+
+  constructor(
+    private filtersStateService: FiltersStateService,
+    private campInRetailService: CampaignInRetailService) { }
 
   ngOnInit(): void {
+    this.getAllData();
+
+    this.generalFiltersSub = this.filtersStateService.filtersChange$.subscribe(() => {
+      this.getAllData();
+    })
+
+    this.retailFiltersSub = this.filtersStateService.retailFiltersChange$.subscribe(() => {
+      this.getAllData();
+    });
   }
 
-  ngAfterViewInit() {
-    this.loadPaginator();
+  getAllData() {
+    this.getUsers(this.selectedTab1 === 1 ? 'sectors' : 'sources');
+    this.getCampaigns();
   }
 
-  loadPaginator() {
-    // paginator setup
-    this.dataSource.paginator = this.paginator;
-    this.paginator._intl.itemsPerPageLabel = 'Registros por página';
-    this.paginator._intl.nextPageLabel = 'Siguiente';
-    this.paginator._intl.previousPageLabel = 'Anterior';
-    this.paginator._intl.getRangeLabel = (page: number, pageSize: number, length: number) => {
-      if (length == 0 || pageSize == 0) { return `0 de ${length}`; }
+  getUsers(subMetricType: any) {
+    this.usersReqStatus = 1;
 
-      length = Math.max(length, 0);
+    this.campInRetailService.getDataByMetric('users', subMetricType).subscribe(
+      (users: any[]) => {
+        this.users = users;
+        this.usersReqStatus = 2;
+      },
+      error => {
+        const errorMsg = error?.error?.message ? error.error.message : error?.message;
+        console.error(`[acquisition-wrapper.component]: ${errorMsg}`);
+        this.usersReqStatus = 3;
+      });
 
-      const startIndex = page * pageSize;
-
-      // If the start index exceeds the list length, do not try and fix the end index to the end.
-      const endIndex = startIndex < length ?
-        Math.min(startIndex + pageSize, length) :
-        startIndex + pageSize;
-
-      return `${startIndex + 1} - ${endIndex} de ${length}`;
-    }
+    this.selectedTab1 = subMetricType === 'sectors' ? 1 : 2;
   }
 
-  changeData(category, selectedTab) {
-    if (category === 'source') {
-      this.usersByCategory = this.usersBySources;
-    } else if (category === 'sector') {
-      this.usersByCategory = this.usersBySectors;
-    }
+  getCampaigns() {
+    this.campaigns.reqStatus = 1;
 
-    this.selectedTab1 = selectedTab;
+    this.campInRetailService.getDataByMetric('campaigns').subscribe(
+      (campaigns: any[]) => {
+        // provisional until data exists
+        this.campaigns.data = campaigns.map(item => {
+          return { ...item, yoy: '-' };
+        });
+        this.campaigns.reqStatus = 2;
+      },
+      error => {
+        const errorMsg = error?.error?.message ? error.error.message : error?.message;
+        console.error(`[acquisition-wrapper.component]: ${errorMsg}`);
+        this.campaigns.reqStatus = 3;
+      });
+  }
+
+  ngOnDestroy() {
+    this.generalFiltersSub?.unsubscribe();
+    this.retailFiltersSub?.unsubscribe();
   }
 }
