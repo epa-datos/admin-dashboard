@@ -67,23 +67,23 @@
     height: auto;
     width: calc(100vw - 260px);
     
-    &.md {
+    &.portrait {
         display: none;
     }
 
     @media screen and (max-width: 1024px){
-        &.lg {
+        &.landscape {
             display: none;
         }
 
-        &.md {
+        &.portrait {
             display: block;
         }
         
     }
 
     @media screen and (max-width: 767px){ 
-        &.md {
+        &.portrait {
             width: 80vw;
         }
     }
