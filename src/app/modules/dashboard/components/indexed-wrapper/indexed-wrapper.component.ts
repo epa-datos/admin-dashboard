@@ -9,6 +9,50 @@ import { TableItem } from '../generic-table/generic-table.component';
 export class IndexedWrapperComponent implements OnInit {
 
   selectedTab1: number = 1;
+  kpisReqStatus = 2;
+  trafficDemoStatus = [
+    { name: 'device', reqStatus: 2 },
+    { name: 'gender', reqStatus: 2 },
+    { name: 'age', reqStatus: 2 },
+    { name: 'gender-and-age', reqStatus: 2 }
+  ];
+
+  mostVistitedProductsColumns: TableItem[] = [
+    {
+      name: 'ranking',
+      title: 'Ranking'
+    },
+    {
+      name: 'product',
+      title: 'Producto',
+      tooltip: true,
+    },
+    {
+      name: 'users',
+      title: 'Usuarios',
+      textAlign: 'center',
+      formatValue: 'integer',
+    }
+  ];
+
+  mostVisitedCategoriesColumns: TableItem[] = [
+    {
+      name: 'ranking',
+      title: 'Ranking'
+    },
+    {
+      name: 'category',
+      title: 'Categoría',
+    },
+    {
+      name: 'users',
+      title: 'Usuarios',
+      textAlign: 'center',
+      formatValue: 'integer',
+    }
+  ];
+
+  ////////////////////////////////////
 
   kpis: any[] = [
     {
@@ -61,28 +105,22 @@ export class IndexedWrapperComponent implements OnInit {
     }
   ];
 
-  kpisReqStatus = 2;
-
   trafficDemographics = {
-    device: [
-      {
-        "name": "Desktop",
-        "value": 13000
-      },
-      {
-        "name": "Mobile",
-        "value": 10000
-      }
+    desktop: [
+      { name: 'empty', value: 70 },
+      { id: 1, name: 'Desktop', value: 30 },
     ],
-    gender: [
-      {
-        "name": "Hombre",
-        "value": 5500
-      },
-      {
-        "name": "Mujer",
-        "value": 7500
-      }
+    mobile: [
+      { name: 'empty', value: 30 },
+      { id: 1, name: 'Mobile', value: 70 },
+    ],
+    women: [
+      { name: 'empty', value: 55 },
+      { id: 1, name: 'woman', value: 45 },
+    ],
+    men: [
+      { name: 'empty', value: 45 },
+      { id: 1, name: 'men', value: 55 },
     ],
     age: [
       {
@@ -197,14 +235,7 @@ export class IndexedWrapperComponent implements OnInit {
     ]
   }
 
-  trafficDemoStatus = [
-    { name: 'device', reqStatus: 2 },
-    { name: 'gender', reqStatus: 2 },
-    { name: 'age', reqStatus: 2 },
-    { name: 'gender-and-age', reqStatus: 2 }
-  ];
-
-  heatmapData = [
+  trafficWeekdaysAndHours = [
     {
       "hour": "12pm",
       "weekday": "Lun",
@@ -1068,6 +1099,11 @@ export class IndexedWrapperComponent implements OnInit {
     { hour: '9 PM', visits: 100 }
   ]
 
+  sessionsVsRetVisitor = [
+    { category: 'Visitantes nuevos', value: 3200 },
+    { category: 'Visitante recurrentes', value: 2800 }
+  ]
+
   brAndPagesView = [
     {
       name: 'Porcentaje de salidas',
@@ -1109,10 +1145,25 @@ export class IndexedWrapperComponent implements OnInit {
     }
   ]
 
-  sessionsVsRetVisitor = [
-    { category: 'Visitantes nuevos', value: 3200 },
-    { category: 'Visitante recurrentes', value: 2800 }
-  ]
+  mostVisitedModels = {
+    data: [
+      { ranking: 1, product: 'Impresora Multifuncional HP Ink', users: 24569 },
+      { ranking: 2, product: 'Impresora Multifuncional HP Ink 2', users: 23547 },
+      { ranking: 3, product: 'Cartucho HP 662 preto Original', users: 22475 },
+      { ranking: 4, product: 'Cartucho HP 664 preto Original', users: 14685 },
+      { ranking: 5, product: 'Cartucho tinta HP 122 preto Original', users: 14145 }
+    ],
+    reqStatus: 2
+  }
+
+  mostVisitedCategories = {
+    data: [
+      { ranking: 1, category: 'Suplies', users: 22475 },
+      { ranking: 2, category: 'HW Print', users: 14685 },
+      { ranking: 3, category: 'Supplies', users: 14145 }
+    ],
+    reqStatus: 2
+  }
 
   categoryCoverage = [
     { category: 'Beauty & Wellness/Frequently Visits Salons', users: 1600 },
@@ -1138,66 +1189,6 @@ export class IndexedWrapperComponent implements OnInit {
     { category: 'Financial Services/Credit & Lending/Credit Cards', users: 3100 },
     { category: 'Consumer Electronics/Mobile Phones', users: 3200 },
     { category: 'Financial Services/Banking Services', users: 4731 },
-  ]
-
-  mostVistitedColumns: TableItem[] = [
-    {
-      name: 'ranking',
-      title: 'Ranking'
-    },
-    {
-      name: 'product',
-      title: 'Producto',
-      tooltip: true,
-    },
-    {
-      name: 'users',
-      title: 'Usuarios',
-      textAlign: 'center',
-      formatValue: 'integer',
-    }
-  ];
-
-  mostVisitedModels = {
-    data: [
-      { ranking: 1, product: 'Impresora Multifuncional HP Ink', users: 24569 },
-      { ranking: 2, product: 'Impresora Multifuncional HP Ink 2', users: 23547 },
-      { ranking: 3, product: 'Cartucho HP 662 preto Original', users: 22475 },
-      { ranking: 4, product: 'Cartucho HP 664 preto Original', users: 14685 },
-      { ranking: 5, product: 'Cartucho tinta HP 122 preto Original', users: 14145 }
-    ],
-    reqStatus: 2
-  }
-
-  mostVisitedCategories = {
-    data: [
-      { ranking: 1, product: 'Cartucho HP 662 preto Original', users: 22475 },
-      { ranking: 2, product: 'Cartucho HP 664 preto Original', users: 14685 },
-      { ranking: 3, product: 'Cartucho tinta HP 122 preto Original', users: 14145 },
-      { ranking: 4, product: 'Impresora Multifuncional HP Ink', users: 24569 },
-      { ranking: 5, product: 'Impresora Multifuncional HP Ink 2', users: 23547 },
-    ],
-    reqStatus: 2
-  }
-
-  desktopTraffic: any[] = [
-    { name: 'empty', value: 70 },
-    { id: 1, name: 'Desktop', value: 30 },
-  ];
-
-  mobileTraffic: any[] = [
-    { name: 'empty', value: 30 },
-    { id: 1, name: 'Mobile', value: 70 },
-  ];
-
-  womenTraffic: any[] = [
-    { name: 'empty', value: 55 },
-    { id: 1, name: 'woman', value: 45 },
-  ]
-
-  menTraffic: any[] = [
-    { name: 'empty', value: 45 },
-    { id: 1, name: 'men', value: 55 },
   ];
 
   constructor() { }
