@@ -1,5 +1,5 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute, NavigationStart, Router, Event } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import { Subscription } from 'rxjs';
 import { UsersMngmtService } from 'src/app/modules/users-mngmt/services/users-mngmt.service';
@@ -51,6 +51,7 @@ export class SidebarComponent implements OnInit, OnDestroy {
   public countrySub: Subscription;
   public retailerSub: Subscription;
   public translateSub: Subscription;
+  public routeSub: Subscription;
 
   constructor(
     private router: Router,
@@ -84,6 +85,23 @@ export class SidebarComponent implements OnInit, OnDestroy {
     this.retailerSub = this.appStateService.selectedRetailer$.subscribe(retailer => {
       this.selectedRetailerID = retailer?.id ? retailer.id : undefined;
     });
+    this.routeSub = this.router.events.subscribe((event: Event) => {
+      if (event instanceof NavigationStart) {
+        // clear selections
+        if (event.url === '/dashboard/home') {
+          this.selectedItemL1 && delete this.selectedItemL1;
+          this.selectedItemL2 && delete this.selectedItemL2;
+          this.selectedItemL3 && delete this.selectedItemL3;
+          this.selectedItemL4 && delete this.selectedItemL4;
+
+          this.appStateService.selectRetailer();
+          this.appStateService.selectCountry();
+          this.appStateService.selectMainRegion();
+
+          this.closeAllSubmenus(this.menuItems);
+        }
+      }
+    });
 
     try {
       this.menuReqStatus = 1;
@@ -108,7 +126,7 @@ export class SidebarComponent implements OnInit, OnDestroy {
     // Other routes
     const menuItem1 = {
       title: this.translate.instant('dashboard.campaignComparator'),
-      path: '/dashboard/campaign-comparator',
+      path: '/campaign-comparator',
     }
     this.menuItems.push(menuItem1);
 
@@ -151,12 +169,12 @@ export class SidebarComponent implements OnInit, OnDestroy {
           paramName: 'main-region',
           param: 'latam'
         },
-        {
-          title: 'Análisis de sentimientos OmniChat',
-          path: '/dashboard/omnichat',
-          paramName: 'main-region',
-          param: 'latam'
-        }
+        // {
+        //   title: 'Análisis de sentimientos OmniChat',
+        //   path: '/dashboard/omnichat',
+        //   paramName: 'main-region',
+        //   param: 'latam'
+        // }
       ],
       submenuOpen: false
     }
@@ -671,11 +689,22 @@ export class SidebarComponent implements OnInit, OnDestroy {
     }
   }
 
+  closeAllSubmenus(menu) {
+    for (let item of menu) {
+      if (item.submenu && item.submenuOpen) {
+        item.submenuOpen = false;
+        this.closeAllSubmenus(item.submenu);
+      }
+    }
+  }
+
   ngOnDestroy() {
     this.translateSub?.unsubscribe();
     this.mainRegionSub?.unsubscribe();
     this.countrySub?.unsubscribe();
     this.retailerSub?.unsubscribe();
+    this.routeSub?.unsubscribe();
+
     this.appStateService.selectCountry();
     this.appStateService.selectRetailer();
   }

@@ -7,6 +7,7 @@ import { Subscription } from 'rxjs';
 import { NavigationEnd, Router } from '@angular/router';
 import { filter } from 'rxjs/operators';
 import { TranslateService } from '@ngx-translate/core';
+import { LocaleService } from 'src/app/services/locale.service';
 
 @Component({
   selector: 'app-navbar',
@@ -38,24 +39,27 @@ export class NavbarComponent implements OnInit, OnDestroy {
   countryInit: boolean = true;
   retailerInit: boolean = true;
 
-  lang;
+  selectedLang;
 
   constructor(
     location: Location,
     private userService: UserService,
     private appStateService: AppStateService,
     private router: Router,
-    private translate: TranslateService
+    private translate: TranslateService,
+    private localService: LocaleService
   ) {
     this.location = location;
 
+    this.selectedLang = localStorage.getItem('lang') || this.appStateService.selectedLang || 'es';
     translate.setDefaultLang('es');
-    translate.use(localStorage.getItem('lang') || 'es');
-    this.appStateService.selectLang(localStorage.getItem('lang') || 'es');
+    translate.use(this.selectedLang);
+
+    this.appStateService.selectLang(this.selectedLang);
   }
 
   ngOnInit() {
-    this.lang = localStorage.getItem('lang') || 'es';
+    this.selectedLang = localStorage.getItem('lang') || 'es';
     this.user = this.userService.user;
 
     this.newRetailer = this.appStateService.selectedRetailer;
@@ -108,6 +112,12 @@ export class NavbarComponent implements OnInit, OnDestroy {
   }
 
   loadCustomTitles(currentUrl: string) {
+    if (currentUrl.includes('home')) {
+      this.customTitle = 'Bienvenido - Programa COOP';
+      this.customSubtitle && delete this.customSubtitle;
+      return;
+    }
+
     const newMenuItem = this.listTitles.find(title => title.path === currentUrl);
 
     if (newMenuItem) {
@@ -139,6 +149,9 @@ export class NavbarComponent implements OnInit, OnDestroy {
         this.customSubtitle && delete this.customSubtitle;
       } else if (this.newMainRegion?.name) {
         this.customTitle = this.newMainRegion?.name;
+        this.customSubtitle && delete this.customSubtitle;
+      } else {
+        this.customTitle && delete this.customTitle;
         this.customSubtitle && delete this.customSubtitle;
       }
     }
@@ -175,10 +188,15 @@ export class NavbarComponent implements OnInit, OnDestroy {
   }
 
   changeLang(lang) {
-    this.lang = lang;
+    this.selectedLang = lang;
     localStorage.setItem('lang', lang);
-    this.translate.use(localStorage.getItem('lang') || 'es');
+    const selectedLang = localStorage.getItem('lang') || 'es';
+
+    this.translate.use(selectedLang);
     this.appStateService.selectLang(lang);
+
+    this.localService.registerCulture(selectedLang);
+    window.location.reload();
   }
 
   ngOnDestroy() {
