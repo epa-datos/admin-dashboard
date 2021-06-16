@@ -131,7 +131,7 @@
             <div class="card-body">
                 <app-chart-column-line-mix name="bh-revenue-aup-audience" [data]="behavior.revenueAupByAudience"
                     category="audience" columnValue="revenue" columnName="Revenue" lineValue="aup" lineName="AUP"
-                    valueFormat="USD">
+                    valueFormat="USD" [status]="behaviorReqStatus[7].reqStatus">
                 </app-chart-column-line-mix>
             </div>
         </div>
