@@ -1452,8 +1452,73 @@ export class OmnichatWrapperComponent implements OnInit, OnDestroy {
   salesByProduct: any[] = [];
   salesByProductReqStatus: number = 0;
 
-  usersSalesAndBr = {};
-  usersSalesAndBrReqStatus: number = 0;
+  usersSalesAndCR = {};
+  usersSalesAndCRReqStatus: number = 0;
+
+  performanceByCategoryColumns: TableItem[] = [
+    {
+      name: 'category',
+      title: 'Categoría',
+    },
+    {
+      name: 'users',
+      title: 'usuarios',
+      formatValue: 'integer',
+      textAlign: 'center',
+    },
+    {
+      name: 'conversion_rate',
+      title: 'Tasa de conversión',
+      textAlign: 'center',
+      formatValue: 'percentage'
+    },
+    {
+      name: 'conversion_rate_yoy',
+      title: '%YoY',
+      textAlign: 'center',
+      // formatValue: 'percentage'
+    },
+    {
+      name: 'amount',
+      title: 'Cantidad',
+      textAlign: 'center',
+      formatValue: 'integer',
+    },
+    {
+      name: 'amount_yoy',
+      title: '%YoY',
+      textAlign: 'center',
+      // formatValue: 'percentage',
+    },
+    {
+      name: 'revenue',
+      title: 'Revenue',
+      textAlign: 'center',
+      formatValue: 'currency',
+    },
+    {
+      name: 'revenue_yoy',
+      title: '%YoY',
+      textAlign: 'center',
+      // formatValue: 'percentage',
+    }
+  ];
+  performanceByCategory = {
+    data: [],
+    reqStatus: 0
+  }
+
+  audience = {};
+  audienceReqStatus = [
+    { name: 'device', reqStatus: 0 },
+    { name: 'gender', reqStatus: 0 },
+    { name: 'age', reqStatus: 0 },
+    { name: 'genderAndAge', reqStatus: 0 },
+    { name: 'weekday', reqStatus: 0 },
+    { name: 'weekdayAndHour', reqStatus: 0 },
+    { name: 'hour', reqStatus: 0 },
+  ]
+
 
   requestInfoSub: Subscription;
 
@@ -1481,19 +1546,22 @@ export class OmnichatWrapperComponent implements OnInit, OnDestroy {
 
     let selectedMetricForTab1 = this.selectedTab1 === 1 ? 'conversions-vs-users' : 'aup-vs-revenue';
     let selectedMetricForTab2 = this.selectedTab2 === 1 ? 'traffic' : 'sales';
+    let selectedMetricForTab4 = this.selectedTab4 === 1 ? 'traffic' : 'sales';
 
     this.getStaticDataByMetric();
     this.getUsersAndRevenue(selectedMetricForTab1);
     this.getDataByLevel(selectedMetricForTab2);
     this.getSalesByProduct(selectedCategory);
     this.getUsersSalesAndCR(selectedCategory);
+    this.getPerformanceByCategory();
+    this.getAudienceByMetric(selectedMetricForTab4);
   }
 
   getStaticDataByMetric() {
     const requiredData = [
       { metricType: 'kpis', name: 'kpis' },
       { metricType: 'conversion-rate', subMtricType: 'category', name: 'conversionRate' }
-    ]
+    ];
 
     for (let metric of requiredData) {
       const reqStatusObj = this.staticDataReqStatus.find(item => item.name === metric.name);
@@ -1597,7 +1665,7 @@ export class OmnichatWrapperComponent implements OnInit, OnDestroy {
   }
 
   getUsersSalesAndCR(selectedCategory?: any) {
-    this.usersSalesAndBrReqStatus = 1;
+    this.usersSalesAndCRReqStatus = 1;
     this.omnichatService.getDataByMetric(this.selectedLevelPage.latam, 'conversion-rate', 'month', selectedCategory.id).subscribe(
       (months: any) => {
         const newMonthsObj = {};
@@ -1609,17 +1677,145 @@ export class OmnichatWrapperComponent implements OnInit, OnDestroy {
           newMonthsObj[dateStrFormat] = obj;
         }
 
-        this.usersSalesAndBr = newMonthsObj;
-        this.usersSalesAndBrReqStatus = 2;
+        this.usersSalesAndCR = newMonthsObj;
+        this.usersSalesAndCRReqStatus = 2;
       },
       error => {
         const errorMsg = error?.error?.message ? error.error.message : error?.message;
         console.error(`[overview-latam.component]: ${errorMsg}`);
-        this.usersSalesAndBrReqStatus = 3;
+        this.usersSalesAndCRReqStatus = 3;
       }
     )
   }
 
+  getPerformanceByCategory() {
+    this.performanceByCategory.reqStatus = 1;
+    this.omnichatService.getDataByMetric(this.selectedLevelPage.latam, 'performance-by-category').subscribe(
+      (categories: any) => {
+        this.performanceByCategory.data = categories.map(item => {
+          return { ...item, conversion_rate_yoy: '-', amount_yoy: '-', revenue_yoy: '-' };
+        });
+        this.performanceByCategory.reqStatus = 2;
+      },
+      error => {
+        const errorMsg = error?.error?.message ? error.error.message : error?.message;
+        console.error(`[overview-latam.component]: ${errorMsg}`);
+        this.performanceByCategory.reqStatus = 3;
+      }
+    )
+  }
+
+  getAudienceByMetric(metricType: string) {
+    const requiredData = [
+      { subMetricType: 'device', name: 'device' },
+      { subMetricType: 'gender', name: 'gender' },
+      { subMetricType: 'age', name: 'age' },
+      { subMetricType: 'gender-and-age', name: 'genderAndAge' },
+      { subMetricType: 'weekday', name: 'weekday' }
+    ];
+
+    if (metricType === 'traffic') {
+      requiredData.push(
+        { subMetricType: 'weekday-and-hour', name: 'weekdayAndHour' },
+        { subMetricType: 'hour', name: 'hour' }
+      )
+    } else {
+      this.audience['weekdayAndHour'] && delete this.audience['weekdayAndHour'];
+      this.audience['hour'] && delete this.audience['hour'];
+    }
+
+    console.log('requiredData')
+    for (let subMetric of requiredData) {
+      const reqStatusObj = this.audienceReqStatus.find(item => item.name === subMetric.name);
+      reqStatusObj.reqStatus = 1;
+      this.omnichatService.getDataByMetric(this.selectedLevelPage.latam, metricType, subMetric.subMetricType).subscribe(
+        (resp: any[]) => {
+
+          if (subMetric.name === 'device' || subMetric.name === 'gender') {
+            this.disaggregateMetric(subMetric.name, resp);
+          } else {
+            this.audience[subMetric.name] = resp;
+          };
+
+          console.log('audience', this.audience);
+
+          reqStatusObj.reqStatus = 2;
+        },
+        error => {
+          const errorMsg = error?.error?.message ? error.error.message : error?.message;
+          console.error(`[audiences-wrapper.component]: ${errorMsg}`);
+          reqStatusObj.reqStatus = 3;
+        });
+
+      this.selectedTab4 = metricType === 'traffic' ? 1 : 2;
+    }
+
+  }
+
+  disaggregateMetric(subMetric: string, dataRaw: any[]) {
+    switch (subMetric) {
+      case 'device':
+        const desktop = dataRaw.find(item => item.name === 'Desktop');
+        const mobile = dataRaw.find(item => item.name === 'Mobile');
+
+        let devicePerc = this.getPercentages(desktop?.value, mobile?.value);
+
+        console.log('devicePerc', devicePerc)
+        this.audience['deviceDesktop'] = [
+          { name: 'empty', value: devicePerc.perc1 ? 100 - (+devicePerc.perc1) : 100 },
+          { name: 'Desktop', value: devicePerc.perc1 ? devicePerc.perc1 : 0 },
+        ];
+
+        this.audience['deviceMobile'] = [
+          { name: 'empty', value: devicePerc.perc2 ? 100 - (+devicePerc.perc2) : 100 },
+          { name: 'Mobile', value: devicePerc.perc2 ? devicePerc.perc2 : 0 },
+        ];
+
+        if (!desktop) {
+          this.audience['deviceDesktop'] = [];
+          return;
+        }
+
+        if (!mobile) {
+          this.audience['deviceMobile'] = [];
+          return;
+        }
+
+        break;
+
+      case 'gender':
+        const man = dataRaw.find(item => item.name === 'Hombre');
+        const woman = dataRaw.find(item => item.name === 'Mujer');
+
+        let genderPerc = this.getPercentages(man?.value, woman?.value);
+
+        this.audience['genderMan'] = [
+          { name: 'empty', value: genderPerc.perc1 ? 100 - (+genderPerc.perc1) : 100 },
+          { name: 'Hombre', value: genderPerc.perc1 ? genderPerc.perc1 : 0 },
+        ];
+
+        this.audience['genderWoman'] = [
+          { name: 'empty', value: genderPerc.perc2 ? 100 - (+genderPerc.perc2) : 100 },
+          { name: 'Mujer', value: genderPerc.perc2 ? genderPerc.perc2 : 0 },
+        ];
+
+        if (!man) {
+          this.audience['genderMan'] = [];
+        }
+
+        if (!woman) {
+          this.audience['genderWoman'] = [];
+        }
+        break;
+    }
+  }
+
+  getPercentages(value1: any, value2: any) {
+    let total = value1 + value2;
+    let perc1 = ((value1 * 100) / total).toFixed(2);
+    let perc2 = ((value2 * 100) / total).toFixed(2);
+    return { perc1, perc2 };
+  }
 
   getDataByTrafficAndSales(metricType: string) {
     this.selectedTab1 = metricType === 'traffic' ? 1 : 2;

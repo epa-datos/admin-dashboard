@@ -196,146 +196,21 @@
                                 <div class="legend-label">Tasa de conversión</div>
                             </div>
                         </div>
-                        <app-chart-bar-group [data]="usersSalesAndBr" name="omnichat-users-transactions-rate"
+                        <app-chart-bar-group [data]="usersSalesAndCR" name="omnichat-users-transactions-rate"
                             height="325px" valueBar1="users" valueBar2="transactions" valueLine1="conversion_rate"
                             valueNameBar1="Usuarios" valueNameBar2="Conversiones" valueFormatLine1="%"
-                            [status]="usersSalesAndBrReqStatus">
+                            [status]="usersSalesAndCRReqStatus">
                         </app-chart-bar-group>
                     </div>
                 </div>
             </div>
 
-            <!-- <div class="col-12 mt-4">
-                <app-generic-table [displayedColumns]="categoriesAndUsersColumns" [tableData]="categoriesAndUsers2"
-                    [tableDataChange]="categoriesAndUsers2.data" errorMsg="Error al consultar datos"
+            <!-- PERFOMANCE BY CATEGORY -->
+            <div class="col-12 mt-4">
+                <app-generic-table [displayedColumns]="performanceByCategoryColumns" [tableData]="performanceByCategory"
+                    [tableDataChange]="performanceByCategory.data" errorMsg="Error al consultar datos"
                     emptyDataMsg="No se encontraron datos">
                 </app-generic-table>
-            </div> -->
-
-            <!-- CATEGORY AND USERS TABLE -->
-            <div class="col-12 mt-4">
-                <div class="adaptable-container" [ngClass]="{'auto': categoryAndUsersReqStatus === 3}">
-                    <div class="loading-shade" [hidden]="categoryAndUsersReqStatus > 1">
-                        <mat-spinner></mat-spinner>
-                    </div>
-
-                    <table mat-table [dataSource]="categoryAndUsersSource">
-                        <!-- category column -->
-                        <ng-container matColumnDef="category">
-                            <th mat-header-cell *matHeaderCellDef>Categoría</th>
-                            <td mat-cell *matCellDef="let element">
-                                {{ element.category }}
-                            </td>
-                        </ng-container>
-
-                        <!-- users column -->
-                        <ng-container matColumnDef="users">
-                            <th mat-header-cell *matHeaderCellDef>Usuarios</th>
-                            <td mat-cell *matCellDef="let element">
-                                <span>{{ element.users | number }}</span>
-                            </td>
-                        </ng-container>
-
-                        <!-- conversion_rate -->
-                        <ng-container matColumnDef="conversion_rate">
-                            <th mat-header-cell *matHeaderCellDef>Tasa de conversión</th>
-                            <td mat-cell *matCellDef="let element">
-                                {{ element.conversion_rate }}%
-                            </td>
-                        </ng-container>
-
-                        <!-- conversion_rate_yoy -->
-                        <ng-container matColumnDef="conversion_rate_yoy">
-                            <th mat-header-cell *matHeaderCellDef>%YoY</th>
-                            <td mat-cell *matCellDef="let element">
-                                <div class="value-container">
-                                    <span>{{ element.conversion_rate_yoy }}%</span>
-                                    <i class="fas fa-arrow-up text-success" *ngIf="element.conversion_rate_yoy > 0"></i>
-                                    <i class="fas fa-equals text-warning" *ngIf="element.conversion_rate_yoy === 0"></i>
-                                    <i class="fas fa-arrow-down text-danger"
-                                        *ngIf="element.conversion_rate_yoy < 0"></i>
-                                </div>
-                            </td>
-                        </ng-container>
-
-                        <!-- amount -->
-                        <ng-container matColumnDef="amount">
-                            <th mat-header-cell *matHeaderCellDef>Cantidad</th>
-                            <td mat-cell *matCellDef="let element">
-                                {{ element.amount | number }}
-                            </td>
-                        </ng-container>
-
-                        <!-- amount_yoy -->
-                        <ng-container matColumnDef="amount_yoy">
-                            <th mat-header-cell *matHeaderCellDef>%YoY</th>
-                            <td mat-cell *matCellDef="let element">
-                                <div class="value-container">
-                                    <span>{{ element.amount_yoy }}%</span>
-                                    <i class="fas fa-arrow-up text-success" *ngIf="element.amount_yoy > 0"></i>
-                                    <i class="fas fa-equals text-warning" *ngIf="element.amount_yoy === 0"></i>
-                                    <i class="fas fa-arrow-down text-danger" *ngIf="element.amount_yoy < 0"></i>
-                                </div>
-                            </td>
-                        </ng-container>
-
-                        <!-- revenue -->
-                        <ng-container matColumnDef="revenue">
-                            <th mat-header-cell *matHeaderCellDef>Revenue</th>
-                            <td mat-cell *matCellDef="let element">
-                                {{ element.revenue | number }}
-                            </td>
-                        </ng-container>
-
-                        <!-- revenue_yoy -->
-                        <ng-container matColumnDef="revenue_yoy">
-                            <th mat-header-cell *matHeaderCellDef>%YoY</th>
-                            <td mat-cell *matCellDef="let element">
-                                <div class="value-container">
-                                    <span>{{ element.revenue_yoy }}%</span>
-                                    <i class="fas fa-arrow-up text-success" *ngIf="element.revenue_yoy > 0"></i>
-                                    <i class="fas fa-equals text-warning" *ngIf="element.revenue_yoy === 0"></i>
-                                    <i class="fas fa-arrow-down text-danger" *ngIf="element.revenue_yoy < 0"></i>
-                                </div>
-                            </td>
-                        </ng-container>
-
-                        <!-- aup -->
-                        <ng-container matColumnDef="aup">
-                            <th mat-header-cell *matHeaderCellDef>AUP</th>
-                            <td mat-cell *matCellDef="let element">
-                                {{ element.aup | number }}
-                            </td>
-                        </ng-container>
-
-                        <!-- aup_yoy -->
-                        <ng-container matColumnDef="aup_yoy">
-                            <th mat-header-cell *matHeaderCellDef>%YoY</th>
-                            <td mat-cell *matCellDef="let element">
-                                <div class="value-container">
-                                    <span>{{ element.aup_yoy }}%</span>
-                                    <i class="fas fa-arrow-up text-success" *ngIf="element.aup_yoy > 0"></i>
-                                    <i class="fas fa-equals text-warning" *ngIf="element.aup_yoy === 0"></i>
-                                    <i class="fas fa-arrow-down text-danger" *ngIf="element.aup_yoy < 0"></i>
-                                </div>
-                            </td>
-                        </ng-container>
-
-                        <!-- ERROR COLUMN -->
-                        <ng-container matColumnDef="disclaimer">
-                            <td mat-footer-cell *matFooterCellDef colspan="3">
-                                <div class="text-danger text-center" [hidden]="categoryAndUsersReqStatus !== 3">
-                                    Ocurrió un error al consultar los productos
-                                </div>
-                            </td>
-                        </ng-container>
-
-                        <tr mat-header-row *matHeaderRowDef="categoryAndUsersColumns"></tr>
-                        <tr mat-row *matRowDef="let row; columns: categoryAndUsersColumns;"></tr>
-                        <tr mat-footer-row *matFooterRowDef="['disclaimer']" class="example-second-footer-row"
-                            [hidden]="categoryAndUsersReqStatus !== 3"></tr>
-                    </table>
-                </div>
             </div>
         </div>
     </div>
@@ -376,12 +251,12 @@
                                 <div class="chart-legend legend-center mt-0">
                                     <div class="legend-container">
                                         <div class="legend-square on color-4"></div>
-                                        <div class="legend-label">Desktop {{ desktopAudiences[1].value }}%</div>
+                                        <div class="legend-label">Desktop {{ audience?.deviceDesktop[1].value }}%</div>
                                     </div>
                                 </div>
-                                <app-chart-pictorial [data]="desktopAudiences" name="omnichat-devices-desktop"
+                                <app-chart-pictorial [data]="audience?.deviceDesktop" name="omnichat-devices-desktop"
                                     [uniqueDimensionConf]="{color: '#67B6DC'}" category="name" iconType="monitor"
-                                    height="280px">
+                                    [status]="audienceReqStatus[0].reqStatus" height="280px">
                                 </app-chart-pictorial>
                             </div>
                             <div class="col-12 col-xl-6 mt-5 mt-xl-0">
