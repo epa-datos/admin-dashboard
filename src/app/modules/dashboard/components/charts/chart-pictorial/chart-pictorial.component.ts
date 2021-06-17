@@ -13,8 +13,9 @@ import { AppStateService } from 'src/app/services/app-state.service';
 })
 export class ChartPictorialComponent implements OnInit, AfterViewInit, OnDestroy {
 
-  @Input() value: string = 'value';
   @Input() category: string = 'category';
+  @Input() value: string = 'value';
+  @Input() valueFormat: string;
   @Input() iconPath: string; // an svg icon path. If isnt't provide is necessary to use "iconType" input
   @Input() iconType: string;
   @Input() height: string = '350px'; // height property value valid in css
@@ -114,10 +115,12 @@ export class ChartPictorialComponent implements OnInit, AfterViewInit, OnDestroy
         am4core.color(this.uniqueDimensionConf.color),
       ];
 
+      const valueFormat = this.valueFormat;
+
       series.tooltip.label.adapter.add('text', function (text, target) {
         if (target.dataItem._index === 0) return '';
-        const percent = target.dataItem.values.value.value;
-        return `${percent}%`;
+        const value = `${target.dataItem.values.value.value}% ${chart.data[1]?.rawValue ? ` (${chart.data[1].rawValue})` : ''} ${valueFormat ? valueFormat : ''}`;
+        return value;
       });
     }
 

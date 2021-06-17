@@ -222,7 +222,7 @@
             </div>
 
             <!-- devices -->
-            <div class="col-12 col-md-6 mt-4">
+            <!-- <div class="col-12 col-md-6 mt-4">
                 <div class="card">
                     <div class="card-header">
                         <span class="h4">
@@ -236,10 +236,52 @@
                         </app-chart-pictorial>
                     </div>
                 </div>
+            </div> -->
+
+            <div class="col-12 col-md-6 mt-4">
+                <div class="card height-fluid">
+                    <div class="card-header">
+                        <span class="h4">
+                            {{ ((selectedTab2 === 1 ? 'general.traffic' : 'general.sales') | translate) +
+                            ('overviewLatam.chart2CardTitle1' | translate) }}
+                        </span>
+                    </div>
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-12 col-xl-6 mt-5 mt-xl-0">
+                                <div class="chart-legend legend-center mt-0">
+                                    <div class="legend-container" *ngIf="trafficAndSales?.deviceDesktop?.length > 0">
+                                        <div class="legend-square on color-1"></div>
+                                        <div class="legend-label">Desktop {{ trafficAndSales.deviceDesktop[1].value }}%
+                                        </div>
+                                    </div>
+                                </div>
+                                <app-chart-pictorial [data]="trafficAndSales?.deviceDesktop"
+                                    name="latam-devices-desktop" [uniqueDimensionConf]="{color: '#67B6DC'}"
+                                    category="name" iconType="monitor" [status]="trafficSalesReqStatus[0].reqStatus"
+                                    height="280px">
+                                </app-chart-pictorial>
+                            </div>
+                            <div class="col-12 col-xl-6 mt-5 mt-xl-0">
+                                <div class="chart-legend legend-center mt-0">
+                                    <div class="legend-container" *ngIf="trafficAndSales?.deviceMobile?.length > 0">
+                                        <div class="legend-square on color-2"></div>
+                                        <div class="legend-label">Mobile {{ trafficAndSales.deviceMobile[1].value }}%
+                                        </div>
+                                    </div>
+                                </div>
+                                <app-chart-pictorial [data]="trafficAndSales?.deviceMobile" name="latam-devices-mobile"
+                                    [uniqueDimensionConf]="{color: '#6794DC'}" category="name" iconType="cellphone"
+                                    height="280px" [status]="trafficSalesReqStatus[0].reqStatus">
+                                </app-chart-pictorial>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
 
             <!-- gender -->
-            <div class="col-12 col-md-6 mt-4">
+            <!-- <div class="col-12 col-md-6 mt-4">
                 <div class="card">
                     <div class="card-header">
                         <span class="h4">
@@ -251,6 +293,51 @@
                         <app-chart-pictorial [data]="trafficAndSales['gender']" name="latam-gender" category="name"
                             iconType="man" [status]="trafficSalesReqStatus[1].reqStatus" height="280px">
                         </app-chart-pictorial>
+                    </div>
+                </div>
+            </div> -->
+
+            <div class="col-12 col-md-6 mt-4">
+                <div class="card height-fluid">
+                    <div class="card-header">
+                        <span class="h4">
+                            {{ ((selectedTab2 === 1 ? 'general.traffic' : 'general.sales') | translate) +
+                            ('overviewLatam.chart3CardTitle1' | translate) }}
+                        </span>
+                    </div>
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-12 col-xl-6 mt-5 mt-xl-0">
+                                <div class="chart-legend legend-center mt-0">
+                                    <div class="legend-container" *ngIf="trafficAndSales?.genderMan?.length > 0">
+                                        <div class="legend-square on color-1"></div>
+                                        <div class="legend-label">
+                                            {{ ('others.men'| translate) + ' '}}
+                                            {{ trafficAndSales.genderMan[1].value }}%
+                                        </div>
+                                    </div>
+                                </div>
+                                <app-chart-pictorial [data]="trafficAndSales?.genderMan" name="latam-gender-man"
+                                    [uniqueDimensionConf]="{color: '#67B6DC'}" category="name" iconType="man"
+                                    [status]="trafficSalesReqStatus[1].reqStatus" height="280px">
+                                </app-chart-pictorial>
+                            </div>
+                            <div class="col-12 col-xl-6 mt-5 mt-xl-0">
+                                <div class="chart-legend legend-center mt-0">
+                                    <div class="legend-container" *ngIf="trafficAndSales?.genderWoman?.length > 0">
+                                        <div class="legend-square on color-2"></div>
+                                        <div class="legend-label">
+                                            {{ ('others.women'| translate) + ' '}}
+                                            {{ trafficAndSales.genderWoman[1].value }}%
+                                        </div>
+                                    </div>
+                                </div>
+                                <app-chart-pictorial [data]="trafficAndSales?.genderWoman" name="latam-gender-woman"
+                                    [uniqueDimensionConf]="{color: '#6794DC'}" category="name" iconType="woman"
+                                    height="280px" [status]="trafficSalesReqStatus[1].reqStatus">
+                                </app-chart-pictorial>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
