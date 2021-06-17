@@ -37,11 +37,11 @@
                 </div>
                 <div class="card-body">
                     <div class="chart-legend mt-0 mb-2">
-                        <div class="legend-container">
+                        <div class="legend-container-hp">
                             <div class="legend-square on"></div>
                             <div class="legend-label">Activas</div>
                         </div>
-                        <div class="legend-container ml-3">
+                        <div class="legend-container-hp ml-3">
                             <div class="legend-square off"></div>
                             <div class="legend-label">Inactivas</div>
                         </div>
@@ -51,6 +51,208 @@
                         height="250px" [showTooltipValue]="false" [showGridBorders]="true" [showHeatLegend]="false"
                         [status]="categoriesReqStatus" [minValue]="0" [maxValue]="1" initialColor="#e9e9e9">
                     </app-chart-heat-map>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- <div class="row mt-5">
+        <div class="col-12">
+            <div class="pills-container">
+                <ul class="nav nav-pills nav-fill">
+                    <li class="nav-item">
+                        <a class="nav-link p-2" [ngClass]="{'active': selectedTab3 === 1}"
+                            (click)="getDataByUsersAndSales('users')">Usuarios vs Ventas</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link p-2" [ngClass]="{'active': selectedTab3 === 2}"
+                            (click)="getDataByUsersAndSales('sales')">Inversión vs AUP</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link p-2" [ngClass]="{'active': selectedTab3 === 3}"
+                            (click)="getDataByUsersAndSales('sales'); selectedTab3 = 3">Revenue vs AUP</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+        <div class="col-12 mt-4">
+            <div class="card">
+                <div class="card-header">
+                    <ng-container [ngSwitch]="selectedTab3">
+                        <span *ngSwitchCase="1" class="h4">{{ 'general.usersVsSales' | translate }}</span>
+                        <span *ngSwitchCase="2" class="h4">{{ 'general.investmentVsRevenue' | translate }}</span>
+                        <span *ngSwitchCase="3" class="h4">{{ 'general.revenueVsAup' | translate }}</span>
+                    </ng-container>
+                </div>
+                <div class="card-body">
+                    <app-chart-line-series *ngIf="selectedTab3 === 1" [series]="usersAndSalesBySector"
+                        [valueName]="selectedTab3 === 1 ? 'Usuarios' : 'Ventas'"
+                        [yTitle]="selectedTab3 === 1 ? 'Usuarios' : 'Ventas'"
+                        [name]="selectedType + 'sales-users-by-sector'" [status]="usersAndSalesReqStatus">
+                    </app-chart-line-series>
+
+                    <app-chart-multiple-axes *ngIf="selectedTab3 === 2" [data]="investmentVsRevenue"
+                        valueName1="Inversión" valueName2="Revenue" value1="investment" value2="revenue"
+                        [name]="selectedType + 'investment-vs-revenue'" valueFormat1="USD" valueFormat2="USD">
+                    </app-chart-multiple-axes>
+
+                    <app-chart-multiple-axes *ngIf="selectedTab3 === 3" [data]="aupVsRevenueM" valueName1="Revenue"
+                        valueName2="AUP" value1="revenue" value2="aup" valueFormat1="USD" valueFormat2="USD"
+                        [name]="selectedType + 'investment-vs-aup'">
+                    </app-chart-multiple-axes>
+                </div>
+            </div>
+        </div>
+    </div> -->
+
+    <div class="row mt-5">
+        <div class="col-12">
+            <div class="pills-container">
+                <ul class="nav nav-pills nav-fill">
+                    <li class="nav-item">
+                        <a class="nav-link p-2" [ngClass]="{'active': selectedTab3 === 1}"
+                            (click)="getDataByUsersAndSales('users')">{{ 'general.usersVsSales1' | translate }}</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link p-2" [ngClass]="{'active': selectedTab3 === 2}"
+                            (click)="getDataByUsersAndSales('sales')">{{ 'general.investmentVsRevenue1' | translate
+                            }}</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link p-2" [ngClass]="{'active': selectedTab3 === 3}"
+                            (click)="getDataByUsersAndSales('sales'); selectedTab3 = 3">{{ 'general.revenueVsAup1' |
+                            translate }}</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="col-12 mt-4">
+            <div class="card">
+                <div class="card-header">
+                    <ng-container [ngSwitch]="selectedTab3">
+                        <span *ngSwitchCase="1" class="h4">{{ 'general.usersVsSales' | translate }}</span>
+                        <span *ngSwitchCase="2" class="h4">{{ 'general.investmentVsRevenue' | translate }}</span>
+                        <span *ngSwitchCase="3" class="h4">{{ 'general.revenueVsAup' | translate }}</span>
+                    </ng-container>
+                    <!-- <span class="h4">
+                        {{
+                        ((selectedTab3 === 1 ? 'general.users' : 'general.sales') | translate) + ' ' +
+                        ('others.by' | translate)
+                        }}
+                    </span> -->
+                    <!-- <ng-container [ngSwitch]="selectedTab4">
+                        <span *ngSwitchCase="1" class="h4">{{ 'general.sector' | translate }}</span>
+                        <span *ngSwitchCase="2" class="h4">{{ 'general.category' | translate }}</span>
+                        <span *ngSwitchCase="3" class="h4">{{ 'general.source' | translate }}</span>
+                    </ng-container> -->
+                </div>
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-12 mb-4">
+                            <ul class="nav nav-tabs">
+                                <li class="nav-item" *ngFor="let metric of usersAndSalesMetrics; let i = index">
+                                    <a class="nav-link" [ngClass]="{'active bg-light' : selectedTab4 === i + 1}"
+                                        (click)="selectedTab4 = i + 1; selectedTab5 = 1; getDataByUsersAndSales(selectedTab3 === 1 ? 'users' : 'sales')">
+                                        <span>{{ metric | titlecase }}</span>
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="col-12 mb-2">
+                            <div [ngClass]="{'pills-container' : selectedTab4 !== 3}">
+                                <!-- sector -->
+                                <ul class="nav nav-pills nav-fill"
+                                    *ngIf="selectedTab4 === 1 && selectedSectors?.length > 1">
+                                    <li class="nav-item mb-2">
+                                        <a class="nav-link p-2" [ngClass]="{'active': selectedTab5 === 1}"
+                                            (click)="selectedTab5 = 1; getDataByUsersAndSales(selectedTab3 === 1 ? 'users' : 'sales'); clearUsersAndSalesTabs()">
+                                            {{ 'others.all' | translate | titlecase }}
+                                        </a>
+                                    </li>
+                                    <li class="nav-item mb-2" *ngFor="let sector of selectedSectors">
+                                        <a class="nav-link p-2" [ngClass]="{'active': sector.id + 2 === selectedTab5}"
+                                            (click)="selectedTab5 = sector.id + 2; getDataByUsersAndSales(selectedTab3 === 1 ? 'users' : 'sales', sector)">
+                                            {{ sector.name }}
+                                        </a>
+                                    </li>
+                                </ul>
+
+                                <!-- categoria -->
+                                <ul class="nav nav-pills nav-fill"
+                                    *ngIf="selectedTab4 === 2 && selectedCategories?.length > 1">
+                                    <li class="nav-item mb-2">
+                                        <a class="nav-link p-2" [ngClass]="{'active': selectedTab5 === 1}"
+                                            (click)="selectedTab5 = 1; getDataByUsersAndSales(selectedTab3 === 1 ? 'users' : 'sales')">
+                                            {{ 'others.all' | translate | titlecase }}
+                                        </a>
+                                    </li>
+                                    <li class="nav-item mb-2" *ngFor="let category of selectedCategories">
+                                        <a class="nav-link p-2" [ngClass]="{'active': category.id + 2 === selectedTab5}"
+                                            (click)="selectedTab5 = category.id + 2; getDataByUsersAndSales(selectedTab3 === 1 ? 'users' : 'sales', null, category)">
+                                            {{ category.name }}
+                                        </a>
+                                    </li>
+                                </ul>
+
+                                <!-- medio -->
+                                <ul class="nav nav-pills nav-fill"
+                                    *ngIf="selectedTab4 === 3 && selectedSources?.length > 1">
+                                    <li class="nav-item mb-2">
+                                        <a class="nav-link p-2" [ngClass]="{'active': selectedTab5 === 1}"
+                                            (click)="selectedTab5 = 1; getDataByUsersAndSales(selectedTab3 === 1 ? 'users' : 'sales')">
+                                            {{ 'others.all' | translate | titlecase }}
+                                        </a>
+                                    </li>
+                                    <li class="nav-item mb-2" *ngFor="let source of selectedSources">
+                                        <a class="nav-link p-2" [ngClass]="{'active': source.id + 2 === selectedTab5}"
+                                            (click)="selectedTab5 = source.id + 2; getDataByUsersAndSales(selectedTab3 === 1 ? 'users' : 'sales', null, null, source)">
+                                            {{ source.name }}
+                                        </a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- <div class="period-popover" ngbDropdown>
+                        <a ngbDropdownToggle>
+                            <i class="fas fa-question-circle"></i>
+                        </a>
+                        <div class="content" ngbDropdownMenu>
+                            <li class="period text-sm" *ngFor="let serie of usersAndSalesByMetric; let i = index">
+                                <div class="line mr-2"
+                                    [ngClass]="{'first': i === 0, 'second': i === 1, 'third': i === 2}">
+                                </div>
+                                <strong class="mr-2">{{ serie.name }}</strong>
+                                <span>{{ serie.period }}</span>
+                            </li>
+                        </div>
+                    </div> -->
+
+                    <!-- <app-chart-line-series *ngIf="selectedTab3 === 1" [series]="usersAndSalesByMetric"
+                        [valueName]="selectedTab3 === 1 ? 'Usuarios' : 'Ventas'"
+                        [yTitle]="selectedTab3 === 1 ? 'Usuarios' : 'Ventas'" name="latam-sales-users-by-sector"
+                        [status]="usersAndSalesReqStatus">
+                    </app-chart-line-series> -->
+
+                    <app-chart-multiple-axes *ngIf="selectedTab3 === 1" [data]="trafficVsConversionsM"
+                        valueName1="Conversiones" valueName2="Usuarios" value1="conversions" value2="traffic"
+                        valueFormat1="USD" valueFormat2="USD"
+                        [name]="selectedType + 'overview-traffic-vs-convnversions'">
+                    </app-chart-multiple-axes>
+
+                    <app-chart-multiple-axes *ngIf="selectedTab3 === 2" [data]="investmentVsRevenueM"
+                        [valueName1]="'overviewLatam.chart7ValueName1' | translate"
+                        [valueName2]="'overviewLatam.chart7ValueName2' | translate" value1="investment" value2="revenue"
+                        valueFormat1="USD" valueFormat2="USD" [name]="selectedType + 'overview-investment-vs-revenue'"
+                        [status]="invVsRevenueReqStatus">
+                    </app-chart-multiple-axes>
+
+                    <app-chart-multiple-axes *ngIf="selectedTab3 === 3" [data]="aupVsRevenueM" valueName1="Revenue"
+                        valueName2="AUP" value1="revenue" value2="aup" valueFormat1="USD" valueFormat2="USD"
+                        [name]="selectedType +'overview-revenue-vs-aup'">
+                    </app-chart-multiple-axes>
                 </div>
             </div>
         </div>
@@ -73,7 +275,7 @@
         </div>
 
         <!-- devices -->
-        <div class="col-12 col-md-6 mt-4">
+        <!-- <div class="col-12 col-md-6 mt-4">
             <div class="card">
                 <div class="card-header">
                     <span class="h4">{{selectedTab2 === 1 ? 'Tráfico' : 'Ventas'}} por dispositivos</span>
@@ -84,10 +286,53 @@
                     </app-chart-pictorial>
                 </div>
             </div>
+        </div> -->
+
+        <div class="col-12 col-md-6 mt-4">
+            <div class="card height-fluid">
+                <div class="card-header">
+                    <span class="h4">
+                        {{ ((selectedTab2 === 1 ? 'general.traffic' : 'general.sales') | translate) +
+                        ('overviewLatam.chart2CardTitle1' | translate) }}
+                    </span>
+                </div>
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-12 col-xl-6 mt-5 mt-xl-0">
+                            <div class="chart-legend legend-center mt-0">
+                                <div class="legend-container" *ngIf="trafficAndSales?.deviceDesktop?.length > 0">
+                                    <div class="legend-square on color-1"></div>
+                                    <div class="legend-label">Desktop {{ trafficAndSales.deviceDesktop[1].value }}%
+                                    </div>
+                                </div>
+                            </div>
+                            <app-chart-pictorial [data]="trafficAndSales?.deviceDesktop"
+                                [name]="selectedType + 'device-desktop'" [uniqueDimensionConf]="{color: '#67B6DC'}"
+                                category="name" iconType="monitor" [status]="trafficSalesReqStatus[0].reqStatus"
+                                height="280px">
+                            </app-chart-pictorial>
+                        </div>
+                        <div class="col-12 col-xl-6 mt-5 mt-xl-0">
+                            <div class="chart-legend legend-center mt-0">
+                                <div class="legend-container" *ngIf="trafficAndSales?.deviceMobile?.length > 0">
+                                    <div class="legend-square on color-2"></div>
+                                    <div class="legend-label">Mobile {{ trafficAndSales.deviceMobile[1].value }}%
+                                    </div>
+                                </div>
+                            </div>
+                            <app-chart-pictorial [data]="trafficAndSales?.deviceMobile"
+                                [name]="selectedType + 'device-mobile'" [uniqueDimensionConf]="{color: '#6794DC'}"
+                                category="name" iconType="cellphone" height="280px"
+                                [status]="trafficSalesReqStatus[0].reqStatus">
+                            </app-chart-pictorial>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
 
         <!-- gender -->
-        <div class="col-12 col-md-6 mt-4">
+        <!-- <div class="col-12 col-md-6 mt-4">
             <div class="card">
                 <div class="card-header">
                     <span class="h4">{{selectedTab2 === 1 ? 'Tráfico' : 'Ventas'}} por Género</span>
@@ -98,7 +343,55 @@
                     </app-chart-pictorial>
                 </div>
             </div>
+        </div> -->
+
+        <div class="col-12 col-md-6 mt-4">
+            <div class="card height-fluid">
+                <div class="card-header">
+                    <span class="h4">
+                        {{ ((selectedTab2 === 1 ? 'general.traffic' : 'general.sales') | translate) +
+                        ('overviewLatam.chart3CardTitle1' | translate) }}
+                    </span>
+                </div>
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-12 col-xl-6 mt-5 mt-xl-0">
+                            <div class="chart-legend legend-center mt-0">
+                                <div class="legend-container" *ngIf="trafficAndSales?.genderMan?.length > 0">
+                                    <div class="legend-square on color-1"></div>
+                                    <div class="legend-label">
+                                        {{ ('others.men'| translate) + ' '}}
+                                        {{ trafficAndSales.genderMan[1].value }}%
+                                    </div>
+                                </div>
+                            </div>
+                            <app-chart-pictorial [data]="trafficAndSales?.genderMan"
+                                [name]="selectedType + 'gender-man'" [uniqueDimensionConf]="{color: '#67B6DC'}"
+                                category="name" iconType="man" [status]="trafficSalesReqStatus[1].reqStatus"
+                                height="280px">
+                            </app-chart-pictorial>
+                        </div>
+                        <div class="col-12 col-xl-6 mt-5 mt-xl-0">
+                            <div class="chart-legend legend-center mt-0">
+                                <div class="legend-container" *ngIf="trafficAndSales?.genderWoman?.length > 0">
+                                    <div class="legend-square on color-2"></div>
+                                    <div class="legend-label">
+                                        {{ ('others.women'| translate) + ' '}}
+                                        {{ trafficAndSales.genderWoman[1].value }}%
+                                    </div>
+                                </div>
+                            </div>
+                            <app-chart-pictorial [data]="trafficAndSales?.genderWoman"
+                                [name]="selectedType + 'gender-woman'" [uniqueDimensionConf]="{color: '#6794DC'}"
+                                category="name" iconType="woman" height="280px"
+                                [status]="trafficSalesReqStatus[1].reqStatus">
+                            </app-chart-pictorial>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
+
 
         <!-- age -->
         <div class="col-12 col-md-6 mt-4">
@@ -146,53 +439,6 @@
                         class="chart-error-container text-muted">
                         <span>Error al consultar datos</span>
                     </div>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <div class="row mt-5">
-        <div class="col-12">
-            <div class="pills-container">
-                <ul class="nav nav-pills nav-fill">
-                    <li class="nav-item">
-                        <a class="nav-link p-2" [ngClass]="{'active': selectedTab3 === 1}"
-                            (click)="getDataByUsersAndSales('users')">Usuarios</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link p-2" [ngClass]="{'active': selectedTab3 === 2}"
-                            (click)="getDataByUsersAndSales('sales')">Ventas</a>
-                    </li>
-                </ul>
-            </div>
-        </div>
-        <div class="col-12 mt-4">
-            <div class="card">
-                <div class="card-header">
-                    <span class="h4" [hidden]="selectedTab3 === 2">Usuarios por Sector</span>
-                    <span class="h4" [hidden]="selectedTab3 === 1">Ventas por Sector</span>
-                </div>
-                <div class="card-body">
-                    <app-chart-line-series [series]="usersAndSalesBySector"
-                        [valueName]="selectedTab3 === 1 ? 'Usuarios' : 'Ventas'"
-                        [name]="selectedType + 'sales-users-by-sector'" [status]="usersAndSalesReqStatus">
-                    </app-chart-line-series>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <div class="row mt-5">
-        <div class="col-12">
-            <div class="card">
-                <div class="card-header">
-                    <span class="h4">Inversión vs Revenue</span>
-                </div>
-                <div class="card-body">
-                    <app-chart-multiple-axes [data]="investmentVsRevenue" valueName1="Inversión" valueName2="Revenue"
-                        value1="investment" value2="revenue" [name]="selectedType + 'investment-vs-revenue'"
-                        [status]="invVsRevenueReqStatus">
-                    </app-chart-multiple-axes>
                 </div>
             </div>
         </div>
