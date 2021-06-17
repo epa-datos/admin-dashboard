@@ -89,3 +89,42 @@
         }
     }
 }
+
+
+.chart-legend {
+    display: flex;
+    padding: 0 15px;
+
+    &.legend-right {
+        justify-content: flex-end;
+    }
+
+    &.legend-center {
+        justify-content: center;
+    }
+
+    .legend-container {
+        align-items: center;
+        display: flex;
+
+        .legend-square {
+            border-radius: 4px;
+            height: 16px;
+            margin-right: 4px;
+            width: 16px;
+
+            &.color-1 {
+                background-color: #67B6DC;
+            }
+
+            &.color-2 {
+                background-color: #6794DC;
+            }
+        }
+
+        .legend-label {
+            color: #000000;
+            font-size: 12px;
+        }
+    }
+}
