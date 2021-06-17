@@ -405,20 +405,20 @@ export class OmnichatWrapperComponent implements OnInit, OnDestroy {
 
   trafficAudiences = {
     desktop: [
-      { name: 'empty', value: 70 },
-      { id: 1, name: 'Desktop', value: 30 },
+      { name: 'empty', value: 59 },
+      { id: 1, name: 'Desktop', value: 41, rawValue: 3800 },
     ],
     mobile: [
-      { name: 'empty', value: 30 },
-      { id: 1, name: 'Mobile', value: 70 },
+      { name: 'empty', value: 41 },
+      { id: 1, name: 'Mobile', value: 59, rawValue: 4200 },
     ],
     women: [
-      { name: 'empty', value: 55 },
-      { id: 1, name: 'woman', value: 45 },
+      { name: 'empty', value: 46 },
+      { id: 1, name: 'woman', value: 54, rawValue: 3300 },
     ],
     men: [
-      { name: 'empty', value: 45 },
-      { id: 1, name: 'men', value: 55 },
+      { name: 'empty', value: 54 },
+      { id: 1, name: 'men', value: 46, rawValue: 2500 },
     ],
     age: [
       {
@@ -1397,19 +1397,19 @@ export class OmnichatWrapperComponent implements OnInit, OnDestroy {
   conversionAudience = {
     desktop: [
       { name: 'empty', value: 80 },
-      { name: 'Desktop', value: 20 },
+      { name: 'Desktop', value: 20, rawValue: 2 },
     ],
     mobile: [
       { name: 'empty', value: 20 },
-      { name: 'Mobile', value: 80 },
+      { name: 'Mobile', value: 80, rawValue: 8 },
     ],
     women: [
       { name: 'empty', value: 40 },
-      { name: 'woman', value: 60 },
+      { name: 'woman', value: 60, rawValue: 6 },
     ],
     men: [
       { name: 'empty', value: 60 },
-      { name: 'men', value: 40 },
+      { name: 'men', value: 40, rawValue: 4 },
     ],
     age: [
       {
