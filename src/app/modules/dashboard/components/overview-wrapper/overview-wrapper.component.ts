@@ -106,6 +106,133 @@ export class OverviewWrapperComponent implements OnInit, OnDestroy {
   chartsInitLoad: boolean = true;
 
   /// DATA MOCK
+  /// DATA MOCK
+  trafficVsConversionsM = [{
+    date: '2021-06-02',
+    traffic: 434,
+    conversions: 15,
+  }, {
+    date: '2021-06-03',
+    traffic: 634,
+    conversions: 25,
+  }, {
+    date: '2021-06-04',
+    traffic: 574,
+    conversions: 20,
+  }, {
+    date: '2021-06-05',
+    traffic: 615,
+    conversions: 16,
+  }, {
+    date: '2021-06-06',
+    traffic: 732,
+    conversions: 5,
+  }, {
+    date: '2021-06-07',
+    traffic: 1412,
+    conversions: 32,
+  }, {
+    date: '2021-06-08',
+    traffic: 716,
+    conversions: 11,
+  }, {
+    date: '2021-06-09',
+    traffic: 3710,
+    conversions: 22,
+  }, {
+    date: '2021-06-10',
+    traffic: 1298,
+    conversions: 66,
+  }, {
+    date: '2021-06-11',
+    traffic: 816,
+    conversions: 39,
+  }, {
+    date: '2021-06-12',
+    traffic: 1963,
+    conversions: 43,
+  }, {
+    date: '2021-06-13',
+    traffic: 1809,
+    conversions: 29,
+  }, {
+    date: '2021-06-14',
+    traffic: 1434,
+    conversions: 36,
+  }, {
+    date: '2021-06-15',
+    traffic: 2359,
+    conversions: 16,
+  }, {
+    date: '2021-06-16',
+    traffic: 2114,
+    conversions: 66,
+  }];
+
+  investmentVsRevenueM = [
+    {
+      date: '2021-06-02',
+      investment: 4516.232,
+      revenue: 34977,
+    }, {
+      date: '2021-06-03',
+      investment: 3816.232,
+      revenue: 15977,
+    }, {
+      date: '2021-06-04',
+      investment: 3717.643,
+      revenue: 12677,
+    }, {
+      date: '2021-06-05',
+      investment: 4723.765,
+      revenue: 24141,
+    }, {
+      date: '2021-06-06',
+      investment: 4205.837,
+      revenue: 24172,
+    }, {
+      date: '2021-06-07',
+      investment: 4326.599,
+      revenue: 11498,
+    }, {
+      date: '2021-06-08',
+      investment: 2485.788,
+      revenue: 43770,
+    }, {
+      date: '2021-06-09',
+      investment: 3710.785,
+      revenue: 20874,
+    }, {
+      date: '2021-06-10',
+      investment: 2816.232,
+      revenue: 25977.84,
+    }, {
+      date: '2021-06-11',
+      investment: 3517.643,
+      revenue: 1375.64,
+    }, {
+      date: '2021-06-12',
+      investment: 4923.765,
+      revenue: 35541.75,
+    }, {
+      date: '2021-06-13',
+      investment: 7205.837,
+      revenue: 58172.32,
+    }, {
+      date: '2021-06-14',
+      investment: 2121.599,
+      revenue: 23498.33,
+    }, {
+      date: '2021-06-15',
+      investment: 3585.788,
+      revenue: 13770.55,
+    }, {
+      date: '2021-06-16',
+      investment: 3850.785,
+      revenue: 40874.56,
+    }
+  ]
+
   aupVsRevenueM = [{
     date: '2021-06-02',
     revenue: 4816.232,
@@ -168,6 +295,20 @@ export class OverviewWrapperComponent implements OnInit, OnDestroy {
     aup: 40874,
   }];
 
+  usersAndSalesMetrics: string[] = ['sector', 'categoría', 'medio'];
+  // available tabs
+  selectedCategories: any[] = []; // for topProducts and usersAndSalesByMetric
+  selectedSources: any[] = []; // for usersAndSalesByMetric
+  selectedCategoryTab1;
+  selectedSourceTab;
+
+  selectedTab4;
+  selectedTab5;
+
+  // selectedSectorsTab = ['Todo', 'Sarach', 'Mrketing', 'Ventas'];
+  // this.selectedCategories = ['Todo', 'PS', 'HW Print', 'Supplies'];
+  // this.selectedSources = ['Google', 'Social', 'Email', 'Display']
+
   constructor(
     private filtersStateService: FiltersStateService,
     private overviewService: OverviewService
@@ -187,10 +328,24 @@ export class OverviewWrapperComponent implements OnInit, OnDestroy {
 
   getAllData(preserveSelectedTabs?: boolean) {
     this.selectedSectors = this.filtersStateService.sectors;
-
+    this.selectedCategories = this.filtersStateService.categories;
+    this.selectedSources = [
+      { id: 1, name: 'Google' },
+      { id: 2, name: 'Social' },
+      { id: 3, name: 'Email' },
+      { id: 4, name: 'Display' }
+    ]
     let selectedSector;
     let trafficOrSales;
     let usersOrSales;
+
+    selectedSector = this.selectedSectors[0];
+    trafficOrSales = 'traffic';
+    usersOrSales = 'users';
+
+    this.selectedTab4 = 1;
+    this.selectedTab5 = 1;
+
 
     if (!preserveSelectedTabs) {
       selectedSector = this.selectedSectors[0];
@@ -198,6 +353,8 @@ export class OverviewWrapperComponent implements OnInit, OnDestroy {
       usersOrSales = 'users';
     } else {
       const previousSector = this.selectedSectors.find(sector => sector.id === this.selectedSectorTab.id);
+      const previousCategory = this.selectedCategories.find(category => category.id === this.selectedCategoryTab1?.id);
+      const previousSource = this.selectedSources.find(source => source.id === this.selectedSourceTab?.id);
       selectedSector = previousSector ? previousSector : this.selectedSectors[0];
       trafficOrSales = this.selectedTab2 === 1 ? 'traffic' : 'sales';
       usersOrSales = this.selectedTab3 === 1 ? 'users' : 'sales';
@@ -378,6 +535,11 @@ export class OverviewWrapperComponent implements OnInit, OnDestroy {
     return { perc1, perc2 };
   }
 
+  clearUsersAndSalesTabs() {
+    this.selectedSectorTab && delete this.selectedSectorTab;
+    this.selectedCategoryTab1 && delete this.selectedCategoryTab1;
+    this.selectedSourceTab && delete this.selectedSourceTab;
+  }
 
   ngOnDestroy() {
     this.requestInfoSub?.unsubscribe();

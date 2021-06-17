@@ -98,6 +98,7 @@
         "institutional": "Institucional",
         "others": "Outros",
         "usersVsSales": "Usuários vs Vendas",
+        "usersVsSales1": "Usuários - Vendas",
         "investmentVsRevenue": "Investimento vs Revenue",
         "revenueVsAup": "Revenue vs AUP",
         "errorData": "Erro ao consultar dados",

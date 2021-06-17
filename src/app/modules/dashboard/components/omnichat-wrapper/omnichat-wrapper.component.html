@@ -16,15 +16,15 @@
             <ul class="nav nav-pills nav-fill">
                 <li class="nav-item">
                     <a class="nav-link p-2" [ngClass]="{'active': selectedTab1 === 1}"
-                        (click)="getPerformanceData('users');">Usuarios vs Conversiones</a>
+                        (click)="getPerformanceData('users');">{{ 'general.usersVsSales1' | translate }}</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link p-2" [ngClass]="{'active': selectedTab1 === 2}"
-                        (click)="getPerformanceData('investment')">Inversión vs Revenue</a>
+                        (click)="getPerformanceData('investment')">{{ 'general.investmentVsRevenue1' | translate }}</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link p-2" [ngClass]="{'active': selectedTab1 === 3}"
-                        (click)="getPerformanceData('revenue')">Revenue vs AUP</a>
+                        (click)="getPerformanceData('revenue')">{{ 'general.revenueVsAup1' |translate }}</a>
                 </li>
             </ul>
         </div>
