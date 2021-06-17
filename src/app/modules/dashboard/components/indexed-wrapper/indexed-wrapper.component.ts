@@ -85,7 +85,7 @@ export class IndexedWrapperComponent implements OnInit {
       metricTitle: 'porcentaje de rebote',
       metricName: 'bounce_rate',
       metricValue: 3.87,
-      metricFormat: 'integer',
+      metricFormat: 'percentage',
       icon: 'fas fa-low-vision',
       iconBg: '#f89934'
     },
@@ -107,88 +107,347 @@ export class IndexedWrapperComponent implements OnInit {
   ];
 
   // Top sesiones por retailers
-  topSessionsByRetailer = [
+  sessionsByCountry = [
+    {
+      name: 'Argentina',
+      serie: [
+        { date: '2021-06-01', value: 1639 },
+        { date: '2021-06-02', value: 1962 },
+        { date: '2021-06-03', value: 1486 },
+        { date: '2021-06-04', value: 1505 },
+        { date: '2021-06-05', value: 1434 },
+        { date: '2021-06-06', value: 1298 },
+        { date: '2021-06-07', value: 1600 },
+        { date: '2021-06-08', value: 1586 },
+        { date: '2021-06-09', value: 1533 },
+        { date: '2021-06-10', value: 1429 },
+        { date: '2021-06-11', value: 1219 },
+        { date: '2021-06-12', value: 1093 },
+        { date: '2021-06-13', value: 1044 },
+        { date: '2021-06-14', value: 1478 },
+        { date: '2021-06-15', value: 1354 },
+        { date: '2021-06-16', value: 610 }
+      ]
+    },
+    {
+      name: 'Brasil',
+      serie: [
+        { date: '2021-06-01', value: 3748 },
+        { date: '2021-06-02', value: 3544 },
+        { date: '2021-06-03', value: 2640 },
+        { date: '2021-06-04', value: 3096 },
+        { date: '2021-06-05', value: 2138 },
+        { date: '2021-06-06', value: 2174 },
+        { date: '2021-06-07', value: 4572 },
+        { date: '2021-06-08', value: 4684 },
+        { date: '2021-06-09', value: 4533 },
+        { date: '2021-06-10', value: 4622 },
+        { date: '2021-06-11', value: 3446 },
+        { date: '2021-06-12', value: 2172 },
+        { date: '2021-06-13', value: 2225 },
+        { date: '2021-06-14', value: 4229 },
+        { date: '2021-06-15', value: 4126 },
+        { date: '2021-06-16', value: 2313 }
+      ],
+    },
+    {
+      name: 'CAC',
+      serie: [
+        { date: '2021-06-01', value: 1698 },
+        { date: '2021-06-02', value: 1653 },
+        { date: '2021-06-03', value: 1674 },
+        { date: '2021-06-04', value: 1640 },
+        { date: '2021-06-05', value: 1383 },
+        { date: '2021-06-06', value: 1254 },
+        { date: '2021-06-07', value: 1701 },
+        { date: '2021-06-08', value: 1637 },
+        { date: '2021-06-09', value: 1677 },
+        { date: '2021-06-10', value: 1636 },
+        { date: '2021-06-11', value: 1653 },
+        { date: '2021-06-12', value: 1424 },
+        { date: '2021-06-13', value: 1496 },
+        { date: '2021-06-14', value: 1764 },
+        { date: '2021-06-15', value: 1766 },
+        { date: '2021-06-16', value: 836 }
+      ]
+    },
     {
       name: 'Chile',
       serie: [
-        { date: '2021-06-02', value: 103873 },
-        { date: '2021-06-03', value: 98735 },
-        { date: '2021-06-04', value: 96293 },
-        { date: '2021-06-05', value: 102847 },
-        { date: '2021-06-06', value: 103173 },
-        { date: '2021-06-07', value: 103183 },
-        { date: '2021-06-08', value: 102847 },
-        { date: '2021-06-09', value: 103482 },
-        { date: '2021-06-10', value: 104726 },
-        { date: '2021-06-11', value: 99372 },
-        { date: '2021-06-12', value: 100783 },
-        { date: '2021-06-13', value: 102837 },
-        { date: '2021-06-14', value: 103746 },
-        { date: '2021-06-15', value: 103482 },
-        { date: '2021-06-16', value: 102784 }
+        { date: '2021-06-01', value: 52655 },
+        { date: '2021-06-02', value: 47697 },
+        { date: '2021-06-03', value: 16082 },
+        { date: '2021-06-04', value: 12231 },
+        { date: '2021-06-05', value: 11052 },
+        { date: '2021-06-06', value: 11279 },
+        { date: '2021-06-07', value: 12690 },
+        { date: '2021-06-08', value: 12411 },
+        { date: '2021-06-09', value: 12754 },
+        { date: '2021-06-10', value: 13078 },
+        { date: '2021-06-11', value: 12005 },
+        { date: '2021-06-12', value: 11800 },
+        { date: '2021-06-13', value: 12131 },
+        { date: '2021-06-14', value: 14232 },
+        { date: '2021-06-15', value: 13709 },
+        { date: '2021-06-16', value: 5504 }
+      ]
+    },
+    {
+      name: 'Colombia',
+      serie: [
+        { date: '2021-06-01', value: 1646 },
+        { date: '2021-06-02', value: 1501 },
+        { date: '2021-06-03', value: 1571 },
+        { date: '2021-06-04', value: 1477 },
+        { date: '2021-06-05', value: 1214 },
+        { date: '2021-06-06', value: 1350 },
+        { date: '2021-06-07', value: 1245 },
+        { date: '2021-06-08', value: 1443 },
+        { date: '2021-06-09', value: 1698 },
+        { date: '2021-06-10', value: 1695 },
+        { date: '2021-06-11', value: 1751 },
+        { date: '2021-06-12', value: 1547 },
+        { date: '2021-06-13', value: 1447 },
+        { date: '2021-06-14', value: 1589 },
+        { date: '2021-06-15', value: 1827 },
+        { date: '2021-06-16', value: 833 }
+      ]
+    },
+    {
+      name: 'Ecuador',
+      serie: [
+        { date: '2021-06-01', value: 195 },
+        { date: '2021-06-02', value: 232 },
+        { date: '2021-06-03', value: 274 },
+        { date: '2021-06-04', value: 219 },
+        { date: '2021-06-05', value: 235 },
+        { date: '2021-06-06', value: 180 },
+        { date: '2021-06-07', value: 239 },
+        { date: '2021-06-08', value: 230 },
+        { date: '2021-06-09', value: 240 },
+        { date: '2021-06-10', value: 214 },
+        { date: '2021-06-11', value: 196 },
+        { date: '2021-06-12', value: 133 },
+        { date: '2021-06-13', value: 116 },
+        { date: '2021-06-14', value: 174 },
+        { date: '2021-06-15', value: 174 },
+        { date: '2021-06-16', value: 87 }
+      ]
+    },
+    {
+      name: 'México',
+      serie: [
+        { date: '2021-06-01', value: 9671 },
+        { date: '2021-06-02', value: 9504 },
+        { date: '2021-06-03', value: 9028 },
+        { date: '2021-06-04', value: 8039 },
+        { date: '2021-06-05', value: 6298 },
+        { date: '2021-06-06', value: 5870 },
+        { date: '2021-06-07', value: 7609 },
+        { date: '2021-06-08', value: 7662 },
+        { date: '2021-06-09', value: 7682 },
+        { date: '2021-06-10', value: 7520 },
+        { date: '2021-06-11', value: 7680 },
+        { date: '2021-06-12', value: 5962 },
+        { date: '2021-06-13', value: 5436 },
+        { date: '2021-06-14', value: 8624 },
+        { date: '2021-06-15', value: 8181 },
+        { date: '2021-06-16', value: 4393 }
       ]
     },
     {
       name: 'Perú',
       serie: [
-        { date: '2021-06-02', value: 80362 },
-        { date: '2021-06-03', value: 78213 },
-        { date: '2021-06-04', value: 78234 },
-        { date: '2021-06-05', value: 80123 },
-        { date: '2021-06-06', value: 80632 },
-        { date: '2021-06-07', value: 80473 },
-        { date: '2021-06-08', value: 80153 },
-        { date: '2021-06-09', value: 80852 },
-        { date: '2021-06-10', value: 79675 },
-        { date: '2021-06-11', value: 78500 },
-        { date: '2021-06-12', value: 80412 },
-        { date: '2021-06-13', value: 81250 },
-        { date: '2021-06-14', value: 80375 },
-        { date: '2021-06-15', value: 80480 },
-        { date: '2021-06-16', value: 80760 }
-      ],
-    },
-    {
-      name: 'Mexico',
-      serie: [
-        { date: '2021-06-02', value: 60400 },
-        { date: '2021-06-03', value: 59340 },
-        { date: '2021-06-04', value: 58600 },
-        { date: '2021-06-05', value: 60700 },
-        { date: '2021-06-06', value: 60300 },
-        { date: '2021-06-07', value: 60800 },
-        { date: '2021-06-08', value: 60400 },
-        { date: '2021-06-09', value: 60405 },
-        { date: '2021-06-10', value: 58751 },
-        { date: '2021-06-11', value: 58875 },
-        { date: '2021-06-12', value: 60957 },
-        { date: '2021-06-13', value: 61354 },
-        { date: '2021-06-14', value: 60785 },
-        { date: '2021-06-15', value: 60845 },
-        { date: '2021-06-16', value: 60975 }
-      ]
-    },
-    {
-      name: 'HP Store',
-      serie: [
-        { date: '2021-06-02', value: 44600 },
-        { date: '2021-06-03', value: 42440 },
-        { date: '2021-06-04', value: 42600 },
-        { date: '2021-06-05', value: 44700 },
-        { date: '2021-06-06', value: 44300 },
-        { date: '2021-06-07', value: 44500 },
-        { date: '2021-06-08', value: 44100 },
-        { date: '2021-06-09', value: 44405 },
-        { date: '2021-06-10', value: 43751 },
-        { date: '2021-06-11', value: 43975 },
-        { date: '2021-06-12', value: 44957 },
-        { date: '2021-06-13', value: 45454 },
-        { date: '2021-06-14', value: 44685 },
-        { date: '2021-06-15', value: 44145 },
-        { date: '2021-06-16', value: 44475 }
+        { date: '2021-06-01', value: 8740 },
+        { date: '2021-06-02', value: 8468 },
+        { date: '2021-06-03', value: 8551 },
+        { date: '2021-06-04', value: 9201 },
+        { date: '2021-06-05', value: 7536 },
+        { date: '2021-06-06', value: 5178 },
+        { date: '2021-06-07', value: 6071 },
+        { date: '2021-06-08', value: 6574 },
+        { date: '2021-06-09', value: 6914 },
+        { date: '2021-06-10', value: 9221 },
+        { date: '2021-06-11', value: 8462 },
+        { date: '2021-06-12', value: 8135 },
+        { date: '2021-06-13', value: 8641 },
+        { date: '2021-06-14', value: 10159 },
+        { date: '2021-06-15', value: 9660 },
+        { date: '2021-06-16', value: 3888 }
       ]
     }
   ]
+  sessionsByRetailer = [
+    {
+      name: 'Cl - Ripley',
+      serie: [
+        { date: '2021-06-01', value: 19749 },
+        { date: '2021-06-02', value: 16859 },
+        { date: '2021-06-03', value: 7344 },
+        { date: '2021-06-04', value: 5424 },
+        { date: '2021-06-05', value: 4909 },
+        { date: '2021-06-06', value: 4874 },
+        { date: '2021-06-07', value: 5544 },
+        { date: '2021-06-08', value: 5494 },
+        { date: '2021-06-09', value: 5990 },
+        { date: '2021-06-10', value: 6335 },
+        { date: '2021-06-11', value: 6012 },
+        { date: '2021-06-12', value: 5450 },
+        { date: '2021-06-13', value: 5537 },
+        { date: '2021-06-14', value: 6207 },
+        { date: '2021-06-15', value: 5912 },
+        { date: '2021-06-16', value: 2477 }
+      ]
+    },
+    {
+      name: 'Cl - Paris',
+      serie: [
+        { date: '2021-06-01', value: 27038 },
+        { date: '2021-06-02', value: 25341 },
+        { date: '2021-06-03', value: 6189 },
+        { date: '2021-06-04', value: 4249 },
+        { date: '2021-06-05', value: 3939 },
+        { date: '2021-06-06', value: 3958 },
+        { date: '2021-06-07', value: 4048 },
+        { date: '2021-06-08', value: 3660 },
+        { date: '2021-06-09', value: 3486 },
+        { date: '2021-06-10', value: 3424 },
+        { date: '2021-06-11', value: 2662 },
+        { date: '2021-06-12', value: 3264 },
+        { date: '2021-06-13', value: 3442 },
+        { date: '2021-06-14', value: 3958 },
+        { date: '2021-06-15', value: 3615 },
+        { date: '2021-06-16', value: 1310 }
+      ],
+    },
+    {
+      name: 'Pe - Ripley',
+      serie: [
+        { date: '2021-06-01', value: 2772 },
+        { date: '2021-06-02', value: 2614 },
+        { date: '2021-06-03', value: 2837 },
+        { date: '2021-06-04', value: 3416 },
+        { date: '2021-06-05', value: 2880 },
+        { date: '2021-06-06', value: 1639 },
+        { date: '2021-06-07', value: 2229 },
+        { date: '2021-06-08', value: 2334 },
+        { date: '2021-06-09', value: 2583 },
+        { date: '2021-06-10', value: 4305 },
+        { date: '2021-06-11', value: 4119 },
+        { date: '2021-06-12', value: 3939 },
+        { date: '2021-06-13', value: 4592 },
+        { date: '2021-06-14', value: 5467 },
+        { date: '2021-06-15', value: 4918 },
+        { date: '2021-06-16', value: 1821 }
+      ]
+    },
+    {
+      name: 'Br - Kalunga',
+      serie: [
+        { date: '2021-06-01', value: 2893 },
+        { date: '2021-06-02', value: 2667 },
+        { date: '2021-06-03', value: 2044 },
+        { date: '2021-06-04', value: 2380 },
+        { date: '2021-06-05', value: 1654 },
+        { date: '2021-06-06', value: 1707 },
+        { date: '2021-06-07', value: 3318 },
+        { date: '2021-06-08', value: 3421 },
+        { date: '2021-06-09', value: 3395 },
+        { date: '2021-06-10', value: 3164 },
+        { date: '2021-06-11', value: 2667 },
+        { date: '2021-06-12', value: 1721 },
+        { date: '2021-06-13', value: 1817 },
+        { date: '2021-06-14', value: 3079 },
+        { date: '2021-06-15', value: 3214 },
+        { date: '2021-06-16', value: 1816 }
+      ]
+    },
+    {
+      name: 'Mx - Coppel',
+      serie: [
+        { date: '2021-06-01', value: 2344 },
+        { date: '2021-06-02', value: 3185 },
+        { date: '2021-06-03', value: 2906 },
+        { date: '2021-06-04', value: 1996 },
+        { date: '2021-06-05', value: 1872 },
+        { date: '2021-06-06', value: 1881 },
+        { date: '2021-06-07', value: 1832 },
+        { date: '2021-06-08', value: 1600 },
+        { date: '2021-06-09', value: 1733 },
+        { date: '2021-06-10', value: 1671 },
+        { date: '2021-06-11', value: 1644 },
+        { date: '2021-06-12', value: 1465 },
+        { date: '2021-06-13', value: 1666 },
+        { date: '2021-06-14', value: 1676 },
+        { date: '2021-06-15', value: 1521 },
+        { date: '2021-06-16', value: 742 }
+      ]
+    },
+    {
+      name: 'Mx - Office Depot',
+      serie: [
+        { date: '2021-06-01', value: 2866 },
+        { date: '2021-06-02', value: 2462 },
+        { date: '2021-06-03', value: 2408 },
+        { date: '2021-06-04', value: 2165 },
+        { date: '2021-06-05', value: 1636 },
+        { date: '2021-06-06', value: 1474 },
+        { date: '2021-06-07', value: 2171 },
+        { date: '2021-06-08', value: 2222 },
+        { date: '2021-06-09', value: 2291 },
+        { date: '2021-06-10', value: 2143 },
+        { date: '2021-06-11', value: 1990 },
+        { date: '2021-06-12', value: 1534 },
+        { date: '2021-06-13', value: 1458 },
+        { date: '2021-06-14', value: 2868 },
+        { date: '2021-06-15', value: 2667 },
+        { date: '2021-06-16', value: 1487 }
+      ]
+    },
+    {
+      name: 'Pe - Plaza Vea',
+      serie: [
+        { date: '2021-06-01', value: 2267 },
+        { date: '2021-06-02', value: 2069 },
+        { date: '2021-06-03', value: 1776 },
+        { date: '2021-06-04', value: 1733 },
+        { date: '2021-06-05', value: 1314 },
+        { date: '2021-06-06', value: 960 },
+        { date: '2021-06-07', value: 1078 },
+        { date: '2021-06-08', value: 1275 },
+        { date: '2021-06-09', value: 1284 },
+        { date: '2021-06-10', value: 1391 },
+        { date: '2021-06-11', value: 1123 },
+        { date: '2021-06-12', value: 1085 },
+        { date: '2021-06-13', value: 1130 },
+        { date: '2021-06-14', value: 1385 },
+        { date: '2021-06-15', value: 1641 },
+        { date: '2021-06-16', value: 660 }
+      ]
+    },
+    {
+      name: 'Cl - PC Factory',
+      serie: [
+        { date: '2021-06-01', value: 1243 },
+        { date: '2021-06-02', value: 1320 },
+        { date: '2021-06-03', value: 883 },
+        { date: '2021-06-04', value: 1075 },
+        { date: '2021-06-05', value: 1066 },
+        { date: '2021-06-06', value: 1131 },
+        { date: '2021-06-07', value: 1513 },
+        { date: '2021-06-08', value: 1645 },
+        { date: '2021-06-09', value: 1679 },
+        { date: '2021-06-10', value: 1710 },
+        { date: '2021-06-11', value: 1642 },
+        { date: '2021-06-12', value: 1556 },
+        { date: '2021-06-13', value: 1637 },
+        { date: '2021-06-14', value: 1933 },
+        { date: '2021-06-15', value: 1967 },
+        { date: '2021-06-16', value: 820 }
+      ]
+    }
+  ]
+
 
   // Demográficos
   trafficDemographics = {
@@ -1247,13 +1506,20 @@ export class IndexedWrapperComponent implements OnInit {
     { category: 'Financial Services/Banking Services', users: 4731 },
   ];
 
+  sessions = this.sessionsByCountry;
 
   constructor() { }
 
   ngOnInit(): void {
   }
 
-  getDataByMetric(metric: string, selectedTab: number) {
-    this.selectedTab1 = selectedTab;
+  getSessions(metric: string) {
+    if (metric === 'country') {
+      this.sessions = this.sessionsByCountry
+      this.selectedTab1 = 1;
+    } else if (metric === 'retailer') {
+      this.sessions = this.sessionsByRetailer
+      this.selectedTab1 = 2;
+    }
   }
 }
