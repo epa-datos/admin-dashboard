@@ -95,11 +95,12 @@
 
                     <app-chart-multiple-axes *ngIf="selectedTab3 === 2" [data]="investmentVsRevenue"
                         valueName1="Inversión" valueName2="Revenue" value1="investment" value2="revenue"
-                        [name]="selectedType + 'investment-vs-revenue'" [status]="invVsRevenueReqStatus">
+                        [name]="selectedType + 'investment-vs-revenue'" valueFormat1="USD" valueFormat2="USD">
                     </app-chart-multiple-axes>
 
                     <app-chart-multiple-axes *ngIf="selectedTab3 === 3" [data]="aupVsRevenueM" valueName1="Revenue"
-                        valueName2="AUP" value1="revenue" value2="aup" [name]="selectedType + 'investment-vs-aup'">
+                        valueName2="AUP" value1="revenue" value2="aup" valueFormat1="USD" valueFormat2="USD"
+                        [name]="selectedType + 'investment-vs-aup'">
                     </app-chart-multiple-axes>
                 </div>
             </div>

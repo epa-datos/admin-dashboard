@@ -188,11 +188,13 @@
                         <app-chart-multiple-axes *ngIf="selectedTab3 === 2" [data]="investmentVsRevenue"
                             [valueName1]="'overviewLatam.chart7ValueName1' | translate"
                             [valueName2]="'overviewLatam.chart7ValueName2' | translate" value1="investment"
-                            value2="revenue" name="latam-investment-vs-revenue" [status]="invVsRevenueReqStatus">
+                            value2="revenue" valueFormat1="USD" valueFormat2="USD" name="latam-investment-vs-revenue"
+                            [status]="invVsRevenueReqStatus">
                         </app-chart-multiple-axes>
 
                         <app-chart-multiple-axes *ngIf="selectedTab3 === 3" [data]="aupVsRevenueM" valueName1="Revenue"
-                            valueName2="AUP" value1="revenue" value2="aup" name="latam-revenue-vs-aup">
+                            valueName2="AUP" value1="revenue" value2="aup" valueFormat1="USD" valueFormat2="USD"
+                            name="latam-revenue-vs-aup">
                         </app-chart-multiple-axes>
                     </div>
                 </div>
