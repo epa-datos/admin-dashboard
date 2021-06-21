@@ -38,8 +38,8 @@
     <div class="col-12 mt-4">
         <div class="card">
             <div class="card-header">
-                <span class="h4" [hidden]="selectedTab === 2">Usuarios vs Transacciones</span>
-                <span class="h4" [hidden]="selectedTab === 1">Cantidad vs AUP</span>
+                <span class="h4" [hidden]="selectedTab === 2">Usuarios - Transacciones</span>
+                <span class="h4" [hidden]="selectedTab === 1">Cantidad - AUP</span>
             </div>
             <div class="card-body">
                 <app-chart-multiple-axes name="conv-users-amount" [value1]="selectedTab === 1 ? 'users' : 'quantity'"

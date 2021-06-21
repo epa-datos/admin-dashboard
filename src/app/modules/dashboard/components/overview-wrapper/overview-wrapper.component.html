@@ -111,17 +111,21 @@
                 <ul class="nav nav-pills nav-fill">
                     <li class="nav-item">
                         <a class="nav-link p-2" [ngClass]="{'active': selectedTab3 === 1}"
-                            (click)="getDataByUsersAndSales('users')">{{ 'general.usersVsSales1' | translate }}</a>
+                            (click)="getDataByUsersAndSales('users')">
+                            {{ 'general.usersVsSales' | translate }}
+                        </a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link p-2" [ngClass]="{'active': selectedTab3 === 2}"
-                            (click)="getDataByUsersAndSales('sales')">{{ 'general.investmentVsRevenue1' | translate
-                            }}</a>
+                            (click)="getDataByUsersAndSales('sales')">
+                            {{ 'general.investmentVsRevenue' | translate }}
+                        </a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link p-2" [ngClass]="{'active': selectedTab3 === 3}"
-                            (click)="getDataByUsersAndSales('sales'); selectedTab3 = 3">{{ 'general.revenueVsAup1' |
-                            translate }}</a>
+                            (click)="getDataByUsersAndSales('sales'); selectedTab3 = 3">
+                            {{ 'general.revenueVsAup' | translate }}
+                        </a>
                     </li>
                 </ul>
             </div>
@@ -135,17 +139,6 @@
                         <span *ngSwitchCase="2" class="h4">{{ 'general.investmentVsRevenue' | translate }}</span>
                         <span *ngSwitchCase="3" class="h4">{{ 'general.revenueVsAup' | translate }}</span>
                     </ng-container>
-                    <!-- <span class="h4">
-                        {{
-                        ((selectedTab3 === 1 ? 'general.users' : 'general.sales') | translate) + ' ' +
-                        ('others.by' | translate)
-                        }}
-                    </span> -->
-                    <!-- <ng-container [ngSwitch]="selectedTab4">
-                        <span *ngSwitchCase="1" class="h4">{{ 'general.sector' | translate }}</span>
-                        <span *ngSwitchCase="2" class="h4">{{ 'general.category' | translate }}</span>
-                        <span *ngSwitchCase="3" class="h4">{{ 'general.source' | translate }}</span>
-                    </ng-container> -->
                 </div>
                 <div class="card-body">
                     <div class="row">
@@ -215,43 +208,14 @@
                         </div>
                     </div>
 
-                    <!-- <div class="period-popover" ngbDropdown>
-                        <a ngbDropdownToggle>
-                            <i class="fas fa-question-circle"></i>
-                        </a>
-                        <div class="content" ngbDropdownMenu>
-                            <li class="period text-sm" *ngFor="let serie of usersAndSalesByMetric; let i = index">
-                                <div class="line mr-2"
-                                    [ngClass]="{'first': i === 0, 'second': i === 1, 'third': i === 2}">
-                                </div>
-                                <strong class="mr-2">{{ serie.name }}</strong>
-                                <span>{{ serie.period }}</span>
-                            </li>
-                        </div>
-                    </div> -->
-
-                    <!-- <app-chart-line-series *ngIf="selectedTab3 === 1" [series]="usersAndSalesByMetric"
-                        [valueName]="selectedTab3 === 1 ? 'Usuarios' : 'Ventas'"
-                        [yTitle]="selectedTab3 === 1 ? 'Usuarios' : 'Ventas'" name="latam-sales-users-by-sector"
-                        [status]="usersAndSalesReqStatus">
-                    </app-chart-line-series> -->
-
-                    <app-chart-multiple-axes *ngIf="selectedTab3 === 1" [data]="trafficVsConversionsM"
-                        valueName1="Conversiones" valueName2="Usuarios" value1="conversions" value2="traffic"
-                        valueFormat1="USD" valueFormat2="USD"
-                        [name]="selectedType + 'overview-traffic-vs-convnversions'">
-                    </app-chart-multiple-axes>
-
-                    <app-chart-multiple-axes *ngIf="selectedTab3 === 2" [data]="investmentVsRevenueM"
-                        [valueName1]="'overviewLatam.chart7ValueName1' | translate"
-                        [valueName2]="'overviewLatam.chart7ValueName2' | translate" value1="investment" value2="revenue"
-                        valueFormat1="USD" valueFormat2="USD" [name]="selectedType + 'overview-investment-vs-revenue'"
-                        [status]="invVsRevenueReqStatus">
-                    </app-chart-multiple-axes>
-
-                    <app-chart-multiple-axes *ngIf="selectedTab3 === 3" [data]="aupVsRevenueM" valueName1="Revenue"
-                        valueName2="AUP" value1="revenue" value2="aup" valueFormat1="USD" valueFormat2="USD"
-                        [name]="selectedType +'overview-revenue-vs-aup'">
+                    <app-chart-multiple-axes
+                        [data]="selectedTab3 === 1 ? trafficVsConversionsM : selectedTab3 === 2 ? investmentVsRevenueM : aupVsRevenueM"
+                        [value1]="selectedTab3 === 1 ? 'conversions' : selectedTab3 === 2 ? 'revenue' : 'revenue'"
+                        [value2]="selectedTab3 === 1 ? 'traffic' : selectedTab3 === 2 ? 'investment': 'aup'"
+                        [valueName1]="selectedTab3 === 1 ? 'Conversiones' : selectedTab3 === 2 ? 'Revenue' :'Revenue'"
+                        [valueName2]="selectedTab3 === 1 ? 'Usuarios' : selectedTab3 === 2 ? 'Inversión' : 'AUP'"
+                        [valueFormat1]="selectedTab3 > 1 && 'USD'" [valueFormat2]="selectedTab3 > 1 && 'USD'"
+                        [name]="selectedType + '-metric-comparison'">
                     </app-chart-multiple-axes>
                 </div>
             </div>
@@ -275,19 +239,6 @@
         </div>
 
         <!-- devices -->
-        <!-- <div class="col-12 col-md-6 mt-4">
-            <div class="card">
-                <div class="card-header">
-                    <span class="h4">{{selectedTab2 === 1 ? 'Tráfico' : 'Ventas'}} por dispositivos</span>
-                </div>
-                <div class="card-body">
-                    <app-chart-pictorial [data]="trafficAndSales['device']" [name]="selectedType + 'devices'"
-                        category="name" iconType="monitor" [status]="trafficSalesReqStatus[0].reqStatus" height="280px">
-                    </app-chart-pictorial>
-                </div>
-            </div>
-        </div> -->
-
         <div class="col-12 col-md-6 mt-4">
             <div class="card height-fluid">
                 <div class="card-header">
@@ -332,19 +283,6 @@
         </div>
 
         <!-- gender -->
-        <!-- <div class="col-12 col-md-6 mt-4">
-            <div class="card">
-                <div class="card-header">
-                    <span class="h4">{{selectedTab2 === 1 ? 'Tráfico' : 'Ventas'}} por Género</span>
-                </div>
-                <div class="card-body">
-                    <app-chart-pictorial [data]="trafficAndSales['gender']" [name]="selectedType + 'gender'"
-                        category="name" iconType="man" [status]="trafficSalesReqStatus[1].reqStatus" height="280px">
-                    </app-chart-pictorial>
-                </div>
-            </div>
-        </div> -->
-
         <div class="col-12 col-md-6 mt-4">
             <div class="card height-fluid">
                 <div class="card-header">
@@ -391,7 +329,6 @@
                 </div>
             </div>
         </div>
-
 
         <!-- age -->
         <div class="col-12 col-md-6 mt-4">
