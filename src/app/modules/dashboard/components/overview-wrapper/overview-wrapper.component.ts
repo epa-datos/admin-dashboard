@@ -121,10 +121,6 @@ export class OverviewWrapperComponent implements OnInit, OnDestroy {
   requestInfoSub: Subscription;
   chartsInitLoad: boolean = true;
 
-  // selectedSectorsTab = ['Todo', 'Sarach', 'Mrketing', 'Ventas'];
-  // this.selectedCategories = ['Todo', 'PS', 'HW Print', 'Supplies'];
-  // this.selectedSources = ['Google', 'Social', 'Email', 'Display']
-
   constructor(
     private filtersStateService: FiltersStateService,
     private overviewService: OverviewService,
@@ -161,14 +157,6 @@ export class OverviewWrapperComponent implements OnInit, OnDestroy {
     let selectedCategory;
     let selectedSource;
 
-    // selectedSector = this.selectedSectors[0];
-    // demographicMetric = 'traffic';
-    // usersOrSales = 'users';
-
-    // this.selectedTab4 = 1;
-    // this.selectedTab5 = 1;
-
-
     if (!preserveSelectedTabs) {
       selectedSectorHM = this.selectedSectors[0];
       demographicMetric = 'traffic';
@@ -190,7 +178,6 @@ export class OverviewWrapperComponent implements OnInit, OnDestroy {
 
       // demograhics
       demographicMetric = this.selectedTab2 === 1 ? 'traffic' : 'sales';
-
 
       // users vs conversions | investment vs revenue | revenue vs aup (chart-multiple-axes)
       let previousSector;
