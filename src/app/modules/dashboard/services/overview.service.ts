@@ -177,8 +177,8 @@ export class OverviewService {
     return this.http.get(`${this.baseUrl}/latam/countries/${metricType}/segments?${queryParams}`);
   }
 
-  // *** traffic and sales ***
-  getTrafficAndSalesLatam(metricType: string, subMetricType: string) {
+  // *** demographics ***
+  getTrafficDemographicsLatam(metricType: string, subMetricType: string) {
     if (!metricType) {
       return throwError('[overview.service]: not metricType provided');
     }
