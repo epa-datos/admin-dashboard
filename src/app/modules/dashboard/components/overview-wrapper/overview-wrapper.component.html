@@ -251,13 +251,13 @@
                     <div class="row">
                         <div class="col-12 col-xl-6 mt-5 mt-xl-0">
                             <div class="chart-legend legend-center mt-0">
-                                <div class="legend-container" *ngIf="trafficAndSales?.deviceDesktop?.length > 0">
+                                <div class="legend-container" *ngIf="trafficAndSales?.desktop?.length > 0">
                                     <div class="legend-square on color-1"></div>
-                                    <div class="legend-label">Desktop {{ trafficAndSales.deviceDesktop[1].value }}%
+                                    <div class="legend-label">Desktop {{ trafficAndSales.desktop[1].value }}%
                                     </div>
                                 </div>
                             </div>
-                            <app-chart-pictorial [data]="trafficAndSales?.deviceDesktop"
+                            <app-chart-pictorial [data]="trafficAndSales?.desktop"
                                 [name]="selectedType + 'device-desktop'" [uniqueDimensionConf]="{color: '#67B6DC'}"
                                 category="name" iconType="monitor" [status]="trafficSalesReqStatus[0].reqStatus"
                                 height="280px">
@@ -265,13 +265,13 @@
                         </div>
                         <div class="col-12 col-xl-6 mt-5 mt-xl-0">
                             <div class="chart-legend legend-center mt-0">
-                                <div class="legend-container" *ngIf="trafficAndSales?.deviceMobile?.length > 0">
+                                <div class="legend-container" *ngIf="trafficAndSales?.mobile?.length > 0">
                                     <div class="legend-square on color-2"></div>
-                                    <div class="legend-label">Mobile {{ trafficAndSales.deviceMobile[1].value }}%
+                                    <div class="legend-label">Mobile {{ trafficAndSales.mobile[1].value }}%
                                     </div>
                                 </div>
                             </div>
-                            <app-chart-pictorial [data]="trafficAndSales?.deviceMobile"
+                            <app-chart-pictorial [data]="trafficAndSales?.mobile"
                                 [name]="selectedType + 'device-mobile'" [uniqueDimensionConf]="{color: '#6794DC'}"
                                 category="name" iconType="cellphone" height="280px"
                                 [status]="trafficSalesReqStatus[0].reqStatus">
@@ -295,34 +295,32 @@
                     <div class="row">
                         <div class="col-12 col-xl-6 mt-5 mt-xl-0">
                             <div class="chart-legend legend-center mt-0">
-                                <div class="legend-container" *ngIf="trafficAndSales?.genderMan?.length > 0">
+                                <div class="legend-container" *ngIf="trafficAndSales?.men?.length > 0">
                                     <div class="legend-square on color-1"></div>
                                     <div class="legend-label">
                                         {{ ('others.men'| translate) + ' '}}
-                                        {{ trafficAndSales.genderMan[1].value }}%
+                                        {{ trafficAndSales.men[1].value }}%
                                     </div>
                                 </div>
                             </div>
-                            <app-chart-pictorial [data]="trafficAndSales?.genderMan"
-                                [name]="selectedType + 'gender-man'" [uniqueDimensionConf]="{color: '#67B6DC'}"
-                                category="name" iconType="man" [status]="trafficSalesReqStatus[1].reqStatus"
-                                height="280px">
+                            <app-chart-pictorial [data]="trafficAndSales?.men" [name]="selectedType + 'gender-man'"
+                                [uniqueDimensionConf]="{color: '#67B6DC'}" category="name" iconType="man"
+                                [status]="trafficSalesReqStatus[1].reqStatus" height="280px">
                             </app-chart-pictorial>
                         </div>
                         <div class="col-12 col-xl-6 mt-5 mt-xl-0">
                             <div class="chart-legend legend-center mt-0">
-                                <div class="legend-container" *ngIf="trafficAndSales?.genderWoman?.length > 0">
+                                <div class="legend-container" *ngIf="trafficAndSales?.women?.length > 0">
                                     <div class="legend-square on color-2"></div>
                                     <div class="legend-label">
                                         {{ ('others.women'| translate) + ' '}}
-                                        {{ trafficAndSales.genderWoman[1].value }}%
+                                        {{ trafficAndSales.women[1].value }}%
                                     </div>
                                 </div>
                             </div>
-                            <app-chart-pictorial [data]="trafficAndSales?.genderWoman"
-                                [name]="selectedType + 'gender-woman'" [uniqueDimensionConf]="{color: '#6794DC'}"
-                                category="name" iconType="woman" height="280px"
-                                [status]="trafficSalesReqStatus[1].reqStatus">
+                            <app-chart-pictorial [data]="trafficAndSales?.women" [name]="selectedType + 'gender-woman'"
+                                [uniqueDimensionConf]="{color: '#6794DC'}" category="name" iconType="woman"
+                                height="280px" [status]="trafficSalesReqStatus[1].reqStatus">
                             </app-chart-pictorial>
                         </div>
                     </div>

@@ -4,6 +4,7 @@ import { FiltersStateService } from '../../services/filters-state.service';
 import { OverviewService } from '../../services/overview.service';
 import { TableItem } from '../../components/generic-table/generic-table.component';
 import { TranslateService } from '@ngx-translate/core';
+import { disaggregatePictorialData } from 'src/app/tools/functions/chart-data';
 
 @Component({
   selector: 'app-overview-latam',
@@ -342,7 +343,6 @@ export class OverviewLatamComponent implements OnInit, OnDestroy {
       this.kpis[0].metricTitle = this.translate.instant('kpis.investment');
       this.kpis[2].subMetricTitle = this.translate.instant('general.users');
       this.kpis[3].metricTitle = this.translate.instant('kpis.transactions');
-      this.kpis[3].metricTitle = this.translate.instant('kpis.transactions');
 
       this.topProductsColumns[0].title = this.translate.instant('general.ranking');
       this.topProductsColumns[1].title = this.translate.instant('general.product');
@@ -352,13 +352,13 @@ export class OverviewLatamComponent implements OnInit, OnDestroy {
       this.usersAndSalesMetrics[1] = this.translate.instant('general.category').toLowerCase();
       this.usersAndSalesMetrics[2] = this.translate.instant('general.source').toLowerCase();
 
-      this.trafficAndSales['gender'] = this.trafficAndSales['gender']?.map(item => {
-        if (item.id === 1) {
-          return { ...item, name: this.translate.instant('others.women') }
-        } else if (item.id === 2) {
-          return { ...item, name: this.translate.instant('others.men') }
-        }
-      });
+      if (this.trafficAndSales['men']?.length > 0) {
+        this.trafficAndSales['men'][1].name = this.translate.instant('others.men');
+      }
+
+      if (this.trafficAndSales['women']?.length > 0) {
+        this.trafficAndSales['women'][1].name = this.translate.instant('others.women');
+      }
     });
   }
 
@@ -458,19 +458,21 @@ export class OverviewLatamComponent implements OnInit, OnDestroy {
       reqStatusObj.reqStatus = 1;
       this.overviewService.getTrafficAndSalesLatam(metricType, subMetricType).subscribe(
         (resp: any[]) => {
-          if (subMetricType === 'device' || subMetricType === 'gender') {
-            this.disaggregateMetric(subMetricType, resp);
+          if (subMetricType === 'device') {
+            const { desktop, mobile }: any = disaggregatePictorialData('Desktop', 'Mobile', resp);
+            this.trafficAndSales = { ...this.trafficAndSales, desktop, mobile };
+
+          } else if (subMetricType === 'gender') {
+            const { hombre, mujer }: any = disaggregatePictorialData('Hombre', 'Mujer', resp);
+
+            hombre[1].name = this.translate.instant('others.men');
+            mujer[1].name = this.translate.instant('others.women');
+
+            this.trafficAndSales = { ...this.trafficAndSales, men: hombre, women: mujer };
+
           } else if (subMetricType === 'gender-and-age') {
             this.trafficAndSales['genderByAge'] = resp;
 
-          } else if (subMetricType === 'gender') {
-            this.trafficAndSales['gender'] = resp.map(item => {
-              if (item.name.toLowerCase() == 'mujer') {
-                return { id: 1, name: this.translate.instant('others.women'), value: item.value }
-              } else if (item.name.toLowerCase() == 'hombre') {
-                return { id: 2, name: this.translate.instant('others.men'), value: item.value }
-              }
-            });
           } else {
             this.trafficAndSales[subMetricType] = resp;
           }
@@ -553,70 +555,6 @@ export class OverviewLatamComponent implements OnInit, OnDestroy {
     this.selectedCategoryTab1 && delete this.selectedCategoryTab1;
     this.selectedSourceTab && delete this.selectedSourceTab;
   }
-
-  disaggregateMetric(subMetric: string, dataRaw: any[]) {
-    switch (subMetric) {
-      case 'device':
-        const desktop = dataRaw.find(item => item.name === 'Desktop');
-        const mobile = dataRaw.find(item => item.name === 'Mobile');
-
-        let devicePerc = this.getPercentages(desktop?.value, mobile?.value);
-
-        if (desktop) {
-          this.trafficAndSales['deviceDesktop'] = [
-            { name: 'empty', value: devicePerc.perc1 ? 100 - (+devicePerc.perc1) : 100 },
-            { name: 'Desktop', value: devicePerc.perc1 ? devicePerc.perc1 : 0, rawValue: desktop.value },
-          ];
-        } else {
-          this.trafficAndSales['deviceDesktop'] = [];
-        }
-
-        if (mobile) {
-          this.trafficAndSales['deviceMobile'] = [
-            { name: 'empty', value: devicePerc.perc2 ? 100 - (+devicePerc.perc2) : 100 },
-            { name: 'Mobile', value: devicePerc.perc2 ? devicePerc.perc2 : 0, rawValue: mobile.value },
-          ];
-        } else {
-          this.trafficAndSales['deviceMobile'] = [];
-        }
-
-        break;
-
-      case 'gender':
-        const man = dataRaw.find(item => item.name === 'Hombre');
-        const woman = dataRaw.find(item => item.name === 'Mujer');
-
-        let genderPerc = this.getPercentages(man?.value, woman?.value);
-
-        if (man) {
-          this.trafficAndSales['genderMan'] = [
-            { name: 'empty', value: genderPerc.perc1 ? 100 - (+genderPerc.perc1) : 100 },
-            { name: 'Hombre', value: genderPerc.perc1 ? genderPerc.perc1 : 0, rawValue: man.value },
-          ];
-        } else {
-          this.trafficAndSales['genderMan'] = [];
-        }
-
-        if (woman) {
-          this.trafficAndSales['genderWoman'] = [
-            { name: 'empty', value: genderPerc.perc2 ? 100 - (+genderPerc.perc2) : 100 },
-            { name: 'Mujer', value: genderPerc.perc2 ? genderPerc.perc2 : 0, rawValue: woman.value },
-          ];
-        } else {
-          this.trafficAndSales['genderWoman'] = [];
-        }
-
-        break;
-    }
-  }
-
-  getPercentages(value1: any, value2: any) {
-    let total = value1 + value2;
-    let perc1 = ((value1 * 100) / total).toFixed(2);
-    let perc2 = ((value2 * 100) / total).toFixed(2);
-    return { perc1, perc2 };
-  }
-
 
   ngOnDestroy() {
     this.filtersSub?.unsubscribe();

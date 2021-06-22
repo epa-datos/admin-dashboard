@@ -115,7 +115,7 @@
         "otherPluralM": "outros",
         "otherPluralF": "outras",
         "only": "somente",
-        "men": "Hombres",
-        "women": "Mulheres"
+        "men": "Masculino",
+        "women": "Feminino"
     }
 }
