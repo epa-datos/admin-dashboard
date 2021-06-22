@@ -289,7 +289,7 @@ export class OverviewLatamComponent implements OnInit, OnDestroy {
     for (let subMetricType of requiredData) {
       const reqStatusObj = this.demographicsReqStatus.find(item => item.name === subMetricType);
       reqStatusObj.reqStatus = 1;
-      this.overviewService.getTrafficDemographicsLatam(metricType, subMetricType).subscribe(
+      this.overviewService.getDemographicsLatam(metricType, subMetricType).subscribe(
         (resp: any[]) => {
           if (subMetricType === 'device') {
             const { desktop, mobile }: any = disaggregatePictorialData('Desktop', 'Mobile', resp);
