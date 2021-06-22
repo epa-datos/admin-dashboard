@@ -100,12 +100,7 @@ export class AudiencesWrapperComponent implements OnInit, OnDestroy {
             this.demographics[subMetricType] = resp;
           }
 
-          console.log('demographics', this.demographics)
-
           reqStatusObj.reqStatus = 2;
-
-          // process bounce rate data;
-          // this.addDemographicDataBr(subMetricType, resp);
         },
         error => {
           const errorMsg = error?.error?.message ? error.error.message : error?.message;
@@ -202,40 +197,6 @@ export class AudiencesWrapperComponent implements OnInit, OnDestroy {
         });
     }
   }
-
-  // addDemographicDataBr(subMetric: string, dataRaw: any[]) {
-  //   switch (subMetric) {
-  //     case 'device':
-  //       const desktop = dataRaw.find(item => item.name === 'Desktop');
-  //       const mobile = dataRaw.find(item => item.name === 'Mobile');
-
-  //       this.demographics['deviceDesktop'] = [
-  //         { name: 'empty', value: desktop ? 100 - desktop.value.toFixed(2) : 100 },
-  //         { name: 'Desktop', value: desktop ? desktop.value.toFixed(2) : 0 },
-  //       ];
-
-  //       this.demographics['deviceMobile'] = [
-  //         { name: 'empty', value: mobile ? 100 - mobile.value.toFixed(2) : 100 },
-  //         { name: 'Mobile', value: mobile ? mobile.value.toFixed(2) : 0 },
-  //       ];
-  //       break;
-
-  //     case 'gender':
-  //       const man = dataRaw.find(item => item.name === 'Hombre');
-  //       const woman = dataRaw.find(item => item.name === 'Mujer');
-
-  //       this.demographics['genderMan'] = [
-  //         { name: 'empty', value: man ? 100 - man.value.toFixed(2) : 100 },
-  //         { name: 'Hombre', value: man ? man.value.toFixed(2) : 0 },
-  //       ];
-
-  //       this.demographics['genderWoman'] = [
-  //         { name: 'empty', value: woman ? 100 - woman.value.toFixed(2) : 100 },
-  //         { name: 'Mujer', value: woman ? woman.value.toFixed(2) : 0 },
-  //       ];
-  //       break;
-  //   }
-  // }
 
   getSelectedMetricForDemo(metricType: string, selectedTab: number) {
     if (metricType) {
