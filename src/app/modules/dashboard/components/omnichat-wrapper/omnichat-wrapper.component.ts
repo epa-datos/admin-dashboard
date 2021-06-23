@@ -4,6 +4,7 @@ import { convertMonthToString, convertWeekdayToString } from 'src/app/tools/func
 import { FiltersStateService } from '../../services/filters-state.service';
 import { OmnichatService } from '../../services/omnichat.service';
 import { TableItem } from '../generic-table/generic-table.component';
+import { strTimeFormat } from 'src/app/tools/functions/time-format';
 
 @Component({
   selector: 'app-omnichat-wrapper',
@@ -24,32 +25,26 @@ export class OmnichatWrapperComponent implements OnInit, OnDestroy {
       },
       {
         metricTitle: 'promedio de chats por día',
-        metricName: 'chats_day_avg',
+        metricName: 'average_chats_by_day',
         metricValue: 0,
-        metricFormat: 'percentage'
+        metricFormat: 'integer'
 
       },
       {
         metricTitle: '% dedicado al cliente',
-        metricName: 'chats_client',
+        metricName: 'average_of_answer_time',
         metricValue: 0,
         metricFormat: 'percentage'
       },
       {
         metricTitle: 'mediana de duración',
-        metricName: 'median_duration',
+        metricName: 'median_chat_duration',
         metricValue: '00:00:00',
-        subMetricTitle: 'Esperado',
-        subMetricName: 'cr',
-        subMetricValue: ''
       },
       {
         metricTitle: 'mediana de retardo',
-        metricName: 'median_delay',
+        metricName: 'median_chat_delay',
         metricValue: '00:00:00',
-        subMetricTitle: 'Benchmark',
-        subMetricName: 'roas',
-        subMetricValue: ''
       },
       {
         metricTitle: 'calificación del chat',
@@ -68,7 +63,7 @@ export class OmnichatWrapperComponent implements OnInit, OnDestroy {
       },
       {
         metricTitle: 'conversiones',
-        metricName: 'transactions',
+        metricName: 'conversions',
         metricValue: 0,
         metricFormat: 'integer',
       },
@@ -221,7 +216,7 @@ export class OmnichatWrapperComponent implements OnInit, OnDestroy {
 
   getAllData() {
     this.selectedCategories = this.filtersStateService.categories;
-    const previousCategory = this.selectedCategories.find(category => category.id === this.selectedCategoryTab3?.id);
+    const previousCategory = this.selectedCategories?.find(category => category.id === this.selectedCategoryTab3?.id);
     const selectedCategory = previousCategory ? previousCategory : this.selectedCategories[0];
 
     let selectedMetricForTab1 = this.selectedTab1 === 1 ? 'conversions-vs-users' : 'aup-vs-revenue';
@@ -256,12 +251,30 @@ export class OmnichatWrapperComponent implements OnInit, OnDestroy {
             return;
           }
 
-          if (metric.name === 'conversionRate') {
+          if (metric.name === 'kpis') {
+            for (let i = 0; i < this.staticData.kpis.length; i++) {
+              const baseObj = resp.find(item => item.string === this.staticData.kpis[i].metricName);
+
+              const metricName = this.staticData.kpis[i].metricName;
+
+              if (metricName === 'median_chat_duration' || metricName === 'median_chat_delay') {
+                this.staticData.kpis[i].metricValue = strTimeFormat(baseObj.value);
+              } else if (metricName === 'chat_score') {
+                const percentageScore = ((baseObj.value * 100) / 5).toFixed(2);
+                this.staticData.kpis[i].metricValue = percentageScore;
+                this.staticData.kpis[i].subMetricValue = `${percentageScore}% - ${baseObj.value.toFixed(2)}/5`;
+              } else {
+                this.staticData.kpis[i].metricValue = baseObj.value;
+              }
+            }
+
+          } else if (metric.name === 'conversionRate') {
             for (let i = 0; i < this.staticData.conversionRate.length; i++) {
               const baseObj = resp.find(item => item.name === this.staticData.conversionRate[i].metricName);
               this.staticData.conversionRate[i].metricValue = baseObj.value;
             }
           }
+
           reqStatusObj.reqStatus = 2;
         },
         error => {
@@ -397,16 +410,6 @@ export class OmnichatWrapperComponent implements OnInit, OnDestroy {
       { subMetricType: 'weekday-and-hour', name: 'weekdayAndHour' },
       { subMetricType: 'hour', name: 'hour' }
     ];
-
-    // if (metricType === 'traffic') {
-    //   requiredData.push(
-    //     { subMetricType: 'weekday-and-hour', name: 'weekdayAndHour' },
-    //     { subMetricType: 'hour', name: 'hour' }
-    //   )
-    // } else {
-    //   this.audience['weekdayAndHour'] && delete this.audience['weekdayAndHour'];
-    //   this.audience['hour'] && delete this.audience['hour'];
-    // }
 
     for (let subMetric of requiredData) {
       const reqStatusObj = this.audienceReqStatus.find(item => item.name === subMetric.name);

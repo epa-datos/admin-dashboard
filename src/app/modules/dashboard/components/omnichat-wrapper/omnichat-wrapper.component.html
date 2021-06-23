@@ -153,7 +153,7 @@
         </div>
     </div>
     <div class="col-12 mt-3">
-        <div class="pills-container" *ngIf="selectedCategories.length > 1">
+        <div class="pills-container" *ngIf="selectedCategories?.length > 1">
             <ul class="nav nav-pills nav-fill">
                 <li class="nav-item" *ngFor="let category of selectedCategories">
                     <a class="nav-link p-2" [ngClass]="{'active': category.id === selectedTab3}"
