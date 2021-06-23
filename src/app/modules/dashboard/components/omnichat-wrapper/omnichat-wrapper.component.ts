@@ -5,6 +5,8 @@ import { FiltersStateService } from '../../services/filters-state.service';
 import { OmnichatService } from '../../services/omnichat.service';
 import { TableItem } from '../generic-table/generic-table.component';
 import { strTimeFormat } from 'src/app/tools/functions/time-format';
+import { disaggregatePictorialData } from 'src/app/tools/functions/chart-data';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-omnichat-wrapper',
@@ -203,11 +205,20 @@ export class OmnichatWrapperComponent implements OnInit, OnDestroy {
 
   constructor(
     private omnichatService: OmnichatService,
-    private filtersStateService: FiltersStateService
+    private filtersStateService: FiltersStateService,
+    private translate: TranslateService
   ) { }
 
   ngOnInit(): void {
-    this.getAllData();
+    this.selectedCategories = this.filtersStateService.categories;
+
+    if (this.filtersStateService.countries &&
+      this.filtersStateService.retailers &&
+      this.filtersStateService.period &&
+      this.filtersStateService.categories
+    ) {
+      this.getAllData();
+    }
 
     this.requestInfoSub = this.requestInfoChange.subscribe((manualChange: boolean) => {
       this.getAllData();
@@ -217,7 +228,7 @@ export class OmnichatWrapperComponent implements OnInit, OnDestroy {
   getAllData() {
     this.selectedCategories = this.filtersStateService.categories;
     const previousCategory = this.selectedCategories?.find(category => category.id === this.selectedCategoryTab3?.id);
-    const selectedCategory = previousCategory ? previousCategory : this.selectedCategories[0];
+    const selectedCategory = previousCategory ? previousCategory : this.selectedCategories?.[0];
 
     let selectedMetricForTab1 = this.selectedTab1 === 1 ? 'conversions-vs-users' : 'aup-vs-revenue';
     let selectedMetricForTab2 = this.selectedTab2 === 1 ? 'traffic' : 'sales';
@@ -254,6 +265,10 @@ export class OmnichatWrapperComponent implements OnInit, OnDestroy {
           if (metric.name === 'kpis') {
             for (let i = 0; i < this.staticData.kpis.length; i++) {
               const baseObj = resp.find(item => item.string === this.staticData.kpis[i].metricName);
+
+              if (!baseObj) {
+                break;
+              }
 
               const metricName = this.staticData.kpis[i].metricName;
 
@@ -417,8 +432,17 @@ export class OmnichatWrapperComponent implements OnInit, OnDestroy {
       this.omnichatService.getDataByMetric(this.selectedLevelPage.latam, metricType, subMetric.subMetricType).subscribe(
         (resp: any[]) => {
 
-          if (subMetric.name === 'device' || subMetric.name === 'gender') {
-            this.disaggregateMetric(subMetric.name, resp);
+          if (subMetric.name === 'device') {
+            const { desktop, mobile }: any = disaggregatePictorialData('Desktop', 'Mobile', resp);
+            this.audience = { ...this.audience, desktop, mobile };
+
+          } else if (subMetric.name === 'gender') {
+            const { hombre, mujer }: any = disaggregatePictorialData('Hombre', 'Mujer', resp);
+
+            hombre.length > 0 && (hombre[1].name = this.translate.instant('others.men'));
+            mujer.length > 0 && (mujer[1].name = this.translate.instant('others.women'));
+
+            this.audience = { ...this.audience, men: hombre, women: mujer };
 
           } else if (subMetric.name === 'weekdayAndHour') {
             this.audience['weekdayAndHour'] = resp.map(item => {
@@ -444,70 +468,6 @@ export class OmnichatWrapperComponent implements OnInit, OnDestroy {
       this.selectedTab3 = metricType === 'traffic' ? 1 : 2;
     }
 
-  }
-
-  disaggregateMetric(subMetric: string, dataRaw: any[]) {
-    switch (subMetric) {
-      case 'device':
-        const desktop = dataRaw.find(item => item.name === 'Desktop');
-        const mobile = dataRaw.find(item => item.name === 'Mobile');
-
-        let devicePerc = this.getPercentages(desktop?.value, mobile?.value);
-
-        this.audience['deviceDesktop'] = [
-          { name: 'empty', value: devicePerc.perc1 ? 100 - (+devicePerc.perc1) : 100 },
-          { name: 'Desktop', value: devicePerc.perc1 ? devicePerc.perc1 : 0 },
-        ];
-
-        this.audience['deviceMobile'] = [
-          { name: 'empty', value: devicePerc.perc2 ? 100 - (+devicePerc.perc2) : 100 },
-          { name: 'Mobile', value: devicePerc.perc2 ? devicePerc.perc2 : 0 },
-        ];
-
-        if (!desktop) {
-          this.audience['deviceDesktop'] = [];
-          return;
-        }
-
-        if (!mobile) {
-          this.audience['deviceMobile'] = [];
-          return;
-        }
-
-        break;
-
-      case 'gender':
-        const man = dataRaw.find(item => item.name === 'Hombre');
-        const woman = dataRaw.find(item => item.name === 'Mujer');
-
-        let genderPerc = this.getPercentages(man?.value, woman?.value);
-
-        this.audience['genderMan'] = [
-          { name: 'empty', value: genderPerc.perc1 ? 100 - (+genderPerc.perc1) : 100 },
-          { name: 'Hombre', value: genderPerc.perc1 ? genderPerc.perc1 : 0 },
-        ];
-
-        this.audience['genderWoman'] = [
-          { name: 'empty', value: genderPerc.perc2 ? 100 - (+genderPerc.perc2) : 100 },
-          { name: 'Mujer', value: genderPerc.perc2 ? genderPerc.perc2 : 0 },
-        ];
-
-        if (!man) {
-          this.audience['genderMan'] = [];
-        }
-
-        if (!woman) {
-          this.audience['genderWoman'] = [];
-        }
-        break;
-    }
-  }
-
-  getPercentages(value1: any, value2: any) {
-    let total = value1 + value2;
-    let perc1 = ((value1 * 100) / total).toFixed(2);
-    let perc2 = ((value2 * 100) / total).toFixed(2);
-    return { perc1, perc2 };
   }
 
   ngOnDestroy() {

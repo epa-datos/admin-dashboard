@@ -253,24 +253,24 @@
                         <div class="row">
                             <div class="col-12 col-xl-6 mt-5 mt-xl-0">
                                 <div class="chart-legend legend-center mt-0">
-                                    <div class="legend-container" *ngIf="audience?.deviceDesktop?.length > 0">
+                                    <div class="legend-container" *ngIf="audience?.desktop?.length > 0">
                                         <div class="legend-square on color-4"></div>
-                                        <div class="legend-label">Desktop {{ audience.deviceDesktop[1].value }}%</div>
+                                        <div class="legend-label">Desktop {{ audience.desktop[1].value }}%</div>
                                     </div>
                                 </div>
-                                <app-chart-pictorial [data]="audience?.deviceDesktop" name="omnichat-devices-desktop"
+                                <app-chart-pictorial [data]="audience?.desktop" name="omnichat-devices-desktop"
                                     [uniqueDimensionConf]="{color: '#67B6DC'}" category="name" iconType="monitor"
                                     [status]="audienceReqStatus[0].reqStatus" height="280px">
                                 </app-chart-pictorial>
                             </div>
                             <div class="col-12 col-xl-6 mt-5 mt-xl-0">
                                 <div class="chart-legend legend-center mt-0">
-                                    <div class="legend-container" *ngIf="audience?.deviceMobile?.length > 0">
+                                    <div class="legend-container" *ngIf="audience?.mobile?.length > 0">
                                         <div class="legend-square on color-5"></div>
-                                        <div class="legend-label">Mobile {{ audience.deviceMobile[1].value }}%</div>
+                                        <div class="legend-label">Mobile {{ audience.mobile[1].value }}%</div>
                                     </div>
                                 </div>
-                                <app-chart-pictorial [data]="audience?.deviceMobile" name="omnichat-devices-mobile"
+                                <app-chart-pictorial [data]="audience?.mobile" name="omnichat-devices-mobile"
                                     [uniqueDimensionConf]="{color: '#6794DC'}" category="name" iconType="cellphone"
                                     height="280px" [status]="audienceReqStatus[0].reqStatus">
                                 </app-chart-pictorial>
@@ -290,12 +290,12 @@
                         <div class="row">
                             <div class="col-12 col-xl-6 mt-5 mt-xl-0">
                                 <div class="chart-legend legend-center mt-0">
-                                    <div class="legend-container" *ngIf="audience?.genderMan?.length > 0">
+                                    <div class="legend-container" *ngIf="audience?.men?.length > 0">
                                         <div class="legend-square on color-4"></div>
-                                        <div class="legend-label">Hombres {{ audience.genderMan[1].value }}%</div>
+                                        <div class="legend-label">Hombres {{ audience.men[1].value }}%</div>
                                     </div>
                                 </div>
-                                <app-chart-pictorial [data]="audience?.genderMan" name="omnichat-gender-man"
+                                <app-chart-pictorial [data]="audience?.men" name="omnichat-gender-man"
                                     [uniqueDimensionConf]="{color: '#67B6DC'}" category="name" iconType="man"
                                     height="280px" [status]="audienceReqStatus[1].reqStatus">
                                 </app-chart-pictorial>
@@ -303,12 +303,12 @@
 
                             <div class="col-12 col-xl-6 mt-5 mt-xl-0">
                                 <div class="chart-legend legend-center mt-0">
-                                    <div class="legend-container" *ngIf="audience?.genderWoman?.length > 0">
+                                    <div class="legend-container" *ngIf="audience?.women?.length > 0">
                                         <div class="legend-square on color-5"></div>
-                                        <div class="legend-label">Mujeres {{ audience.genderWoman[1].value }}%</div>
+                                        <div class="legend-label">Mujeres {{ audience.women[1].value }}%</div>
                                     </div>
                                 </div>
-                                <app-chart-pictorial [data]="audience?.genderWoman" name="omnichat-gender-woman"
+                                <app-chart-pictorial [data]="audience?.women" name="omnichat-gender-woman"
                                     [uniqueDimensionConf]="{color: '#6794DC'}" category="name" iconType="woman"
                                     height="280px" [status]="audienceReqStatus[1].reqStatus">
                                 </app-chart-pictorial>
