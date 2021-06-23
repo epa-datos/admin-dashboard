@@ -230,12 +230,12 @@ export class OmnichatWrapperComponent implements OnInit, OnDestroy {
     const previousCategory = this.selectedCategories?.find(category => category.id === this.selectedCategoryTab3?.id);
     const selectedCategory = previousCategory ? previousCategory : this.selectedCategories?.[0];
 
-    let selectedMetricForTab1 = this.selectedTab1 === 1 ? 'conversions-vs-users' : 'aup-vs-revenue';
+    let selectedMetricForTab1 = this.selectedTab1 === 1 ? 'conversions-vs-users' : this.selectedTab1 === 2 ? 'investment-vs-revenue' : 'aup-vs-revenue';
     let selectedMetricForTab2 = this.selectedTab2 === 1 ? 'traffic' : 'sales';
     let selectedMetricForTab3 = this.selectedTab3 === 1 ? 'traffic' : 'sales';
 
     this.getStaticDataByMetric();
-    this.getUsersAndRevenue(selectedMetricForTab1);
+    this.getUsersInvOrAup(selectedMetricForTab1);
     this.getDataByLevel(selectedMetricForTab2);
     this.getSalesByProduct(selectedCategory);
     this.getUsersSalesAndCR(selectedCategory);
@@ -300,7 +300,7 @@ export class OmnichatWrapperComponent implements OnInit, OnDestroy {
     }
   }
 
-  getUsersAndRevenue(metricType: string) {
+  getUsersInvOrAup(metricType: string) {
     this.usersAndRevenueReqStatus = 1;
     this.omnichatService.getDataByMetric(this.selectedLevelPage.latam, metricType).subscribe(
       (resp: any[]) => {
@@ -313,7 +313,7 @@ export class OmnichatWrapperComponent implements OnInit, OnDestroy {
         this.usersAndRevenueReqStatus = 3;
       });
 
-    this.selectedTab1 = metricType === 'conversions-vs-users' ? 1 : 2;
+    this.selectedTab1 = metricType === 'conversions-vs-users' ? 1 : metricType === 'investment-vs-revenue' ? 2 : 3;
   }
 
   getDataByLevel(metricType: string) {

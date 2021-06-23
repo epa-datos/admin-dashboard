@@ -19,11 +19,21 @@
             <ul class="nav nav-pills nav-fill">
                 <li class="nav-item">
                     <a class="nav-link p-2" [ngClass]="{'active': selectedTab1 === 1}"
-                        (click)="getUsersAndRevenue('conversions-vs-users');">Usuarios - Conversiones</a>
+                        (click)="getUsersInvOrAup('conversions-vs-users');">
+                        {{ 'general.usersVsSales' | translate }}
+                    </a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link p-2" [ngClass]="{'active': selectedTab1 === 2}"
-                        (click)="getUsersAndRevenue('aup-vs-revenue')">Revenue - AUP</a>
+                        (click)="getUsersInvOrAup('investment-vs-revenue');">
+                        {{ 'general.investmentVsRevenue' | translate }}
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link p-2" [ngClass]="{'active': selectedTab1 === 3}"
+                        (click)="getUsersInvOrAup('aup-vs-revenue')">
+                        {{ 'general.revenueVsAup' | translate }}
+                    </a>
                 </li>
             </ul>
         </div>
@@ -40,12 +50,12 @@
             </div>
             <div class="card-body">
                 <app-chart-multiple-axes [data]="usersAndRevenue"
-                    [value1]="selectedTab1 === 1 ? 'transactions' : 'quantity'"
-                    [value2]="selectedTab1 === 1 ? 'users' : 'aup'"
-                    [valueName1]="selectedTab1 === 1 ? 'Conversiones' : 'Revenue'"
-                    [valueName2]="selectedTab1 === 1 ? 'Usuarios' : 'AUP'" [valueFormat1]="selectedTab1 === 2 && 'USD'"
-                    [valueFormat2]="selectedTab1 === 2 && 'USD'" name="omnichat-traffic-vs-conversions"
-                    [status]="usersAndRevenueReqStatus">
+                    [value1]="selectedTab1 === 1 ? 'transactions' : selectedTab1 === 2 ? 'revenue' : 'revenue'"
+                    [value2]="selectedTab1 === 1 ? 'users' : selectedTab1 === 2 ? 'investment': 'aup'"
+                    [valueName1]="selectedTab1 === 1 ? 'Conversiones' : selectedTab1 === 2 ? 'Revenue' :'Revenue'"
+                    [valueName2]="selectedTab1 === 1 ? 'Usuarios' : selectedTab1 === 2 ? 'Inversión' : 'AUP'"
+                    [valueFormat1]="selectedTab1 > 1 && 'USD'" [valueFormat2]="selectedTab1 > 1 && 'USD'"
+                    name="omnichat-traffic-vs-conversions" [status]="usersAndRevenueReqStatus">
                 </app-chart-multiple-axes>
             </div>
         </div>
