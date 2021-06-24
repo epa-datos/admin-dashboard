@@ -212,12 +212,19 @@ export class OmnichatWrapperComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.selectedCategories = this.filtersStateService.categories;
 
-    if (this.filtersStateService.countries &&
-      this.filtersStateService.retailers &&
-      this.filtersStateService.period &&
-      this.filtersStateService.categories
-    ) {
-      this.getAllData();
+    // validate if filters are already loaded
+    if (this.filtersStateService.period &&
+      this.filtersStateService.categories) {
+
+      if (this.selectedLevelPage.latam &&
+        this.filtersStateService.countries &&
+        this.filtersStateService.retailers
+      ) {
+        this.getAllData();
+
+      } else {
+        this.getAllData();
+      }
     }
 
     this.requestInfoSub = this.requestInfoChange.subscribe((manualChange: boolean) => {
