@@ -115,8 +115,8 @@ export class OmnichatWrapperComponent implements OnInit, OnDestroy {
 
   dataByLevel = {};
   dataByLevelReqStatus = [
-    { name: 'country', reqStatus: 0 },
-    { name: 'retailer', reqStatus: 0 },
+    { name: 'countries', reqStatus: 0 },
+    { name: 'retailers', reqStatus: 0 },
     { name: 'category1', reqStatus: 0 },
     { name: 'category2', reqStatus: 0 },
   ];
@@ -321,13 +321,13 @@ export class OmnichatWrapperComponent implements OnInit, OnDestroy {
 
     if (this.selectedLevelPage.latam) {
       requiredData = [
-        { metricType, subMetricType: 'country', name: 'country' },
-        { metricType, subMetricType: 'retailer', name: 'retailer' },
+        { metricType, subMetricType: 'countries', name: 'countries' },
+        { metricType, subMetricType: 'retailers', name: 'retailers' },
         { metricType, subMetricType: 'category', name: 'category1' }
       ]
     } else if (this.selectedLevelPage.country) {
       requiredData = [
-        { metricType, subMetricType: 'retailer', name: 'retailer' },
+        { metricType, subMetricType: 'retailers', name: 'retailers' },
         { metricType, subMetricType: 'category', name: 'category1' },
       ]
     } else if (this.selectedLevelPage.retailer) {
@@ -343,7 +343,7 @@ export class OmnichatWrapperComponent implements OnInit, OnDestroy {
 
       this.omnichatService.getDataByMetric(this.selectedLevelPage.latam, metric.metricType, metric.subMetricType).subscribe(
         (resp: any[]) => {
-          this.dataByLevel[metric.name] = resp;
+          this.dataByLevel[metric.name] = resp.sort((a, b) => (a?.chats < b?.chats ? -1 : 1));
           reqStatusObj.reqStatus = 2;
         },
         error => {
