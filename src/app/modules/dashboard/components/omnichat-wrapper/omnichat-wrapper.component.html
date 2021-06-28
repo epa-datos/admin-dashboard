@@ -70,7 +70,7 @@
             <span class="h3">Tráfico y Conversiones</span>
         </div>
     </div>
-    <div class="col-12" *ngIf="!selectedLevelPage.retailer">
+    <div class="col-12" *ngIf="!levelPage.retailer">
         <div class="pills-container">
             <ul class="nav nav-pills nav-fill">
                 <li class="nav-item">
@@ -85,7 +85,7 @@
         </div>
     </div>
 
-    <div class="col-12 col-lg-4 mt-4" *ngIf="selectedLevelPage.latam">
+    <div class="col-12 col-lg-4 mt-4" *ngIf="levelPage.latam">
         <div class="card height-fluid">
             <div class="card-header">
                 <span class="h4">
@@ -100,8 +100,8 @@
             </div>
         </div>
     </div>
-    <div class="col-12 col-lg-4 mt-4" *ngIf="selectedLevelPage.latam || selectedLevelPage.country"
-        [ngClass]="{'col-lg-6' : !selectedLevelPage.latam}">
+    <div class="col-12 col-lg-4 mt-4" *ngIf="levelPage.latam || levelPage.country"
+        [ngClass]="{'col-lg-6' : !levelPage.latam}">
         <div class="card height-fluid superimposed">
             <div class="card-header">
                 <span class="h4">
@@ -120,12 +120,12 @@
             </div>
         </div>
     </div>
-    <div class="col-12 col-lg-4 mt-4" [ngClass]="{'col-lg-6' : !selectedLevelPage.latam}">
+    <div class="col-12 col-lg-4 mt-4" [ngClass]="{'col-lg-6' : !levelPage.latam}">
         <div class="card height-fluid">
             <div class="card-header">
-                <span class="h4" *ngIf="!selectedLevelPage.retailer">
+                <span class="h4" *ngIf="!levelPage.retailer">
                     {{ selectedTab2 === 1 ? 'Tráfico' : 'Conversiones' }} por categoría</span>
-                <span class="h4" *ngIf="selectedLevelPage.retailer">Tráfico por categoría</span>
+                <span class="h4" *ngIf="levelPage.retailer">Tráfico por categoría</span>
             </div>
             <div class="card-body">
                 <app-chart-pie [data]="dataByLevel.category1" [status]="dataByLevelReqStatus[2].reqStatus"
@@ -135,10 +135,10 @@
         </div>
     </div>
 
-    <div class="col-12 col-lg-6 mt-4" *ngIf="selectedLevelPage.retailer">
+    <div class="col-12 col-lg-6 mt-4" *ngIf="levelPage.retailer">
         <div class="card height-fluid">
             <div class="card-header">
-                <span class="h4" *ngIf="selectedLevelPage.retailer">Conversiones por categoría</span>
+                <span class="h4" *ngIf="levelPage.retailer">Conversiones por categoría</span>
             </div>
             <div class="card-body">
                 <app-chart-pie [data]="dataByLevel.category2" [status]="dataByLevelReqStatus[3].reqStatus"
