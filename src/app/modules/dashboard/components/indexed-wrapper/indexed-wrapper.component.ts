@@ -44,14 +44,6 @@ export class IndexedWrapperComponent implements OnInit, OnDestroy {
       icon: 'fas fa-eye',
       iconBg: '#a77dcc'
     },
-    // {
-    //   metricTitle: 'porcentaje de rebote',
-    //   metricName: 'bounce_rate',
-    //   metricValue: 3.87,
-    //   metricFormat: 'percentage',
-    //   icon: 'fas fa-low-vision',
-    //   iconBg: '#f89934'
-    // },
     {
       metricTitle: 'páginas/sesión',
       metricName: 'pages_by_session',
@@ -198,20 +190,16 @@ export class IndexedWrapperComponent implements OnInit, OnDestroy {
   ) { }
 
   ngOnInit(): void {
+
     // validate if filters are already loaded
-    console.log('init levelPage', this.levelPage)
-    if (this.levelPage && this.filtersAreReady()) {
-      this.getAllData();
-    }
+    this.filtersAreReady() && this.getAllData();
 
     this.requestInfoSub = this.requestInfoChange.subscribe((manualChange: boolean) => {
       this.getAllData();
     });
 
     this.levelPageSub = this.levelPageChange.subscribe((levelChange: object) => {
-
       this.levelPage = levelChange;
-      console.log('levelPageSub', this.levelPage)
     });
   }
 

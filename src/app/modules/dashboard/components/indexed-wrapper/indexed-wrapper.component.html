@@ -1,12 +1,5 @@
-<!-- TABS -->
+<!-- KPIS -->
 <div class="row mt-2">
-    <!-- <div class="col-12 col-sm-6 col-lg-4 mt-lg-3" *ngFor="let stat of kpis">
-        <app-card-stat [stat]="stat" [loader]="kpisReqStatus <= 1" height="100px">
-        </app-card-stat>
-        <p class="text-center text-muted mt-3 mb-0" [hidden]="kpisReqStatus !== 3">
-            Error al consultar datos
-        </p>
-    </div> -->
     <div class="col-12">
         <div class="stats-container">
             <app-card-stat *ngFor="let stat of kpis" [stat]="stat" [loader]="kpisReqStatus <= 1" [smallHeader]="true"
@@ -19,9 +12,7 @@
     </div>
 </div>
 
-levelPage.latam {{levelPage?.latam}} <br>
-levelPage.country {{levelPage?.country}} <br>
-levelPage.retailer {{levelPage?.retailer}} <br>
+<!-- COUNTRIES AND RETAILERS TRAFFIC CHARTS -->
 <div class="row mt-5" *ngIf="!levelPage?.retailer">
     <div class="col-12" *ngIf="levelPage?.latam">
         <div class="pills-container">
@@ -56,23 +47,8 @@ levelPage.retailer {{levelPage?.retailer}} <br>
     </div>
 </div>
 
-<!-- DEMOGRAPHICS CHARTS -->
+<!-- TRAFFIC CHARTS -->
 <div class="row mt-1">
-    <!-- <div class="col-12">
-        <div class="pills-container">
-            <ul class="nav nav-pills nav-fill">
-                <li class="nav-item">
-                    <a class="nav-link p-2" [ngClass]="{'active': selectedTab4 === 1}"
-                        (click)="getDataBytrafficDemographics2('traffic'); chartsInitLoad = chartsInitLoad && false;">Tráfico</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link p-2" [ngClass]="{'active': selectedTab4 === 2}"
-                        (click)="getDataBytrafficDemographics2('sales'); chartsInitLoad = chartsInitLoad && false;">Conversiones</a>
-                </li>
-            </ul>
-        </div>
-    </div> -->
-
     <!-- devices -->
     <div class="col-12 col-md-6 mt-4">
         <div class="card">
@@ -147,7 +123,6 @@ levelPage.retailer {{levelPage?.retailer}} <br>
             </div>
         </div>
     </div>
-
 
     <!-- age -->
     <div class="col-12 col-md-6 mt-4">
