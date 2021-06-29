@@ -18,7 +18,6 @@ export class RetailerComponent implements OnInit, OnDestroy {
   activeTabView: number = 1;
 
   retailerID: number;
-  countryID: number;
 
   googleMyBusiness: boolean;
 
@@ -45,10 +44,6 @@ export class RetailerComponent implements OnInit, OnDestroy {
 
     this.filtersSub = this.filtersStateService.filtersChange$.subscribe((manualChange: boolean) => {
       this.requestInfoSource.next(manualChange);
-    });
-
-    this.countrySub = this.appStateService.selectedCountry$.subscribe(country => {
-      this.countryID = country?.id
     });
 
     this.retailerSub = this.appStateService.selectedRetailer$.subscribe(retailer => {
@@ -80,7 +75,6 @@ export class RetailerComponent implements OnInit, OnDestroy {
 
   ngOnDestroy() {
     this.retailerSub?.unsubscribe();
-    this.countrySub?.unsubscribe();
     this.filtersSub?.unsubscribe();
   }
 }
