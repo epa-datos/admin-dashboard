@@ -70,7 +70,6 @@ export class OtherToolsComponent implements OnInit, OnDestroy {
         this.countryID = country?.id;
         this.getActiveView();
 
-        this.activeTabView = 1;
         this.emitSelectedSection('indexed');
       }
     });
@@ -81,7 +80,6 @@ export class OtherToolsComponent implements OnInit, OnDestroy {
         this.retailerID = retailer?.id;
         this.getActiveView();
 
-        this.activeTabView = 1;
         this.emitSelectedSection('indexed');
       }
     });
