@@ -76,6 +76,7 @@ export class PcSelectorWrapperComponent implements OnInit, OnDestroy {
   usersOrRevenue: any[] = [];
   usersOrRevenueReqStatus: number = 0;
 
+  // traffic or conversions submetrics by level (latam, country, retailer)
   trafficOrConversions = {};
   trafficOrConversionsReqStatus = [
     { name: 'countries', reqStatus: 0 },
@@ -86,9 +87,11 @@ export class PcSelectorWrapperComponent implements OnInit, OnDestroy {
     { name: 'products', reqStatus: 0 }
   ];
 
+  // users, conversions and conversion rate
   performance: {};
   performanceReqStatus: number = 0;
 
+  // traffic or conversions audience submetrics
   audience = {};
   audienceReqStatus = [
     { name: 'device', reqStatus: 0 },
@@ -158,7 +161,7 @@ export class PcSelectorWrapperComponent implements OnInit, OnDestroy {
       error => {
         this.clearKpis();
         const errorMsg = error?.error?.message ? error.error.message : error?.message;
-        console.error(`[pc-selector.component]: ${errorMsg}`);
+        console.error(`[pc-selector-wrapper.component]: ${errorMsg}`);
         this.kpisReqStatus = 3;
       });
   }
@@ -174,7 +177,7 @@ export class PcSelectorWrapperComponent implements OnInit, OnDestroy {
       },
       error => {
         const errorMsg = error?.error?.message ? error.error.message : error?.message;
-        console.error(`[pc-selector.component]: ${errorMsg}`);
+        console.error(`[pc-selector-wrapper.component]: ${errorMsg}`);
         this.usersOrRevenueReqStatus = 3;
       });
   }
@@ -230,7 +233,7 @@ export class PcSelectorWrapperComponent implements OnInit, OnDestroy {
         error => {
           this.trafficOrConversions[metric.name] = [];
           const errorMsg = error?.error?.message ? error.error.message : error?.message;
-          console.error(`[pc-selector.component]: ${errorMsg}`);
+          console.error(`[pc-selector-wrapper.component]: ${errorMsg}`);
           reqStatusObj.reqStatus = 3;
         });
     }
@@ -254,7 +257,7 @@ export class PcSelectorWrapperComponent implements OnInit, OnDestroy {
       },
       error => {
         const errorMsg = error?.error?.message ? error.error.message : error?.message;
-        console.error(`[pc-selector.component]: ${errorMsg}`);
+        console.error(`[pc-selector-wrapper.component]: ${errorMsg}`);
         this.performanceReqStatus = 3;
       });
   }
@@ -296,7 +299,7 @@ export class PcSelectorWrapperComponent implements OnInit, OnDestroy {
             this.audience = { ...this.audience, men: hombre, women: mujer };
 
           } else if (subMetric.name === 'weekdayAndHour') {
-            this.audience['weekdayAndHour'] = resp.map(item => {
+            this.audience[subMetric.name] = resp.map(item => {
               return { ...item, weekdayName: convertWeekdayToString(item.weekday) }
             });
           } else if (subMetric.name === 'weekday') {

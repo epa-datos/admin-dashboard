@@ -31,7 +31,9 @@
     <div class="col-12 mt-4">
         <div class="card">
             <div class="card-header">
-                <span class="h4">{{ selectedTab1 === 1 ? 'Usuarios - Conversiones' : 'Revenue - AUP '}} </span>
+                <span class="h4">
+                    {{ selectedTab1 === 1 ? 'Usuarios - Conversiones' : 'Revenue - AUP '}}
+                </span>
             </div>
             <div class="card-body">
                 <app-chart-multiple-axes [data]="usersOrRevenue"
@@ -91,7 +93,7 @@
             <div class="card-header">
                 <span class="h4">{{ selectedTab2 === 1 ? 'Tráfico' : 'Conversiones' }} por retailer</span>
             </div>
-            <div class="card-body retailers-chart-container">
+            <div class="card-body" [ngClass]="{'overfow-container': trafficOrConversions?.retailers?.length > 14}">
                 <app-chart-bar-horizontal [data]="trafficOrConversions?.retailers" name="pc-selector-chats-by-retailer"
                     category="retailer" [truncateLabels]="true" [singleColorBars]="true"
                     [height]="trafficOrConversions?.retailers?.length > 14 ? '900px' : '350px'"
@@ -223,7 +225,9 @@
             <div class="col-12 col-md-6 mt-4">
                 <div class="card">
                     <div class="card-header">
-                        <span class="h4">{{selectedTab3 === 1 ? 'Tráfico' : 'Conversiones'}} por dispositivos</span>
+                        <span class="h4">
+                            {{selectedTab3 === 1 ? 'Tráfico' : 'Conversiones'}} por dispositivos
+                        </span>
                     </div>
                     <div class="card-body">
                         <div class="row">
@@ -261,7 +265,9 @@
             <div class="col-12 col-md-6 mt-4">
                 <div class="card">
                     <div class="card-header">
-                        <span class="h4">{{selectedTab3 === 1 ? 'Tráfico' : 'Conversiones'}} por Género</span>
+                        <span class="h4">
+                            {{selectedTab3 === 1 ? 'Tráfico' : 'Conversiones'}} por Género
+                        </span>
                     </div>
                     <div class="card-body">
                         <div class="row">
@@ -299,7 +305,9 @@
             <div class="col-12 col-md-6 mt-4">
                 <div class="card">
                     <div class="card-header">
-                        <span class="h4">{{selectedTab3 === 1 ? 'Tráfico' : 'Conversiones'}} por Edad</span>
+                        <span class="h4">
+                            {{selectedTab3 === 1 ? 'Tráfico' : 'Conversiones'}} por Edad
+                        </span>
                     </div>
                     <div class="card-body">
                         <app-chart-lollipop [data]="audience?.age" name="pc-selectorage" category="age"
@@ -314,7 +322,9 @@
             <div class="col-12 col-md-6 mt-4">
                 <div class="card">
                     <div class="card-header">
-                        <span class="h4">{{selectedTab3 === 1 ? 'Tráfico' : 'Conversiones'}} por Género y Edad</span>
+                        <span class="h4">
+                            {{selectedTab3 === 1 ? 'Tráfico' : 'Conversiones'}} por Género y Edad
+                        </span>
                     </div>
                     <div class="card-body" style="height: 328px">
                         <!-- loader -->
@@ -348,8 +358,9 @@
             <div class="col-12 col-lg-6 mt-4" *ngIf="selectedTab3 === 1">
                 <div class="card" style="height: 100%;">
                     <div class="card-header">
-                        <span class="h4">{{selectedTab3 === 1 ? 'Tráfico' : 'Conversiones'}}
-                            por día de la semana y hora del día</span>
+                        <span class="h4">
+                            {{selectedTab3 === 1 ? 'Tráfico' : 'Conversiones'}} por día de la semana y hora del día
+                        </span>
                     </div>
                     <div class="card-body">
                         <app-chart-heat-map [data]="audience?.weekdayAndHour" name="pc-selectorweekday-sesions"
@@ -363,8 +374,9 @@
                 <!-- weekday -->
                 <div class="card">
                     <div class="card-header">
-                        <span class="h4">{{selectedTab3 === 1 ? 'Tráfico' : 'Conversiones'}}
-                            por día de la semana</span>
+                        <span class="h4">
+                            {{selectedTab3 === 1 ? 'Tráfico' : 'Conversiones'}} por día de la semana
+                        </span>
                     </div>
                     <div class="card-body">
                         <app-chart-bar-horizontal [data]="audience?.weekday" name="pc-selectortraffic-day"
@@ -376,8 +388,9 @@
                 <div class="card mt-4" *ngIf="selectedTab3 === 1">
                     <!-- hour -->
                     <div class="card-header">
-                        <span class="h4">{{selectedTab3 === 1 ? 'Tráfico' : 'Conversiones'}}
-                            por hora del día</span>
+                        <span class="h4">
+                            {{selectedTab3 === 1 ? 'Tráfico' : 'Conversiones'}} por hora del día
+                        </span>
                     </div>
                     <div class="card-body">
                         <app-chart-lollipop [data]="audience?.hour" name="pc-selectortraffic-hour" category="hour"
