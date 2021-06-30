@@ -22,6 +22,7 @@ export class OmnichatWrapperComponent implements OnInit, OnDestroy {
   selectedTab3: number = 1; // selected category -> chart-bar-horizontal
   selectedTab4: number = 1; // traffic (1) or conversions (2) -> audience charts
 
+  // kpis and conversion rates
   staticData = {
     kpis: [
       {
@@ -114,9 +115,11 @@ export class OmnichatWrapperComponent implements OnInit, OnDestroy {
     { name: 'conversionRate', reqStatus: 0 },
   ];
 
+  // users vs conversions or revenue vs aup
   usersOrRevenue: any[] = [];
   usersOrRevenueReqStatus: number = 0;
 
+  // metrics for different levels (latam, country, retailer)
   dataByLevel = {};
   dataByLevelReqStatus = [
     { name: 'countries', reqStatus: 0 },
@@ -125,12 +128,15 @@ export class OmnichatWrapperComponent implements OnInit, OnDestroy {
     { name: 'category2', reqStatus: 0 },
   ];
 
+  // conversions by products
   salesByProduct: any[] = [];
   salesByProductReqStatus: number = 0;
 
+  // users, conversions and conversion rate
   usersSalesAndCR = {};
   usersSalesAndCRReqStatus: number = 0;
 
+  // categories table
   performanceByCategoryColumns: TableItem[] = [
     {
       name: 'category',
@@ -184,6 +190,7 @@ export class OmnichatWrapperComponent implements OnInit, OnDestroy {
     reqStatus: 0
   }
 
+  // all traffic or conversions submetrics
   audience = {};
   audienceReqStatus = [
     { name: 'device', reqStatus: 0 },
@@ -193,15 +200,15 @@ export class OmnichatWrapperComponent implements OnInit, OnDestroy {
     { name: 'weekday', reqStatus: 0 },
     { name: 'weekdayAndHour', reqStatus: 0 },
     { name: 'hour', reqStatus: 0 },
-  ]
+  ];
+
+  // available tabs for salesByProduct
+  selectedCategories: any[] = [];
+  selectedCategoryTab3: any;
 
   chartsInitLoad: boolean = true;
 
   requestInfoSub: Subscription;
-
-  // available tabs
-  selectedCategories: any[] = []; // for salesByProduct
-  selectedCategoryTab3: any;
 
   constructor(
     private omnichatService: OmnichatService,
