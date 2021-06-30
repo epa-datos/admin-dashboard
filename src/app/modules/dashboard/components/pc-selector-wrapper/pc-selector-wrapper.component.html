@@ -34,13 +34,13 @@
                 <span class="h4">{{ selectedTab1 === 1 ? 'Usuarios - Conversiones' : 'Revenue - AUP '}} </span>
             </div>
             <div class="card-body">
-                <app-chart-multiple-axes [data]="usersAndRevenue"
+                <app-chart-multiple-axes [data]="usersOrRevenue"
                     [value1]="selectedTab1 === 1 ? 'conversions' : 'revenue'"
                     [value2]="selectedTab1 === 1 ? 'users' : 'aup'"
                     [valueName1]="selectedTab1 === 1 ? 'Conversiones' : 'Revenue'"
                     [valueName2]="selectedTab1 === 1 ? 'Usuarios' : 'AUP'" [valueFormat1]="selectedTab1 === 2 && 'USD'"
                     [valueFormat2]="selectedTab1 === 2 && 'USD'" name="pc-selector-traffic-vs-conversions"
-                    [status]="usersAndRevenueReqStatus">
+                    [status]="usersOrRevenueReqStatus">
                 </app-chart-multiple-axes>
             </div>
         </div>
@@ -322,12 +322,12 @@
                         </app-chart-loader>
 
                         <!-- ready -->
-                        <app-chart-pyramid *ngIf="audience?.genderByAge?.length > 0" [data]="audience?.genderByAge"
+                        <app-chart-pyramid *ngIf="audience?.genderAndAge?.length > 0" [data]="audience?.genderAndAge"
                             name="pc-selectorage-and-gender" [status]="audienceReqStatus[3].reqStatus" height="280px">
                         </app-chart-pyramid>
 
                         <!-- empty data -->
-                        <div *ngIf="audienceReqStatus[3].reqStatus === 2 && audience?.genderByAge?.length === 0"
+                        <div *ngIf="audienceReqStatus[3].reqStatus === 2 && audience?.genderAndAge?.length === 0"
                             class="chart-error-container text-muted">
                             <p class="text-center">
                                 Sin datos disponibles <br>
@@ -353,7 +353,7 @@
                     </div>
                     <div class="card-body">
                         <app-chart-heat-map [data]="audience?.weekdayAndHour" name="pc-selectorweekday-sesions"
-                            height="100%" [status]="audienceReqStatus[5].reqStatus">
+                            categoryX="weekdayName" height="100%" [status]="audienceReqStatus[5].reqStatus">
                         </app-chart-heat-map>
                     </div>
                 </div>
@@ -368,7 +368,7 @@
                     </div>
                     <div class="card-body">
                         <app-chart-bar-horizontal [data]="audience?.weekday" name="pc-selectortraffic-day"
-                            category='weekday' value='value' height="250px" [status]="audienceReqStatus[4].reqStatus">
+                            category="weekdayName" height="250px" [status]="audienceReqStatus[4].reqStatus">
                         </app-chart-bar-horizontal>
                     </div>
                 </div>
@@ -381,7 +381,7 @@
                     </div>
                     <div class="card-body">
                         <app-chart-lollipop [data]="audience?.hour" name="pc-selectortraffic-hour" category="hour"
-                            value="visits" height="250px" [status]="audienceReqStatus[6].reqStatus">
+                            height="250px" [status]="audienceReqStatus[6].reqStatus">
                         </app-chart-lollipop>
                     </div>
                 </div>
