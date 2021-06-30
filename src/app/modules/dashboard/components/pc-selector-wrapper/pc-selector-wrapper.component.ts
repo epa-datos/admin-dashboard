@@ -17,8 +17,8 @@ export class PcSelectorWrapperComponent implements OnInit, OnDestroy {
   @Input() requestInfoChange: Observable<boolean>;
 
   selectedTab1: number = 1; // users vs conversions (1) or revenue vs aup (2) selection -> chart-multiple-axes
-  selectedTab2: number = 1;  // traffic (1) or conversions (2) -> multiple charts
-  selectedTab3: number = 1;  // traffic (1) or conversions (2) -> audience
+  selectedTab2: number = 1; // traffic (1) or conversions (2) -> multiple charts
+  selectedTab3: number = 1; // traffic (1) or conversions (2) -> audience
 
   kpis: any[] = [
     {
