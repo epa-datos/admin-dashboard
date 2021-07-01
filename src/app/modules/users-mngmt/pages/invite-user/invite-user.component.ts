@@ -92,8 +92,23 @@ export class InviteUserComponent implements OnInit {
   getCountries() {
     return this.usersMngmtService.getCountries()
       .toPromise()
-      .then((resp: any[]) => {
-        this.countries = resp;
+      .then((countries: any[]) => {
+        const countriesWithoutRegion = countries.filter(c => !c.region);
+        const countriesWithRegion = countries.filter(c => c.region);
+
+        const regionsList = [];
+        const { regionsNames, regions } = this.groupCountriesByRegion(countriesWithRegion);
+
+        for (let region of regionsNames) {
+          regionsList.push({
+            name: region,
+            countries: regions[region]
+          });
+        }
+
+        if (regionsNames.length > 0) {
+          this.countries = [...countriesWithoutRegion, ...regionsList].sort((a, b) => (a.name < b.name ? -1 : 1));
+        }
       })
       .catch((error) => {
         console.error(`[invite-user.component]: ${error}`);
@@ -141,6 +156,26 @@ export class InviteUserComponent implements OnInit {
         console.error(`[invite-user.component]: ${error}`);
         throw (new Error());
       });
+  }
+
+  groupCountriesByRegion(countries) {
+    const regionsNames = [];
+    const regions = countries.reduce((regions, item) => {
+
+      if (!regionsNames.includes(item.region)) {
+        regionsNames.push(item.region);
+      }
+
+      const region = (regions[item.region] || []);
+      region.push(item);
+      regions[item.region] = region;
+      return regions;
+    }, {});
+
+    return {
+      regionsNames,
+      regions
+    }
   }
 
   roleChange() {

@@ -54,3 +54,18 @@
         padding: 0.525rem 0.75rem;
     }
 }
+
+.submenu-container {
+    margin-bottom: 12px;
+    margin-top: 12px;
+   
+    .submenu {
+        margin-left: 2rem;
+    }
+    
+    .custom-control-label {
+        &::before, &::after {
+            left: -2rem !important;
+        }
+    }
+}
