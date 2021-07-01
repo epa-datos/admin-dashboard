@@ -123,8 +123,6 @@ export class PcSelectorWrapperComponent implements OnInit, OnDestroy {
   }
 
   getAllData() {
-    console.log('getAllData')
-
     let metricTab1 = this.selectedTab1 === 1 ? 'conversions' : 'revenue-vs-aup';
     let subMetricTab1 = this.selectedTab1 === 1 && 'users';
     let metricTab2 = this.selectedTab2 === 1 ? 'traffic' : 'conversions';
