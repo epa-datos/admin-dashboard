@@ -45,7 +45,7 @@ export class OmnichatWrapperComponent implements OnInit, OnDestroy {
         metricFormat: 'percentage'
       },
       {
-        metricTitle: 'mediana de duración',
+        metricTitle: 'duración media de la sesión',
         metricName: 'median_chat_duration',
         metricValue: '00:00:00',
       },
@@ -76,7 +76,7 @@ export class OmnichatWrapperComponent implements OnInit, OnDestroy {
         metricFormat: 'integer',
       },
       {
-        metricTitle: 'conversion rate',
+        metricTitle: 'tasa de conversión',
         metricName: 'conversion_rate',
         metricValue: 0,
         metricFormat: 'percentage',
