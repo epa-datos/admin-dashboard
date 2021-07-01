@@ -37,7 +37,7 @@
             </div>
             <div class="card-body">
                 <app-chart-multiple-axes [data]="usersOrRevenue"
-                    [value1]="selectedTab1 === 1 ? 'conversions' : 'revenue'"
+                    [value1]="selectedTab1 === 1 ? 'transactions' : 'revenue'"
                     [value2]="selectedTab1 === 1 ? 'users' : 'aup'"
                     [valueName1]="selectedTab1 === 1 ? 'Conversiones' : 'Revenue'"
                     [valueName2]="selectedTab1 === 1 ? 'Usuarios' : 'AUP'" [valueFormat1]="selectedTab1 === 2 && 'USD'"
