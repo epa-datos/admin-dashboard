@@ -45,7 +45,7 @@ export class PcSelectorWrapperComponent implements OnInit {
       iconBg: '#f89934'
     },
     {
-      metricTitle: 'conversion rate',
+      metricTitle: 'tasa de conversión',
       metricName: 'conversion_rate',
       metricValue: 2.35,
       metricFormat: 'percentage',
