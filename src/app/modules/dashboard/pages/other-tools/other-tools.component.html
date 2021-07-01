@@ -32,6 +32,7 @@
     </ng-container>
 
     <ng-container *ngIf="activeTabView === 3">
-        <app-pc-selector-wrapper></app-pc-selector-wrapper>
+        <app-pc-selector-wrapper [levelPage]="levelPage" [requestInfoChange]="requestInfoChange$">
+        </app-pc-selector-wrapper>
     </ng-container>
 </div>
