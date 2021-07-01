@@ -39,7 +39,7 @@ export class PcSelectorWrapperComponent implements OnInit, OnDestroy {
     },
     {
       metricTitle: 'duración media de la sesión',
-      metricName: 'avg_session_duration',
+      metricName: 'median_of_session_duration',
       metricValue: '00:00:00',
       icon: 'fas fa-user-clock',
       iconBg: '#a77dcc'
@@ -125,7 +125,7 @@ export class PcSelectorWrapperComponent implements OnInit, OnDestroy {
   getAllData() {
     console.log('getAllData')
 
-    let metricTab1 = this.selectedTab1 === 1 ? 'conversions' : 'aup-vs-revenue';
+    let metricTab1 = this.selectedTab1 === 1 ? 'conversions' : 'revenue-vs-aup';
     let subMetricTab1 = this.selectedTab1 === 1 && 'users';
     let metricTab2 = this.selectedTab2 === 1 ? 'traffic' : 'conversions';
     let metricTab3 = this.selectedTab3 === 1 ? 'traffic' : 'conversions';
@@ -150,7 +150,7 @@ export class PcSelectorWrapperComponent implements OnInit, OnDestroy {
             continue;
           }
 
-          if (this.kpis[i].metricName === 'avg_session_duration') {
+          if (this.kpis[i].metricName === 'median_of_session_duration') {
             this.kpis[i].metricValue = strTimeFormat(baseObj.value);
           } else {
             this.kpis[i].metricValue = baseObj.value;
@@ -266,7 +266,7 @@ export class PcSelectorWrapperComponent implements OnInit, OnDestroy {
     this.selectedTab3 = metricType === 'traffic' ? 1 : 2;
 
     const requiredData = [
-      { subMetricType: 'device', name: 'device' },
+      { subMetricType: 'devices', name: 'device' },
       { subMetricType: 'gender', name: 'gender' },
       { subMetricType: 'age', name: 'age' },
       { subMetricType: 'gender-and-age', name: 'genderAndAge' },
@@ -343,7 +343,7 @@ export class PcSelectorWrapperComponent implements OnInit, OnDestroy {
 
   clearKpis() {
     for (let kpi of this.kpis) {
-      if (kpi.metricName === 'avg_session_duration') {
+      if (kpi.metricName === 'median_of_session_duration') {
         kpi.metricValue = '00:00:00';
       } else {
         kpi.metricValue = 0;
