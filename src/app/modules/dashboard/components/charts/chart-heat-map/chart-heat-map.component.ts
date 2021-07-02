@@ -16,6 +16,7 @@ export class ChartHeatMapComponent implements OnInit, AfterViewInit {
   @Input() value;
   @Input() height = '350px' // valid css height to chart container
   @Input() showTooltipValue: boolean = true; // show the value in tooltip
+  @Input() formatValue: string; // value or symbol displayed in tooltip
   @Input() showGridBorders: boolean = false;
   @Input() gridBordersColor: string = '#ffffff';  // valid css color
   @Input() showHeatLegend: boolean = true; // lower legend with average values triggering by column hover
@@ -192,7 +193,7 @@ export class ChartHeatMapComponent implements OnInit, AfterViewInit {
 
     let columnTemplate = series.columns.template;
     let tooltipLegend = this.showTooltipValue
-      ? `{${this.categoryX}}, {${this.categoryY}}: {value.workingValue}`
+      ? `{${this.categoryX}}, {${this.categoryY}}: [bold]{value.workingValue} ${this.formatValue ? this.formatValue : ''}[/]`
       : `{${this.categoryX}} - {${this.categoryY}}`;
 
     columnTemplate.tooltipText = tooltipLegend;
