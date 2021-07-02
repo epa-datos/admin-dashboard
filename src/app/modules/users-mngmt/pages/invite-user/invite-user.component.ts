@@ -92,8 +92,23 @@ export class InviteUserComponent implements OnInit {
   getCountries() {
     return this.usersMngmtService.getCountries()
       .toPromise()
-      .then((resp: any[]) => {
-        this.countries = resp;
+      .then((countries: any[]) => {
+        const countriesWithoutRegion = countries.filter(c => !c.region);
+        const countriesWithRegion = countries.filter(c => c.region);
+
+        const regionsList = [];
+        const { regionsNames, regions } = this.groupCountriesByRegion(countriesWithRegion);
+
+        for (let region of regionsNames) {
+          regionsList.push({
+            name: region,
+            countries: regions[region]
+          });
+        }
+
+        if (regionsNames.length > 0) {
+          this.countries = [...countriesWithoutRegion, ...regionsList].sort((a, b) => (a.name < b.name ? -1 : 1));
+        }
       })
       .catch((error) => {
         console.error(`[invite-user.component]: ${error}`);
@@ -143,6 +158,27 @@ export class InviteUserComponent implements OnInit {
       });
   }
 
+  groupCountriesByRegion(countries) {
+    const regionsNames = [];
+    const regions = countries.reduce((regions, item) => {
+
+      if (!regionsNames.includes(item.region)) {
+        regionsNames.push(item.region);
+      }
+
+      const region = (regions[item.region] || []);
+      region.push(item);
+      regions[item.region] = region;
+      regions.selected = false;
+      return regions;
+    }, {});
+
+    return {
+      regionsNames,
+      regions
+    }
+  }
+
   roleChange() {
     // Add all options for countries, retailer, sectors and categories in form 
     // only if these variables have not been assigned a value previously
@@ -153,6 +189,9 @@ export class InviteUserComponent implements OnInit {
 
     // add validators based on selected role
     this.addFormValidators();
+
+    // clean subitems (applies four countries grouped in regions)
+    this.resetFormControlsSubItems();
 
     if (this.countriesFilter) {
       this.filterFromList('countries', '');
@@ -230,17 +269,6 @@ export class InviteUserComponent implements OnInit {
     }
   }
 
-  resetFormControls() {
-    this.formSuboptions.forEach(opt => {
-      // reset form controls values
-      this.form.controls[opt.name].reset();
-
-      // reset form controls validators
-      this.form.controls[opt.name].setValidators([]);
-      this.form.controls[opt.name].updateValueAndValidity();
-    });
-  }
-
   addFormValidators() {
     switch (this.selectedRole.name) {
       case 'country':
@@ -270,6 +298,31 @@ export class InviteUserComponent implements OnInit {
     }
   }
 
+  resetFormControls() {
+    this.formSuboptions.forEach(opt => {
+      // reset form controls values
+      this.form.controls[opt.name].reset();
+
+      // reset form controls validators
+      this.form.controls[opt.name].setValidators([]);
+      this.form.controls[opt.name].updateValueAndValidity();
+    });
+  }
+
+  resetFormControlsSubItems() {
+    for (let item of this.countries) {
+      if (!item.countries) {
+        continue;
+      }
+
+      for (let subItem of item.countries) {
+        if (subItem.selected) {
+          subItem.selected = false;
+        }
+      }
+    }
+  }
+
   convertAllOptionsTo(formSuboption: string) {
     const formOption = this.formSuboptions.find(option => option.name === formSuboption);
 
@@ -281,24 +334,61 @@ export class InviteUserComponent implements OnInit {
       this.form.controls[formSuboption].reset();
       formOption.allOptSelected = false;
     }
+
+    if (formSuboption === 'countries') {
+      for (let item of this.countries) {
+
+        if (!item.countries) {
+          continue;
+        }
+
+        item.countries = item.countries.map(subitem => {
+          return { ...subitem, selected: selectAllOptions }
+        });
+      }
+    }
   }
 
   allOptionsSelected(formSuboption) {
     return this.formSuboptions.find(opt => opt.name === formSuboption).allOptSelected;
   }
 
-  convertToValue(key: string, entityType: string): Permission[] {
+  generatePermissions(key: string, entityType: string): Permission[] {
     const permissions: Permission[] = [];
     this.form.value[key].forEach((x, i) => {
+
       if (x && this[key][i]) {
-        const permission = {
-          role_id: this.selectedRole.id,
-          entity_type: entityType,
-          entity_id: this[key][i].id
+        // for countries (excluding regions), retailers, sectors and categories
+        if (this[key][i].id) {
+          const permission = {
+            role_id: this.selectedRole.id,
+            entity_type: entityType,
+            entity_id: this[key][i].id
+          }
+          permissions.push(permission);
         }
-        permissions.push(permission);
       }
     });
+
+    // for countries grouped in regions
+    if (key === 'countries') {
+      for (let item of this.countries) {
+        if (!item.countries) {
+          continue;
+        }
+
+        for (let subItem of item.countries) {
+          if (subItem.selected) {
+            const permission = {
+              role_id: this.selectedRole.id,
+              entity_type: entityType,
+              entity_id: subItem.id
+            }
+            permissions.push(permission);
+          }
+        }
+      }
+    }
 
     return permissions;
   }
@@ -306,10 +396,43 @@ export class InviteUserComponent implements OnInit {
   filterFromList(listName: string, value: string) {
     this[listName].forEach(element => {
       element.hidden && delete element.hidden;
+
       if (!element.name.toLowerCase().includes(value.toLowerCase())) {
-        element.hidden = true;
+        // consider countries (excluding regions), retailers, sectors and categories
+        // and countries grouped by region
+        if (!element.countries ||
+          (element.countries && !element.countries.some(item => item.name.toLowerCase().includes(value.toLowerCase())))) {
+          element.hidden = true;
+        }
       }
     });
+  }
+
+  countriesInRegionChange(selectedItem, selected) {
+    if (!selectedItem.countries) {
+      return;
+    }
+
+    selectedItem.countries = selectedItem.countries.map(subitem => {
+      return { ...subitem, selected };
+    });
+  }
+
+  regionChange(regionIndex, selectedItem, selected) {
+    selectedItem.selected = selected;
+
+    const countriesInRegion = this.countries.find(item => item.name === selectedItem.region)?.countries;
+    const selectedCountries = countriesInRegion.filter(item => item.selected);
+
+    const countriesFormList = this.form.controls['countries'].value;
+
+    if (countriesInRegion.length === selectedCountries.length) {
+      countriesFormList[regionIndex] = true;
+    } else {
+      countriesFormList[regionIndex] = "";
+    }
+
+    this.form.controls['countries'].patchValue(countriesFormList);
   }
 
   onSubmit() {
@@ -317,10 +440,10 @@ export class InviteUserComponent implements OnInit {
     const role = this.form.value.role;
     switch (role.name) {
       case 'country':
-        permissions = [...this.convertToValue('countries', 'country')];
+        permissions = [...this.generatePermissions('countries', 'country')];
         break;
       case 'retailer':
-        permissions = [...this.convertToValue('retailers', 'retailer')];
+        permissions = [...this.generatePermissions('retailers', 'retailer')];
         break;
       default:
         permissions = [{
@@ -331,8 +454,8 @@ export class InviteUserComponent implements OnInit {
         break;
     }
 
-    permissions = [...permissions, ...this.convertToValue('sectors', 'sector')];
-    permissions = [...permissions, ...this.convertToValue('categories', 'category')];
+    permissions = [...permissions, ...this.generatePermissions('sectors', 'sector')];
+    permissions = [...permissions, ...this.generatePermissions('categories', 'category')];
 
     const invite: Invite = {
       email: this.form.value.email,

@@ -146,16 +146,35 @@
                                             </div>
 
                                             <div class="options-container">
-                                                <ng-container *ngFor="let country of countries; let i = index"
+                                                <ng-container *ngFor="let item of countries; let i = index"
                                                     formArrayName="countries">
-                                                    <div [hidden]="country.hidden"
+                                                    <div [hidden]="item.hidden"
                                                         class="custom-control custom-control-alternative custom-checkbox my-1">
-                                                        <input type="checkbox" class="custom-control-input"
-                                                            [formControlName]="i" [id]="'country-custom-checkbox-'+i">
-                                                        <label class="custom-control-label"
-                                                            [for]="'country-custom-checkbox-'+i">
-                                                            <span class="text-muted">{{ country.name }}</span>
-                                                        </label>
+                                                        <!-- item (country or region) -->
+                                                        <ng-container>
+                                                            <input type="checkbox" class="custom-control-input"
+                                                                [formControlName]="i" [id]="'item-custom-checkbox-'+i"
+                                                                (change)="countriesInRegionChange(item, $event.target.checked)">
+                                                            <label class="custom-control-label"
+                                                                [for]="'item-custom-checkbox-'+i">
+                                                                <span class="text-muted">{{ item.name }}</span>
+                                                            </label>
+                                                        </ng-container>
+
+                                                        <!-- subitem (country within a region)-->
+                                                        <div class="submenu-container" *ngIf="item?.countries">
+                                                            <div class="submenu"
+                                                                *ngFor="let subItem of item.countries; let j = index">
+                                                                <input type="checkbox" class="custom-control-input"
+                                                                    [id]="i+'-subitem-custom-checkbox-'+j"
+                                                                    [checked]="subItem.selected"
+                                                                    (change)="regionChange(i, subItem, $event.target.checked)">
+                                                                <label class="custom-control-label"
+                                                                    [for]="i+'-subitem-custom-checkbox-'+j">
+                                                                    <span class="text-muted">{{ subItem.name }}</span>
+                                                                </label>
+                                                            </div>
+                                                        </div>
                                                     </div>
                                                 </ng-container>
                                             </div>
