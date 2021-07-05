@@ -49,6 +49,10 @@ export class UserService {
   ) {
     this._loggedIn = !!window.localStorage.getItem('auth_token');
 
+    this.user.id = !!window.localStorage.getItem('user_id')
+      ? +window.localStorage.getItem('user_id')
+      : null;
+
     this.user.email = !!window.localStorage.getItem('usermail')
       ? window.localStorage.getItem('usermail')
       : '';
@@ -112,6 +116,7 @@ export class UserService {
             this.user.role_name = auth.role.name;
             this.viewLevel = auth.level;
 
+            window.localStorage.setItem('user_id', this.user.id.toString());
             window.localStorage.setItem('usermail', this.user.email);
             window.localStorage.setItem('first_name', this.user.first_name ? this.user.first_name : null);
             window.localStorage.setItem('last_name', this.user.last_name ? this.user.last_name : null);
