@@ -5,6 +5,7 @@ import { RouterModule } from '@angular/router';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { SettingsRoutes } from './settings.routing';
 import { UserProfileComponent } from './pages/user-profile/user-profile.component';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 
 
 @NgModule({
@@ -17,6 +18,7 @@ import { UserProfileComponent } from './pages/user-profile/user-profile.componen
     FormsModule,
     ReactiveFormsModule,
     RouterModule.forChild(SettingsRoutes),
+    MatProgressSpinnerModule
   ]
 })
 export class SettingsModule { }
