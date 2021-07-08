@@ -98,7 +98,7 @@
                                 <ul class="nav nav-tabs">
                                     <li class="nav-item" *ngFor="let metric of usersInvOrAupMetrics; let i = index">
                                         <a class="nav-link" [ngClass]="{'active bg-light' : selectedTab4 === i + 1}"
-                                            (click)="selectedTab4 = i + 1; selectedTab5 = 1; getDataByUsersInvOrAup()">
+                                            (click)="selectedTab4 = i + 1; clearSubtabsSelection(); getDataByUsersInvOrAup()">
                                             <span>{{ metric | titlecase }}</span>
                                         </a>
                                     </li>
@@ -107,23 +107,6 @@
 
                             <div class="col-12 mb-2">
                                 <!-- sector -->
-                                <!-- <ul class="nav nav-pills nav-fill"
-                                        *ngIf="selectedTab4 === 1 && selectedSectors?.length > 1">
-                                        <li class="nav-item mb-2">
-                                            <a class="nav-link p-2" [ngClass]="{'active': selectedTab5 === 1}"
-                                                (click)="selectedTab5 = 1; getDataByUsersInvOrAup(); clearUsersAndSalesTabs()">
-                                                {{ 'others.all' | translate | titlecase }}
-                                            </a>
-                                        </li>
-                                        <li class="nav-item mb-2" *ngFor="let sector of selectedSectors">
-                                            <a class="nav-link p-2"
-                                                [ngClass]="{'active': category.id + 2 === selectedTab5}"
-                                                (click)="selectedTab5 = category.id + 2; getDataByUsersInvOrAup(null, sector)">
-                                                {{ sector.id }} - {{ sector.name }}
-                                            </a>
-                                        </li>
-                                    </ul> -->
-
                                 <ng-container *ngIf="selectedTab4 === 1 && selectedSectors?.length > 1">
                                     <app-multiple-tabs-selector [tabList]="selectedSectors"
                                         [selectedTabs]="selectedSectorsTab" [adjustTabsRow]="true"
@@ -132,23 +115,6 @@
                                 </ng-container>
 
                                 <!-- categoria -->
-                                <!-- <ul class="nav nav-pills nav-fill"
-                                        *ngIf="selectedTab4 === 2 && selectedCategories?.length > 1">
-                                        <li class="nav-item mb-2">
-                                            <a class="nav-link p-2" [ngClass]="{'active': selectedTab5 === 1}"
-                                                (click)="selectedTab5 = 1; getDataByUsersInvOrAup()">
-                                                {{ 'others.all' | translate | titlecase }}
-                                            </a>
-                                        </li>
-                                        <li class="nav-item mb-2" *ngFor="let category of selectedCategories">
-                                            <a class="nav-link p-2"
-                                                [ngClass]="{'active': category.id + 2 === selectedTab5}"
-                                                (click)="selectedTab5 = category.id + 2; getDataByUsersInvOrAup(null, null, category)">
-                                                {{ category.name }}
-                                            </a>
-                                        </li>
-                                    </ul> -->
-
                                 <ng-container *ngIf="selectedTab4 === 2 && selectedCategories?.length > 1">
                                     <app-multiple-tabs-selector [tabList]="selectedCategories"
                                         [selectedTabs]="selectedCategoriesTab" [adjustTabsRow]="true"
@@ -158,33 +124,12 @@
                                 </ng-container>
 
                                 <!-- fuente -->
-                                <!-- <ul class="nav nav-pills nav-fill"
-                                        *ngIf="selectedTab4 === 3 && selectedSources?.length > 1">
-                                        <li class="nav-item mb-2">
-                                            <a class="nav-link p-2" [ngClass]="{'active': selectedTab5 === 1}"
-                                                (click)="selectedTab5 = 1; getDataByUsersInvOrAup()">
-                                                {{ 'others.all' | translate | titlecase }}
-                                            </a>
-                                        </li>
-                                        <li class="nav-item mb-2" *ngFor="let source of selectedSources">
-                                            <a class="nav-link p-2"
-                                                [ngClass]="{'active': source.id + 2 === selectedTab5}"
-                                                (click)="selectedTab5 = source.id + 2; getDataByUsersInvOrAup(null, null, null, source)">
-                                                {{ source.name }}
-                                            </a>
-                                        </li>
-                                    </ul> -->
-
                                 <ng-container *ngIf="selectedTab4 === 3 && selectedSources?.length > 1">
                                     <app-multiple-tabs-selector [tabList]="selectedSources"
                                         [selectedTabs]="selectedSourcesTab" allSelectedTabText="female"
                                         (selectedTabsChange)="multipleSelectorChange('sources', $event)">
                                     </app-multiple-tabs-selector>
                                 </ng-container>
-
-                                <p class="mb-1 text-right">
-                                    <small class="text-muted">Ctrl + click para selección múltiple</small>
-                                </p>
                             </div>
                         </div>
 
@@ -371,7 +316,7 @@
                 <div class="pills-container mb-4">
                     <ul class="nav nav-pills nav-fill">
                         <li class="nav-item" *ngFor="let category of selectedCategories">
-                            <a class="nav-link p-2" [ngClass]="{'active': category.id === selectedTab6}"
+                            <a class="nav-link p-2" [ngClass]="{'active': category.id === selectedTab5}"
                                 (click)="getTopProducts(category)">
                                 {{ category.name }}
                             </a>
@@ -384,7 +329,7 @@
                     <div class="card-header">
                         <span class="h4">{{ 'overviewLatam.table1CardTitle1' | translate }}</span>
                         <ng-container *ngIf="selectedCategories?.length > 1">
-                            <ng-container [ngSwitch]="selectedTab6">
+                            <ng-container [ngSwitch]="selectedTab5">
                                 <span *ngSwitchCase="1" class="h4"> - PS</span>
                                 <span *ngSwitchCase="2" class="h4"> - HW Print</span>
                                 <span *ngSwitchCase="3" class="h4"> - Supplies</span>
