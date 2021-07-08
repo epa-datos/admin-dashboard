@@ -98,6 +98,10 @@ export class MultipleTabsSelectorComponent implements OnInit {
 
     this.selectionWasAllTab = !item ? true : false;
 
+    if (this.showAllSelectedTab && this.selectedTabs.length < 1) {
+      this.allSelectedTab = true;
+    }
+
     this.selectedTabsChange.emit(this.selectedTabs)
   }
 }
