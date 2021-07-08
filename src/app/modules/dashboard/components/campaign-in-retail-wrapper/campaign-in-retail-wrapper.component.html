@@ -3,7 +3,7 @@
     <app-retail-filters></app-retail-filters>
 </div>
 
-<!-- CARD STATS -->
+<!-- KPIS CARDS -->
 <div class="row mt-5">
     <div class="col-12">
         <div class="stats-container">
@@ -32,8 +32,25 @@
     </div>
 </div>
 
+<!-- CR CARDS -->
+<div class="row">
+    <div class="col-12">
+        <span class="h3">Tasa de conversión por Sector</span>
+    </div>
+</div>
+<div class="row mt-2">
+    <div *ngFor="let sector of crBySector" class="col-12 col-sm-4 mb-4">
+        <app-card-stat [stat]="sector" [loader]="crReqStatus <= 1" height="76px"></app-card-stat>
+    </div>
+    <div class="col-12 mt--3 mt-xl-2" [hidden]="crReqStatus !== 3">
+        <p class="text-center text-muted mb-0">
+            Error al consultar datos
+        </p>
+    </div>
+</div>
+
 <!-- ACCORDION -->
-<div class="mt-5">
+<div class="mt-4">
     <mat-accordion multi>
         <mat-expansion-panel (opened)="panelChange('panel1',true)" (closed)="panelChange('panel1',false)">
             <mat-expansion-panel-header>
