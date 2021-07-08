@@ -101,7 +101,33 @@ export class CampaignInRetailWrapperComponent implements OnInit, OnDestroy {
       icon: 'fas fa-store',
       iconBg: '#a77dcc'
     }
+  ];
 
+  crBySector = [
+    {
+      metricTitle: 'search',
+      metricName: 'Search',
+      metricValue: 0,
+      metricFormat: 'decimals',
+      icon: 'fab fa-google',
+      iconBg: '#172b4d'
+    },
+    {
+      metricTitle: 'marketing',
+      metricName: 'Marketing',
+      metricValue: 0,
+      metricFormat: 'decimals',
+      icon: 'fas fa-bullhorn',
+      iconBg: '#0096d6'
+    },
+    {
+      metricTitle: 'ventas',
+      metricName: 'Ventas',
+      metricValue: 0,
+      metricFormat: 'decimals',
+      icon: 'fas fa-store',
+      iconBg: '#a77dcc'
+    }
   ];
 
   kpisReqStatus: number = 0;
@@ -134,7 +160,7 @@ export class CampaignInRetailWrapperComponent implements OnInit, OnDestroy {
 
   getAllData() {
     this.getKpis();
-    this.getRoasBySector();
+    this.getRoasAndCrBySector();
   }
 
   getKpis() {
@@ -169,28 +195,39 @@ export class CampaignInRetailWrapperComponent implements OnInit, OnDestroy {
       });
   }
 
-  getRoasBySector() {
-    this.roasReqStatus = 1;
-    this.campInRetailService.getRoasBySector().subscribe(
-      (resp: any[]) => {
-        if (resp?.length < 1) {
-          this.roasReqStatus = 2;
-          return;
-        }
+  getRoasAndCrBySector() {
+    const requiredData = [
+      { metricType: 'roas', name: 'roas' },
+      { metricType: 'conversion-rate', subMetricType: 'sectors', name: 'cr' },
+    ];
 
-        for (let i = 0; i < this.roasBySector.length; i++) {
-          const baseObj = resp.find(item => item.name === this.roasBySector[i].metricName);
-          this.roasBySector[i].metricValue = baseObj.value;
-        }
+    for (let metric of requiredData) {
+      const arrayNameRef = `${metric.name}BySector`;
+      const reqStatusNameRef = `${metric.name}ReqStatus`;
 
-        this.roasReqStatus = 2;
-      },
-      error => {
-        this.clearStats(this.roasBySector);
-        const errorMsg = error?.error?.message ? error.error.message : error?.message;
-        console.error(`[campaign-in-retail.component]: ${errorMsg}`);
-        this.roasReqStatus = 3;
-      });
+      this[reqStatusNameRef] = 1;
+
+      this.campInRetailService.getDataByMetric(metric.metricType, metric?.subMetricType).subscribe(
+        (resp: any[]) => {
+          if (resp?.length < 1) {
+            this[reqStatusNameRef] = 2;
+            return;
+          }
+
+          for (let i = 0; i < this[arrayNameRef].length; i++) {
+            const baseObj = resp.find(item => item.name === this[arrayNameRef][i].metricName);
+            this[arrayNameRef][i].metricValue = baseObj.value;
+          }
+
+          this[reqStatusNameRef] = 2;
+        },
+        error => {
+          this.clearStats(this[arrayNameRef]);
+          const errorMsg = error?.error?.message ? error.error.message : error?.message;
+          console.error(`[campaign-in-retail.component]: ${errorMsg}`);
+          this[reqStatusNameRef] = 3;
+        });
+    }
   }
 
   panelChange(panel, value) {
