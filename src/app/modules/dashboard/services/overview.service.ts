@@ -154,8 +154,8 @@ export class OverviewService {
     }
   }
 
-  // *** demographics ***
-  getDemographics(metricType: string, subMetricType: string) {
+  // *** traffic or sales + submetric ***
+  getTrafficOrSales(metricType: string, subMetricType: string) {
     if (!metricType) {
       return throwError('[overview.service]: not metricType provided');
     }
@@ -215,8 +215,8 @@ export class OverviewService {
     return this.http.get(`${this.baseUrl}/latam/countries/${metricType}/segments?${queryParams}`);
   }
 
-  // *** demographics ***
-  getDemographicsLatam(metricType: string, subMetricType: string) {
+  // *** traffic or sales + submetric ***
+  getTrafficOrSalesLatam(metricType: string, subMetricType: string) {
     if (!metricType) {
       return throwError('[overview.service]: not metricType provided');
     }
