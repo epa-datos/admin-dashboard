@@ -60,7 +60,7 @@ export class MultipleTabsSelectorComponent implements OnInit {
     if (JSON.stringify(this._tabList) !== JSON.stringify(this.prevTabList)) {
       this.prevTabList = this._tabList;
 
-      const prevSelectedTab = this._tabList.some(r => this.selectedTabs.indexOf(r.id) >= 0);
+      const prevSelectedTab = this._tabList.some(r => this.selectedTabs?.indexOf(r.id) >= 0);
 
       if (!prevSelectedTab) {
         this.allSelectedTab = true;
