@@ -2,6 +2,7 @@ import { Component, Input, OnDestroy, OnInit } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
 import { Observable, Subscription } from 'rxjs';
 import { disaggregatePictorialData } from 'src/app/tools/functions/chart-data';
+import { convertWeekdayToString } from 'src/app/tools/functions/data-convert';
 import { FiltersStateService } from '../../services/filters-state.service';
 import { OverviewService } from '../../services/overview.service';
 
@@ -16,7 +17,7 @@ export class OverviewWrapperComponent implements OnInit, OnDestroy {
   @Input() showTrafficAndSalesSection: boolean = true;
 
   selectedTab1: number = 1; // sector (1) or category (2) selection -> chart-heat-map
-  selectedTab2: number = 2; // traffic (1) or conversions (2) selection -> demographics
+  selectedTab2: number = 2; // traffic (1) or conversions (2) selection -> trafficOrSales
   selectedTab3: number = 1; // users vs conversions (1) or investment vs revenue (2) or aup vs revenue (3) selection -> chart-multiple-axes
   selectedTab4: number = 1; // sector (1) or category (2) or source (3) selection ->  chart-multiple-axes
 
@@ -87,7 +88,7 @@ export class OverviewWrapperComponent implements OnInit, OnDestroy {
 
   categoriesBySector: any[] = [];
 
-  demographics = {};
+  trafficOrSales = {};
 
   usersInvOrAupMetrics: string[] = ['sector', 'categoría', 'fuente'];
   usersInvOrAup: any[] = [];
@@ -97,11 +98,12 @@ export class OverviewWrapperComponent implements OnInit, OnDestroy {
   categoriesReqStatus: number = 0;
   usersInvOrAupReqStatus: number = 0;
   invVsRevenueReqStatus: number = 0;
-  demographicsReqStatus = [
+  trafficOrSalesReqStatus = [
     { name: 'device', reqStatus: 0 },
     { name: 'gender', reqStatus: 0 },
     { name: 'age', reqStatus: 0 },
-    { name: 'gender-and-age', reqStatus: 0 }
+    { name: 'genderAndAge', reqStatus: 0 },
+    { name: 'weekdayAndHour', reqStatus: 0 }
   ];
 
   // available tabs for usersInvOrAup
@@ -199,7 +201,7 @@ export class OverviewWrapperComponent implements OnInit, OnDestroy {
 
     this.getKpis();
     this.getCategoriesBySector(selectedSectorHM);
-    this.getDemographics(demographicMetric);
+    this.getTrafficOrSales(demographicMetric);
     this.getDataByUsersInvOrAup(null, this.selectedSectorsTab, this.selectedCategoriesTab, this.selectedSourcesTab);
 
     this.chartsInitLoad = true;
@@ -249,30 +251,39 @@ export class OverviewWrapperComponent implements OnInit, OnDestroy {
     this.selectedTab1 = selectedSector.id;
   }
 
-  getDemographics(metricType: string) {
-    const requiredData = ['device', 'gender', 'age', 'gender-and-age']
+  getTrafficOrSales(metricType: string) {
+    const requiredData = [
+      { subMetricType: 'device', name: 'device' },
+      { subMetricType: 'gender', name: 'gender' },
+      { subMetricType: 'age', name: 'age' },
+      { subMetricType: 'gender-and-age', name: 'genderAndAge' },
+      { subMetricType: 'weekday-and-hour', name: 'weekdayAndHour' },
+    ];
 
-    for (let subMetricType of requiredData) {
-      const reqStatusObj = this.demographicsReqStatus.find(item => item.name === subMetricType);
+    for (let subMetric of requiredData) {
+      const reqStatusObj = this.trafficOrSalesReqStatus.find(item => item.name === subMetric.name);
       reqStatusObj.reqStatus = 1;
-      this.overviewService.getDemographics(metricType, subMetricType).subscribe(
+      this.overviewService.getTrafficOrSales(metricType, subMetric.subMetricType).subscribe(
         (resp: any[]) => {
-          if (subMetricType === 'device') {
+          if (subMetric.name === 'device') {
             const { desktop, mobile }: any = disaggregatePictorialData('Desktop', 'Mobile', resp);
-            this.demographics = { ...this.demographics, desktop, mobile };
+            this.trafficOrSales = { ...this.trafficOrSales, desktop, mobile };
 
-          } else if (subMetricType === 'gender') {
+          } else if (subMetric.name === 'gender') {
             const { hombre, mujer }: any = disaggregatePictorialData('Hombre', 'Mujer', resp);
 
             hombre.length > 0 && (hombre[1].name = this.translate.instant('others.men'));
             mujer.length > 0 && (mujer[1].name = this.translate.instant('others.women'));
 
-            this.demographics = { ...this.demographics, men: hombre, women: mujer };
+            this.trafficOrSales = { ...this.trafficOrSales, men: hombre, women: mujer };
 
-          } else if (subMetricType === 'gender-and-age') {
-            this.demographics['genderByAge'] = resp;
+          } else if (subMetric.name === 'weekdayAndHour') {
+            this.trafficOrSales[subMetric.name] = resp.map(item => {
+              return { ...item, weekdayName: convertWeekdayToString(item.weekday) }
+            });
+
           } else {
-            this.demographics[subMetricType] = resp;
+            this.trafficOrSales[subMetric.name] = resp;
           }
           reqStatusObj.reqStatus = 2;
 
