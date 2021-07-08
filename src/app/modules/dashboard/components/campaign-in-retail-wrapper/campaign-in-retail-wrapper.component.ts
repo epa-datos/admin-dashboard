@@ -76,59 +76,35 @@ export class CampaignInRetailWrapperComponent implements OnInit, OnDestroy {
     }
   ];
 
-  roasBySector = [
+  metricBySectorInitial = [
     {
+      id: 1,
       metricTitle: 'search',
       metricName: 'Search',
       metricValue: 0,
-      metricFormat: 'decimals',
       icon: 'fab fa-google',
       iconBg: '#172b4d'
     },
     {
+      id: 2,
       metricTitle: 'marketing',
       metricName: 'Marketing',
       metricValue: 0,
-      metricFormat: 'decimals',
       icon: 'fas fa-bullhorn',
       iconBg: '#0096d6'
     },
     {
+      id: 3,
       metricTitle: 'ventas',
       metricName: 'Ventas',
       metricValue: 0,
-      metricFormat: 'decimals',
       icon: 'fas fa-store',
       iconBg: '#a77dcc'
     }
   ];
 
-  crBySector = [
-    {
-      metricTitle: 'search',
-      metricName: 'Search',
-      metricValue: 0,
-      metricFormat: 'decimals',
-      icon: 'fab fa-google',
-      iconBg: '#172b4d'
-    },
-    {
-      metricTitle: 'marketing',
-      metricName: 'Marketing',
-      metricValue: 0,
-      metricFormat: 'decimals',
-      icon: 'fas fa-bullhorn',
-      iconBg: '#0096d6'
-    },
-    {
-      metricTitle: 'ventas',
-      metricName: 'Ventas',
-      metricValue: 0,
-      metricFormat: 'decimals',
-      icon: 'fas fa-store',
-      iconBg: '#a77dcc'
-    }
-  ];
+  roasBySector: any[];
+  crBySector: any[];
 
   kpisReqStatus: number = 0;
   roasReqStatus: number = 0;
@@ -160,6 +136,8 @@ export class CampaignInRetailWrapperComponent implements OnInit, OnDestroy {
 
   getAllData() {
     this.getKpis();
+
+    this.getSelectedSectors();
     this.getRoasAndCrBySector();
   }
 
@@ -193,6 +171,25 @@ export class CampaignInRetailWrapperComponent implements OnInit, OnDestroy {
         console.error(`[campaign-in-retail.component]: ${errorMsg}`);
         this.kpisReqStatus = 3;
       });
+  }
+
+  getSelectedSectors() {
+    // selected sectors in general filters
+    const selectedSectorsIds = this.filtersStateService.sectors.map(item => item.id);
+
+    // This is to use different object references based on metricBySectorInitial objects
+    const selectedSectorsRoas = [];
+    const selectedSectorsCR = [];
+
+    for (let item of this.metricBySectorInitial) {
+      if (selectedSectorsIds.includes(item.id)) {
+        selectedSectorsRoas.push({ ...item, metricFormat: 'decimals' });
+        selectedSectorsCR.push({ ...item, metricFormat: 'percentage' });
+      }
+    }
+
+    this.roasBySector = [...selectedSectorsRoas];
+    this.crBySector = [...selectedSectorsCR];
   }
 
   getRoasAndCrBySector() {
