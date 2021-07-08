@@ -77,6 +77,19 @@ export class OverviewService {
     }
   }
 
+
+  /**
+   * Customs query params
+   * @param [isLatam] to add reatilers and sources query params
+   * @param [sectorsQP] sectors query params
+   * @param [categoriesQP] categories query params
+   * @param [sourcesQP] sources query params
+   * @param [forceSourcesUse] to use sources query params (usefull when !isLatam)
+   * @returns query params
+   */
+
+  // This method not use sectors, categories and sources selected in general filters
+  // So the selection and query params are generated independently
   customQueryParams(isLatam?: boolean, sectorsQP?: string, categoriesQP?: string, sourcesQP?: string, forceSourcesUse?: boolean) {
     let startDate = this.filtersStateService.periodQParams.startDate;
     let endDate = this.filtersStateService.periodQParams.endDate;
