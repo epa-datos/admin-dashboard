@@ -128,6 +128,7 @@ export class OmnichatWrapperComponent implements OnInit, OnDestroy {
     { name: 'retailers', reqStatus: 0 },
     { name: 'category1', reqStatus: 0 },
     { name: 'category2', reqStatus: 0 },
+    { name: 'category3', reqStatus: 0 },
   ];
 
   // conversions by products
@@ -235,7 +236,7 @@ export class OmnichatWrapperComponent implements OnInit, OnDestroy {
     const selectedCategory = previousCategory ? previousCategory : this.selectedCategories?.[0];
 
     let metricTab1 = this.selectedTab1 === 1 ? 'conversions-vs-users' : 'aup-vs-revenue';
-    let metricTab2 = this.selectedTab2 === 1 ? 'traffic' : 'sales';
+    let metricTab2 = this.selectedTab2 === 1 ? 'traffic' : this.selectedTab2 === 2 ? 'sales' : 'conversion-rate';
     let metricTab4 = this.selectedTab4 === 1 ? 'traffic' : 'sales';
 
     this.getStaticDataByMetric();
@@ -290,12 +291,18 @@ export class OmnichatWrapperComponent implements OnInit, OnDestroy {
           } else if (metric.name === 'conversionRate') {
             this.staticData.conversionRate = this.staticData.conversionRateInitial.map(item => ({ ...item }));
 
+            // in order to avoid reapeted requests 
+            // this response is use to show conversions rate by sectors in:
+            // a) cards -> staticData.conversionRate
+            // b) chart-bar-horizontal -> this.dataByLevel['category3']
+            this.dataByLevel['category3'] = [];
+
             for (let i = 0; i < this.staticData.conversionRate.length; i++) {
               const baseObj = resp.find(item => item.name === this.staticData.conversionRate[i].metricName);
               if (baseObj) {
                 this.staticData.conversionRate[i].metricValue = baseObj.value;
+                this.dataByLevel['category3'].push(baseObj);
               }
-
             }
 
             // show only selected categories in general filters
@@ -337,19 +344,21 @@ export class OmnichatWrapperComponent implements OnInit, OnDestroy {
     if (this.levelPage.latam) {
       requiredData = [
         { metricType, subMetricType: 'countries', name: 'countries' },
-        { metricType, subMetricType: 'retailers', name: 'retailers' },
-        { metricType, subMetricType: 'category', name: 'category1' }
-      ]
+        { metricType, subMetricType: 'retailers', name: 'retailers' }
+      ];
     } else if (this.levelPage.country) {
       requiredData = [
-        { metricType, subMetricType: 'retailers', name: 'retailers' },
-        { metricType, subMetricType: 'category', name: 'category1' },
+        { metricType, subMetricType: 'retailers', name: 'retailers' }
       ]
     } else if (this.levelPage.retailer) {
       requiredData = [
         { metricType: 'traffic', subMetricType: 'category', name: 'category1' },
         { metricType: 'sales', subMetricType: 'category', name: 'category2' }
       ];
+    }
+
+    if (metricType !== 'conversion-rate' && !this.levelPage.retailer) {
+      requiredData.push({ metricType, subMetricType: 'category', name: 'category1' });
     }
 
     for (let metric of requiredData) {
@@ -374,7 +383,7 @@ export class OmnichatWrapperComponent implements OnInit, OnDestroy {
         });
     }
 
-    this.selectedTab2 = metricType === 'traffic' ? 1 : 2;
+    this.selectedTab2 = metricType === 'traffic' ? 1 : metricType === 'sales' ? 2 : 3;
   }
 
   getSalesByProduct(selectedCategory?: any) {
