@@ -1,6 +1,7 @@
 import { Component, Input, OnDestroy, OnInit } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
 import { Observable, Subscription } from 'rxjs';
+import { KpiCard } from 'src/app/models/kpi';
 import { disaggregatePictorialData } from 'src/app/tools/functions/chart-data';
 import { convertMonthToString, convertWeekdayToString } from 'src/app/tools/functions/data-convert';
 import { strTimeFormat } from 'src/app/tools/functions/time-format';
@@ -20,54 +21,63 @@ export class PcSelectorWrapperComponent implements OnInit, OnDestroy {
   selectedTab2: number = 1; // traffic (1) or conversions (2) -> multiple charts
   selectedTab3: number = 1; // traffic (1) or conversions (2) -> audience
 
-  kpis: any[] = [
+  kpis: KpiCard[] = [
     {
-      metricTitle: 'usuarios',
-      metricName: 'users',
-      metricValue: 0,
-      metricFormat: 'integer',
+      title: 'usuarios',
+      name: 'users',
+      value: 0,
+      format: 'integer',
       icon: 'fas fa-users',
       iconBg: '#172b4d'
     },
     {
-      metricTitle: 'usuarios nuevos',
-      metricName: 'new_users',
-      metricValue: 0,
-      metricFormat: 'integer',
+      title: 'usuarios nuevos',
+      name: 'new_users',
+      value: 0,
+      format: 'integer',
       icon: 'fas fa-user-plus',
       iconBg: '#2f9998'
     },
     {
-      metricTitle: 'duración media de la sesión',
-      metricName: 'median_of_session_duration',
-      metricValue: '00:00:00',
+      title: 'duración media de la sesión',
+      name: 'median_of_session_duration',
+      value: '00:00:00',
       icon: 'fas fa-user-clock',
       iconBg: '#a77dcc'
     },
     {
-      metricTitle: 'conversiones',
-      metricName: 'conversions',
-      metricValue: 0,
-      metricFormat: 'integer',
+      title: 'conversiones',
+      name: 'conversions',
+      value: 0,
+      format: 'integer',
       icon: 'fas fa-shopping-cart',
       iconBg: '#f89934'
     },
     {
-      metricTitle: 'tasa de conversión',
-      metricName: 'conversion_rate',
-      metricValue: 0,
-      metricFormat: 'percentage',
+      title: 'tasa de conversión',
+      name: 'conversion_rate',
+      value: 0,
+      format: 'percentage',
       icon: 'fas fa-percentage',
       iconBg: '#fbc001'
     },
     {
-      metricTitle: 'revenue',
-      metricName: 'revenue',
-      metricValue: 0,
-      metricFormat: 'decimals',
-      metricSymbol: 'USD',
+      title: 'revenue',
+      name: 'revenue',
+      value: 0,
+      format: 'decimal',
+      symbol: 'USD',
       icon: 'fas fa-hand-holding-usd',
-      iconBg: '#2B96D5'
+      iconBg: '#2B96D5',
+      subKpis: [
+        {
+          title: 'aup',
+          name: 'aup',
+          value: 0,
+          format: 'decimal',
+          symbol: 'USD',
+        }
+      ]
     }
   ];
   kpisReqStatus: number = 0;
@@ -142,16 +152,20 @@ export class PcSelectorWrapperComponent implements OnInit, OnDestroy {
     this.pcSelectorService.getDataByMetric(this.levelPage.latam, 'kpis').subscribe(
       (resp: any[]) => {
         for (let i = 0; i < this.kpis.length; i++) {
-          const baseObj = resp.find(item => item.string === this.kpis[i].metricName);
+          const baseObj = resp.find(item => item.string === this.kpis[i].name);
 
           if (!baseObj) {
             continue;
           }
 
-          if (this.kpis[i].metricName === 'median_of_session_duration') {
-            this.kpis[i].metricValue = strTimeFormat(baseObj.value);
+          if (this.kpis[i].name === 'median_of_session_duration') {
+            this.kpis[i].value = strTimeFormat(baseObj.value);
           } else {
-            this.kpis[i].metricValue = baseObj.value;
+            this.kpis[i].value = baseObj.value;
+          }
+
+          if (this.kpis[i].name === 'revenue' && this.kpis[i].subKpis[0]) {
+            this.kpis[i].subKpis[0].value = resp.find(kpi => kpi.string === 'aup')?.value;
           }
         }
         this.kpisReqStatus = 2;
@@ -341,11 +355,15 @@ export class PcSelectorWrapperComponent implements OnInit, OnDestroy {
 
   clearKpis() {
     for (let kpi of this.kpis) {
-      if (kpi.metricName === 'median_of_session_duration') {
-        kpi.metricValue = '00:00:00';
+      if (kpi.name === 'median_of_session_duration') {
+        kpi.value = '00:00:00';
       } else {
-        kpi.metricValue = 0;
+        kpi.value = 0;
       }
+
+      kpi.subKpis?.forEach(item => {
+        item.value = 0;
+      });
     }
   }
 

@@ -1,6 +1,7 @@
 import { Component, Input, OnDestroy, OnInit } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
 import { Observable, Subscription } from 'rxjs';
+import { KpiCard } from 'src/app/models/kpi';
 import { disaggregatePictorialData } from 'src/app/tools/functions/chart-data';
 import { convertWeekdayToString } from 'src/app/tools/functions/data-convert';
 import { strTimeFormat } from 'src/app/tools/functions/time-format';
@@ -20,44 +21,44 @@ export class IndexedWrapperComponent implements OnInit, OnDestroy {
   selectedTab1: number = 1; // traffic for countries (1) or retailers (2) selection -> chart-line-series
 
   // kpis
-  kpis: any[] = [
+  kpis: KpiCard[] = [
     {
-      metricTitle: 'usuarios',
-      metricName: 'users',
-      metricValue: 0,
-      metricFormat: 'integer',
+      title: 'usuarios',
+      name: 'users',
+      value: 0,
+      format: 'integer',
       icon: 'fas fa-users',
       iconBg: '#172b4d'
     },
     {
-      metricTitle: 'usuarios nuevos',
-      metricName: 'new_users',
-      metricValue: 0,
-      metricFormat: 'integer',
+      title: 'usuarios nuevos',
+      name: 'new_users',
+      value: 0,
+      format: 'integer',
       icon: 'fas fa-user-plus',
       iconBg: '#2f9998'
 
     },
     {
-      metricTitle: 'sesiones',
-      metricName: 'sessions',
-      metricValue: 0,
-      metricFormat: 'integer',
+      title: 'sesiones',
+      name: 'sessions',
+      value: 0,
+      format: 'integer',
       icon: 'fas fa-eye',
       iconBg: '#a77dcc'
     },
     {
-      metricTitle: 'páginas/sesión',
-      metricName: 'page_views_per_session',
-      metricValue: 0,
-      metricFormat: 'decimals',
+      title: 'páginas/sesión',
+      name: 'page_views_per_session',
+      value: 0,
+      format: 'decimal',
       icon: 'fas fa-file',
       iconBg: '#fbc001'
     },
     {
-      metricTitle: 'duración media de la sesión',
-      metricName: 'avg_session_duration',
-      metricValue: '00:00:00',
+      title: 'duración media de la sesión',
+      name: 'avg_session_duration',
+      value: '00:00:00',
       icon: 'fas fa-user-clock',
       iconBg: '#2B96D5'
     }
@@ -225,16 +226,16 @@ export class IndexedWrapperComponent implements OnInit, OnDestroy {
     this.indexedService.getDataByMetric(this.levelPage.latam, 'kpis').subscribe(
       (resp: any[]) => {
         for (let i = 0; i < this.kpis.length; i++) {
-          const baseObj = resp.find(item => item.string === this.kpis[i].metricName);
+          const baseObj = resp.find(item => item.string === this.kpis[i].name);
 
           if (!baseObj) {
             break;
           }
 
-          if (this.kpis[i].metricName === 'avg_session_duration') {
-            this.kpis[i].metricValue = strTimeFormat(baseObj.value);
+          if (this.kpis[i].name === 'avg_session_duration') {
+            this.kpis[i].value = strTimeFormat(baseObj.value);
           } else {
-            this.kpis[i].metricValue = baseObj.value;
+            this.kpis[i].value = baseObj.value;
           }
         }
 
@@ -416,10 +417,10 @@ export class IndexedWrapperComponent implements OnInit, OnDestroy {
 
   clearKpis() {
     for (let kpi of this.kpis) {
-      if (kpi.metricName === 'avg_session_duration') {
-        kpi.metricValue = '00:00:00';
+      if (kpi.name === 'avg_session_duration') {
+        kpi.value = '00:00:00';
       } else {
-        kpi.metricValue = 0;
+        kpi.value = 0;
       }
     }
   }

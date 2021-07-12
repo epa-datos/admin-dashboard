@@ -1,5 +1,6 @@
 import { Component, Input, OnDestroy, OnInit } from '@angular/core';
 import { Observable, Subscription } from 'rxjs';
+import { KpiCard } from 'src/app/models/kpi';
 import { CampaignInRetailService } from '../../services/campaign-in-retail.service';
 import { FiltersStateService } from '../../services/filters-state.service';
 
@@ -13,91 +14,113 @@ export class CampaignInRetailWrapperComponent implements OnInit, OnDestroy {
   @Input() requestInfoChange: Observable<boolean>;
 
   kpisLegends1 = ['investment', 'clicks', 'bounce_rate', 'transactions', 'revenue'];
-  kpisLegends2 = ['ctr', 'users', 'cr', 'roas'];
-  kpis: any[] = [
+  kpisLegends2 = ['ctr', 'users', 'cr', 'roas', 'aup'];
+  kpis: KpiCard[] = [
     {
-      metricTitle: 'inversión',
-      metricName: 'investment',
-      metricValue: 0,
-      metricFormat: 'decimals',
-      metricSymbol: 'USD',
+      title: 'inversión',
+      name: 'investment',
+      value: 0,
+      format: 'decimal',
+      symbol: 'USD',
       icon: 'fas fa-wallet',
       iconBg: '#172b4d'
     },
     {
-      metricTitle: 'clicks',
-      metricName: 'clicks',
-      metricValue: 0,
-      metricFormat: 'integer',
-      subMetricTitle: 'ctr',
-      subMetricName: 'ctr',
-      subMetricValue: 0,
-      subMetricFormat: 'percentage',
+      title: 'clicks',
+      name: 'clicks',
+      value: 0,
+      format: 'integer',
       icon: 'fas fa-hand-pointer',
-      iconBg: '#2f9998'
-
+      iconBg: '#2f9998',
+      subKpis: [
+        {
+          title: 'ctr',
+          name: 'ctr',
+          value: 0,
+          format: 'percentage'
+        }
+      ]
     },
     {
-      metricTitle: 'bounce rate',
-      metricName: 'bounce_rate',
-      metricValue: 0,
-      metricFormat: 'percentage',
-      subMetricTitle: 'usuarios',
-      subMetricName: 'users',
-      subMetricValue: 0,
-      subMetricFormat: 'integer',
+      title: 'bounce rate',
+      name: 'bounce_rate',
+      value: 0,
+      format: 'percentage',
       icon: 'fas fa-stopwatch',
-      iconBg: '#a77dcc'
+      iconBg: '#a77dcc',
+      subKpis: [
+        {
+          title: 'usuarios',
+          name: 'users',
+          value: 0,
+          format: 'integer'
+        }
+      ]
     },
     {
-      metricTitle: 'conversiones',
-      metricName: 'transactions',
-      metricValue: 0,
-      metricFormat: 'integer',
-      subMetricTitle: 'CR',
-      subMetricName: 'cr',
-      subMetricValue: 0,
-      subMetricFormat: 'percentage',
+      title: 'conversiones',
+      name: 'transactions',
+      value: 0,
+      format: 'integer',
       icon: 'fas fa-shopping-basket',
-      iconBg: '#f89934'
+      iconBg: '#f89934',
+      subKpis: [
+        {
+          title: 'CR',
+          name: 'cr',
+          value: 0,
+          format: 'percentage'
+        }
+      ]
     },
     {
-      metricTitle: 'revenue',
-      metricName: 'revenue',
-      metricValue: 0,
-      metricFormat: 'decimals',
-      metricSymbol: 'USD',
-      subMetricTitle: 'roas',
-      subMetricName: 'roas',
-      subMetricValue: 0,
-      subMetricFormat: 'decimals',
+      title: 'revenue',
+      name: 'revenue',
+      value: 0,
+      format: 'decimal',
+      symbol: 'USD',
       icon: 'fas fa-hand-holding-usd',
-      iconBg: '#fbc001'
+      iconBg: '#fbc001',
+      subKpis: [
+        {
+          title: 'roas',
+          name: 'roas',
+          value: 0,
+          format: 'decimal',
+        },
+        {
+          title: 'aup',
+          name: 'aup',
+          value: 0,
+          format: 'decimal',
+          symbol: 'USD',
+        }
+      ]
     }
   ];
 
   metricBySectorInitial = [
     {
       id: 1,
-      metricTitle: 'search',
-      metricName: 'Search',
-      metricValue: 0,
+      title: 'search',
+      name: 'Search',
+      value: 0,
       icon: 'fab fa-google',
       iconBg: '#172b4d'
     },
     {
       id: 2,
-      metricTitle: 'marketing',
-      metricName: 'Marketing',
-      metricValue: 0,
+      title: 'marketing',
+      name: 'Marketing',
+      value: 0,
       icon: 'fas fa-bullhorn',
       iconBg: '#0096d6'
     },
     {
       id: 3,
-      metricTitle: 'ventas',
-      metricName: 'Ventas',
-      metricValue: 0,
+      title: 'ventas',
+      name: 'Ventas',
+      value: 0,
       icon: 'fas fa-store',
       iconBg: '#a77dcc'
     }
@@ -156,10 +179,14 @@ export class CampaignInRetailWrapperComponent implements OnInit, OnDestroy {
 
         for (let i = 0; i < this.kpis.length; i++) {
           const baseObj = this.kpis[i];
-          baseObj.metricValue = kpis1[i]['value'];
+          baseObj.value = kpis1[i]['value'];
 
           if (i !== 0 && kpis2[i - 1]) {
-            baseObj.subMetricValue = kpis2[i - 1]['value'];
+            baseObj.subKpis[0].value = kpis2[i - 1]['value'];
+          }
+
+          if (this.kpis[i].name === 'revenue' && this.kpis[i].subKpis[1]) {
+            this.kpis[i].subKpis[1].value = resp.find(kpi => kpi.string === 'aup')?.value;
           }
 
         }
@@ -183,8 +210,8 @@ export class CampaignInRetailWrapperComponent implements OnInit, OnDestroy {
 
     for (let item of this.metricBySectorInitial) {
       if (selectedSectorsIds.includes(item.id)) {
-        selectedSectorsRoas.push({ ...item, metricFormat: 'decimals' });
-        selectedSectorsCR.push({ ...item, metricFormat: 'percentage' });
+        selectedSectorsRoas.push({ ...item, format: 'decimal' });
+        selectedSectorsCR.push({ ...item, format: 'percentage' });
       }
     }
 
@@ -212,8 +239,8 @@ export class CampaignInRetailWrapperComponent implements OnInit, OnDestroy {
           }
 
           for (let i = 0; i < this[arrayNameRef].length; i++) {
-            const baseObj = resp.find(item => item.name === this[arrayNameRef][i].metricName);
-            this[arrayNameRef][i].metricValue = baseObj.value;
+            const baseObj = resp.find(item => item.name === this[arrayNameRef][i].name);
+            this[arrayNameRef][i].value = baseObj.value;
           }
 
           this[reqStatusNameRef] = 2;
@@ -233,11 +260,11 @@ export class CampaignInRetailWrapperComponent implements OnInit, OnDestroy {
 
   clearStats(stats) {
     for (let stat of stats) {
-      stat.metricValue = 0;
+      stat.value = 0;
 
-      if (stat.subMetricValue) {
-        stat.subMetricValue = 0;
-      }
+      stat.subKpis?.forEach(item => {
+        item.value = 0;
+      });
     }
   }
 

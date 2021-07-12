@@ -1,6 +1,7 @@
 import { Component, Input, OnDestroy, OnInit } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
 import { Observable, Subscription } from 'rxjs';
+import { KpiCard } from 'src/app/models/kpi';
 import { disaggregatePictorialData } from 'src/app/tools/functions/chart-data';
 import { convertWeekdayToString } from 'src/app/tools/functions/data-convert';
 import { FiltersStateService } from '../../services/filters-state.service';
@@ -22,69 +23,90 @@ export class OverviewWrapperComponent implements OnInit, OnDestroy {
   selectedTab4: number = 1; // sector (1) or category (2) or source (3) selection ->  chart-multiple-axes
 
   kpisLegends1 = ['investment', 'clicks', 'bounce_rate', 'transactions', 'revenue']
-  kpisLegends2 = ['ctr', 'users', 'cr', 'roas']
-  kpis: any[] = [
+  kpisLegends2 = ['ctr', 'users', 'cr', 'roas', 'aup'];
+  kpis: KpiCard[] = [
     {
-      metricTitle: 'inversión',
-      metricName: 'investment',
-      metricValue: 0,
-      metricFormat: 'decimals',
-      metricSymbol: 'USD',
+      title: 'inversión',
+      name: 'investment',
+      value: 0,
+      format: 'decimal',
+      symbol: 'USD',
       icon: 'fas fa-wallet',
       iconBg: '#172b4d'
     },
     {
-      metricTitle: 'clicks',
-      metricName: 'clicks',
-      metricValue: 0,
-      metricFormat: 'integer',
-      subMetricTitle: 'ctr',
-      subMetricName: 'ctr',
-      subMetricValue: 0,
-      subMetricFormat: 'percentage',
+      title: 'clicks',
+      name: 'clicks',
+      value: 0,
+      format: 'integer',
       icon: 'fas fa-hand-pointer',
-      iconBg: '#2f9998'
-
+      iconBg: '#2f9998',
+      subKpis: [
+        {
+          title: 'ctr',
+          name: 'ctr',
+          value: 0,
+          format: 'percentage',
+        }
+      ]
     },
     {
-      metricTitle: 'bounce rate',
-      metricName: 'bounce_rate',
-      metricValue: 0,
-      metricFormat: 'percentage',
-      subMetricTitle: 'usuarios',
-      subMetricName: 'users',
-      subMetricValue: 0,
-      subMetricFormat: 'integer',
+      title: 'bounce rate',
+      name: 'bounce_rate',
+      value: 0,
+      format: 'percentage',
       icon: 'fas fa-stopwatch',
-      iconBg: '#a77dcc'
+      iconBg: '#a77dcc',
+      subKpis: [
+        {
+          title: 'usuarios',
+          name: 'users',
+          value: 0,
+          format: 'integer',
+        }
+      ]
     },
     {
-      metricTitle: 'conversiones',
-      metricName: 'transactions',
-      metricValue: 0,
-      metricFormat: 'integer',
-      subMetricTitle: 'CR',
-      subMetricName: 'cr',
-      subMetricValue: 0,
-      subMetricFormat: 'percentage',
+      title: 'conversiones',
+      name: 'transactions',
+      value: 0,
+      format: 'integer',
       icon: 'fas fa-shopping-basket',
-      iconBg: '#f89934'
+      iconBg: '#f89934',
+      subKpis: [
+        {
+          title: 'CR',
+          name: 'cr',
+          value: 0,
+          format: 'percentage',
+        }
+      ]
     },
     {
-      metricTitle: 'revenue',
-      metricName: 'revenue',
-      metricValue: 0,
-      metricFormat: 'decimals',
-      metricSymbol: 'USD',
-      subMetricTitle: 'roas',
-      subMetricName: 'roas',
-      subMetricValue: 0,
-      subMetricFormat: 'decimals',
+      title: 'revenue',
+      name: 'revenue',
+      value: 0,
+      format: 'decimal',
+      symbol: 'USD',
       icon: 'fas fa-hand-holding-usd',
-      iconBg: '#fbc001'
+      iconBg: '#fbc001',
+      subKpis: [
+        {
+          title: 'roas',
+          name: 'roas',
+          value: 0,
+          format: 'decimal',
+        },
+        {
+          title: 'aup',
+          name: 'aup',
+          value: 0,
+          format: 'decimal',
+          symbol: 'USD',
+        }
+      ]
     }
   ];
-
 
   categoriesBySector: any[] = [];
 
@@ -216,13 +238,17 @@ export class OverviewWrapperComponent implements OnInit, OnDestroy {
 
         for (let i = 0; i < this.kpis.length; i++) {
           const baseObj = this.kpis[i];
-          baseObj.metricValue = kpis1[i]['value'];
+          baseObj.value = kpis1[i]['value'];
 
           if (i !== 0 && kpis2[i - 1]) {
-            baseObj.subMetricValue = kpis2[i - 1]['value'];
+            baseObj.subKpis[0].value = kpis2[i - 1]['value'];
           }
 
+          if (this.kpis[i].name === 'revenue' && this.kpis[i].subKpis[1]) {
+            this.kpis[i].subKpis[1].value = resp.find(kpi => kpi.string === 'aup')?.value;
+          }
         }
+
         this.kpisReqStatus = 2;
       },
       error => {
@@ -356,11 +382,11 @@ export class OverviewWrapperComponent implements OnInit, OnDestroy {
 
   clearKpis() {
     for (let kpi of this.kpis) {
-      kpi.metricValue = 0;
+      kpi.value = 0;
 
-      if (kpi.subMetricValue) {
-        kpi.subMetricValue = 0;
-      }
+      kpi.subKpis?.forEach(item => {
+        item.value = 0;
+      });
     }
   }
 
