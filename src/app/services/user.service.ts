@@ -69,32 +69,32 @@ export class UserService {
     this._loggedIn = !!window.localStorage.getItem('auth_token');
 
     this.user.id = !!window.localStorage.getItem('user_id')
-      ? +window.localStorage.getItem('user_id')
+      ? JSON.parse(window.localStorage.getItem('user_id'))
       : null;
 
     this.user.email = !!window.localStorage.getItem('usermail')
-      ? window.localStorage.getItem('usermail')
-      : '';
+      ? JSON.parse(window.localStorage.getItem('usermail'))
+      : null;
 
     this.user.first_name = !!window.localStorage.getItem('first_name')
-      ? window.localStorage.getItem('first_name')
-      : '';
+      ? JSON.parse(window.localStorage.getItem('first_name'))
+      : null;
 
     this.user.last_name = !!window.localStorage.getItem('last_name')
-      ? window.localStorage.getItem('last_name')
-      : '';
+      ? JSON.parse(window.localStorage.getItem('last_name'))
+      : null;
 
     this.user.role_name = !!window.localStorage.getItem('role_name')
-      ? window.localStorage.getItem('role_name')
-      : '';
+      ? JSON.parse(window.localStorage.getItem('role_name'))
+      : null;
 
     this.user.avatar_url = !!window.localStorage.getItem('avatar_url')
-      ? window.localStorage.getItem('avatar_url')
-      : '';
+      ? JSON.parse(window.localStorage.getItem('avatar_url'))
+      : null;
 
     this.viewLevel = !!window.localStorage.getItem('view_level')
-      ? window.localStorage.getItem('view_level')
-      : '';
+      ? JSON.parse(window.localStorage.getItem('view_level'))
+      : null;
 
     this.baseUrl = this.config.endpoint;
   }
@@ -139,14 +139,14 @@ export class UserService {
             this.user.role_name = auth.role.name;
             this.viewLevel = auth.level;
 
-            window.localStorage.setItem('user_id', this.user.id.toString());
-            window.localStorage.setItem('usermail', this.user.email);
-            window.localStorage.setItem('first_name', this.user.first_name ? this.user.first_name : null);
-            window.localStorage.setItem('last_name', this.user.last_name ? this.user.last_name : null);
-            window.localStorage.setItem('avatar_url', this.user.avatar_url);
-            window.localStorage.setItem('auth_token', auth.token);
-            window.localStorage.setItem('role_name', auth.role.name);
-            window.localStorage.setItem('view_level', this.viewLevel);
+            window.localStorage.setItem('user_id', JSON.stringify(this.user.id));
+            window.localStorage.setItem('usermail', JSON.stringify(this.user.email));
+            window.localStorage.setItem('first_name', JSON.stringify(this.user.first_name ? this.user.first_name : null));
+            window.localStorage.setItem('last_name', JSON.stringify(this.user.last_name ? this.user.last_name : null));
+            window.localStorage.setItem('avatar_url', JSON.stringify(this.user.avatar_url));
+            window.localStorage.setItem('auth_token', JSON.stringify(auth.token));
+            window.localStorage.setItem('role_name', JSON.stringify(auth.role.name));
+            window.localStorage.setItem('view_level', JSON.stringify(this.viewLevel));
 
             this._loggedIn = true;
           }
