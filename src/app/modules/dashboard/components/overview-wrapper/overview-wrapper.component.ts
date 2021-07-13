@@ -154,7 +154,9 @@ export class OverviewWrapperComponent implements OnInit, OnDestroy {
     if (this.filtersStateService.period && this.filtersStateService.sectors && this.filtersStateService.categories) {
       // removed line and used it from country & retailer components (init)
       // this.filtersStateService.restoreFilters();
-      this.getAllData();
+      if ((this.selectedType === 'country' && this.filtersStateService.sources) || this.selectedType === 'retailer') {
+        this.getAllData();
+      }
     }
 
     this.requestInfoSub = this.requestInfoChange.subscribe((manualChange: boolean) => {
@@ -165,13 +167,21 @@ export class OverviewWrapperComponent implements OnInit, OnDestroy {
   getAllData(preserveSelectedTabs?: boolean) {
     this.selectedSectors = this.filtersStateService.sectors;
     this.selectedCategories = this.filtersStateService.categories;
-    this.selectedSources = [
-      { id: 'google', name: 'Google' },
-      { id: 'social', name: 'Social' },
-      { id: 'email', name: 'Email' },
-      { id: 'display', name: 'Display' },
-      { id: 'others', name: 'Otros' }
-    ]
+
+    // for country view selected sources in general filters are used
+    if (this.selectedType === 'country') {
+      this.selectedSources = this.filtersStateService.sources;
+
+    } else if (this.selectedType === 'retailer') {
+      // for retailer view all valid sources are used because sources filter isn't shown 
+      this.selectedSources = [
+        { id: 'google', name: 'Google' },
+        { id: 'social', name: 'Social' },
+        { id: 'email', name: 'Email' },
+        { id: 'display', name: 'Display' },
+        { id: 'others', name: 'Otros' }
+      ];
+    }
 
     let selectedSectorHM;
     let demographicMetric;
