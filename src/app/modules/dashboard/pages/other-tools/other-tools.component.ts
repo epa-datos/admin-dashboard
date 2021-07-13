@@ -2,6 +2,7 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { NavigationEnd, Router } from '@angular/router';
 import { Subject, Subscription } from 'rxjs';
 import { filter } from 'rxjs/operators';
+import { Country, Retailer } from 'src/app/models/access-levels';
 import { AppStateService } from 'src/app/services/app-state.service';
 import { FiltersStateService } from '../../services/filters-state.service';
 
@@ -12,8 +13,8 @@ import { FiltersStateService } from '../../services/filters-state.service';
 })
 export class OtherToolsComponent implements OnInit, OnDestroy {
 
-  countryID: number;
-  retailerID: number;
+  country: Country;
+  retailer: Retailer;
 
   levelPage = {
     latam: false,
@@ -41,8 +42,8 @@ export class OtherToolsComponent implements OnInit, OnDestroy {
   ) { }
 
   ngOnInit(): void {
-    this.countryID = this.appStateService.selectedCountry?.id;
-    this.retailerID = this.appStateService.selectedRetailer?.id;
+    this.country = this.appStateService.selectedCountry;
+    this.retailer = this.appStateService.selectedRetailer;
     this.levelPage.latam = this.router.url.includes('latam') ? true : false;
 
     // restore init filters
@@ -50,7 +51,7 @@ export class OtherToolsComponent implements OnInit, OnDestroy {
       this.filtersStateService.restoreFilters();
     }
 
-    if (this.countryID || this.retailerID || this.levelPage.latam) {
+    if (this.country?.id || this.retailer?.id || this.levelPage.latam) {
       this.getActiveView();
     }
 
@@ -60,27 +61,37 @@ export class OtherToolsComponent implements OnInit, OnDestroy {
         this.filtersStateService.restoreFilters();
 
         this.levelPage.latam = this.router.url.includes('latam') ? true : false;
-        this.getActiveView();
+        if (this.levelPage.latam) {
+          this.getActiveView();
+        }
       }
     });
 
     // catch if its country  view
     this.countrySub = this.appStateService.selectedCountry$.subscribe(country => {
-      if (country?.id !== this.countryID) {
-        this.countryID = country?.id;
-        this.getActiveView();
+      if (country?.id !== this.country?.id) {
+        this.country = country;
 
-        this.emitSelectedSection('indexed');
+        if (this.country && !this.retailer) {
+          this.getActiveView();
+
+          let firstAvailableSection = this.activeTabView === 1 ? 'indexed' : this.activeTabView === 2 ? 'omnichat' : 'pc-selector';
+          this.emitSelectedSection(firstAvailableSection);
+        }
       }
     });
 
     // catch if its retailer view
     this.retailerSub = this.appStateService.selectedRetailer$.subscribe(retailer => {
-      if (retailer?.id !== this.retailerID) {
-        this.retailerID = retailer?.id;
-        this.getActiveView();
+      if (retailer?.id !== this.retailer?.id) {
+        this.retailer = retailer;
 
-        this.emitSelectedSection('indexed');
+        if (this.retailer) {
+          this.getActiveView();
+
+          let firstAvailableSection = this.activeTabView === 1 ? 'indexed' : this.activeTabView === 2 ? 'omnichat' : 'pc-selector';
+          this.emitSelectedSection(firstAvailableSection);
+        }
       }
     });
 
@@ -92,19 +103,32 @@ export class OtherToolsComponent implements OnInit, OnDestroy {
   }
 
   getActiveView() {
-    if (this.retailerID) {
+    if (this.retailer?.id) {
       this.levelPage = { latam: false, country: false, retailer: true };
-    } else if (this.countryID) {
+    } else if (this.country?.id) {
       this.levelPage = { latam: false, country: true, retailer: false };
     } else if (this.levelPage.latam) {
       this.levelPage = { latam: true, country: false, retailer: false };
     }
 
     this.levelPageSource.next(this.levelPage);
+    this.getActiveTabView();
+  }
+
+  getActiveTabView() {
+    if (this.levelPage.latam) {
+      this.activeTabView = 1;
+
+    } else if (this.levelPage.country) {
+      this.activeTabView = this.country.indexed ? 1 : this.country.omnichat ? 2 : this.country.pc_selector ? 3 : null;
+
+    } else if (this.levelPage.retailer) {
+      this.activeTabView = this.retailer.indexed ? 1 : this.retailer.omnichat ? 2 : this.retailer.pc_selector ? 3 : null;
+    }
   }
 
   emitRequestInfo() {
-    if (this.countryID || this.retailerID || this.levelPage?.latam) {
+    if (this.country?.id || this.retailer?.id || this.levelPage?.latam) {
       this.requestInfoSource.next();
 
     } else {
