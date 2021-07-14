@@ -17,9 +17,9 @@
         "portuguese": "Português"
     },
     "dashboard": {
-        "overview": "Visão geral",
-        "overviewCountry": "Visão geral do País",
-        "overviewRetailer": "Visão geral do Retailer",
+        "overview": "Visão Geral",
+        "overviewCountry": "Visão Geral do País",
+        "overviewRetailer": "Visão Geral do Retailer",
         "otherTools": "Outras ferramentas",
         "feelingsAnalysis": "Análise de sentimentos Omnichat",
         "campaignComparator": "Comparador de campanhas",
@@ -38,7 +38,7 @@
         "retailerPh": "Selecione um Retailer",
         "retailerSearchPh": "Procure um Retailer",
         "retailerError1": "Selecione pelo menos um Retailer",
-        "retailerError2": "Erro ao consultar retailers",
+        "retailerError2": "Erro ao consultar Retailers",
         "period": "Período",
         "periodPh1": "Data de início",
         "periodPh2": "Data de término",
