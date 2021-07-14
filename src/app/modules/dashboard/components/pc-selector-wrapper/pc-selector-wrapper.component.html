@@ -91,7 +91,7 @@
         [ngClass]="{'col-lg-12' : !levelPage.latam}">
         <div class="card height-fluid">
             <div class="card-header">
-                <span class="h4">{{ selectedTab2 === 1 ? 'Tráfico' : 'Conversiones' }} por retailer</span>
+                <span class="h4">{{ selectedTab2 === 1 ? 'Tráfico' : 'Conversiones' }} por Retailer</span>
             </div>
             <div class="card-body" [ngClass]="{'overfow-container': trafficOrConversions?.retailers?.length > 14}">
                 <app-chart-bar-horizontal [data]="trafficOrConversions?.retailers" name="pc-selector-chats-by-retailer"
