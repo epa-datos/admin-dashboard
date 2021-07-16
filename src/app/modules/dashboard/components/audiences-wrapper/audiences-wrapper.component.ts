@@ -1,6 +1,7 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
 import { Subscription } from 'rxjs';
+import { AppStateService } from 'src/app/services/app-state.service';
 import { disaggregatePictorialData } from 'src/app/tools/functions/chart-data';
 import { convertWeekdayToString } from 'src/app/tools/functions/data-convert';
 import { CampaignInRetailService } from '../../services/campaign-in-retail.service';
@@ -12,6 +13,8 @@ import { FiltersStateService } from '../../services/filters-state.service';
   styleUrls: ['./audiences-wrapper.component.scss']
 })
 export class AudiencesWrapperComponent implements OnInit, OnDestroy {
+
+  retailerID: number;
 
   demographics = {}; // for devices, gender, age and age-gender data
   demoReqStatus = [
@@ -44,16 +47,20 @@ export class AudiencesWrapperComponent implements OnInit, OnDestroy {
   selectedTab2: any = 1;
 
   chartsInitLoad: boolean = true;
+
   generalFiltersSub: Subscription;
   retailFiltersSub: Subscription;
 
   constructor(
     private filtersStateService: FiltersStateService,
     private campInRetailService: CampaignInRetailService,
+    private appStateService: AppStateService,
     private translate: TranslateService
   ) { }
 
   ngOnInit(): void {
+    this.retailerID = this.appStateService.selectedRetailer?.id;
+
     this.getAllData();
 
     this.generalFiltersSub = this.filtersStateService.filtersChange$.subscribe(() => {

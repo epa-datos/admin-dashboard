@@ -98,7 +98,9 @@
                                 </div>
                                 <app-chart-pictorial [data]="demographics?.men" name="aud-gender-man"
                                     [uniqueDimensionConf]="{color: '#67B6DC'}" category="name" iconType="man"
-                                    [status]="demoReqStatus[1].reqStatus" height="280px">
+                                    [status]="demoReqStatus[1].reqStatus"
+                                    [emptyDataLegend]="retailerID === 11 && 'Sin acceso a información por decisión del Retail'"
+                                    height="280px">
                                 </app-chart-pictorial>
                             </div>
                             <div class="col-12 col-xl-6 mt-5 mt-xl-0">
@@ -113,7 +115,9 @@
                                 </div>
                                 <app-chart-pictorial [data]="demographics?.women" name="aud-gender-woman"
                                     [uniqueDimensionConf]="{color: '#6794DC'}" category="name" iconType="woman"
-                                    height="280px" [status]="demoReqStatus[1].reqStatus">
+                                    [status]="demoReqStatus[1].reqStatus"
+                                    [emptyDataLegend]="retailerID === 11 && 'Sin acceso a información por decisión del Retail'"
+                                    height="280px">
                                 </app-chart-pictorial>
                             </div>
                         </div>
@@ -148,7 +152,8 @@
                     <div class="card-body">
                         <app-chart-bar name="aud-gender" [data]="demographics?.gender"
                             [status]="demoReqStatus[1].reqStatus" valueFormat="USD" category="name" height="280px"
-                            [legendsByCategory]="true">
+                            [legendsByCategory]="true"
+                            [emptyDataLegend]="retailerID === 11 && 'Sin acceso a información por decisión del Retail'">
                         </app-chart-bar>
                     </div>
                 </div>
@@ -168,7 +173,8 @@
                     <app-chart-lollipop name="aud-age" [data]="demographics?.age" category="age"
                         [value]="selectedTab1 === 1 ? 'visits' : selectedTab1 === 2 ? 'sales' : selectedTab1 === 3 ? 'aup' : 'value'"
                         [valueFormat]="selectedTab1 === 2 || selectedTab1 === 3 ? 'USD' :  selectedTab1 === 4 && '%'"
-                        height="280px" [status]="demoReqStatus[2].reqStatus">
+                        height="280px" [status]="demoReqStatus[2].reqStatus"
+                        [emptyDataLegend]="retailerID === 11 && 'Sin acceso a información por decisión del Retail'">
                     </app-chart-lollipop>
                 </div>
             </div>
@@ -197,10 +203,13 @@
 
                     <!-- empty data -->
                     <div *ngIf="demoReqStatus[3].reqStatus === 2 && demographics?.genderByAge?.length === 0"
-                        class="chart-error-container text-muted">
-                        <p class="text-center">
+                        class="chart-error-container text-muted text-center">
+                        <p *ngIf="retailerID !== 11">
                             {{ 'general.withoutData' | translate }} <br>
                             {{ 'general.withoutData2' | translate }}
+                        </p>
+                        <p *ngIf="retailerID === 11">
+                            Sin acceso a información por decisión del Retail
                         </p>
                     </div>
 
