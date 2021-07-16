@@ -22,8 +22,8 @@ export function disaggregatePictorialData(metricName1: string, metricName2: stri
         value1 = percValues.perc1;
         value2 = percValues.perc2;
     } else {
-        value1 = metric1.value.toFixed(2);
-        value2 = metric2.value.toFixed(2);
+        value1 = metric1?.value.toFixed(2);
+        value2 = metric2?.value.toFixed(2);
     }
 
     if (metric1) {
