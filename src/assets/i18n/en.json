@@ -56,27 +56,32 @@
         "sourceError1": "Select at least one Source",
         "filter": "Filter"
     },
-    "overview": {
+    "overviewLatam": {
         "chart1CardTitle1": "Investment in ",
         "chart1CardTitle2": "Sectors",
         "chart1CardTitle3": "Categories",
         "chart1CardTitle4": "Funds",
-        "chart1CardTitle5": " by Country",
-        "chart2CardTitle1": " by Devices",
-        "chart3CardTitle1": " by Gender",
-        "chart4CardTitle1": " by Age",
-        "chart5CardTitle1": " by Gender and Age",
-        "chart7CardTitle1": "Investment - Revenue",
-        "chart7ValueName1": "Investment",
-        "chart7ValueName2": "Revenue",
         "table1Error": "Error when consulting countries",
         "table1Empty": "No countries found",
         "table2CardTitle1": "Top Products",
         "table2Error": "Error when consulting products",
         "table2Empty": "No products found"
     },
+    "overviewWrapper": {
+        "chart1CardTitle1": "Categories by Retailer - Search",
+        "chart1CardTitle2": "Categories by Retailer - Marketing",
+        "chart1CardTitle3": "Categories by Retailer - Sales",
+        "chart1CardTitle4": "Categories by Sector",
+        "chart1Legend1": "Active",
+        "chart1Legend2": "Inactive"
+    },
     "charts": {
-        "dayAndHour": " by day of week and time of day"
+        "byCountry": " by Country",
+        "byDevice": " by Devices",
+        "byGender": " by Gender",
+        "byAge": " by Age",
+        "byGenderAndAge": " by Gender and Age",
+        "byDayAndHour": " by day of week and time of day"
     },
     "paginator": {
         "itemsPerPage": "Items per page",
@@ -89,6 +94,7 @@
     "general": {
         "coop": "COOP Program",
         "country": "Country",
+        "retailer": "Retailer",
         "sector": "Sector",
         "category": "Category",
         "source": "Source",
@@ -124,6 +130,31 @@
         "otherPluralF": "others",
         "only": "only",
         "men": "Men",
-        "women": "Women"
+        "women": "Women",
+        "years": "years",
+        "multSelection": "Ctrl + click for multiple selection",
+        "days": {
+            "mon": "Mon",
+            "tue": "Tue",
+            "wed": "Wed",
+            "thu": "Thu",
+            "fri": "Fri",
+            "sat": "Sat",
+            "sun": "Sun"
+        },
+        "months": {
+            "jan": "Jan",
+            "feb": "Feb",
+            "mar": "Mar",
+            "apr": "Apr",
+            "may": "May",
+            "jun": "Jun",
+            "jul": "Jul",
+            "aug": "Aug",
+            "sep": "Sep",
+            "oct": "Oct",
+            "nov": "Nov",
+            "dec": "Dec"
+        }
     }
 }
