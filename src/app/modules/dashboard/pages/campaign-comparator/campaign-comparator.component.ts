@@ -14,6 +14,8 @@ export class CampaignComparatorComponent implements OnInit {
   firstSelection: { retailer: any, campaign: any };
   secondSelection: { retailer: any, campaign: any };
 
+  validFilters = { firstSelection: false, secondSelection: false };
+
   kpisLegends1 = ['investment', 'clicks', 'bounce_rate', 'transactions', 'revenue'] // main kpis
   kpisLegends2 = ['ctr', 'users', 'cr', 'roas', 'aup']; // sub kpis
   kpisBase: KpiCard[] = [
@@ -254,6 +256,7 @@ export class CampaignComparatorComponent implements OnInit {
     }
   };
 
+  selections: { retailer: any, campaign: any, selection: string }[];
   showComparison: boolean;
 
   constructor(
@@ -268,21 +271,25 @@ export class CampaignComparatorComponent implements OnInit {
     selection === 2 && (this.secondSelection = value);
   }
 
+  validFiltersChange(selection: number, value: any) {
+    selection === 1 && (this.validFilters.firstSelection = value);
+    selection === 2 && (this.validFilters.secondSelection = value);
+  }
+
   compareCampaigns() {
     this.showComparison = true;
-    const selection = [
+    this.selections = [
       { ...this.firstSelection, selection: 'camp1' },
       { ...this.secondSelection, selection: 'camp2' }
     ];
 
-    this.getKpis(selection);
-    this.getAcquisition(selection);
-    this.getConversion(selection);
-
+    this.getKpis();
+    this.getAcquisition();
+    this.getConversion();
   }
 
-  getKpis(selections: { retailer: any, campaign: any, selection: string }[]) {
-    for (let item of selections) {
+  getKpis() {
+    for (let item of this.selections) {
       this.kpisCamps[item.selection].reqStatus = 1;
 
       this.campaignCompService.getCampKpis(item.retailer.id, item.campaign.id).subscribe(
@@ -311,15 +318,17 @@ export class CampaignComparatorComponent implements OnInit {
 
         },
         error => {
+          this.clearKpis(item.selection);
           this.kpisCamps[item.selection].reqStatus = 3;
+
+          console.error(`[campaign-comparator.component]: ${error}`);
         }
       )
-
     }
   }
 
-  getAcquisition(selections: { retailer: any, campaign: any, selection: string }[]) {
-    for (let item of selections) {
+  getAcquisition() {
+    for (let item of this.selections) {
       this.acqCamps[item.selection].reqStatus = 1;
 
       this.campaignCompService.getCampAcquisition(item.retailer.id, item.campaign.id).subscribe(
@@ -329,18 +338,22 @@ export class CampaignComparatorComponent implements OnInit {
             item.session_duration = strTimeFormat(item.session_duration);
             return { ...item, yoy: '-' };
           });
+
           this.acqCamps[item.selection].reqStatus = 2;
 
         },
         error => {
+          this.acqCamps[item.selection].data = [];
           this.acqCamps[item.selection].reqStatus = 3;
+
+          console.error(`[campaign-comparator.component]: ${error}`);
         }
       )
     }
   }
 
-  getConversion(selections: { retailer: any, campaign: any, selection: string }[]) {
-    for (let item of selections) {
+  getConversion() {
+    for (let item of this.selections) {
       this.convCamps[item.selection].reqStatus = 1;
 
       this.campaignCompService.getCampConversion(item.retailer.id, item.campaign.id).subscribe(
@@ -350,16 +363,28 @@ export class CampaignComparatorComponent implements OnInit {
             return { ...item, yoy_amount: '-', yoy_product_revenue: '-', yoy_aup: '-' };
           });
 
-          console.log('this.convCamps', this.convCamps)
-
           this.convCamps[item.selection].reqStatus = 2;
 
         },
         error => {
+          this.convCamps[item.selection].data = [];
           this.convCamps[item.selection].reqStatus = 3;
+
+          console.error(`[campaign-comparator.component]: ${error}`);
         }
       )
     }
   }
+
+  clearKpis(selection) {
+    for (let kpi of this.kpisCamps[selection].kpis) {
+      kpi.value = 0;
+
+      kpi.subKpis?.forEach(item => {
+        item.value = 0;
+      });
+    }
+  }
+
 
 }
