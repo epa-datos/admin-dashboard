@@ -1,0 +1,22 @@
+ul.scale-container {
+    list-style: none;
+
+    li {
+        align-items: center;
+        display: flex;
+    }
+
+    i {
+        color: #767676;
+        font-size: 20px;
+        margin-right: 8px;
+    }
+
+    span:first-of-type {
+        margin-right: 4px;
+    }
+
+    span:last-of-type {
+        color: #5b5b5b;
+    }
+}

@@ -1,5 +1,5 @@
 <div class="main-container mt-4">
-    <ul class="nav nav-tabs mb-4">
+    <!-- <ul class="nav nav-tabs mb-4">
         <li class="nav-item">
             <a class="nav-link" [ngClass]="{'active bg-light' : activeTabView === 1}" (click)="activeTabView = 1">
                 <span class="h2 py-2 ml-3 mr-3">General</span>
@@ -21,22 +21,201 @@
             </a>
         </li>
     </ul>
+    <app-maintenance></app-maintenance> -->
+    <div class="row">
+        <div class="col-12">
 
-    <!-- <ng-container *ngIf="activeTabView === 1">
-        <p class="text-muted">General</p>
-    </ng-container>
+            <div class="mb-2">
+                <span class="h4">Análisis de Sentimiento:</span><br>
+                Este análisis muestra la experiencia que tiene el usuario al manejar el chat de HP, contemplamos como:
+                <ul class="scale-container">
+                    <li>
+                        <i class="far fa-sad-tear"></i>
+                        <span>Mala experiencia: </span>
+                        <span>Poca interacción de frecuentemente termina en el abandono</span>
+                    </li>
+                    <li>
+                        <i class="far fa-meh"></i>
+                        <span>Insatisfacción:</span>
+                        <span>Mensajes cortantes y sencillos que derivan en perder contacto con el agente</span>
+                    </li>
+                    <li>
+                        <i class="far fa-smile"></i>
+                        <span>Satisfacción:</span>
+                        <span> Mensajes naturales de los usuarios donde el agente responde la inquietud</span>
+                    </li>
+                    <li>
+                        <i class="far fa-grin-wink"></i>
+                        <span>Agradecimiento:</span>
+                        <span>Mensajes donde el cliente menciona tácitamente que el chat y/o atención fue de
+                            ayuda</span>
+                    </li>
+                    <li>
+                        <i class="far fa-grin-stars"></i>
+                        <span>Excelente experiencia:</span>
+                        <span>Mensajes donde el cliente expresa explícitamente su agradecimiento</span>
+                    </li>
+                </ul>
+            </div>
 
-    <ng-container *ngIf="activeTabView === 2">
-        <p class="text-muted">Computo</p>
-    </ng-container>
+            <div class="mb-2">
+                <span class="h4">Motivación:</span><br>
+                Este análisis busca determinar la motivación del uso del artículo
+            </div>
 
-    <ng-container *ngIf="activeTabView === 3">
-        <p class="text-muted">HW Print</p>
-    </ng-container>
+            <div class="mb-2">
+                <span class="h4">Atributo:</span><br>
+                Este análisis busca determinar el atributo del artículo más importante para el cliente
+            </div>
+        </div>
+    </div>
 
-    <ng-container *ngIf="activeTabView === 4">
-        <p class="text-muted">Supplies</p>
-    </ng-container> -->
+    <div class="row mt-4">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-header">
+                    <span class="h4">Distribución de sentimiento</span>
+                </div>
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-12 col-lg-6 mb-4">
+                            <app-chart-pie name="sentiment-distribution" [data]="distributionPieChart"
+                                [status]="distributionReqStatus" legendPosition="right" minLegendHeight="200">
+                            </app-chart-pie>
+                        </div>
+                        <div class="col-12 col-lg-6 mb-4">
+                            <app-chart-bar-horizontal name="sentiment-distribution" [data]="distributionBarChart"
+                                [status]="distributionReqStatus">
+                            </app-chart-bar-horizontal>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 
-    <app-maintenance></app-maintenance>
+    <div class="row mt-4">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-header">
+                    <span class="h4">Distribución de sentimiento a través del tiempo</span>
+                </div>
+                <div class="card-body">
+                    <app-chart-line-series name="sentiment-time" [series]="distributionOverTime"
+                        yTitle="Porcentaje de chats %" [status]="distributionOverTimeReqStatus">
+                    </app-chart-line-series>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row mt-4">
+        <div class="col-12 col-lg-6 mb-4">
+            <div class="card height-fluid">
+                <div class="card-header">
+                    <span class="h4">Chats por Categoría</span>
+                </div>
+                <div class="card-body">
+                    <app-chart-pie name="sentiment-by-category" [data]="chatsByCategories"
+                        [status]="chatsByCategoriesReqStatus" legendPosition="right">
+                    </app-chart-pie>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-12 col-lg-6 mb-4">
+            <div class="card height-fluid">
+                <div class="card-header">
+                    <span class="h4">Chats por País</span>
+                </div>
+                <div class="card-body">
+                    <app-chart-pie name="sentiment-by-country" [data]="chatsByCountries"
+                        [status]="chatsByCountriesReqStatus" category="country" legendPosition="right"
+                        minLegendHeight="200">
+                    </app-chart-pie>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row mt-4">
+        <div class="col-12 col-xl-4 mb-4">
+            <div class="card height-fluid">
+                <div class="card-header">
+                    <span class="h4">Categorías - PS</span>
+                </div>
+                <div class="card-body">
+                    <app-chart-pie name="sentiment-by-ps" [data]="categories.ps.data" [status]="categories.ps.reqStatus"
+                        legendPosition="bottom" [minLegendHeight]="80">
+                    </app-chart-pie>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-12 col-xl-4 mb-4">
+            <div class="card height-fluid">
+                <div class="card-header">
+                    <span class="h4">Categorías - HW-Print</span>
+                </div>
+                <div class="card-body">
+                    <app-chart-pie name="sentiment-by-hw-print" [data]="categories.hwPrint.data"
+                        [status]="categories.hwPrint.reqStatus" legendPosition="bottom" [minLegendHeight]="80">
+                    </app-chart-pie>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-12 col-xl-4 mb-4">
+            <div class="card height-fluid">
+                <div class="card-header">
+                    <span class="h4">Categorías - Supplies</span>
+                </div>
+                <div class="card-body">
+                    <app-chart-pie name="sentiment-by-supplies" [data]="categories.supplies.data"
+                        [status]="categories.supplies.reqStatus" legendPosition="bottom" [minLegendHeight]="80">
+                    </app-chart-pie>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row mt-4">
+        <div class="col-12 col-xl-8 mb-4">
+            <div class="card height-fluid">
+                <div class="card-header">
+                    <span class="h4">Motivos de uso del chat</span>
+                </div>
+                <div class="card-body">
+
+                </div>
+            </div>
+        </div>
+
+
+        <div class="col-12 col-xl-4 mb-4">
+            <div class="card height-fluid">
+                <div class="card-header">
+                    <span class="h4">Atributos buscados</span>
+                </div>
+                <div class="card-body">
+                    <app-chart-pie name="sentiment-attributes" [data]="searchedAttributes"
+                        [status]="searchedAttributesReqStatus" category="attribute" legendPosition="right"
+                        minLegendHeight="200">
+                    </app-chart-pie>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row mt-4">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-header">
+                    <span class="h4">Corte de Sentimiento por Retailer para el top 10</span>
+                </div>
+                <div class="card-body" style="height: 300px;">
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
