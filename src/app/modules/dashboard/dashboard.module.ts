@@ -69,6 +69,8 @@ import { PcSelectorWrapperComponent } from './components/pc-selector-wrapper/pc-
 import { ChartFunnelComponent } from './components/charts/chart-funnel/chart-funnel.component';
 import { HomeComponent } from './pages/home/home.component';
 import { MultipleTabsSelectorComponent } from './components/multiple-tabs-selector/multiple-tabs-selector.component';
+import { ChartTreeMapComponent } from './components/charts/chart-tree-map/chart-tree-map.component';
+import { ChartStackedBarComponent } from './components/charts/chart-stacked-bar/chart-stacked-bar.component';
 
 
 @NgModule({
@@ -115,6 +117,8 @@ import { MultipleTabsSelectorComponent } from './components/multiple-tabs-select
     CampaignInRetailWrapperComponent,
     HomeComponent,
     MultipleTabsSelectorComponent,
+    ChartTreeMapComponent,
+    ChartStackedBarComponent,
   ],
   imports: [
     CommonModule,
