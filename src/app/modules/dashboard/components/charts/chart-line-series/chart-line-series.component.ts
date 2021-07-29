@@ -18,6 +18,7 @@ export class ChartLineSeriesComponent implements OnInit, AfterViewInit, OnDestro
   @Input() valueFormat; // USD MXN Copy shown in tooltip
   @Input() status: number = 2; // 0) initial 1) load 2) ready 3) error
   @Input() errorLegend: string;
+  @Input() contrastingColors: boolean = true;
   //@Input() yTitle: string;
 
   chartID;
@@ -129,13 +130,18 @@ export class ChartLineSeriesComponent implements OnInit, AfterViewInit, OnDestro
     ]
 
     for (var i = 0; i < this.series.length; i++) {
-      const color = colors[i] ? colors[i] : colors[Math.floor(Math.random() * colors.length)];
-      // createSeries(this.value + i, this.series[i], this.value, this.valueName, this.valueFormat, color);
+      let color;
+
+      if (this.contrastingColors) {
+        color = colors[i] ? colors[i] : colors[Math.floor(Math.random() * colors.length)];
+        // createSeries(this.value + i, this.series[i], this.value, this.valueName, this.valueFormat, color);
+      }
+
       createSeries(this.value + i, this.series[i], this.value, color);
     }
 
     // function createSeries(s, serieData, serieValueProp, serieValueName, serieValueFormat, color)
-    function createSeries(s, serieData, serieValueProp, color) {
+    function createSeries(s, serieData, serieValueProp, color?) {
       let name = serieData.name;
       let serie = serieData.serie;
 
@@ -153,12 +159,14 @@ export class ChartLineSeriesComponent implements OnInit, AfterViewInit, OnDestro
         series.strokeDasharray = "3,4";
       }
 
-      if (serieData.customLineColor) {
-        series.stroke = am4core.color(serieData.customLineColor);
-        series.tooltip.background.fill = am4core.color(serieData.customLineColor);
-      } else {
-        series.stroke = am4core.color(color);
-        series.tooltip.background.fill = am4core.color(color);
+      if (color) {
+        if (serieData.customLineColor) {
+          series.stroke = am4core.color(serieData.customLineColor);
+          series.tooltip.background.fill = am4core.color(serieData.customLineColor);
+        } else {
+          series.stroke = am4core.color(color);
+          series.tooltip.background.fill = am4core.color(color);
+        }
       }
 
       let segment = series.segments.template;
