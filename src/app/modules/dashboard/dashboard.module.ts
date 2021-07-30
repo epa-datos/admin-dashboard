@@ -69,6 +69,7 @@ import { PcSelectorWrapperComponent } from './components/pc-selector-wrapper/pc-
 import { ChartFunnelComponent } from './components/charts/chart-funnel/chart-funnel.component';
 import { HomeComponent } from './pages/home/home.component';
 import { MultipleTabsSelectorComponent } from './components/multiple-tabs-selector/multiple-tabs-selector.component';
+import { NgxPrintModule } from 'ngx-print';
 
 
 @NgModule({
@@ -132,7 +133,8 @@ import { MultipleTabsSelectorComponent } from './components/multiple-tabs-select
     MatProgressSpinnerModule,
     MatSortModule,
     NgbModule,
-    SharedModule
+    SharedModule,
+    NgxPrintModule
   ],
   providers: [{ provide: MAT_FORM_FIELD_DEFAULT_OPTIONS, useValue: { floatLabel: 'never' } }]
 })
