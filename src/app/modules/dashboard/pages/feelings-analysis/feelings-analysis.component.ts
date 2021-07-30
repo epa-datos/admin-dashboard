@@ -1,11 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 
 @Component({
-  selector: 'app-sentiment-analysis',
-  templateUrl: './sentiment-analysis.component.html',
-  styleUrls: ['./sentiment-analysis.component.scss']
+  selector: 'app-feelings-analysis',
+  templateUrl: './feelings-analysis.component.html',
+  styleUrls: ['./feelings-analysis.component.scss']
 })
-export class SentimentAnalysisComponent implements OnInit {
+export class FeelingsAnalysisComponent implements OnInit {
 
   activeTabView = 1;
 
@@ -596,6 +596,16 @@ export class SentimentAnalysisComponent implements OnInit {
   constructor() { }
 
   ngOnInit(): void {
+    console.log('distributionPieChart', JSON.stringify(this.distributionPieChart));
+    console.log('distributionOverTime', JSON.stringify(this.distributionOverTime));
+    console.log('chatsByCategories', JSON.stringify(this.chatsByCategories));
+    console.log('chatsByCountries', JSON.stringify(this.chatsByCountries));
+    console.log('categories ps', JSON.stringify(this.categories.ps.data));
+    console.log('categories hw print', JSON.stringify(this.categories.hwPrint));
+    console.log('categories supplies', JSON.stringify(this.categories.supplies));
+    console.log('reasons', JSON.stringify(this.reasons));
+    console.log('searchedAttributes', JSON.stringify(this.searchedAttributes));
+    console.log('retailers', JSON.stringify(this.retailers.data));
   }
 
 }

@@ -25,7 +25,7 @@ import { GoogleBusinessFiltersComponent } from './components/google-business-fil
 import { CardStatComponent } from './components/card-stat/card-stat.component';
 import { GenericTableComponent } from './components/generic-table/generic-table.component';
 import { CampaignComparatorComponent } from './pages/campaign-comparator/campaign-comparator.component';
-import { SentimentAnalysisComponent } from './pages/sentiment-analysis/sentiment-analysis.component';
+import { FeelingsAnalysisComponent } from './pages/feelings-analysis/feelings-analysis.component';
 import { DashboardRoutes } from './dashboard.routing';
 
 // pages
@@ -103,7 +103,7 @@ import { ChartStackedBarComponent } from './components/charts/chart-stacked-bar/
     ChartMultipleAxesComponent,
     ChartLoaderComponent,
     CampaignComparatorComponent,
-    SentimentAnalysisComponent,
+    FeelingsAnalysisComponent,
     OverviewLatamComponent,
     OmnichatWrapperComponent,
     ChartGaugeComponent,
