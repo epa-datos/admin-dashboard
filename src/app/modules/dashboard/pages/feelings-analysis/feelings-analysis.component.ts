@@ -1,11 +1,15 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Subscription } from 'rxjs';
+import { AppStateService } from 'src/app/services/app-state.service';
+import { FeelingsAnalysisService } from '../../services/feelings-analysis.service';
+import { FiltersStateService } from '../../services/filters-state.service';
 
 @Component({
   selector: 'app-feelings-analysis',
   templateUrl: './feelings-analysis.component.html',
   styleUrls: ['./feelings-analysis.component.scss']
 })
-export class FeelingsAnalysisComponent implements OnInit {
+export class FeelingsAnalysisComponent implements OnInit, OnDestroy {
 
   activeTabView = 1;
 
@@ -593,19 +597,83 @@ export class FeelingsAnalysisComponent implements OnInit {
     reqStatus: 2
   };
 
-  constructor() { }
+  filtersSub: Subscription;
+
+  constructor(
+    private filtersStateService: FiltersStateService,
+    private appStateService: AppStateService,
+    private feelingsAnaService: FeelingsAnalysisService,
+  ) { }
 
   ngOnInit(): void {
-    console.log('distributionPieChart', JSON.stringify(this.distributionPieChart));
-    console.log('distributionOverTime', JSON.stringify(this.distributionOverTime));
-    console.log('chatsByCategories', JSON.stringify(this.chatsByCategories));
-    console.log('chatsByCountries', JSON.stringify(this.chatsByCountries));
-    console.log('categories ps', JSON.stringify(this.categories.ps.data));
-    console.log('categories hw print', JSON.stringify(this.categories.hwPrint));
-    console.log('categories supplies', JSON.stringify(this.categories.supplies));
-    console.log('reasons', JSON.stringify(this.reasons));
-    console.log('searchedAttributes', JSON.stringify(this.searchedAttributes));
-    console.log('retailers', JSON.stringify(this.retailers.data));
+    // console.log('distributionPieChart', JSON.stringify(this.distributionPieChart));
+    // console.log('distributionOverTime', JSON.stringify(this.distributionOverTime));
+    // console.log('chatsByCategories', JSON.stringify(this.chatsByCategories));
+    // console.log('chatsByCountries', JSON.stringify(this.chatsByCountries));
+    // console.log('categories ps', JSON.stringify(this.categories.ps.data));
+    // console.log('categories hw print', JSON.stringify(this.categories.hwPrint));
+    // console.log('categories supplies', JSON.stringify(this.categories.supplies));
+    // console.log('reasons', JSON.stringify(this.reasons));
+    // console.log('searchedAttributes', JSON.stringify(this.searchedAttributes));
+    // console.log('retailers', JSON.stringify(this.retailers.data));
+
+
+    let loadedFromInit: boolean; // first call to getAllData is from init
+    let firstTimeSub: boolean = true; // first time requestInfoSub listen a change
+
+    if (this.filtersAreReady()) {
+
+      this.filtersStateService.restoreFilters();
+      this.getAllData();
+
+      // use loadedFromInit to avoid repeated calls to getAllData()
+      // when dashboard component is loaded for first time
+      // (e.g after page refresh or be redirected from other component that doesn't belong to to dashboard module)
+      loadedFromInit = true
+    }
+
+    this.filtersSub = this.filtersStateService.filtersChange$.subscribe((manualChange) => {
+      // avoid repeated call to getAllData()
+      if (loadedFromInit && firstTimeSub && !manualChange) {
+        firstTimeSub = false;
+        return;
+      }
+
+      firstTimeSub = false;
+      loadedFromInit = false;
+
+      (this.appStateService.selectedPage === 'other' && this.filtersAreReady() && !loadedFromInit) && this.getAllData();
+    });
+  }
+
+  getAllData() {
+    this.getFeelingsDistribution();
+  }
+
+  getFeelingsDistribution() {
+    this.feelingsAnaService.getDataByMetric('feelings').subscribe(
+      resp => {
+      },
+      error => {
+      }
+    )
+  }
+
+  filtersAreReady(): boolean {
+    if (this.filtersStateService.countries &&
+      this.filtersStateService.retailers &&
+      this.filtersStateService.period &&
+      this.filtersStateService.sectors &&
+      this.filtersStateService.categories
+    ) {
+      return true;
+    } else {
+      return false;
+    }
+  }
+
+  ngOnDestroy() {
+    this.filtersSub?.unsubscribe();
   }
 
 }
