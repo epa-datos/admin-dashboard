@@ -115,7 +115,7 @@ export class ConversionWrapperComponent implements OnInit {
 
   ngOnInit(): void {
     this.retailerID = this.appStateService.selectedRetailer?.id;
-    // add source column for México - Liverpool retailer
+    // add origin column for México - Liverpool retailer
     if (this.retailerID === 26) {
       const newTableColumn = {
         name: 'origin',
@@ -175,7 +175,7 @@ export class ConversionWrapperComponent implements OnInit {
             return { ...item, yoy_amount: '-', yoy_product_revenue: '-', yoy_aup: '-' };
           }
 
-          // add source property for México - Liverpool retailer
+          // add origin property for México - Liverpool retailer
           return { ...item, yoy_amount: '-', yoy_product_revenue: '-', yoy_aup: '-', origin: item.origin ? item.origin : '-' };
         });
 
