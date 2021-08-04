@@ -2,6 +2,7 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { NavigationStart, Router, Event } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { TranslateService } from '@ngx-translate/core';
+import { AppStateService } from 'src/app/services/app-state.service';
 
 @Component({
   selector: 'app-dashboard',
@@ -11,6 +12,7 @@ import { TranslateService } from '@ngx-translate/core';
 export class DashboardComponent implements OnInit, OnDestroy {
 
   title: string;
+  printWindowTitle: string;
   showFilters: boolean;
 
   routeSub: Subscription;
@@ -18,7 +20,8 @@ export class DashboardComponent implements OnInit, OnDestroy {
 
   constructor(
     private router: Router,
-    private translate: TranslateService
+    private translate: TranslateService,
+    private appStateService: AppStateService
   ) {
     this.routeSub = this.router.events.subscribe((event: Event) => {
       if (event instanceof NavigationStart) {
@@ -63,8 +66,24 @@ export class DashboardComponent implements OnInit, OnDestroy {
         this.showFilters = false;
         break;
     }
+
+    setTimeout(() => {
+      this.getPrintTitle();
+    }, 1000);
   }
 
+
+  getPrintTitle() {
+    let mainRegionName = this.appStateService.selectedMainRegion?.name;
+    let countryName = this.appStateService.selectedCountry?.name;
+    let retailerName = this.appStateService.selectedRetailer?.name;
+
+    if (mainRegionName || countryName || retailerName) {
+      this.printWindowTitle = `${this.title} - ${mainRegionName ? `${mainRegionName} ` : ''}${countryName ? `${countryName} ` : ''}${retailerName ? `- ${retailerName} ` : ''}`;
+    } else {
+      this.printWindowTitle = this.title;
+    }
+  }
 
   ngOnDestroy() {
     this.routeSub?.unsubscribe();

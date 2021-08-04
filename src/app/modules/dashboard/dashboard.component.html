@@ -1,13 +1,13 @@
-<div class="dashboard-container mt-4" id="print-section">
+<div class="dashboard-container mt-4">
 
     <div class="container-fluid-lg" [hidden]="!title">
         <div class="row">
-            <div class="col-11">
+            <div class="col-8">
                 <p class="h2 text-xl">{{ title }}</p>
             </div>
-            <div class="col-1">
-                <button class="btn btn-outline-primary btn-sm" [useExistingCss]="true" [printTitle]="title"
-                    printSectionId="print-section" ngxPrint>
+            <div class="col-4 text-right">
+                <button class="btn btn-outline-primary btn-sm" [useExistingCss]="true"
+                    [printTitle]="printWindowTitle ? printWindowTitle : title" printSectionId="print-section" ngxPrint>
                     Imprimir
                 </button>
             </div>
