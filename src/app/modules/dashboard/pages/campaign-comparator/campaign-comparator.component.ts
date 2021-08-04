@@ -169,12 +169,6 @@ export class CampaignComparatorComponent implements OnInit {
       title: 'Ingresos del producto',
       textAlign: 'center',
       formatValue: 'currency'
-    },
-    {
-      name: 'yoy',
-      title: '%YoY',
-      textAlign: 'center',
-      // formatValue: 'percentage' // provisional until data exists 
     }
   ];
 
@@ -294,8 +288,6 @@ export class CampaignComparatorComponent implements OnInit {
 
           const mainKpis = kpisList.filter(kpi => this.kpisLegends1.includes(kpi.string));
 
-          console.log('mainKpis', mainKpis)
-
           const campaignKpis: KpiCard[] = [];
           for (let i = 0; i < this.kpisBase.length; i++) {
             // create new objects with different references (including sub arrays)
@@ -343,7 +335,7 @@ export class CampaignComparatorComponent implements OnInit {
 
           this.acqCamps[item.selection].data = campaigns.map(item => {
             item.session_duration = strTimeFormat(item.session_duration);
-            return { ...item, yoy: '-' };
+            return { ...item };
           });
 
           this.acqCamps[item.selection].reqStatus = 2;
