@@ -103,6 +103,12 @@
         "table1Empty": "No found campaigns",
         "campList1": "Google Search and MDF"
     },
+    "googleBusiness": {
+        "province": "Province",
+        "city": "City",
+        "store": "Store",
+        "visits": "Visits"
+    },
     "charts": {
         "byCountry": " by Country",
         "byDevice": " by Devices",

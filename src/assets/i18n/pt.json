@@ -103,6 +103,12 @@
         "table1Empty": "Nenhum campanha encontrada",
         "campList1": "Google Search e MDF"
     },
+    "googleBusiness": {
+        "province": "Província",
+        "city": "Cidade",
+        "store": "Armazenar",
+        "visits": "Visitas"
+    },
     "charts": {
         "byCountry": " por País",
         "byDevices": " por Dispositivos",
