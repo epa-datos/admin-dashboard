@@ -482,12 +482,20 @@ export class SidebarComponent implements OnInit, OnDestroy {
           ];
 
           if (item.indexed || item.omnichat || item.pc_selector) {
-            submenu.push({
-              title: this.translate.instant('dashboard.otherTools'),
-              path: '/dashboard/tools',
-              paramName: 'retailer',
-              param: item.name.toLowerCase().replaceAll(' ', '-')
-            });
+
+            // Patch to avoid adding the access to other tools from the following retailers
+            // AR - Garbarino (id 1)
+            // AR - Walmart (id 2)
+            // AR - Compumundo (id 4)
+            // CL - Alkosto (id 14)
+            if (item.id !== 1 && item.id !== 2 && item.id !== 4 && item.id !== 14) {
+              submenu.push({
+                title: this.translate.instant('dashboard.otherTools'),
+                path: '/dashboard/tools',
+                paramName: 'retailer',
+                param: item.name.toLowerCase().replaceAll(' ', '-')
+              });
+            }
           }
           return {
             id: item.id,
