@@ -131,6 +131,15 @@
         "panel3Title": "Comportamiento",
         "panel4Title": "Conversión"
     },
+    "audiences": {
+        "section1Title": "Análisis por Tráfico, Conversiones, AUP y BR",
+        "retailErrorMsg": "Sin acceso a información por decisión del Retail",
+        "section2Title": "Tráfico y Conversiones por hora y por día",
+        "section3Title": "Conversiones - Tráfico",
+        "chart10CardTitle": "Conversiones y Tráfico por día de la semana",
+        "chart11CardTitle": "Conversiones y Tráfico por hora del día",
+        "section4Title": "Audiencias - Afinidad y Mercado"
+    },
     "googleBusiness": {
         "province": "Provincia",
         "city": "Ciudad",
@@ -143,7 +152,15 @@
         "byGender": " por Género",
         "byAge": " por Edad",
         "byGenderAndAge": " por Género y Edad",
-        "byDayAndHour": " por día de la semana y hora del día"
+        "byDayAndHour": " por día de la semana y hora del día",
+        "byWeekday": " por día de la semana",
+        "byHour": " por hora del día",
+        "affinityCategory": "Categoría de afinidad",
+        "affinityCategoryDesc": "Las categorías de afinidad se utilizan para llegar a clientes potenciales, para que conozcan la marca o producto. Estos son usuarios que se encuentran más arriba en el embudo de compra, cerca del comienzo del proceso.",
+        "marketSegment": "Segmento de mercado",
+        "marketSegmentDesc": "Es más probable que los usuarios de estos segmentos estén listos para comprar productos o servicios en la categoría especificada. Estos son los usuarios que se encuentran más abajo en el embudo de compra, cerca del final del proceso.",
+        "mobileSuggestion": "Para mejor visualización usar la versión de",
+        "mobileSuggestion2": "Escritorio"
     },
     "paginator": {
         "itemsPerPage": "Registros por página",
@@ -186,6 +203,8 @@
     },
     "others": {
         "by": "por",
+        "onDay": "en",
+        "atHour": "a las",
         "all": "todo",
         "allPluralM": "todos",
         "allPluralF": "todas",

@@ -131,6 +131,15 @@
         "panel3Title": "Behavior",
         "panel4Title": "Conversion"
     },
+    "audiences": {
+        "section1Title": "Analysis by Traffic, Conversions, AUP and BR",
+        "retailErrorMsg": "No access to information due to Retail decision",
+        "section2Title": "Traffic and Conversions by weekday and hour",
+        "section3Title": "Conversions - Traffic",
+        "chart10CardTitle": "Conversions and Traffic by weekday",
+        "chart11CardTitle": "Conversions and Traffic by time of day",
+        "section4Title": "Audiences - Affinity and Market"
+    },
     "googleBusiness": {
         "province": "Province",
         "city": "City",
@@ -143,7 +152,15 @@
         "byGender": " by Gender",
         "byAge": " by Age",
         "byGenderAndAge": " by Gender and Age",
-        "byDayAndHour": " by day of week and time of day"
+        "byDayAndHour": " by day of week and time of day",
+        "byWeekday": " by weekday",
+        "byHour": " by time of day",
+        "affinityCategory": "Affinity category",
+        "affinityCategoryDesc": "Affinity categories are used to reach potential customers, so that they know the brand or product. These are users higher up the buying funnel, near the beginning of the process.",
+        "marketSegment": "Market segment",
+        "marketSegmentDesc": "Users in these segments are more likely to be ready to buy products or services in the specified category. These are the users further down the purchase funnel, near the end of the process.",
+        "mobileSuggestion": "For better viewing use the",
+        "mobileSuggestion2": "desktop version"
     },
     "paginator": {
         "itemsPerPage": "Items per page",
@@ -186,6 +203,8 @@
     },
     "others": {
         "by": "by",
+        "onDay": "on",
+        "atHour": "at",
         "all": "all",
         "allPluralM": "all",
         "allPluralF": "all",
