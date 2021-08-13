@@ -131,6 +131,15 @@
         "panel3Title": "Comportamento",
         "panel4Title": "Conversão"
     },
+    "audiences": {
+        "section1Title": "Análise por tráfego, conversões, AUP e BR",
+        "retailErrorMsg": "Sem acesso às informações devido à decisão de varejo",
+        "section2Title": "Tráfego e Conversões por hora e por dia",
+        "section3Title": "Conversões - Tráfego",
+        "chart10CardTitle": "Conversões e Tráfego por dia",
+        "chart11CardTitle": "Conversões e Tráfego por hora do dia",
+        "section4Title": "Públicos - Afinidade e Mercado"
+    },
     "googleBusiness": {
         "province": "Província",
         "city": "Cidade",
@@ -143,7 +152,15 @@
         "byGender": " por Gênero",
         "byAge": " por Idade",
         "byGenderAndAge": " por Gênero e Idade",
-        "byDayAndHour": " por dia da semana e hora do dia"
+        "byDayAndHour": " por dia da semana e hora do dia",
+        "byWeekday": " por dia da semana",
+        "byHour": " por hora do dia",
+        "affinityCategory": "Categoria de afinidade",
+        "affinityCategoryDesc": "As categorias de afinidade são usadas para alcançar clientes em potencial, para que eles conheçam a marca ou o produto. Esses são os usuários na parte superior do funil de compra, perto do início do processo.",
+        "marketSegment": "Segmento de mercado",
+        "marketSegmentDesc": "Os usuários nesses segmentos são mais propensos a estar prontos para comprar produtos ou serviços na categoria especificada. Esses são os usuários mais abaixo no funil de compra, perto do final do processo.",
+        "mobileSuggestion": "Para melhor visualização use a versão",
+        "mobileSuggestion2": "Desktop"
     },
     "paginator": {
         "itemsPerPage": "Itens por página",
@@ -194,8 +211,8 @@
         "otherPluralM": "outros",
         "otherPluralF": "outras",
         "only": "somente",
-        "men": "Masculino",
-        "women": "Feminino",
+        "men": "Homens",
+        "women": "Mulheres",
         "years": "anos",
         "multSelection": "Ctrl + click para seleção múltipla",
         "days": {
