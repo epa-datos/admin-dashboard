@@ -203,6 +203,8 @@
     },
     "others": {
         "by": "by",
+        "onDay": "on",
+        "atHour": "at",
         "all": "all",
         "allPluralM": "all",
         "allPluralF": "all",

@@ -203,6 +203,8 @@
     },
     "others": {
         "by": "por",
+        "onDay": "en",
+        "atHour": "a las",
         "all": "todo",
         "allPluralM": "todos",
         "allPluralF": "todas",
