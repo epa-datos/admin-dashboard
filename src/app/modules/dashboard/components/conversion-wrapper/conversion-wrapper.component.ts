@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { TranslateService } from '@ngx-translate/core';
 import { Subscription } from 'rxjs';
 import { KpiCard } from 'src/app/models/kpi';
 import { AppStateService } from 'src/app/services/app-state.service';
@@ -106,12 +107,19 @@ export class ConversionWrapperComponent implements OnInit {
 
   generalFiltersSub: Subscription;
   retailFiltersSub: Subscription;
+  translateSub: Subscription;
 
   constructor(
     private filtersStateService: FiltersStateService,
     private campInRetailService: CampaignInRetailService,
     private appStateService: AppStateService,
-  ) { }
+    private translate: TranslateService,
+  ) {
+
+    this.translateSub = translate.stream('conversion').subscribe(() => {
+      this.loadI18nContent();
+    });
+  }
 
   ngOnInit(): void {
     this.retailerID = this.appStateService.selectedRetailer?.id;
@@ -119,7 +127,7 @@ export class ConversionWrapperComponent implements OnInit {
     if (this.retailerID === 26) {
       const newTableColumn = {
         name: 'origin',
-        title: 'Origen'
+        title: this.translate.instant('general.origin')
       };
       this.productsTableColumns.splice(0, 0, newTableColumn);
     }
@@ -210,8 +218,24 @@ export class ConversionWrapperComponent implements OnInit {
     }
   }
 
+  loadI18nContent() {
+    this.kpis[0].title = this.translate.instant('general.amount');
+
+    let i: number = -1; // auxiliary column index
+    if (this.retailerID === 26) {
+      i = 0;
+      this.productsTableColumns[i].title = this.translate.instant('general.origin');
+    }
+
+    this.productsTableColumns[i + 1].title = this.translate.instant('general.category');
+    this.productsTableColumns[i + 2].title = this.translate.instant('general.product');
+    this.productsTableColumns[i + 3].title = this.translate.instant('general.amount');
+    this.productsTableColumns[i + 5].title = this.translate.instant('general.productIncomes');
+  }
+
   ngOnDestroy() {
     this.generalFiltersSub?.unsubscribe();
     this.retailFiltersSub?.unsubscribe();
+    this.translateSub?.unsubscribe();
   }
 }

@@ -170,7 +170,7 @@ export class AcquisitionWrapperComponent implements OnInit, OnDestroy {
     this.campaignsTableColumns[1].title = this.translate.instant('general.medium');
     this.campaignsTableColumns[2].title = this.translate.instant('general.campaign');
     this.campaignsTableColumns[3].title = this.translate.instant('general.users');
-    this.campaignsTableColumns[4].title = this.translate.instant('general.new_users');
+    this.campaignsTableColumns[4].title = this.translate.instant('general.newUsers');
     this.campaignsTableColumns[5].title = this.translate.instant('general.sessions');
     this.campaignsTableColumns[6].title = this.translate.instant('general.pagesBySessions');
     this.campaignsTableColumns[7].title = this.translate.instant('general.bounceRate');
