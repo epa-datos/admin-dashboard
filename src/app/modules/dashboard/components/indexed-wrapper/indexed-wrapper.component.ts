@@ -2,8 +2,8 @@ import { Component, Input, OnDestroy, OnInit } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
 import { Observable, Subscription } from 'rxjs';
 import { KpiCard } from 'src/app/models/kpi';
+import { TranslationsService } from 'src/app/services/translations.service';
 import { disaggregatePictorialData } from 'src/app/tools/functions/chart-data';
-import { convertWeekdayToString } from 'src/app/tools/functions/data-convert';
 import { strTimeFormat } from 'src/app/tools/functions/time-format';
 import { FiltersStateService } from '../../services/filters-state.service';
 import { IndexedService } from '../../services/indexed.service';
@@ -86,7 +86,7 @@ export class IndexedWrapperComponent implements OnInit, OnDestroy {
   ];
 
   // bounces exits and page views
-  bouncesExitsAndPv = {};
+  bouncesExitsAndPv: any[] = [];
   bouncesExitsAndPvReqStatus;
 
   // most visited products & categories
@@ -150,12 +150,19 @@ export class IndexedWrapperComponent implements OnInit, OnDestroy {
 
   requestInfoSub: Subscription;
   levelPageSub: Subscription;
+  translateSub: Subscription;
 
   constructor(
     private filtersStateService: FiltersStateService,
     private indexedService: IndexedService,
-    private translate: TranslateService
-  ) { }
+    private translate: TranslateService,
+    private translationsServ: TranslationsService
+  ) {
+
+    this.translateSub = translate.stream('indexed').subscribe(() => {
+      this.loadI18nContent();
+    });
+  }
 
   ngOnInit(): void {
     let loadedFromInit: boolean; // first call to getAllData is from init
@@ -279,29 +286,43 @@ export class IndexedWrapperComponent implements OnInit, OnDestroy {
       this.indexedService.getDataByMetric(this.levelPage.latam, 'traffic', subMetric.subMetricType).subscribe(
         (resp: any[]) => {
 
-          if (subMetric.name === 'device') {
-            const { desktop, mobile }: any = disaggregatePictorialData('Desktop', 'Mobile', resp);
-            this.traffic = { ...this.traffic, desktop, mobile };
+          switch (subMetric.name) {
+            case 'device':
+              const { desktop, mobile }: any = disaggregatePictorialData('Desktop', 'Mobile', resp);
+              this.traffic = { ...this.traffic, desktop, mobile };
+              break;
 
-          } else if (subMetric.name === 'gender') {
-            const { hombre, mujer }: any = disaggregatePictorialData('Hombre', 'Mujer', resp);
+            case 'gender':
+              const { hombre, mujer }: any = disaggregatePictorialData('Hombre', 'Mujer', resp);
 
-            hombre.length > 0 && (hombre[1].name = this.translate.instant('others.men'));
-            mujer.length > 0 && (mujer[1].name = this.translate.instant('others.women'));
+              hombre.length > 0 && (hombre[1].name = this.translate.instant('others.men'));
+              mujer.length > 0 && (mujer[1].name = this.translate.instant('others.women'));
 
-            this.traffic = { ...this.traffic, men: hombre, women: mujer };
+              this.traffic = { ...this.traffic, men: hombre, women: mujer };
+              break;
 
-          } else if (subMetric.name === 'weekdayAndHour') {
-            this.traffic[subMetric.name] = resp?.map(item => {
-              return { ...item, weekdayName: convertWeekdayToString(item.weekday) }
-            });
-          } else if (subMetric.name === 'weekday') {
-            resp = resp?.sort((a, b) => (a.weekday > b.weekday ? -1 : 1));
-            this.traffic[subMetric.name] = resp?.map(item => {
-              return { ...item, weekdayName: convertWeekdayToString(item.weekday) }
-            });
-          } else {
-            this.traffic[subMetric.name] = resp;
+            case 'weekdayAndHour':
+              this.traffic[subMetric.name] = resp?.map(item => {
+                return { ...item, weekdayName: this.translationsServ.convertWeekdayToString(item.weekday) }
+              });
+              break;
+
+
+            case 'weekday':
+              resp = resp?.sort((a, b) => (a.weekday > b.weekday ? -1 : 1));
+              this.traffic[subMetric.name] = resp?.map(item => {
+                return { ...item, weekdayName: this.translationsServ.convertWeekdayToString(item.weekday) }
+              });
+              break;
+
+            case 'newUsersVsCurrent':
+              this.traffic[subMetric.name] = resp;
+              this.loadi18nCharts('newUsersVsCurrent');
+              break;
+
+            default:
+              this.traffic[subMetric.name] = resp;
+              break;
           }
 
           reqStatusObj.reqStatus = 2;
@@ -327,6 +348,8 @@ export class IndexedWrapperComponent implements OnInit, OnDestroy {
             return serie;
           }
         });
+
+        this.loadi18nCharts('bouncesExitsAndPv');
 
         this.bouncesExitsAndPvReqStatus = 2;
       },
@@ -424,9 +447,57 @@ export class IndexedWrapperComponent implements OnInit, OnDestroy {
     }
   }
 
+  loadI18nContent(metricName?: string) {
+    if (!metricName) {
+      this.kpis[0].title = this.translate.instant('general.users');
+      this.kpis[1].title = this.translate.instant('general.newUsers');
+      this.kpis[2].title = this.translate.instant('general.sessions');
+      this.kpis[3].title = this.translate.instant('general.pagesBySessions');
+      this.kpis[4].title = this.translate.instant('general.sessionDuration');
+
+      this.topMostVisited.products.tableColumns[1].title = this.translate.instant('general.product');
+      this.topMostVisited.products.tableColumns[2].title = this.translate.instant('general.users');
+
+      this.topMostVisited.categories.tableColumns[1].title = this.translate.instant('general.category');
+      this.topMostVisited.categories.tableColumns[2].title = this.translate.instant('general.users');
+      this.topMostVisited.categories.tableColumns[3].title = this.translate.instant('indexed.pdfDownloads');
+    }
+
+    this.loadi18nCharts(metricName);
+  }
+
+  loadi18nCharts(metricName?: string) {
+    if (!metricName || metricName === 'newUsersVsCurrent') {
+      this.traffic['newUsersVsCurrent'] = this.traffic['newUsersVsCurrent']?.map(item => {
+        item.category = item.category === 'Visitantes Nuevos' ? this.translate.instant('general.newVisitors') : this.translate.instant('general.recurringVisitors');
+        return item;
+      });
+    }
+
+    if (!metricName || metricName === 'bouncesExitsAndPv') {
+      this.bouncesExitsAndPv = this.bouncesExitsAndPv?.map(item => {
+        switch (item.name) {
+          case 'Porcentaje de salidas':
+            item.name = this.translate.instant('general.exiteRate');
+            break;
+
+          case 'Porcentaje de rebote':
+            item.name = this.translate.instant('general.bounceRate');
+            break;
+
+          case 'Número de páginas vistas':
+            item.name = this.translate.instant('general.pageViewsNumber');
+            break;
+        }
+        return item;
+      });
+    }
+  }
+
   ngOnDestroy() {
     this.requestInfoSub?.unsubscribe();
     this.levelPageSub?.unsubscribe();
+    this.translateSub?.unsubscribe();
   }
 
 }
