@@ -156,6 +156,17 @@
         "chart8CardTitle": "Amount by type of audience",
         "chart9CardTitle": "Revenue and AUP by type of audience"
     },
+    "indexed": {
+        "chart10CardTitle": "Exit rate, bounce rate and page views",
+        "table1CardTitle": "Most visited models",
+        "table1ErrorMsg": "Error when consulting models",
+        "table1EmptyMsg": "No models found",
+        "table2CardTitle": "Most visited categories",
+        "table2ErrorMsg": "Error when consulting categories",
+        "table2EmptyMsg": "No categories found",
+        "section1Title": "Audiences - Affinity and Market",
+        "pdfDownloads": "PDF downloads"
+    },
     "googleBusiness": {
         "province": "Province",
         "city": "City",
@@ -164,6 +175,8 @@
     },
     "charts": {
         "byCountry": " by Country",
+        "byCountries": " by Countries",
+        "byRetailers": " by Retailers",
         "byDevice": " by Devices",
         "byGender": " by Gender",
         "byAge": " by Age",
@@ -214,12 +227,15 @@
         "name": "Name",
         "origin": "Origin",
         "pageViews": "Page views",
+        "pageViewsNumber": "Number of page views",
         "pagesBySessions": "Pages per session",
+        "exiteRate": "Exit rate",
         "bounceRate": "Bounce rate",
         "sessionDuration": "Average session duration",
         "productIncomes": "Product revenue",
         "newVisitors": "New visitors",
         "recurringVisitors": "Recurring Visitors",
+        "newVisitorsVsRecurring": "New Visitors - Recurring Visitors",
         "usersVsSales": "Users - Conversions",
         "investmentVsRevenue": "Investment - Revenue",
         "revenueVsAup": "Revenue - AUP",

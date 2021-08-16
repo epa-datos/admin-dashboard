@@ -156,6 +156,17 @@
         "chart8CardTitle": "Cantidad por tipo de audiencia",
         "chart9CardTitle": "Revenue y AUP por tipo de audiencia"
     },
+    "indexed": {
+        "chart10CardTitle": "Porcentaje de salidas, rebote y páginas vistas",
+        "table1CardTitle": "Modelos más visitados",
+        "table1ErrorMsg": "Error al consultar modelos",
+        "table1EmptyMsg": "No se encontraron modelos",
+        "table2CardTitle": "Categorías más visitadas",
+        "table2ErrorMsg": "Error al consultar categorías",
+        "table2EmptyMsg": "No se encontraron categorías",
+        "section1Title": "Audiencias - Afinidad y Mercado",
+        "pdfDownloads": "Descargas PDF"
+    },
     "googleBusiness": {
         "province": "Provincia",
         "city": "Ciudad",
@@ -164,6 +175,8 @@
     },
     "charts": {
         "byCountry": " por País",
+        "byCountries": " por Países",
+        "byRetailers": " por Retailers",
         "byDevice": " por Dispositivos",
         "byGender": " por Género",
         "byAge": " por Edad",
@@ -214,12 +227,15 @@
         "name": "Nombre",
         "origin": "Origen",
         "pageViews": "Páginas vistas",
+        "pageViewsNumber": "Número de páginas vistas",
         "pagesBySessions": "Páginas por sesión",
+        "exiteRate": "Porcentaje de salidas",
         "bounceRate": "Porcentaje de rebote",
         "sessionDuration": "Duración media de la sesión",
         "productIncomes": "Ingresos del producto",
         "newVisitors": "Nuevos visitantes",
         "recurringVisitors": "Visitantes recurrentes",
+        "newVisitorsVsRecurring": "Visitantes nuevos - Visitantes recurrentes",
         "usersVsSales": "Usuarios - Conversiones",
         "investmentVsRevenue": "Inversión - Revenue",
         "revenueVsAup": "Revenue - AUP",
