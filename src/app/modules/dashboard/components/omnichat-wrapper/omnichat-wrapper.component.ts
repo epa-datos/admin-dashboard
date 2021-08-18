@@ -137,6 +137,10 @@ export class OmnichatWrapperComponent implements OnInit, OnDestroy {
   usersOrRevenue: any[] = [];
   usersOrRevenueReqStatus: number = 0;
 
+  // conversion rate
+  cr: any[] = [];
+  usersAndConv: boolean; // flag to know if there's users & conversion data loaded
+
   // metrics for different levels (latam, country, retailer)
   dataByLevel = {};
   dataByLevelReqStatus = [
@@ -278,7 +282,11 @@ export class OmnichatWrapperComponent implements OnInit, OnDestroy {
     }
 
     this.getStaticDataByMetric();
-    this.getUsersOrRevenue(metricTab1);
+    if (this.selectedTab1 === 3 && preserveSelectedTabs) {
+      this.getUsersOrRevenuePromise('conversions-vs-users');
+    } else {
+      this.getUsersOrRevenue(metricTab1);
+    }
     this.getDataByLevel(metricTab2);
     this.getSalesByProduct(selectedCategory);
     this.getUsersSalesAndCR(selectedCategory);
@@ -286,6 +294,8 @@ export class OmnichatWrapperComponent implements OnInit, OnDestroy {
     this.getAudienceByMetric(metricTab4);
 
     this.chartsInitLoad = true;
+
+    this.usersAndConv = this.selectedTab1 === 1 ? true : false;
   }
 
   getStaticDataByMetric() {
@@ -335,20 +345,33 @@ export class OmnichatWrapperComponent implements OnInit, OnDestroy {
       });
   }
 
-  getUsersOrRevenue(metricType: string) {
-    this.usersOrRevenueReqStatus = 1;
-    this.omnichatService.getDataByMetric(this.levelPage.latam, metricType).subscribe(
-      (resp: any[]) => {
+  getUsersOrRevenuePromise(metricType: string) {
+    return this.omnichatService.getDataByMetric(this.levelPage.latam, metricType)
+      .toPromise()
+      .then((resp: any[]) => {
         this.usersOrRevenue = resp;
         this.usersOrRevenueReqStatus = 2;
-      },
-      error => {
+
+        if (this.usersOrRevenue.some(i => i.users)) {
+          this.usersAndConv = true;
+          this.cr = this.usersOrRevenue.map(item => {
+            return { date: item.date, cr: item.transactions / item.users }
+          });
+        }
+      })
+      .catch(error => {
         const errorMsg = error?.error?.message ? error.error.message : error?.message;
         console.error(`[omnichat-wrapper.component]: ${errorMsg}`);
         this.usersOrRevenueReqStatus = 3;
       });
+  }
+
+  getUsersOrRevenue(metricType: string) {
+    this.usersOrRevenueReqStatus = 1;
 
     this.selectedTab1 = metricType === 'conversions-vs-users' ? 1 : 2;
+
+    this.getUsersOrRevenuePromise(metricType);
   }
 
   getDataByLevel(metricType: string) {
