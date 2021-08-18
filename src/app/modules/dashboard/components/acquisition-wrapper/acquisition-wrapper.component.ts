@@ -182,7 +182,6 @@ export class AcquisitionWrapperComponent implements OnInit, OnDestroy {
   }
 
   loadi18ntoUsers() {
-    console.log('users', this.users)
     if (this.users.length > 0) {
 
       this.users = this.users.map(item => {
