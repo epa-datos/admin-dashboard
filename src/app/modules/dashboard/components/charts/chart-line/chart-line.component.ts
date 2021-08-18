@@ -13,9 +13,11 @@ import { AppStateService } from 'src/app/services/app-state.service';
 })
 export class ChartLineComponent implements OnInit, AfterViewInit, OnDestroy {
 
-  @Input() data;
   @Input() value = 'value';
   @Input() date = 'date';
+  @Input() status: number = 2; // 0) initial 1) load 2) ready 3) error
+  @Input() valueFormat: string; // USD MXN Copy shown in tooltip
+  @Input() yTitle: string;
 
   private _name: string;
   get name() {
@@ -23,10 +25,22 @@ export class ChartLineComponent implements OnInit, AfterViewInit, OnDestroy {
   }
   @Input() set name(value) {
     this._name = value;
-    this.chartID = `chart-line${this.name}`
+    this.chartID = `chart-line-${this.name}`
+  }
+
+  private _data;
+  get data() {
+    return this._data;
+  }
+  @Input() set data(value) {
+    this._data = value;
+    if (this.chart) {
+      this.loadChartData(this.chart);
+    }
   }
 
   chartID;
+  chart;
   langSub: Subscription;
 
   constructor(
@@ -54,7 +68,7 @@ export class ChartLineComponent implements OnInit, AfterViewInit, OnDestroy {
     let chart = am4core.create(this.chartID, am4charts.XYChart);
 
     // Add data
-    chart.data = this.data;
+    this.loadChartData(chart);
     loadLanguage(chart, lang);
 
     // Create axes
@@ -62,6 +76,7 @@ export class ChartLineComponent implements OnInit, AfterViewInit, OnDestroy {
     dateAxis.renderer.minGridDistance = 50;
 
     let valueAxis = chart.yAxes.push(new am4charts.ValueAxis());
+    this.yTitle && (valueAxis.title.text = this.yTitle);
 
     dateAxis.renderer.labels.template.fontSize = 12;
     valueAxis.renderer.labels.template.fontSize = 12;
@@ -72,7 +87,7 @@ export class ChartLineComponent implements OnInit, AfterViewInit, OnDestroy {
     series.dataFields.dateX = this.date;
     series.strokeWidth = 2;
     series.minBulletDistance = 10;
-    series.tooltipText = '{valueY}';
+    series.tooltipText = `{valueY} ${this.valueFormat ? this.valueFormat : ''}`;
     series.tooltip.pointerOrientation = 'vertical';
     series.tooltip.background.cornerRadius = 20;
     series.tooltip.background.fillOpacity = 0.5;
@@ -87,6 +102,11 @@ export class ChartLineComponent implements OnInit, AfterViewInit, OnDestroy {
     chart.cursor = new am4charts.XYCursor();
     chart.cursor.xAxis = dateAxis;
     chart.cursor.snapToSeries = series;
+  }
+
+  loadChartData(chart) {
+    chart.data = this.data;
+    this.chart = chart;
   }
 
   ngOnDestroy() {
