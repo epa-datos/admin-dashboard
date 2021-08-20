@@ -30,6 +30,21 @@
         "sidebarError2": "countries or retailers",
         "sidebarError3": "to which you have access. Please try later."
     },
+    "userProfile": {
+        "profile": "My Profile",
+        "invalidFormat": "Invalid image format",
+        "formatSuggestions": "(must be a .png, .jpg or .jpeg)",
+        "uploadErrorMsg": "Image upload error",
+        "uploadSuccessMsg": "Updated profile picture",
+        "newPhoto": "New profile picture",
+        "savePhoto": "Save profile picture",
+        "name": "Name",
+        "lastName": "Last name",
+        "email": "Email",
+        "invalidName": "Please enter a valid name.",
+        "invalidLastName": "Please enter a valid last name.",
+        "invalidEmail": "Please enter a valid email."
+    },
     "filters": {
         "countryPh": "Select a Country",
         "countrySearchPh": "Search Country",
