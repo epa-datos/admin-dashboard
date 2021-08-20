@@ -318,6 +318,7 @@ export class OverviewWrapperComponent implements OnInit, OnDestroy {
     this.overviewService.getCategoriesBySector(selectedSector?.name_id).subscribe(
       (resp: any[]) => {
         this.categoriesBySector = resp;
+        this.selectedType === 'retailer' && this.loadi18nHeatmap();
         this.categoriesReqStatus = 2;
       },
       error => {
@@ -500,6 +501,17 @@ export class OverviewWrapperComponent implements OnInit, OnDestroy {
     this.trafficOrSales['weekdayAndHour'] = this.trafficOrSales['weekdayAndHour']?.map(item => {
       return { ...item, weekdayName: this.translationsServ.convertWeekdayToString(item.weekday) }
     });
+
+    this.loadi18nHeatmap();
+  }
+
+
+  loadi18nHeatmap() {
+    if (this.selectedTab1 === 1) {
+      this.categoriesBySector = this.categoriesBySector.map(item => {
+        return { ...item, sector: item.sector === 'Ventas' ? this.translate.instant('general.sales') : item.sector }
+      });
+    }
   }
 
 

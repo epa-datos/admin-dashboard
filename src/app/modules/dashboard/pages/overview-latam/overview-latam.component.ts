@@ -320,8 +320,11 @@ export class OverviewLatamComponent implements OnInit, OnDestroy {
   }
 
   getSectorsAndCategories(metricType: string) {
+    this.selectedTab1 = metricType === 'sectors' ? 1 : metricType === 'categories' ? 2 : 3;
+
     this.metricByCountryReqStatus = 1;
     this.metricByCountryTable.reqStatus = 1;
+
     this.overviewService.getSectorsAndCategoriesLatam(metricType).subscribe(
       (resp: any[]) => {
         this.metricByCountry = resp;
@@ -359,6 +362,7 @@ export class OverviewLatamComponent implements OnInit, OnDestroy {
         }
 
         this.metricByCountryTable.data = countries;
+        this.loadi18nHeatmap();
         this.metricByCountryTable.reqStatus = 2;
       },
       error => {
@@ -367,8 +371,6 @@ export class OverviewLatamComponent implements OnInit, OnDestroy {
         this.metricByCountryReqStatus = 3;
         this.metricByCountryTable.reqStatus = 3;
       });
-
-    this.selectedTab1 = metricType === 'sectors' ? 1 : metricType === 'categories' ? 2 : 3;
   }
 
   getTrafficOrSales(metricType: string) {
@@ -532,6 +534,16 @@ export class OverviewLatamComponent implements OnInit, OnDestroy {
     this.trafficOrSales['weekdayAndHour'] = this.trafficOrSales['weekdayAndHour']?.map(item => {
       return { ...item, weekdayName: this.translationsServ.convertWeekdayToString(item.weekday) }
     });
+
+    this.loadi18nHeatmap();
+  }
+
+  loadi18nHeatmap() {
+    if (this.selectedTab1 === 1) {
+      this.metricByCountry = this.metricByCountry.map(item => {
+        return { ...item, sector: item.sector === 'Ventas' ? this.translate.instant('general.sales') : item.sector }
+      });
+    }
   }
 
   ngOnDestroy() {
