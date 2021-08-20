@@ -13,6 +13,7 @@ import { filter } from 'rxjs/operators';
 import { UserService } from 'src/app/services/user.service';
 import { equalsArrays } from 'src/app/tools/validators/arrays-comparator';
 import { SOURCES } from 'src/app/tools/constants/filters';
+import { TranslateService } from '@ngx-translate/core';
 
 export const MY_FORMATS = {
   parse: {
@@ -112,6 +113,8 @@ export class GeneralFiltersComponent implements OnInit {
 
   currentPage: string; // overview | tools;
 
+  translateSub: Subscription;
+
   @ViewChild('allSelectedCountries') private allSelectedCountries: MatOption;
   @ViewChild('allSelectedRetailers') private allSelectedRetailers: MatOption;
   @ViewChild('allSelectedSectors') private allSelectedSectors: MatOption;
@@ -127,7 +130,13 @@ export class GeneralFiltersComponent implements OnInit {
     private filtersStateService: FiltersStateService,
     private userService: UserService,
     private router: Router,
-  ) { }
+    private translate: TranslateService
+  ) {
+
+    this.translateSub = translate.stream('filters').subscribe(() => {
+      this.loadI18nContent();
+    });
+  }
 
   async ngOnInit() {
     this.loadForm();
@@ -387,12 +396,15 @@ export class GeneralFiltersComponent implements OnInit {
     return this.usersMngmtService.getSectors()
       .toPromise()
       .then((res: any[]) => {
-        this.sectorList = res;
+        this.sectorList = res.map(i => {
+          return { ...i, name_id: i.name }
+        });
         this.sectorsCounter = res.length;
-        this.filtersStateService.sectorsInitial = res;
+        this.filtersStateService.sectorsInitial = this.sectorList;
 
         this.sectors.patchValue([...this.sectorList.map(item => item), 0]);
         this.prevSectors = this.sectors.value;
+        this.loadI18nContent('sectors');
 
         this.sectorsError = this.sectorsError && false;
       })
@@ -794,21 +806,24 @@ export class GeneralFiltersComponent implements OnInit {
     return JSON.stringify(cleanArray1) == JSON.stringify(cleanArray2) ? true : false;
   }
 
-  geti18nTexts() {
-    // const salesSector = this.selectedSectors.find(sectors => sectors.id === 3);
-    // if (salesSector) {
-    //   salesSector.name = this.translate.instant('general.sales');
-    // }
+  loadI18nContent(filterName?: string) {
+    if (!filterName || filterName === 'sectors') {
+      const salesSector = this.sectorList?.find(sectors => sectors.id === 3);
+      if (salesSector) {
+        salesSector.name = this.translate.instant('general.sales');
+      }
+    }
 
-    // const institutionalSource = this.selectedSources.find(sources => sources.id === 'institucional');
-    // if (institutionalSource) {
-    //   institutionalSource.name = this.translate.instant('general.institutional');
-    // }
-
-    // const othersSource = this.selectedSources.find(sources => sources.id === 'otros');
-    // if (othersSource) {
-    //   othersSource.name = this.translate.instant('general.others');
-    // }
+    if (!filterName || filterName === 'sources') {
+      this.sourceList?.map(item => {
+        if (item.id === 'institucional') {
+          item.name = this.translate.instant('general.institutional');
+        } else if (item.id === 'others') {
+          item.name = this.translate.instant('general.others').charAt(0).toUpperCase() + this.translate.instant('general.others').slice(1);
+        }
+        return item;
+      })
+    }
   }
 
   ngOnDestroy() {
@@ -817,5 +832,6 @@ export class GeneralFiltersComponent implements OnInit {
     this.countrySub?.unsubscribe();
     this.retailerSub?.unsubscribe();
     this.hideCategorySub?.unsubscribe();
+    this.translateSub?.unsubscribe();
   }
 }
