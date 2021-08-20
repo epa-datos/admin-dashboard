@@ -30,6 +30,21 @@
         "sidebarError2": "países ou retailers",
         "sidebarError3": "aos quais você tem acesso. Por favor tente mais tarde."
     },
+    "userProfile": {
+        "profile": "Meu Perfil",
+        "invalidFormat": "Formato de imagem inválido",
+        "formatSuggestions": "(deve ser .png, .jpg ou .jpeg)",
+        "uploadErrorMsg": "Erro de upload de imagem",
+        "uploadSuccessMsg": "Foto de perfil atualizada",
+        "newPhoto": "Nova foto de perfil",
+        "savePhoto": "Salvar foto de perfil",
+        "name": "Nome",
+        "lastName": "Sobrenome",
+        "email": "Correio eletrônico",
+        "invalidName": "Por favor, indique um nome válido.",
+        "invalidLastName": "Por favor, insira um sobrenome válido.",
+        "invalidEmail": "Por favor digite um email válido."
+    },
     "filters": {
         "countryPh": "Selecione um Pais",
         "countrySearchPh": "Procure um país",
