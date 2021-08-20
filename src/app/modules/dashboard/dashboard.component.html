@@ -9,7 +9,7 @@
             <div class="col-4 text-right" [ngClass]="{'col-12': !title}">
                 <button class="btn btn-outline-primary" [useExistingCss]="true"
                     [printTitle]="printWindowTitle ? printWindowTitle : title" printSectionId="print-section" ngxPrint>
-                    Descargar
+                    {{ 'general.download' | translate }}
                 </button>
             </div>
         </div>

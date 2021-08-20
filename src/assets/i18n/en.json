@@ -288,6 +288,7 @@
         "investmentVsRevenue": "Investment - Revenue",
         "revenueVsAup": "Revenue - AUP",
         "amountVsAup": "Amount - AUP",
+        "download": "Download",
         "errorData": "Error getting data",
         "withoutData": "No data available",
         "withoutData2": "Insufficient sample",

@@ -288,6 +288,7 @@
         "investmentVsRevenue": "Inversión - Revenue",
         "revenueVsAup": "Revenue - AUP",
         "amountVsAup": "Cantidad - AUP",
+        "download": "Descargar",
         "errorData": "Error al consultar datos",
         "withoutData": "Sin datos disponibles",
         "withoutData2": "Muestra insuficiente",
