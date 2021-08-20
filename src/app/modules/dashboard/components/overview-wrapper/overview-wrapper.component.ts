@@ -235,7 +235,7 @@ export class OverviewWrapperComponent implements OnInit, OnDestroy {
         selectedSectorHM = previousSectorHM ? previousSectorHM : this.selectedSectors[0];
       } else {
         // onsite option is diplayed (and previous selected) apart of selected categories in filters
-        selectedSectorHM = { id: 4, name: 'onsite' };
+        selectedSectorHM = { id: 4, name: 'onsite', name_id: 'onsite' };
       }
 
       // demograhics
@@ -315,7 +315,7 @@ export class OverviewWrapperComponent implements OnInit, OnDestroy {
     // Tabs are only used for country view
     this.selectedTab1 = selectedSector.id;
 
-    this.overviewService.getCategoriesBySector(selectedSector?.name).subscribe(
+    this.overviewService.getCategoriesBySector(selectedSector?.name_id).subscribe(
       (resp: any[]) => {
         this.categoriesBySector = resp;
         this.categoriesReqStatus = 2;
@@ -332,7 +332,7 @@ export class OverviewWrapperComponent implements OnInit, OnDestroy {
       return;
     }
 
-    this.overviewService.getInvestmentBySector(selectedSector?.name).subscribe(
+    this.overviewService.getInvestmentBySector(selectedSector?.name_id).subscribe(
       (resp: any[]) => {
         this.investmentBySectorTable.data = resp;
         this.investmentBySectorTable.reqStatus = 2;
