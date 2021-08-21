@@ -2,7 +2,9 @@
     <div class="row">
         <!-- first campaign -->
         <div class="col-12 col-lg-6">
-            <span class="h4 mb-2">Primer campaña</span>
+            <span class="h4 mb-2">
+                {{ 'campaignComparator.firstCampaign' | translate }}
+            </span>
             <app-campaign-comparator-filters (selectedFiltersChange)="filtersChange(1, $event)"
                 (validFiltersChange)="validFiltersChange(1, $event)">
             </app-campaign-comparator-filters>
@@ -10,7 +12,9 @@
 
         <!-- second campaign -->
         <div class="col-12 col-lg-6">
-            <span class="h4 mb-2">Segunda campaña</span>
+            <span class="h4 mb-2">
+                {{ 'campaignComparator.secondCampaign' | translate }}
+            </span>
             <app-campaign-comparator-filters (selectedFiltersChange)="filtersChange(2, $event)"
                 (validFiltersChange)="validFiltersChange(2, $event)">
             </app-campaign-comparator-filters>
@@ -18,7 +22,9 @@
 
         <div class="col-12 text-right">
             <button class="btn btn-primary" [disabled]="!validFilters.firstSelection || !validFilters.secondSelection"
-                (click)="compareCampaigns()">Comparar</button>
+                (click)="compareCampaigns()">
+                {{ 'campaignComparator.compare' | translate }}
+            </button>
         </div>
     </div>
 
@@ -26,7 +32,9 @@
         <div class="row mt-4">
             <!-- first campaign -->
             <div class="col-12 col-md-6">
-                <span class="h4 mb-2 d-block d-lg-none d-xl-none">Primer campaña</span>
+                <span class="h4 mb-2 d-block d-lg-none d-xl-none">
+                    {{ 'campaignComparator.firstCampaign' | translate }}
+                </span>
                 <div class="row">
                     <div *ngFor="let kpi of kpisCamps.camp1.kpis"
                         class="col-12 col-sm-6 col-md-12 col-lg-6 col-xl-4 mb-xl-4">
@@ -36,7 +44,7 @@
                     </div>
                     <div class="col-12 mt--3 mt-xl-2" [hidden]="kpisCamps.camp1.reqStatus !== 3">
                         <p class="text-center text-muted mb-0">
-                            Error al consultar datos
+                            {{ 'general.errorData' | translate }}
                         </p>
                     </div>
                 </div>
@@ -44,7 +52,9 @@
 
             <!-- second campaign -->
             <div class="col-12 col-md-6">
-                <span class="h4 mb-2 d-block d-lg-none d-xl-none mt-4 mt-md-0">Segunda campaña</span>
+                <span class="h4 mb-2 d-block d-lg-none d-xl-none mt-4 mt-md-0">
+                    {{ 'campaignComparator.secondCampaign' | translate }}
+                </span>
                 <div class="row">
                     <div *ngFor="let kpi of kpisCamps.camp2.kpis"
                         class="col-12 col-sm-6 col-md-12 col-lg-6 col-xl-4 mb-xl-4">
@@ -54,7 +64,7 @@
                     </div>
                     <div class="col-12 mt--3 mt-xl-2" [hidden]="kpisCamps.camp2.reqStatus !== 3">
                         <p class="text-center text-muted mb-0">
-                            Error al consultar datos
+                            {{ 'general.errorData' | translate }}
                         </p>
                     </div>
                 </div>
@@ -63,14 +73,16 @@
 
         <div class="row mt-4">
             <div class="col-12">
-                <p class="h2">Adquisición</p>
+                <p class="h2">{{ 'general.acquisition' | translate }}</p>
             </div>
         </div>
 
         <div class="row mt-3">
             <!-- first campaign -->
             <div class="col-12 col-lg-6 mb-4">
-                <span class="h4 mb-2 d-block d-lg-none d-xl-none">Primer campaña</span>
+                <span class="h4 mb-2 d-block d-lg-none d-xl-none">
+                    {{ 'campaignComparator.firstCampaign' | translate }}
+                </span>
                 <app-generic-table [displayedColumns]="acqCampTableColumns" [tableData]="acqCamps.camp1"
                     [tableDataChange]="acqCamps.camp1.data" [reducedPadding]="true">
                 </app-generic-table>
@@ -78,7 +90,9 @@
 
             <!-- second campaign -->
             <div class="col-12 col-lg-6 mb-4">
-                <span class="h4 mb-2 d-block d-lg-none d-xl-none mt-4">Segunda campaña</span>
+                <span class="h4 mb-2 d-block d-lg-none d-xl-none mt-4">
+                    {{ 'campaignComparator.secondCampaign' | translate }}
+                </span>
                 <app-generic-table [displayedColumns]="acqCampTableColumns" [tableData]="acqCamps.camp2"
                     [tableDataChange]="acqCamps.camp2.data" [reducedPadding]="true">
                 </app-generic-table>
@@ -88,13 +102,15 @@
 
         <div class="row mt-4">
             <div class="col-12">
-                <p class="h2">Conversión</p>
+                <p class="h2">{{ 'general.conversion' | translate }}</p>
             </div>
         </div>
         <div class="row mt-3">
             <!-- first campaign -->
             <div class="col-12 col-lg-6 mb-4">
-                <span class="h4 mb-2 d-block d-lg-none d-xl-none">Primer campaña</span>
+                <span class="h4 mb-2 d-block d-lg-none d-xl-none">
+                    {{ 'campaignComparator.firstCampaign' | translate }}
+                </span>
                 <app-generic-table [displayedColumns]="convCampTableColumns" [tableData]="convCamps.camp1"
                     [tableDataChange]="convCamps.camp1.data" [reducedPadding]="true">
                 </app-generic-table>
@@ -102,7 +118,9 @@
 
             <!-- second campaign -->
             <div class="col-12 col-lg-6 mb-4">
-                <span class="h4 mb-2 d-block d-lg-none d-xl-none mt-4">Segunda campaña</span>
+                <span class="h4 mb-2 d-block d-lg-none d-xl-none mt-4">
+                    {{ 'campaignComparator.secondCampaign' | translate }}
+                </span>
                 <app-generic-table [displayedColumns]="convCampTableColumns" [tableData]="convCamps.camp2"
                     [tableDataChange]="convCamps.camp2.data" [reducedPadding]="true">
                 </app-generic-table>

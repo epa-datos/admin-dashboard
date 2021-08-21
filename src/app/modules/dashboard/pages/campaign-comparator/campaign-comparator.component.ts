@@ -1,4 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
+import { TranslateService } from '@ngx-translate/core';
+import { Subscription } from 'rxjs';
 import { KpiCard } from 'src/app/models/kpi';
 import { strTimeFormat } from 'src/app/tools/functions/time-format';
 import { TableItem } from '../../components/generic-table/generic-table.component';
@@ -9,7 +11,7 @@ import { CampaignComparatorService } from '../../services/campaign-comparator.se
   templateUrl: './campaign-comparator.component.html',
   styleUrls: ['./campaign-comparator.component.scss']
 })
-export class CampaignComparatorComponent implements OnInit {
+export class CampaignComparatorComponent implements OnInit, OnDestroy {
 
   firstSelection: { retailer: any, campaign: any };
   secondSelection: { retailer: any, campaign: any };
@@ -246,9 +248,17 @@ export class CampaignComparatorComponent implements OnInit {
   selections: { retailer: any, campaign: any, selection: string }[];
   showComparison: boolean;
 
+  translateSub: Subscription;
+
   constructor(
-    private campaignCompService: CampaignComparatorService
-  ) { }
+    private campaignCompService: CampaignComparatorService,
+    private translate: TranslateService,
+  ) {
+
+    this.translateSub = translate.stream('campaignComparator').subscribe(() => {
+      this.loadI18nContent();
+    });
+  }
 
   ngOnInit(): void {
   }
@@ -315,6 +325,7 @@ export class CampaignComparatorComponent implements OnInit {
           }
 
           this.kpisCamps[item.selection].kpis = campaignKpis;
+          this.loadI18nKpis(this.kpisCamps[item.selection]);
           this.kpisCamps[item.selection].reqStatus = 2;
 
         },
@@ -387,5 +398,33 @@ export class CampaignComparatorComponent implements OnInit {
     }
   }
 
+  loadI18nContent() {
+    this.acqCampTableColumns[0].title = this.translate.instant('general.source');
+    this.acqCampTableColumns[1].title = this.translate.instant('general.medium');
+    this.acqCampTableColumns[2].title = this.translate.instant('general.users');
+    this.acqCampTableColumns[3].title = this.translate.instant('general.newUsers');
+    this.acqCampTableColumns[4].title = this.translate.instant('general.sessions');
+    this.acqCampTableColumns[5].title = this.translate.instant('general.pagesBySessions');
+    this.acqCampTableColumns[6].title = this.translate.instant('general.bounceRate');
+    this.acqCampTableColumns[7].title = this.translate.instant('general.sessionDuration');
+    this.acqCampTableColumns[8].title = this.translate.instant('general.amount');
+    this.acqCampTableColumns[9].title = this.translate.instant('general.productIncomes');
 
+    this.convCampTableColumns[0].title = this.translate.instant('general.category');
+    this.convCampTableColumns[1].title = this.translate.instant('general.product');
+    this.convCampTableColumns[2].title = this.translate.instant('general.amount');
+    this.convCampTableColumns[4].title = this.translate.instant('general.productIncomes');
+  }
+
+  loadI18nKpis(campaign: any) {
+    if (campaign.kpis.length > 0) {
+      campaign.kpis[0].title = this.translate.instant('general.investment');
+      campaign.kpis[1].title = this.translate.instant('general.users');
+      campaign.kpis[4].title = this.translate.instant('general.conversions');
+    }
+  }
+
+  ngOnDestroy() {
+    this.translateSub?.unsubscribe();
+  }
 }
