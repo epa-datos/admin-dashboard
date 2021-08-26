@@ -175,7 +175,9 @@
         "province": "Província",
         "city": "Cidade",
         "store": "Armazenar",
-        "visits": "Visitas"
+        "visits": "Visitas",
+        "tableInfoLegend1": "% Store Visits Rate é calculada considerando o número de visitas dividido pelo número de clicks.",
+        "tableInfoLegend2": "(#visitas / #clicks) * 100"
     },
     "indexed": {
         "chart10CardTitle": "Porcentagem de saídas, rejeição e visualizações de página",

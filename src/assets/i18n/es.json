@@ -175,7 +175,9 @@
         "province": "Provincia",
         "city": "Ciudad",
         "store": "Tienda",
-        "visits": "Visitas"
+        "visits": "Visitas",
+        "tableInfoLegend1": "El % Store Visits Rate se calcula considerando el número de visitas entre el número de clicks.",
+        "tableInfoLegend2": "(#visitas / #clicks) * 100"
     },
     "indexed": {
         "chart10CardTitle": "Porcentaje de salidas, rebote y páginas vistas",
