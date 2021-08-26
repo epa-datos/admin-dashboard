@@ -175,7 +175,9 @@
         "province": "Province",
         "city": "City",
         "store": "Store",
-        "visits": "Visits"
+        "visits": "Visits",
+        "tableInfoLegend1": "The % Store Visits Rate is calculated considering the number of visits divided by the number of clicks.",
+        "tableInfoLegend2": "(#visits / #clicks) * 100"
     },
     "indexed": {
         "chart10CardTitle": "Exit rate, bounce rate and page views",
