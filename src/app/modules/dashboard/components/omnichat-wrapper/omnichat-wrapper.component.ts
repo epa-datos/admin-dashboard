@@ -235,6 +235,7 @@ export class OmnichatWrapperComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     let loadedFromInit: boolean; // first call to getAllData is from init
     let firstTimeSub: boolean = true; // first time requestInfoSub listen a change
+    let reqCounter = 0;
 
     // hide average_of_answer_time kpi for users with retailer role
     this.userRole = this.userService.user.role_name;
@@ -247,12 +248,13 @@ export class OmnichatWrapperComponent implements OnInit, OnDestroy {
       // use loadedFromInit to avoid repeated calls to getAllData()
       // when dashboard component is loaded for first time
       // (e.g after page refresh or be redirected from other component that doesn't belong to to dashboard module)
-      loadedFromInit = true
+      loadedFromInit = true;
+      reqCounter++;
     }
 
     this.requestInfoSub = this.requestInfoChange.subscribe(({ manualChange, selectedSection }) => {
       // avoid repeated call to getAllData()
-      if (loadedFromInit && firstTimeSub && !manualChange) {
+      if (loadedFromInit && firstTimeSub && reqCounter !== 1 && !manualChange) {
         firstTimeSub = false;
         return;
       }
@@ -262,6 +264,7 @@ export class OmnichatWrapperComponent implements OnInit, OnDestroy {
 
       if (selectedSection === 'omnichat' && this.filtersAreReady() && !loadedFromInit) {
         this.getAllData(manualChange);
+        reqCounter++;
       }
     });
   }
