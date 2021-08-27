@@ -167,6 +167,7 @@ export class IndexedWrapperComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     let loadedFromInit: boolean; // first call to getAllData is from init
     let firstTimeSub: boolean = true; // first time requestInfoSub listen a change
+    let reqCounter = 0;
 
     // validate if filters are already loaded
     if (this.filtersAreReady()) {
@@ -175,7 +176,8 @@ export class IndexedWrapperComponent implements OnInit, OnDestroy {
       // use loadedFromInit to avoid repeated calls to getAllData()
       // when dashboard component is loaded for first time
       // (e.g after page refresh or be redirected from other component that doesn't belong to to dashboard module)
-      loadedFromInit = true
+      loadedFromInit = true;
+      reqCounter++;
     }
 
     this.requestInfoSub = this.requestInfoChange.subscribe(({ manualChange, selectedSection }) => {
@@ -184,7 +186,7 @@ export class IndexedWrapperComponent implements OnInit, OnDestroy {
       // when the view changes to country or retailer since it isn't shown at these levels 
 
       // avoid repeated call to getAllData()
-      if (loadedFromInit && firstTimeSub && !manualChange) {
+      if (loadedFromInit && firstTimeSub && reqCounter !== 1 && !manualChange) {
         firstTimeSub = false;
         return;
       }
@@ -194,6 +196,7 @@ export class IndexedWrapperComponent implements OnInit, OnDestroy {
 
       if (selectedSection === 'indexed' && this.filtersAreReady() && !loadedFromInit) {
         this.getAllData();
+        reqCounter++;
       }
     });
 
